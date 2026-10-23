@@ -45,5 +45,5 @@ An SVG that has no script, which is what you get with post-processing off, can b
 ## Fonts and images
 
 Bold and italic text only shows in a browser when the font's style is where the page looks for it, so the app adds that to every SVG it
-writes, with or without post-processing. A picture inside a node is a link in an SVG file, so it shows only if the file can be found
+writes, with or without post-processing. Which fonts are used, and what happens to them on another computer, is on the [Fonts](/docs/fonts/) page. A picture inside a node is a link in an SVG file, so it shows only if the file can be found
 from where the SVG is, such as an `images` folder beside it.

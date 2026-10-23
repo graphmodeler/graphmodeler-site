@@ -29,7 +29,8 @@ The choices are in groups, and the ones that do not apply to what you are design
   edge counterparts, such as arrowheads, for edges.
 - Colors take a name or a hex value, with a swatch and a picker. A **Color scheme** makes the color names in the list read
   from a set, such as one of the ColorBrewer palettes, so a diagram can use a palette from one choice.
-- **Shape** and **Font** show a small picture of each choice in their lists.
+- **Shape** and **Font** show a small picture of each choice in their lists. The fonts are the ones installed on your computer; see
+  [Fonts](/docs/fonts/) for how they are found and what to do after installing one.
 - **Position** choices, such as where a label sits in a cluster, are buttons with an icon: vertical position first, then
   horizontal. A second press on the chosen button clears it.
 - **Properties** are facts about the style that do not change the drawing but go into the Knowledge Graph.

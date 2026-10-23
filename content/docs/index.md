@@ -14,7 +14,6 @@ the DOT with Graphviz, and can also publish the same rows as a Knowledge Graph i
 ## Start here
 
 - [Getting started](/docs/getting-started/): a first graph, from a blank project to a published file.
-- [Coming from the Excel tool](/docs/from-excel/): for people who know Relationship Visualizer, also called Excel to Graphviz.
 
 ## The tabs
 
@@ -30,6 +29,11 @@ The tabs are in the order they are in the app.
 - [SVG](/docs/svg/): post-processing, and why it is a security matter.
 - [Settings](/docs/settings/): the choices that apply to the whole project.
 - [About](/docs/about/): the version, the credits and the license.
+
+## Topics
+
+- [Fonts](/docs/fonts/): how the app finds the fonts on your computer, what to do after installing one, and what happens to it in a shared picture.
+- [Coming from the Excel tool](/docs/from-excel/): for people who know Relationship Visualizer, also called Excel to Graphviz.
 
 ## What you need
 

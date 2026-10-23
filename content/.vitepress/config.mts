@@ -35,7 +35,6 @@ export default defineConfig({
           items: [
             { text: 'Documentation', link: '/docs/' },
             { text: 'Getting started', link: '/docs/getting-started/' },
-            { text: 'Coming from the Excel tool', link: '/docs/from-excel/' },
           ],
         },
         {
@@ -51,6 +50,13 @@ export default defineConfig({
             { text: 'SVG', link: '/docs/svg/' },
             { text: 'Settings', link: '/docs/settings/' },
             { text: 'About', link: '/docs/about/' },
+          ],
+        },
+        {
+          text: 'Topics',
+          items: [
+            { text: 'Fonts', link: '/docs/fonts/' },
+            { text: 'Coming from the Excel tool', link: '/docs/from-excel/' },
           ],
         },
       ],
