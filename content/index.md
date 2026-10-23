@@ -5,6 +5,10 @@ hero:
   name: Graph Modeler
   text: Turn relationships into insight
   tagline: Coming Soon - A desktop application for creating graph models, generating Graphviz diagrams, and publishing standards-based knowledge graphs.
+  image:
+    light: /hero-light.svg
+    dark: /hero-dark.svg
+    alt: Rows of data in a grid become a graph of nodes and edges, and a Knowledge Graph in JSON
   actions:
     - theme: brand
       text: Get started

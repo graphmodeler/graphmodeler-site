@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" role="img" aria-label="Rows of data on top become a graph below">
+  <title>Rows of data become a graph</title>
+  <rect x="12" y="12" width="456" height="456" rx="32" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+
+  <!-- The rows: a grid, with a dot for the kind of each row and a pill for its style -->
+  <rect x="40" y="40" width="400" height="170" rx="14" fill="#f3f4f6" stroke="#d1d5db" stroke-width="2"/>
+  <rect x="88" y="53" width="70" height="8" rx="4" fill="#9ca3af"/>
+  <rect x="210" y="53" width="70" height="8" rx="4" fill="#9ca3af"/>
+  <rect x="340" y="53" width="60" height="8" rx="4" fill="#9ca3af"/>
+  <line x1="40" y1="76" x2="440" y2="76" stroke="#d1d5db" stroke-width="2"/>
+
+  <circle cx="62" cy="100" r="7" fill="#1f6fd1"/>
+  <rect x="88" y="95" width="90" height="10" rx="5" fill="#6b7280"/>
+  <rect x="340" y="91" width="80" height="18" rx="9" fill="#dbeafe"/>
+
+  <circle cx="62" cy="130" r="7" fill="#f08000"/>
+  <rect x="88" y="125" width="78" height="10" rx="5" fill="#6b7280"/>
+  <rect x="210" y="125" width="72" height="10" rx="5" fill="#6b7280"/>
+  <rect x="340" y="121" width="80" height="18" rx="9" fill="#fde7c8"/>
+
+  <circle cx="62" cy="160" r="7" fill="#1f6fd1"/>
+  <rect x="88" y="155" width="102" height="10" rx="5" fill="#6b7280"/>
+  <rect x="340" y="151" width="80" height="18" rx="9" fill="#dbeafe"/>
+
+  <circle cx="62" cy="190" r="7" fill="#12a08a"/>
+  <rect x="88" y="185" width="68" height="10" rx="5" fill="#6b7280"/>
+  <rect x="340" y="181" width="80" height="18" rx="9" fill="#cdeee8"/>
+
+  <!-- From rows to graph -->
+  <line x1="240" y1="218" x2="240" y2="232" stroke="#0e7490" stroke-width="5" stroke-linecap="round"/>
+  <polygon points="226,230 254,230 240,246" fill="#0e7490"/>
+
+  <!-- The graph -->
+  <rect x="40" y="254" width="400" height="186" rx="14" fill="#f9fafb" stroke="#d1d5db" stroke-width="2"/>
+
+  <rect x="262" y="292" width="162" height="134" rx="14" fill="#ffffff" stroke="#90a4ae" stroke-width="2.5"/>
+
+  <rect x="56" y="330" width="76" height="40" rx="12" fill="#e0f2f7" stroke="#0e7490" stroke-width="2.5"/>
+  <polygon points="160,350 196,322 232,350 196,378" fill="#fff4cc" stroke="#b45309" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <path d="M170 268 V290 A26 8 0 0 0 222 290 V268" fill="#eceff1" stroke="#546e7a" stroke-width="2.5"/>
+  <ellipse cx="196" cy="268" rx="26" ry="8" fill="#eceff1" stroke="#546e7a" stroke-width="2.5"/>
+
+  <rect x="276" y="306" width="72" height="36" rx="10" fill="#e0f2f7" stroke="#0e7490" stroke-width="2.5"/>
+  <rect x="340" y="368" width="72" height="36" rx="10" fill="#e0f2f7" stroke="#0e7490" stroke-width="2.5"/>
+
+  <line x1="132" y1="350" x2="148" y2="350" stroke="#0e7490" stroke-width="2.5"/>
+  <polygon points="160,350 147,343.5 147,356.5" fill="#0e7490"/>
+  <line x1="232" y1="350" x2="265.4" y2="330.1" stroke="#0e7490" stroke-width="2.5"/>
+  <polygon points="274,325 267.9,334.4 262.9,325.8" fill="#0e7490"/>
+  <line x1="196" y1="322" x2="196" y2="311" stroke="#546e7a" stroke-width="2.5" stroke-dasharray="4 3"/>
+  <polygon points="196,299 190.5,311 201.5,311" fill="#546e7a"/>
+  <path d="M312 342 V386 H328" fill="none" stroke="#0e7490" stroke-width="2.5"/>
+  <polygon points="340,386 327,379.5 327,392.5" fill="#0e7490"/>
+
+  <!-- The Knowledge Graph -->
+  <rect x="56" y="398" width="84" height="28" rx="14" fill="#0e7490"/>
+  <text x="98" y="417.5" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="16" font-weight="bold" fill="#ffffff">{ }</text>
+</svg>
