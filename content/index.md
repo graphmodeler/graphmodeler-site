@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: Graph Modeler
-  text: Model it in a grid. Draw it, or hand it to an AI.
-  tagline: A desktop app that builds a graph from rows of data, draws it with Graphviz, and publishes it as a diagram or as a Knowledge Graph.
+  text: Turn relationships into insight
+  tagline: Coming Soon - A desktop application for creating graph models, generating Graphviz diagrams, and publishing standards-based knowledge graphs.
   actions:
     - theme: brand
       text: Get started
