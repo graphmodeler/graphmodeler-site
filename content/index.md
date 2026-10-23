@@ -28,8 +28,8 @@ features:
     details: The same rows are published as a JSON Knowledge Graph, with the styles and the properties you attach to each item, and a viewer to read it. It does not need Graphviz at all.
   - title: Data from queries
     details: Write SQL against an Excel workbook or an Access database, and let the results become the rows. A script can build every view and publish them in one run.
-  - title: Plain files
-    details: A project is a JSON file you can read, compare and generate. The app has a light and a dark theme, and it keeps working, apart from pictures, when Graphviz is not installed.
+  - title: Plain files, on any desktop
+    details: A project is a JSON file you can read, compare and generate. The app runs on Windows, macOS and Linux, has a light and a dark theme, and keeps working, apart from pictures, when Graphviz is not installed.
 ---
 
 ## What it looks like
