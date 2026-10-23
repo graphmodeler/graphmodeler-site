@@ -26,7 +26,7 @@ or make the node the shape of the picture.
 
 ### Where did my published files go?
 
-To the folder shown in the **Publish** section of the left pane. It starts as your Documents folder. After a publish the files are listed
+To the folder shown in the **Publish** section of the [left pane](/docs/left-pane/). It starts as the folder of the project file you opened or saved, or your Documents folder if there is none. After a publish the files are listed
 there, and a click opens one.
 
 ### My query works in Excel and fails here

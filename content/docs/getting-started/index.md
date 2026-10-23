@@ -7,7 +7,7 @@ This takes a few minutes and ends with a graph on screen and a file you have wri
 
 Open the app. It starts with a new project: a few empty rows on the **Data** tab, and the styles every project has.
 
-The left pane has the project's name and the buttons for **New**, **Open**, **Save** and **Save as**, then **Undo** and **Redo**, then
+The [left pane](/docs/left-pane/) has the project's name and the buttons for **New**, **Open**, **Save** and **Save as**, then **Undo** and **Redo**, then
 **Publish**. A project is saved as a `.json` file.
 
 ## 2. Type the things
@@ -44,12 +44,12 @@ engines place nodes in different ways. Try a few. See [the Diagram tab](/docs/di
 
 In the left pane, under **Publish**:
 
-- Choose the **folder** the files go to. It starts as your Documents folder.
+- Choose the **folder** the files go to. It starts as the folder of the project file, or your Documents folder if the project is not saved yet.
 - Type a **file name**. A preview shows what the next file will be called.
 - Under **Write**, turn on what you want: the diagram, the Knowledge Graph, the DOT source, or any mix.
 - Choose **Add to the name**: nothing, the date and time, or a counter. A counter makes each publish a new file instead of replacing the last.
 
-Press **Publish**, and the files written are listed. Click one to open it. **Publish all views** writes a set for every
+Press **Publish**, and the files written are listed. The pane is described on [its own page](/docs/left-pane/). Click one to open it. **Publish all views** writes a set for every
 [view](/docs/styles/#views).
 
 The diagram can be an SVG, a PNG, a PDF and more; the format is set under **Settings**. The Knowledge Graph is a JSON file, described in

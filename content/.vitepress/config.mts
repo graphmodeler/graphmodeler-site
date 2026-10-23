@@ -35,6 +35,7 @@ export default defineConfig({
           items: [
             { text: 'Documentation', link: '/docs/' },
             { text: 'Getting started', link: '/docs/getting-started/' },
+            { text: 'The left pane', link: '/docs/left-pane/' },
           ],
         },
         {

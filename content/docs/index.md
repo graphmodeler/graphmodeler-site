@@ -15,6 +15,11 @@ the DOT with Graphviz, and can also publish the same rows as a Knowledge Graph i
 
 - [Getting started](/docs/getting-started/): a first graph, from a blank project to a published file.
 
+## The left pane
+
+[The left pane](/docs/left-pane/) is on every tab. It has the project buttons, undo and redo, the choice of view, Publish, and the
+messages about what the app found.
+
 ## The tabs
 
 The tabs are in the order they are in the app.
