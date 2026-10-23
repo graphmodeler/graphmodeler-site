@@ -1,0 +1,68 @@
+import { defineConfig } from 'vitepress';
+
+/**
+ * The Graph Modeler site, at graphmodeler.com. Every page is a folder with an index page in it, so its address ends in a
+ * slash, which is how the app links to it (see docs/website.md in the app's repository for the list of pages).
+ */
+export default defineConfig({
+  title: 'Graph Modeler',
+  description: 'Model a graph in a spreadsheet-style editor, then draw it with Graphviz or publish it as a Knowledge Graph.',
+  lang: 'en-US',
+  cleanUrls: false,
+  lastUpdated: false,
+  sitemap: { hostname: 'https://graphmodeler.com' },
+
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/app-icon.svg' }],
+    ['meta', { name: 'theme-color', content: '#0e7490' }],
+  ],
+
+  themeConfig: {
+    logo: '/app-icon.svg',
+    siteTitle: 'Graph Modeler',
+
+    nav: [
+      { text: 'Documentation', link: '/docs/', activeMatch: '/docs/' },
+      { text: 'Download', link: '/download/' },
+      { text: 'Support', link: '/support/' },
+      { text: 'License', link: '/license/' },
+    ],
+
+    sidebar: {
+      '/docs/': [
+        {
+          text: 'Start here',
+          items: [
+            { text: 'Documentation', link: '/docs/' },
+            { text: 'Getting started', link: '/docs/getting-started/' },
+            { text: 'Coming from the Excel tool', link: '/docs/from-excel/' },
+          ],
+        },
+        {
+          text: 'The tabs',
+          items: [
+            { text: 'Data', link: '/docs/data/' },
+            { text: 'Diagram', link: '/docs/diagram/' },
+            { text: 'Knowledge Graph', link: '/docs/knowledge-graph/' },
+            { text: 'DOT', link: '/docs/dot/' },
+            { text: 'Designer', link: '/docs/designer/' },
+            { text: 'Styles', link: '/docs/styles/' },
+            { text: 'SQL', link: '/docs/sql/' },
+            { text: 'SVG', link: '/docs/svg/' },
+            { text: 'Settings', link: '/docs/settings/' },
+            { text: 'About', link: '/docs/about/' },
+          ],
+        },
+      ],
+    },
+
+    search: { provider: 'local' },
+
+    outline: { level: [2, 3] },
+
+    footer: {
+      message: 'Graph Modeler is licensed for personal use free of charge, and for commercial use by license.',
+      copyright: 'Copyright © 2026 Jeffrey J. Long',
+    },
+  },
+});

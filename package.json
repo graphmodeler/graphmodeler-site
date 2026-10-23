@@ -1,0 +1,15 @@
+{
+  "name": "graphmodeler-site",
+  "version": "0.1.0",
+  "description": "The website and documentation of Graph Modeler, at graphmodeler.com",
+  "scripts": {
+    "dev": "vitepress dev content",
+    "build": "vitepress build content",
+    "preview": "vitepress preview content"
+  },
+  "type": "module",
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  },
+  "private": true
+}
