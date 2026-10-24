@@ -19,7 +19,7 @@ hero:
 
 features:
   - title: Rows, not boxes
-    details: Type the things in your graph and how they connect, one row at a time, in a grid that works like a spreadsheet. <br/><br/>Paste from Excel, fill down, undo. Visual cues on each row show whether it is a node, an edge or a cluster.
+    details: Forget manually drawing boxes and connecting lines.<br/><br/>Build your graph in a spreadsheet-style grid, with Excel paste, fill down, undo, and clear visual cues for nodes, edges, and clusters.
   - title: Styles you can see
     details: Styles define the appearance of nodes, edges, and clusters. Assign them by name and update entire diagrams instantly.<br/><br/>The Style Designer provides live previews as you build styles from simple menus.<br/><br/>Enrich styles with descriptions and properties that become part of your knowledge graph.
   - title: Drawn by Graphviz
