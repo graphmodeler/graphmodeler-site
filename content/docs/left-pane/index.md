@@ -59,7 +59,7 @@ diagram and Graphviz is not found.
   project.
 - **File name** is the start of each file name. A line under the box shows the name the **next** publish will use and the kinds of file it
   will write, such as `Graph All Styles 002.svg .json .gv`. The rest of the name, such as where the view and the number go, comes from the
-  **File name template** under [Settings](/docs/settings/).
+  **File name template** under [Settings](/docs/settings/). [Publishing](/docs/publishing/) explains the template, the placeholders and the styles.
 - **Add to the name** keeps a publish from overwriting the last one. **Nothing** replaces the files, **Date and time** adds the time of
   the publish, and **Counter** adds 001, 002 and so on, carrying on from the highest number that is in the folder.
 

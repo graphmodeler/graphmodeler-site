@@ -63,6 +63,8 @@ Three groups, with the same shape. Each says which of the parts of a node, an ed
 | **File name style** | Spaces kept, or turned into underscores or hyphens, or the name written in camelCase, PascalCase or as a web address slug. |
 | **Digits in the counter** | How many digits a numbered file name has. |
 
+[Publishing](/docs/publishing/) explains how the template, the style and the counter make a file name.
+
 **Publishing, advanced** holds the Graphviz renderer. The default is Graphviz's own choice, which is best unless you know you need another.
 
 ## Troubleshooting
