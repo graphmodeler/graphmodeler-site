@@ -74,10 +74,7 @@ offered, and the ones that are not installed are left out.
 To add a font, open the font file and press **Install Font** in Font Book, or copy it into `~/Library/Fonts` (for you) or `/Library/Fonts` (for
 everyone). Then restart Graph Modeler.
 
-::: tip macOS is still being tested
-Graph Modeler for macOS is in testing. If a font you installed does not appear, or appears and is not drawn, please tell [Support](/support/) what you
-did and what the Designer showed.
-:::
+If a font you installed does not appear, or appears and is not drawn, tell [Support](/support/) what you did and what the Designer showed.
 
 ## When you share the picture
 

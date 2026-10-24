@@ -10,9 +10,8 @@ says what the app needs, so that you are ready.
 Graph Modeler is a desktop app. It has been run, from source, on:
 
 - **Windows 11**.
-- **Linux**, on Zorin OS 18, which is built on Ubuntu 24.04. It ran well on a computer from 2012.
-
-**macOS** is being tested and has not been run yet, so it is not promised here.
+- **macOS**, on an Intel Mac, with Graphviz 16.1 from Homebrew.
+- **Linux**, on Zorin OS 18, which is built on Ubuntu 24.04, and on Q4OS. It ran well on a computer from 2012 and on one from 2010.
 
 An installer is planned for each system. The app will not need Node, a browser or any other program installed, apart from Graphviz
 for pictures.
@@ -26,11 +25,11 @@ settings, and publishing the Knowledge Graph and the DOT file all work with no G
 | System | How to install it |
 | --- | --- |
 | **Windows** | Run the installer from [graphviz.org/download](https://graphviz.org/download/), or `winget install Graphviz.Graphviz`. The installer offers to add Graphviz to the PATH. Say yes if you can, but the app also looks in the usual install folders. |
-| **macOS** | `brew install graphviz`, with [Homebrew](https://brew.sh). |
+| **macOS** | `brew install graphviz`, with [Homebrew](https://brew.sh). On an older Intel Mac, Homebrew may have to build Graphviz and the programs it needs from source, which can take hours. |
 | **Debian and Ubuntu** | `sudo apt install graphviz`. |
 | **Fedora** | `sudo dnf install graphviz`. |
 
-Any recent version should work. The app has been run with versions from 2.43, the one some Linux distributions still package, up to 16.1.
+Any recent version should work. The app has been run with versions from 2.42, the one some Linux distributions still package, up to 16.1.
 Newer versions have more, so a newer one is better where you can choose.
 
 ### Checking it worked

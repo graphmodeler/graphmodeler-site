@@ -46,7 +46,7 @@ Some of this is on purpose: where the Excel tool did something only because it l
   read and ignored.
 - **Some things are gone**: the buttons for GVEdit and for external web viewers, the option to keep the `.gv` file, the Extensions and
   Diagnostics tabs, and the settings that described worksheet layout.
-- **A dark theme**, and a Windows, Linux and (being tested) macOS version in place of Excel on Windows.
+- **A dark theme**, and a Windows, Linux and macOS version in place of Excel on Windows.
 - **The app is in English** for now.
 
 ## If something does not match
