@@ -8,8 +8,13 @@ undo, the choice of view, publishing, and the messages about what the app found.
 
 ## The project
 
-The top of the pane has the **name of the project**. A dot after the name means there are changes that are not saved. Under it are the file
-the project was saved in, or **Not saved yet**, the number of rows that have something in them, and the number of styles.
+The top of the pane has the **Project name**, in a box you can type in. A new project is called Untitled. The name is kept in the project
+file, and it is the name of the graph on the first line of the [DOT](/docs/dot/), such as `digraph "Order fulfillment"`. It is not the name of
+the file: you can rename one without the other. Press Enter or click away to keep a new name, or press Esc to put the old one back. A blank
+name is not accepted. A change of name can be undone like any other change.
+
+A dot after the words **Project name** means there are changes that are not saved. Under the box are the file the project was saved in, or
+**Not saved yet**, the number of rows that have something in them, and the number of styles.
 
 | Button | What it does | Keys |
 | --- | --- | --- |

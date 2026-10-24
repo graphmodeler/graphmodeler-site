@@ -49,7 +49,7 @@ messages**, with its row number.
 - **Properties** from the **Properties** column of a row or a style are in a `properties` object, and keep their types. A bare number is a
   number, `true` and `false` are booleans, and a quoted value is text. The properties of a style are listed with the style, and the
   properties of a node or an edge are its own.
-- The file has the name of the project in `source_workbook`, a name kept from the [Excel tool](/docs/from-excel/) that this app grew out of, and the time it was made.
+- The file says where it came from in `source_workbook`, a name kept from the [Excel tool](/docs/from-excel/) that this app grew out of. It is the name of the project file, or the project name when the project is not saved yet. The time it was made is there too.
 
 ## The format
 
