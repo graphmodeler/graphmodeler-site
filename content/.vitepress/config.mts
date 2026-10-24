@@ -15,6 +15,8 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/app-icon.svg' }],
     ['meta', { name: 'theme-color', content: '#0e7490' }],
+    // Until the launch, keep search engines away. Remove this line when the site is ready to be found.
+    ['meta', { name: 'robots', content: 'noindex, nofollow' }],
   ],
 
   themeConfig: {
