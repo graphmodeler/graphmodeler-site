@@ -24,12 +24,12 @@ A commercial license is needed for any commercial use. That includes use:
 - as part of an activity that earns money;
 - inside a business, for its own purposes.
 
-If you are not sure which side your use falls on, ask. Write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
+If you are not sure which side your use falls on, ask. Write to [sales@graphmodeler.com](mailto:sales@graphmodeler.com).
 
 ## How to get a commercial license
 
 Commercial licenses are sold from this website. Until selling opens, write to
-[support@graphmodeler.com](mailto:support@graphmodeler.com) and say what you would use it for and how many people would use it.
+[sales@graphmodeler.com](mailto:sales@graphmodeler.com) and say what you would use it for and how many people would use it.
 
 ## What the license does not allow
 
