@@ -58,6 +58,7 @@ export default defineConfig({
         {
           text: 'Topics',
           items: [
+            { text: 'Placeholders', link: '/docs/placeholders/' },
             { text: 'Publishing', link: '/docs/publishing/' },
             { text: 'Fonts', link: '/docs/fonts/' },
             { text: 'Coming from the Excel tool', link: '/docs/from-excel/' },

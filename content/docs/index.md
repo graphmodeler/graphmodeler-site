@@ -37,6 +37,7 @@ The tabs are in the order they are in the app.
 
 ## Topics
 
+- [Placeholders](/docs/placeholders/): the words in braces, such as `{label}` and `{rsc}`, that are replaced in labels and in SQL, and how to make your own.
 - [Publishing](/docs/publishing/): how a file name is built from the prefix, the template, the counter and the style, and what Publish will not write over.
 - [Fonts](/docs/fonts/): how the app finds the fonts on your computer, what to do after installing one, and what happens to it in a shared picture.
 - [Coming from the Excel tool](/docs/from-excel/): for people who know Relationship Visualizer, also called Excel to Graphviz.

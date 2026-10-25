@@ -20,7 +20,7 @@ to the node, the edge or the cluster the row makes. Change a style once and ever
 | One column for each **view** | Whether the style is used in that view. |
 
 A format can mention `{label}`, `{xlabel}`, `{taillabel}` and `{headlabel}`. The values from the row are put in their places, so a
-style can wrap a row's label in a shape of its own.
+style can wrap a row's label in a shape of its own. See [Placeholders](/docs/placeholders/).
 
 ## The six styles every project has
 

@@ -98,8 +98,8 @@ such as "weekly" and "audit", and one script holds them all.
 Some result columns do more than fill a cell.
 
 - **Clusters.** `Cluster` and `Subcluster` columns put rows into nested clusters, with `Cluster Label`, `Cluster Style Name`,
-  `Cluster Attributes` and `Cluster Tooltip` to describe them. `Cluster1`, `Cluster2` and so on go deeper. `%clc%` and `%scc%`
-  stand for the cluster and subcluster number.
+  `Cluster Attributes` and `Cluster Tooltip` to describe them. `Cluster1`, `Cluster2` and so on go deeper. `{clc}` and `{scc}`
+  stand for the cluster and subcluster number, and `{rsc}` for a row's position in the results. [Placeholders](/docs/placeholders/) lists them all.
 - **`ENUMERATE`** repeats a row for every number in a range (`START AT`, `STOP AT`, `STEP BY`), with `{step}` in any value.
   **`CREATE EDGES`** links consecutive rows into a chain. **`CREATE RANK`** collects the items of a query into one line that tells
   Graphviz to align them.
