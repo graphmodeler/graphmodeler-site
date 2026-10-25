@@ -28,7 +28,7 @@ is kept as typed. The standard template is:
 
 | Placeholder | Is replaced by |
 | --- | --- |
-| `{prefix}` | What is in the **File name** box. |
+| `{prefix}` | What is in the **File name** box. The prefix may itself hold `{view}`, `{date}`, `{time}`, `{engine}`, `{splines}`, `{options}` and `{project}`. |
 | `{view}` | The name of the [view](/docs/styles/#views) being written. |
 | `{version}` | What **Add to the name** gives: the date and time, the counter, or nothing. |
 | `{date}` | The date, such as `2026-10-24`, whatever **Add to the name** says. |
@@ -133,4 +133,5 @@ When a name is refused, nothing is written, and the pane says which name to chan
 ## From SQL
 
 A [`PUBLISH` line in a SQL script](/docs/sql/#publish) makes its names in the same way, from the same choices. It can give a prefix for that publish only, as in
-`PUBLISH ALL VIEWS AS DIRECTED GRAPH Q3`, where `Q3` is used in place of what is in the **File name** box.
+`PUBLISH ALL VIEWS AS DIRECTED GRAPH Q3`, where `Q3` is used in place of what is in the **File name** box. Like that box, the prefix may hold
+placeholders, as in `PUBLISH ALL VIEWS Q3 {date}`.

@@ -15,7 +15,7 @@ that nothing replaces is left as it was typed, so a mistake is easy to see.
 | The values a query returns on the [SQL](/docs/sql/) tab | `{rsc}`, `{clc}`, `{scc}`, `{level}`, `{step}` | A count |
 | The detail query of `ITERATE` | `{id}` | The ID being worked on |
 | The queries after a `SET PLACEHOLDER` line | `{name}`, for a name you choose | The value you gave it |
-| The file names that [Publish](/docs/publishing/) writes | `{prefix}`, `{view}`, `{version}`, `{date}` and others | Parts of the name |
+| The file names that [Publish](/docs/publishing/) writes, and the prefix a `PUBLISH` line gives | `{prefix}`, `{view}`, `{version}`, `{date}` and others | Parts of the name |
 
 The rest of this page goes through the first four. The file name placeholders have their own table on the
 [Publishing](/docs/publishing/#the-template) page.
