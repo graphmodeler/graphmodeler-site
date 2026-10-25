@@ -16,6 +16,12 @@ Graph Modeler is a desktop app. It has been run, from source, on:
 An installer is planned for each system. The app will not need Node, a browser or any other program installed, apart from Graphviz
 for pictures.
 
+## Your data
+
+The [SQL tab](/docs/sql/) reads Excel and LibreOffice workbooks (`.xlsx`, `.ods`), CSV and TSV files, Access databases and SQLite databases. Nothing
+has to be installed to read them, and Excel is not needed. On Linux, use a LibreOffice or ONLYOFFICE spreadsheet saved as `.xlsx`, a LibreOffice
+`.ods` file, or a CSV file exported from the program that holds the data.
+
 ## Install Graphviz
 
 Graph Modeler draws its pictures with [Graphviz](https://graphviz.org/download/), a free program that is installed on its own. The app

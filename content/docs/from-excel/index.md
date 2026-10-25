@@ -38,7 +38,7 @@ Some of this is on purpose: where the Excel tool did something only because it l
 - **A project is a file**, in JSON, and not a workbook. There are no worksheets to hide or show, and no ribbon. The tabs are fixed, and
   one toolbar row sits over each.
 - **Queries run on SQLite**, not on the database engine of Excel and Access. Most queries are unchanged, a few functions are different, and the
-  [SQL tab](/docs/sql/) page lists what is reproduced. Data comes from Excel workbooks and Access databases that you name; the workbook
+  [SQL tab](/docs/sql/) page lists what is reproduced. Data comes from files that you name: Excel and LibreOffice workbooks, CSV files, Access databases and SQLite databases. The workbook
   that holds a project does not exist here, and MySQL and Postgres are not supported yet.
 - **Publishing** has a template for the file name, with a date and time or a counter, in place of the Excel tool's switches. The files it writes are
   listed in the left pane, and nothing is opened for you.

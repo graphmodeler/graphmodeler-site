@@ -50,7 +50,7 @@ features:
       dark: /database-search-dark.svg
       light: /database-search-light.svg
     title: Data from queries
-    details: Use SQL to turn data in Excel workbooks and Access databases into graph models.<br/><br/>Chain queries into a pipeline that generates and publishes every view in a single run.
+    details: Use SQL to turn data in Excel and LibreOffice workbooks, CSV extracts and Access databases into graph models.<br/><br/>Chain queries into a pipeline that generates and publishes every view in a single run.
     link: /docs/sql/
     linkText: SQL
   - icon:

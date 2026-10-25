@@ -1,7 +1,7 @@
 # The SQL tab
 
-The SQL tab builds the rows of the Data tab from queries, so a graph can come from data you already keep in an Excel workbook or an
-Access database. Each line of the script is a command or a `SELECT`. **Run SQL** runs the lines in order and replaces the rows of the
+The SQL tab builds the rows of the Data tab from queries, so a graph can come from data you already keep in a spreadsheet, a CSV file or
+a database file. Each line of the script is a command or a `SELECT`. **Run SQL** runs the lines in order and replaces the rows of the
 Data tab with what they produce, as one step that **Undo** puts back.
 
 <img class="shot shot-light" src="/shots/sql-light.png" alt="The SQL tab after a run, with a mark beside each line">
@@ -9,13 +9,30 @@ Data tab with what they produce, as one step that **Undo** puts back.
 
 ## Where the data comes from
 
-- **Excel workbooks** (`.xlsx`). Each worksheet is a table named after it, and its first row gives the column names. Write
-  `FROM [Steps$]` or `FROM [Steps]`.
+- **Excel and LibreOffice workbooks** (`.xlsx` and `.ods`). Each worksheet is a table named after it, and its first row gives the column
+  names. Write `FROM [Steps$]` or `FROM [Steps]`. A workbook that ONLYOFFICE or LibreOffice saved as `.xlsx` is read like any other.
+- **CSV and TSV files** (`.csv` and `.tsv`). Text with one record on each line, which is what Salesforce, ServiceNow and most reporting tools
+  export. The file is one table, named after the file, and its first row gives the column names: `FROM [orders]` for `orders.csv`.
 - **Access databases** (`.mdb` and `.accdb`). Each table is a table, with its own column names: `FROM [timeline]`. Only the tables are
   read. Saved queries, linked tables and password-protected databases are not supported.
+- **SQLite databases** (`.sqlite` and `.sqlite3`). Each table is a table, as the file has it.
+
+You do not need Excel to use any of these, so on Linux a LibreOffice spreadsheet, a workbook saved as `.xlsx` or a CSV file all work.
 
 Queries run on SQLite and cannot change the file or any other file. A file name that is not complete is taken from the
 folder the project is saved in.
+
+### How a CSV file is read
+
+A CSV file can come from any program on any system, so Graph Modeler works out how it was written.
+
+- **The characters.** UTF-8, with or without a byte order mark; UTF-16, which is what Excel's "Unicode text" saves; or, when a file is not valid
+  UTF-8, the Windows code page that older programs write.
+- **The delimiter.** A comma, a semicolon (used where the decimal mark is a comma), a tab or a bar, found from the first lines of the file. A
+  `.tsv` file is always cut at tabs.
+- **The columns.** A column in which every cell is a number holds numbers, so they can be added and compared. Any other column is text, so a
+  code such as `00501` keeps its leading zeros, and so does a number written with a decimal comma, such as `10,5`. An empty cell is empty, and a
+  date is text, as written in the file.
 
 ### Which file a line uses
 
