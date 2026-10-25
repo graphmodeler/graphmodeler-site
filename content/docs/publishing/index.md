@@ -77,8 +77,6 @@ legend and one that shows it are told apart.
 - **A blank template** uses the standard one.
 - **A choice of Date and time or Counter always has an effect.** If the template has no `{version}`, `{n}`, `{date}` or `{time}`, the version is put
   on the end.
-- **The masks of the Excel tool work in the File name box**: `%V` is the view, `%D` the date, `%T` the time, `%E` the engine, `%S` the edge routing,
-  and `%W` the worksheet. A prefix from the [Excel tool](/docs/from-excel/) carries over as it was.
 
 ## The style of the name
 
