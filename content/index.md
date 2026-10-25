@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: Graph Modeler™
-  text: Relationships made visible
+  text: See the connections
   tagline: <i>Coming Soon</i> - A desktop application for creating graph models, generating Graphviz diagrams, and publishing standards-based knowledge graphs.
   image:
     light: /hero-light.svg
@@ -23,31 +23,43 @@ features:
       light: /data-table-light.svg
     title: Rows, not boxes
     details: Forget manually drawing boxes and connecting lines.<br/><br/>Build your graph in a spreadsheet-style grid, with Excel paste, fill down, undo, and clear visual cues for nodes, edges, and clusters.
+    link: /docs/data/
+    linkText: Data
   - icon:
       dark: /palette-dark.svg
       light: /palette-light.svg
     title: Styles you can see
-    details: Styles define the appearance of nodes, edges, and clusters. Assign them by name and update entire diagrams instantly.<br/><br/>The Style Designer provides live previews as you build styles from simple menus.<br/><br/>Enrich styles with descriptions and properties that become part of your knowledge graph.
+    details: Live-preview node, edge, and cluster styles in the Style Designer. Assign styles to rows and update entire diagrams instantly.<br/><br/>Add descriptions and properties that travel with your knowledge graph.
+    link: /docs/designer/
+    linkText: Designer
   - icon:
       dark: /share-dark.svg
       light: /share-light.svg
     title: Drawn by Graphviz
     details: Explore your model through every Graphviz layout engine at the push of a button.<br/><br/>Export diagrams as SVG, PNG, PDF, and more. Generate one view or many from the same model.
+    link: /docs/diagram/
+    linkText: Diagram
   - icon:
       dark: /knowledge-graph-dark.svg
       light: /knowledge-graph-light.svg
     title: Knowledge Graph Output
-    details: Generate a JSON Knowledge Graph from the same source model, including styles, descriptions, and semantic properties.<br/><br/>View it locally, copy it to the clipboard, or save it for analysis and AI-assisted workflows.
+    details: Publish a JSON Knowledge Graph from the same model, including styles, descriptions, and properties.<br/><br/>View it locally, copy it, or save it for AI and analytics.
+    link: /docs/knowledge-graph/
+    linkText: Knowledge Graph
   - icon:
       dark: /database-search-dark.svg
       light: /database-search-light.svg
     title: Data from queries
     details: Use SQL to turn data in Excel workbooks and Access databases into graph models.<br/><br/>Chain queries into a pipeline that generates and publishes every view in a single run.
+    link: /docs/sql/
+    linkText: SQL
   - icon:
       dark: /file-dark.svg
       light: /file-light.svg
     title: Plain Files. Any Desktop.
     details: Projects are stored as readable JSON that you can version, compare, and generate.<br/><br/>Runs on <b>Windows</b>, <b>macOS</b>, and <b>Linux</b>, with light and dark themes.
+    link: /docs/
+    linkText: Documentation
 ---
 
 ## What it looks like
