@@ -1,6 +1,6 @@
 # Documentation
 
-Graph Modeler turns rows of data into a graph. Three things do the work, and the tabs of the app are laid out around them.
+Graph Modeler™ turns rows of data into a graph. Three things do the work, and the tabs of the app are laid out around them.
 
 **The rows** are on the [Data](/docs/data/) tab. Each row is an item, or a relationship between two items, or a marker that
 opens or closes a cluster. A row can name a style.

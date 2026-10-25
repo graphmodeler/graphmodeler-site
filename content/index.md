@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: Graph Modeler
+  name: Graph Modeler™
   text: Relationships made visible
   tagline: <i>Coming Soon</i> - A desktop application for creating graph models, generating Graphviz diagrams, and publishing standards-based knowledge graphs.
   image:

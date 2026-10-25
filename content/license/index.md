@@ -1,6 +1,6 @@
 # License
 
-Graph Modeler is free for personal, educational, research and other non-commercial use. Commercial use needs a commercial license.
+Graph Modeler™ is free for personal, educational, research and other non-commercial use. Commercial use needs a commercial license.
 
 The text of the license is at the bottom of this page, and it is the text that applies. What follows only explains it.
 
@@ -44,7 +44,7 @@ permission from the copyright holder.
 
 Copyright (c) 2026 Jeffrey J. Long
 
-Graph Modeler is a model-driven knowledge graph and graph modeling tool.
+Graph Modeler™ is a model-driven knowledge graph and graph modeling tool.
 
 Permission is granted to any individual to install and use this software free of charge for personal, educational, research, and other
 non-commercial purposes.
