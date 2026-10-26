@@ -34,6 +34,10 @@ A CSV file can come from any program on any system, so Graph Modeler works out h
   code such as `00501` keeps its leading zeros, and so does a number written with a decimal comma, such as `10,5`. An empty cell is empty, and a
   date is text, as written in the file.
 
+A CSV file is one table, and a statement runs against one file, so a statement cannot join two CSV files. To join tables, keep them as sheets
+of one workbook or as tables in one database. A script can still use several CSV files, one on each line, and the rows the lines produce
+are put together on the Data tab.
+
 ### Which file a line uses
 
 The first of these that applies:

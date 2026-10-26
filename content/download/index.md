@@ -9,9 +9,12 @@ says what the app needs, so that you are ready.
 
 Graph Modeler is a desktop app. It has been run, from source, on:
 
-- **Windows 11**.
-- **macOS**, on an Intel Mac, with Graphviz 16.1 from Homebrew.
-- **Linux**, on Zorin OS 18, which is built on Ubuntu 24.04, and on Q4OS. It ran well on a computer from 2012 and on one from 2010.
+- **Windows 11**, on a laptop from 2021.
+- **macOS 15 (Sequoia)**, on an Intel iMac from 2013, with Graphviz 16.1 from Homebrew.
+- **Linux**, on Zorin OS 18.1, which is built on Ubuntu 24.04, and on Q4OS 6.10, which is built on Debian 13. Zorin ran on the same
+  2013 iMac, and Q4OS on a ThinkPad from 2010. It ran well on both.
+
+On each of them the [SQL tab](/docs/sql/) was tried with Excel and LibreOffice workbooks, CSV files and Access databases.
 
 An installer is planned for each system. The app will not need Node, a browser or any other program installed, apart from Graphviz
 for pictures.
