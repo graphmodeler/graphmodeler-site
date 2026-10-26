@@ -24,8 +24,24 @@ checksums, so that you can check what you downloaded. Install [Graphviz](#instal
 - **Windows.** Run the installer. If Windows says **Windows protected your PC**, choose **More info**, then **Run anyway**.
 - **macOS.** Open the `.dmg` and drag Graph Modeler to Applications. The first time you open it, macOS refuses. Open **System Settings, Privacy &
   Security**, scroll to the message about Graph Modeler, and choose **Open Anyway**.
-- **Linux.** `sudo apt install ./graph-modeler_0.1.0_amd64.deb`. For the AppImage, make it executable (`chmod +x`) and run it; a recent Ubuntu
-  also needs `sudo apt install libfuse2t64`.
+- **Linux, the `.deb`** (Debian, Ubuntu and relatives).
+  - Install it with `sudo apt install ./graph-modeler_0.1.0_amd64.deb`.
+  - apt may end with a note that the file "couldn't be accessed by user `_apt`". That is harmless. It only means apt read the file as root,
+    because your Downloads folder is private.
+  - The program appears in the Programming group of the applications menu.
+- **Linux, the AppImage.**
+  - Make it executable with `chmod +x Graph-Modeler-0.1.0.AppImage`, then run it.
+  - A recent Ubuntu also needs `sudo apt install libfuse2t64`.
+
+### Taking it off again
+
+- **Windows.** Settings, Apps, Installed apps, Graph Modeler, Uninstall.
+- **macOS.** Drag Graph Modeler from Applications to the Trash.
+- **Linux.** `sudo apt remove graph-modeler` for the `.deb`; for the AppImage, delete the file.
+
+Your projects and data files are yours and are never touched. The app's own settings and its list of fonts stay behind in a folder named
+`Graph Modeler`, which you can delete too: `%APPDATA%\Graph Modeler` on Windows, `~/Library/Application Support/Graph Modeler` on a Mac, and
+`~/.config/Graph Modeler` on Linux. See [Fonts](/docs/fonts/#starting-over).
 
 ### Tell me how it went
 
