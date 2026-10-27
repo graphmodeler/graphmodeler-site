@@ -11,13 +11,14 @@ This is version 0.1.0, beta 1.
 
 | Your computer | Download | Size |
 | --- | --- | --- |
-| **Windows** 10 or 11 | [Graph-Modeler-Setup-0.1.0.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/Graph-Modeler-Setup-0.1.0.exe) | 121 MB |
-| **macOS**, Intel or Apple silicon | [Graph-Modeler-0.1.0-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/Graph-Modeler-0.1.0-universal.dmg) | 233 MB |
-| **Linux**, Debian, Ubuntu and relatives | [graph-modeler_0.1.0_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/graph-modeler_0.1.0_amd64.deb) | 101 MB |
-| **Linux**, anything else | [Graph-Modeler-0.1.0.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/Graph-Modeler-0.1.0.AppImage) | 128 MB |
+| **Windows** 10 or 11, 64-bit | [Graph-Modeler-Setup-0.1.0.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/Graph-Modeler-Setup-0.1.0.exe) | 121 MB |
+| **macOS** 13 or later, Intel or Apple silicon | [Graph-Modeler-0.1.0-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/Graph-Modeler-0.1.0-universal.dmg) | 233 MB |
+| **Linux**, 64-bit, Debian, Ubuntu and relatives | [graph-modeler_0.1.0_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/graph-modeler_0.1.0_amd64.deb) | 101 MB |
+| **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.0.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/Graph-Modeler-0.1.0.AppImage) | 128 MB |
 
 The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.0-beta.1) holds the same files and a list of
-checksums, so that you can check what you downloaded. Install [Graphviz](#install-graphviz) too, to see pictures.
+checksums, so that you can check what you downloaded. Install [Graphviz](#install-graphviz) too, to see pictures. Check the
+[system requirements](#system-requirements) first: Graph Modeler needs a 64-bit computer.
 
 ### The first time you open it
 
@@ -47,6 +48,23 @@ Your projects and data files are yours and are never touched. The app's own sett
 
 Write to [support@graphmodeler.com](mailto:support@graphmodeler.com), and say how the download and the install went as well as how the app did. In the app,
 the **About** tab has a **Copy** button for your support information: the version and your system, and nothing about your data.
+
+## System requirements
+
+Graph Modeler needs a **64-bit** operating system on a 64-bit processor. There is no 32-bit version. The program is built on
+Electron, which stopped publishing 32-bit versions with its release 44.
+
+| System | You need |
+| --- | --- |
+| **Windows** | Windows 10 or 11, 64-bit. Windows 7, 8 and 8.1 are not supported. A 32-bit Windows 10 is refused by the installer, with a message that a 64-bit system is required. |
+| **macOS** | macOS 13 (Ventura) or later, on an Intel or Apple silicon Mac. One download serves both. A Mac that Apple stopped at macOS 12 or earlier, in general one from before 2017, is not supported. |
+| **Linux** | A 64-bit (x86-64) distribution with a desktop, on an Intel or AMD processor. The `.deb` needs the usual desktop libraries (GTK 3, NSS and a few others), which apt installs for you. There is no ARM version. |
+
+To find out whether your Windows is 64-bit, open **Settings, System, About** and look at **System type**. It should say **64-bit
+operating system**.
+
+The app needs about 400 MB of disk space once installed. Graphviz is a separate, small program that draws the pictures; see
+[Install Graphviz](#install-graphviz). No Node, browser, Java or Excel is needed.
 
 ## What it runs on
 
