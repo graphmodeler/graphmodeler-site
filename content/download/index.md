@@ -1,7 +1,7 @@
 # Download
 
 ::: warning A beta, for a few people to try
-Graph Modeler is not released yet. A first **beta** can be downloaded below. It is not signed with a certificate yet, so Windows and macOS
+**Graph Modeler** is not released yet. A first **beta** can be downloaded below. It is not signed with a certificate yet, so Windows and macOS
 warn the first time you open it. Using it while it is in testing is free; the [license](/license/) says what applies after the release.
 :::
 
@@ -20,21 +20,51 @@ The [release page](https://github.com/graphmodeler/graphmodeler-releases/release
 checksums, so that you can check what you downloaded. Install [Graphviz](#install-graphviz) too, to see pictures. Check the
 [system requirements](#system-requirements) first: Graph Modeler needs a 64-bit computer.
 
-### The first time you open it
+### Install
 
-- **Windows.** Run the installer. If Windows says **Windows protected your PC**, choose **More info**, then **Run anyway**.
-- **macOS.** Open the `.dmg` and drag Graph Modeler to Applications. The first time you open it, macOS refuses. Open **System Settings, Privacy &
-  Security**, scroll to the message about Graph Modeler, and choose **Open Anyway**.
+- **Windows.** Run the installer.  
+  
+  ::: tip Blocked after download?
+
+  If Windows says **Windows protected your PC**, hover your mouse over the download until the download is shaded and icon buttons appear.
+
+  ![Screenshot of the download warning.](/public/shots/download-warning.png)
+  
+  Click on the three dots `...` on the right side, beside the trash can icon. A pop-up menu appears. Click on **Keep**.
+
+  A trust screen appears, asking you to confirm that you trust the exe before you open it.
+
+  ![Screenshot of the dialog asking for confirmation that you trust the download.](/public/shots/download-trust.png)
+  
+  Click the `V` down arrow on the `Delete V` button. A pop-up button appears. Press the **Keep anyway** button. You can now run the exe installer.
+  :::
+
+- **macOS.** Open the `.dmg` and drag Graph Modeler to Applications. 
+
+  ::: tip Blocked from running?
+
+  The first time you open it, macOS refuses. 
+  1. Open **System Setting** 
+  2. Select **Privacy & Security**
+  3. Scroll to the message about Graph Modeler
+  4. Choose **Open Anyway**.
+
+  :::
+
 - **Linux, the `.deb`** (Debian, Ubuntu and relatives).
-  - Install it with `sudo apt install ./graph-modeler_0.1.1_amd64.deb`.
-  - apt may end with a note that the file "couldn't be accessed by user `_apt`". That is harmless. It only means apt read the file as root,
+  - Install it with terminal command `sudo apt install ./graph-modeler_0.1.1_amd64.deb`.
+  - The program appears in the **Programming** group of the applications menu.
+
+  ::: tip Warning message?
+  `apt` may end with a note that the `file couldn't be accessed by user _apt`. That message is harmless. It only means apt read the file as root,
     because your Downloads folder is private.
-  - The program appears in the Programming group of the applications menu.
+  :::
+
 - **Linux, the AppImage.**
   - Make it executable with `chmod +x Graph-Modeler-0.1.1.AppImage`, then run it.
   - A recent Ubuntu also needs `sudo apt install libfuse2t64`.
 
-### Taking it off again
+### Uninstall
 
 - **Windows.** Settings, Apps, Installed apps, Graph Modeler, Uninstall.
 - **macOS.** Drag Graph Modeler from Applications to the Trash.
@@ -66,14 +96,18 @@ operating system**.
 The app needs about 400 MB of disk space once installed. Graphviz is a separate, small program that draws the pictures; see
 [Install Graphviz](#install-graphviz). No Node, browser, Java or Excel is needed.
 
-## What it runs on
+## What it has run on
 
-Graph Modeler is a desktop app. It has been run, from source or as built, on:
+Graph Modeler is a desktop app. During development and testing it has run on:
 
-- **Windows 11**, on a laptop from 2021.
-- **macOS 15 (Sequoia)**, on an Intel iMac from 2013, with Graphviz 16.1 from Homebrew.
-- **Linux**, on Zorin OS 18.1, which is built on Ubuntu 24.04, and on Q4OS 6.10, which is built on Debian 13. Zorin ran on the same
-  2013 iMac, and Q4OS on a ThinkPad from 2010. It ran well on both.
+| OS Family                 | OS Version / Distro             | Hardware Device      | Device Year | Graphviz Version | Graphviz installation method            |
+|---------------------------|---------------------------------|----------------------|:-----------:|:----------------:|-----------------------------------------|
+| Microsoft Windows         | Windows 11                      | Lenovo IdeaPad       | 2021        | 16.1             | Graphviz.org's 64-bit Windows installer |
+| Apple macOS               | macOS 15 Sequoia                | Apple iMac           | 2013        | 16.1             | `brew install graphviz`                 |
+| Linux - Ubuntu 24.04 based| Zorin OS 18.1 w/GNOME           | Apple iMac           | 2013        | 2.42             | `sudo apt install graphviz`             |
+| Linux - Debian 13 based   | Q4OS 6.10 w/KDE Plasma          | Lenovo Thinkpad T400 | 2010        | 2.42             | `sudo apt install graphviz`             |
+ 
+It has run well on all devices regardless of device age or Operating System.
 
 On each of them the [SQL tab](/docs/sql/) was tried with Excel and LibreOffice workbooks, CSV files and Access databases.
 
