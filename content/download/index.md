@@ -7,16 +7,16 @@ warn the first time you open it. Using it while it is in testing is free; the [l
 
 ## Get the beta
 
-This is version 0.1.0, beta 1.
+This is version 0.1.1, beta 2. See [what is new](/docs/changelog/) since beta 1.
 
 | Your computer | Download | Size |
 | --- | --- | --- |
-| **Windows** 10 or 11, 64-bit | [Graph-Modeler-Setup-0.1.0.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/Graph-Modeler-Setup-0.1.0.exe) | 121 MB |
-| **macOS** 13 or later, Intel or Apple silicon | [Graph-Modeler-0.1.0-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/Graph-Modeler-0.1.0-universal.dmg) | 233 MB |
-| **Linux**, 64-bit, Debian, Ubuntu and relatives | [graph-modeler_0.1.0_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/graph-modeler_0.1.0_amd64.deb) | 101 MB |
-| **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.0.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.0-beta.1/Graph-Modeler-0.1.0.AppImage) | 128 MB |
+| **Windows** 10 or 11, 64-bit | [Graph-Modeler-Setup-0.1.1.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.1-beta.2/Graph-Modeler-Setup-0.1.1.exe) | 121 MB |
+| **macOS** 13 or later, Intel or Apple silicon | [Graph-Modeler-0.1.1-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.1-beta.2/Graph-Modeler-0.1.1-universal.dmg) | 233 MB |
+| **Linux**, 64-bit, Debian, Ubuntu and relatives | [graph-modeler_0.1.1_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.1-beta.2/graph-modeler_0.1.1_amd64.deb) | 100 MB |
+| **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.1.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.1-beta.2/Graph-Modeler-0.1.1.AppImage) | 128 MB |
 
-The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.0-beta.1) holds the same files and a list of
+The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.1-beta.2) holds the same files and a list of
 checksums, so that you can check what you downloaded. Install [Graphviz](#install-graphviz) too, to see pictures. Check the
 [system requirements](#system-requirements) first: Graph Modeler needs a 64-bit computer.
 
@@ -26,12 +26,12 @@ checksums, so that you can check what you downloaded. Install [Graphviz](#instal
 - **macOS.** Open the `.dmg` and drag Graph Modeler to Applications. The first time you open it, macOS refuses. Open **System Settings, Privacy &
   Security**, scroll to the message about Graph Modeler, and choose **Open Anyway**.
 - **Linux, the `.deb`** (Debian, Ubuntu and relatives).
-  - Install it with `sudo apt install ./graph-modeler_0.1.0_amd64.deb`.
+  - Install it with `sudo apt install ./graph-modeler_0.1.1_amd64.deb`.
   - apt may end with a note that the file "couldn't be accessed by user `_apt`". That is harmless. It only means apt read the file as root,
     because your Downloads folder is private.
   - The program appears in the Programming group of the applications menu.
 - **Linux, the AppImage.**
-  - Make it executable with `chmod +x Graph-Modeler-0.1.0.AppImage`, then run it.
+  - Make it executable with `chmod +x Graph-Modeler-0.1.1.AppImage`, then run it.
   - A recent Ubuntu also needs `sudo apt install libfuse2t64`.
 
 ### Taking it off again

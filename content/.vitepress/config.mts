@@ -60,8 +60,10 @@ export default defineConfig({
           items: [
             { text: 'Placeholders', link: '/docs/placeholders/' },
             { text: 'Publishing', link: '/docs/publishing/' },
+            { text: 'Units and packing', link: '/docs/units-and-packing/' },
             { text: 'Fonts', link: '/docs/fonts/' },
             { text: 'Coming from the Excel tool', link: '/docs/from-excel/' },
+            { text: "What's new", link: '/docs/changelog/' },
           ],
         },
       ],

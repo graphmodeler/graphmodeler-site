@@ -42,6 +42,9 @@ Some of this is on purpose: where the Excel tool did something only because it l
   that holds a project does not exist here, and MySQL and Postgres are not supported yet.
 - **Publishing** has a template for the file name, with a date and time or a counter, in place of the Excel tool's switches. The files it writes are
   listed in the left pane, and nothing is opened for you.
+- **Units** are a setting of the project, inches or millimeters, in place of the Millimetres box of the node designer. The file says which it uses, and the
+  [lengths in the Designer and the packing settings](/docs/units-and-packing/) follow it.
+- **Packing** is a setting of the whole graph, for every layout except patchwork, in place of a cluster style for osage only. The pack mode has all four choices, not two.
 - **Graph type and direction** are the buttons on the Diagram tab. `PREVIEW AS DIRECTED GRAPH` and `PREVIEW AS UNDIRECTED GRAPH` in a script are
   read and ignored.
 - **Some things are gone**: the buttons for GVEdit and for external web viewers, the option to keep the `.gv` file, the Extensions and

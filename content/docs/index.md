@@ -39,8 +39,10 @@ The tabs are in the order they are in the app.
 
 - [Placeholders](/docs/placeholders/): the words in braces, such as `{label}` and `{rsc}`, that are replaced in labels and in SQL, and how to make your own.
 - [Publishing](/docs/publishing/): how a file name is built from the prefix, the template, the counter and the style, and what Publish will not write over.
+- [Units and packing](/docs/units-and-packing/): inches or millimeters for the lengths you type, and how the separate parts of a graph are packed together.
 - [Fonts](/docs/fonts/): how the app finds the fonts on your computer, what to do after installing one, and what happens to it in a shared picture.
 - [Coming from the Excel tool](/docs/from-excel/): for people who know Relationship Visualizer, also called Excel to Graphviz.
+- [What's new](/docs/changelog/): what each version changed.
 
 ## What you need
 

@@ -9,7 +9,7 @@ lets you choose them from menus, shows the result as you go, and writes the form
 
 ## Using it
 
-1. Choose what you are designing with **Node**, **Edge** or **Cluster** at the top. Only the choices that apply to it are shown.
+1. Choose what you are designing with **Node**, **Edge** or **Cluster** at the top, each with a small picture of what it is. Only the choices that apply to it are shown.
 2. Pick values on the left. The preview on the right is drawn by Graphviz after every change, and the **Format string** below
    it shows what is being written.
 3. Give the style a **Style name** and, if you like, a **Description**.
@@ -31,6 +31,11 @@ The choices are in groups, and the ones that do not apply to what you are design
   from a set, such as one of the ColorBrewer palettes, so a diagram can use a palette from one choice.
 - **Shape** and **Font** show a small picture of each choice in their lists. The fonts are the ones installed on your computer; see
   [Fonts](/docs/fonts/) for how they are found and what to do after installing one.
+- **Height** and **Width** take a length in the unit of the project, inches or millimeters, which is set under [Settings](/docs/settings/). See
+  [Units and packing](/docs/units-and-packing/#units).
+- **Head port** and **Tail port** show a picture of each choice: a circle for the node and an arrow that arrives at, or leaves from, one of its compass points. They are listed clockwise
+  from north, then the center, and the default, `_`, leaves the choice to Graphviz.
+- **Packing (osage layout)** is offered for a cluster when the layout is osage. See [Units and packing](/docs/units-and-packing/#the-osage-layout-and-clusters).
 - **Position** choices, such as where a label sits in a cluster, are buttons with an icon: vertical position first, then
   horizontal. A second press on the chosen button clears it.
 - **Properties** are facts about the style that do not change the drawing but go into the Knowledge Graph.

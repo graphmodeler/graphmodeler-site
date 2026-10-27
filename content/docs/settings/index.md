@@ -24,6 +24,17 @@ This group is named after the layout in use, such as "Options for the dot layout
 
 - **dot:** edges between clusters, the newer ranking, how clusters are ranked, and the order of the edges out of or into a node.
 - **neato, fdp and sfdp:** how overlapping nodes are moved apart, the dimensions, and for some of them the mode, the model and the smoothing.
+- **Every layout except patchwork:** the **space between separate parts**, the **pack mode** and the **array packing options**, which say how the parts of a graph that are not joined are fitted
+  together. See [Units and packing](/docs/units-and-packing/#packing).
+
+## Units
+
+| Setting | What it does |
+| --- | --- |
+| **Units for this project** | Inches or millimeters, for the lists and boxes that take a length. Saved in the project file. |
+| **Units for new projects** | The unit a new project starts in. Kept on this computer, not in the project, and chosen from your region the first time. |
+
+See [Units and packing](/docs/units-and-packing/#units) for what changes when a unit changes, and what happens when a file is in other units than yours.
 
 ## Cluster style names
 
