@@ -7,16 +7,16 @@ warn the first time you open it. Using it while it is in testing is free; the [l
 
 ## Get the beta
 
-This is version 0.1.1, beta 2. See [what is new](/docs/changelog/) since beta 1.
+This is version 0.1.2, beta 3. See [what is new](/docs/changelog/) since beta 2.
 
 | Your computer | Download | Size |
 | --- | --- | --- |
-| **Windows** 10 or 11, 64-bit | [Graph-Modeler-Setup-0.1.1.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.1-beta.2/Graph-Modeler-Setup-0.1.1.exe) | 121 MB |
-| **macOS** 13 or later, Intel or Apple silicon | [Graph-Modeler-0.1.1-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.1-beta.2/Graph-Modeler-0.1.1-universal.dmg) | 233 MB |
-| **Linux**, 64-bit, Debian, Ubuntu and relatives | [graph-modeler_0.1.1_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.1-beta.2/graph-modeler_0.1.1_amd64.deb) | 100 MB |
-| **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.1.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.1-beta.2/Graph-Modeler-0.1.1.AppImage) | 128 MB |
+| **Windows** 10 or 11, 64-bit | [Graph-Modeler-Setup-0.1.2.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.2-beta.3/Graph-Modeler-Setup-0.1.2.exe) | 121 MB |
+| **macOS** 13 or later, Intel or Apple silicon | [Graph-Modeler-0.1.2-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.2-beta.3/Graph-Modeler-0.1.2-universal.dmg) | 233 MB |
+| **Linux**, 64-bit, Debian, Ubuntu and relatives | [graph-modeler_0.1.2_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.2-beta.3/graph-modeler_0.1.2_amd64.deb) | 100 MB |
+| **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.2.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.2-beta.3/Graph-Modeler-0.1.2.AppImage) | 128 MB |
 
-The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.1-beta.2) holds the same files and a list of
+The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.2-beta.3) holds the same files and a list of
 checksums, so that you can check what you downloaded. Install [Graphviz](#install-graphviz) too, to see pictures. Check the
 [system requirements](#system-requirements) first: Graph Modeler needs a 64-bit computer.
 
@@ -52,7 +52,7 @@ checksums, so that you can check what you downloaded. Install [Graphviz](#instal
   :::
 
 - **Linux, the `.deb`** (Debian, Ubuntu and relatives).
-  - Install it with terminal command `sudo apt install ./graph-modeler_0.1.1_amd64.deb`.
+  - Install it with terminal command `sudo apt install ./graph-modeler_0.1.2_amd64.deb`.
   - The program appears in the **Programming** group of the applications menu.
 
   ::: tip Warning message?
@@ -61,7 +61,7 @@ checksums, so that you can check what you downloaded. Install [Graphviz](#instal
   :::
 
 - **Linux, the AppImage.**
-  - Make it executable with `chmod +x Graph-Modeler-0.1.1.AppImage`, then run it.
+  - Make it executable with `chmod +x Graph-Modeler-0.1.2.AppImage`, then run it.
   - A recent Ubuntu also needs `sudo apt install libfuse2t64`.
 
 ### Check your download
@@ -72,8 +72,8 @@ file that was published. The signature says the list came from Graph Modeler. Yo
 **1. Check the file against the list.**
 
 - **Linux.** In the folder that holds the downloads, run `sha256sum -c --ignore-missing SHA256SUMS.txt`.
-- **macOS.** Run `shasum -a 256 Graph-Modeler-0.1.1-universal.dmg` and compare the result with the line for that file in `SHA256SUMS.txt`.
-- **Windows.** In PowerShell, run `Get-FileHash -Algorithm SHA256 Graph-Modeler-Setup-0.1.1.exe` and compare the result with the line for that file.
+- **macOS.** Run `shasum -a 256 Graph-Modeler-0.1.2-universal.dmg` and compare the result with the line for that file in `SHA256SUMS.txt`.
+- **Windows.** In PowerShell, run `Get-FileHash -Algorithm SHA256 Graph-Modeler-Setup-0.1.2.exe` and compare the result with the line for that file.
   The two are the same when the letters and digits match, whether they are in capitals or not.
 
 **2. Check that the list is signed by Graph Modeler.** You need [GnuPG](https://gnupg.org/download/), which most Linux systems already have.
