@@ -64,6 +64,32 @@ checksums, so that you can check what you downloaded. Install [Graphviz](#instal
   - Make it executable with `chmod +x Graph-Modeler-0.1.1.AppImage`, then run it.
   - A recent Ubuntu also needs `sudo apt install libfuse2t64`.
 
+### Check your download
+
+Each release page has a list of checksums, `SHA256SUMS.txt`, and a signature for it, `SHA256SUMS.txt.asc`. The checksums say whether your copy is the
+file that was published. The signature says the list came from Graph Modeler. You do not have to check, but you can.
+
+**1. Check the file against the list.**
+
+- **Linux.** In the folder that holds the downloads, run `sha256sum -c --ignore-missing SHA256SUMS.txt`.
+- **macOS.** Run `shasum -a 256 Graph-Modeler-0.1.1-universal.dmg` and compare the result with the line for that file in `SHA256SUMS.txt`.
+- **Windows.** In PowerShell, run `Get-FileHash -Algorithm SHA256 Graph-Modeler-Setup-0.1.1.exe` and compare the result with the line for that file.
+  The two are the same when the letters and digits match, whether they are in capitals or not.
+
+**2. Check that the list is signed by Graph Modeler.** You need [GnuPG](https://gnupg.org/download/), which most Linux systems already have.
+
+1. Download the <a href="/graph-modeler-release-key.asc" download>public key</a>, then run `gpg --import graph-modeler-release-key.asc`.
+2. Run `gpg --fingerprint support@graphmodeler.com`. The fingerprint must be exactly this one:
+
+   `82B4 ECBE 7270 EA17 6430 9DBF 5C39 AD68 084C 132C`
+
+3. Run `gpg --verify SHA256SUMS.txt.asc SHA256SUMS.txt`. It should say **Good signature from "Graph Modeler Releases"**.
+   A warning that the key is not certified with a trusted signature is normal, because you have not marked the key as trusted.
+
+If the signature is bad, or the fingerprint is different, do not use the file, and write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
+The same fingerprint is in the README of the [releases repository](https://github.com/graphmodeler/graphmodeler-releases), a second place to compare it. The key
+expires on 27 October 2028, and a new one is published here before then.
+
 ### Uninstall
 
 - **Windows.** Settings, Apps, Installed apps, Graph Modeler, Uninstall.
