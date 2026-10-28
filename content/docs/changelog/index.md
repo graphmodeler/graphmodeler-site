@@ -3,6 +3,14 @@
 What each version of Graph Modeler changed, newest first. Graph Modeler is in beta, so the version numbers are small and the changes are many. The installers for each are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+## Next version (not yet released)
+
+**New**
+
+- **The left pane narrows to a strip.** On a small screen or in a tiled window, the button at the top of the pane, or Ctrl+B, narrows the pane to a column of its buttons, with
+  a dot on Save for unsaved changes and a count of the problems. Press the button or Ctrl+B again to bring the pane back. The app remembers your choice. See
+  [The left pane](/docs/left-pane/#narrowing-the-pane).
+
 ## Version 0.1.1, beta 2 (October 27, 2026)
 
 **New**

@@ -6,6 +6,17 @@ undo, the choice of view, publishing, and the messages about what the app found.
 <img class="shot shot-light" src="/shots/left-pane-light.png" alt="The left pane: project name, buttons, Edit, Style view, and Publish with a list of the files written">
 <img class="shot shot-dark" src="/shots/left-pane-dark.png" alt="The left pane in the dark theme">
 
+## Narrowing the pane
+
+On a small screen, or in a window that shares the screen with another, the pane takes room that the tabs need. The button at the top right of
+the pane, with a picture of a panel closing, narrows it to a thin strip. **Ctrl+B** does the same, and brings the pane back (Command+B on a Mac).
+The same button, now showing a panel opening, is at the top of the strip.
+
+The strip keeps the buttons: New, Open, Save, Save as, Undo, Redo, Publish and Publish all views. A red dot on **Save** means that the project has
+changes that are not saved. When the data has problems, a red number under the buttons says how many, and pressing it opens the whole pane
+to list them. Everything else the pane shows, such as the folder, the file name and the messages, waits for you to open it again.
+The app remembers which way you left the pane, for the next time you start it.
+
 ## The project
 
 The top of the pane has the **Project name**, in a box you can type in. A new project is called Untitled. The name is kept in the project
