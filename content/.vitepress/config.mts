@@ -74,7 +74,9 @@ export default defineConfig({
     outline: { level: [2, 3] },
 
     footer: {
-      message: 'Graph Modeler is provided free for personal use. A valid license is required for business or commercial use.',
+      message:
+        'Graph Modeler is provided free for personal use. A valid license is required for business or commercial use.<br />' +
+        '<a href="/terms/">Terms of Service</a> · <a href="/privacy/">Privacy Policy</a> · <a href="/refunds/">Refund Policy</a>',
       copyright: 'Copyright © 2026 Jeffrey J. Long',
     },
   },
