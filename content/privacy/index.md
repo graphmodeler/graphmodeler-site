@@ -36,8 +36,9 @@ Please do not send private or confidential data files. If a project file would h
 
 ## When you buy a license
 
-Payment is handled by Lemon Squeezy, which is the merchant of record. Lemon Squeezy collects what a purchase needs, such as your name, email address, billing
-country or address, and payment details, and its own [privacy policy](https://www.lemonsqueezy.com/privacy) applies to it. I do not see or keep your card number.
+Payment is handled by [Polar](https://polar.sh) (Polar Software, Inc.), which is the merchant of record. Polar collects what a purchase needs, such as your name, email address, billing
+country or address, and payment details, and its own [privacy policy](https://polar.sh/legal/privacy) applies to it. Polar uses Stripe to process card payments.
+I do not see or keep your card number.
 I receive the details of the order: your name, your email address, the country, what you bought, and when, so that I can send your license, answer
 questions and keep the records that the law and taxes require.
 
@@ -55,7 +56,7 @@ After that they are deleted.
 
 You may ask me what I hold about you, ask me to correct or delete it, or ask me to stop using it, by writing to
 [support@graphmodeler.com](mailto:support@graphmodeler.com). I will answer within a reasonable time. Some order records have to be kept, and I will say so if
-that stops me from deleting something. Lemon Squeezy has its own way of handling requests about what it holds.
+that stops me from deleting something. Polar has its own way of handling requests about what it holds.
 
 ## Children
 

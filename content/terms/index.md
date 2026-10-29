@@ -31,8 +31,9 @@ contain mistakes. Keep copies of the files you care about.
 
 ## Buying
 
-Purchases are handled by Lemon Squeezy, an online reseller that acts as the merchant of record. That means Lemon Squeezy takes your payment, collects and pays any
-sales tax or VAT, and sends the receipt, and its own terms and privacy policy apply to the payment. Refunds are described on the [Refund Policy](/refunds/) page.
+Purchases are handled by [Polar](https://polar.sh) (Polar Software, Inc.), an online reseller that acts as the merchant of record. That means Polar takes your payment,
+collects and pays any sales tax or VAT, and sends the receipt, and its own terms and privacy policy apply to the payment. Refunds are described on the
+[Refund Policy](/refunds/) page.
 
 ## What you must not do
 

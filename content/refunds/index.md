@@ -12,8 +12,9 @@ the email address you used for the order and the order number from your receipt.
 ## What you get back
 
 - The full price you paid, including any tax that was added at checkout.
-- It goes back to the payment method you used. Lemon Squeezy, which sells the licenses as the merchant of record, makes the refund. Your bank may take several
+- It goes back to the payment method you used. Polar, which sells the licenses as the merchant of record, makes the refund. Your bank may take several
   business days to show it.
+- Polar may also refund a purchase on its own within 60 days of the sale in some cases, for example to settle a complaint before it becomes a dispute.
 
 ## After a refund
 
