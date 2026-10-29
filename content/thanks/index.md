@@ -17,6 +17,7 @@ arrived in a few minutes, look in your junk folder. Polar's customer portal, whi
 - Keep the key safe. It belongs to the person or the organization named on the order.
 - A key can be activated on up to three of your computers. If you reinstall or replace a computer, you can free an activation in the customer portal.
 - The current beta does not ask for the key, so nothing has to be entered yet. A later version will let you enter it, and your key will still be valid then.
+- On your card or bank statement the charge appears as `POLAR*graph-modeler`, because Polar takes the payment. The receipt shows the same name.
 
 ## Get the software
 

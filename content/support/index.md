@@ -39,6 +39,12 @@ says what it did not understand, and the [SQL tab](/docs/sql/) page lists what i
 The file contains script. That comes from the rules on the [SVG tab](/docs/svg/), which add the toolbar and the zoom. The app asks before it
 opens a file that has script, because a browser will run it. Choose to open it only if you made the rules or trust whoever did.
 
+### What is this charge on my card statement?
+
+A purchase of a Graph Modeler license appears as `POLAR*graph-modeler`, because Polar, which sells the licenses, takes the payment. The receipt Polar
+sends shows the same name. If you do not recognize a charge, write to [sales@graphmodeler.com](mailto:sales@graphmodeler.com) before you dispute it,
+as the [Refund Policy](/refunds/) asks.
+
 ### Can I change the colors of the app?
 
 The app has a light theme and a dark one. The switch is the moon in the banner, and it starts as your system's choice. The picture of the

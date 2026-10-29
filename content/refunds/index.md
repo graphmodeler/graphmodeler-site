@@ -1,6 +1,6 @@
 # Refund Policy
 
-Last updated: October 28, 2026
+Last updated: October 29, 2026
 
 Graph Modeler™ is free for personal use, so you can try it before you buy a commercial license. If you buy one and it is not right for you, you can have your money back.
 
@@ -29,6 +29,8 @@ said it would. I will tell you what I can do.
 ## Before you dispute a charge
 
 Please write to me first. I can usually settle a refund faster than a dispute with your bank can, and a dispute can cost both of us more.
+
+If a charge on your statement looks unfamiliar, look for `POLAR*graph-modeler`. That is how a purchase of Graph Modeler appears, because Polar takes the payment.
 
 ## Problems with the software
 
