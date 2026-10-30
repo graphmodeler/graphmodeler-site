@@ -26,6 +26,7 @@ export default defineConfig({
     nav: [
       { text: 'Documentation', link: '/docs/', activeMatch: '/docs/' },
       { text: 'Download', link: '/download/' },
+      { text: 'Pricing', link: '/pricing/' },
       { text: 'Support', link: '/support/' },
       { text: 'License', link: '/license/' },
     ],

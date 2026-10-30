@@ -49,6 +49,9 @@ checksums, so that you can check what you downloaded. Install [Graphviz](#instal
   3. Scroll to the message about Graph Modeler
   4. Choose **Open Anyway**.
 
+  Graph Modeler is not notarized by Apple yet, which is why macOS asks. A Mac that your employer manages may not show **Open Anyway**.
+  If yours does not, write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
+
   :::
 
 - **Linux, the `.deb`** (Debian, Ubuntu and relatives).

@@ -28,8 +28,28 @@ If you are not sure which side your use falls on, ask. Write to [sales@graphmode
 
 ## How to get a commercial license
 
-Commercial licenses are sold from this website. Until selling opens, write to
-[sales@graphmodeler.com](mailto:sales@graphmodeler.com) and say what you would use it for and how many people would use it.
+A commercial license for one person costs **US$99**, paid once. It has no end date. The [Pricing page](/pricing/) shows it beside the free
+personal use.
+
+<p><a class="buy-button" href="https://buy.polar.sh/polar_cl_0yQbtG7kreOjTmOFLZ2mTd666yliOO4XQ9mvX3wJsD0">Buy a commercial license, US$99</a></p>
+
+- **Try it first.** Graph Modeler is free to download and use, and nothing is held back until you buy, so you can be sure it runs on your
+  computer and does what you need. The [Download page](/download/) has the installers.
+- **Polar takes the payment.** [Polar](https://polar.sh) is the merchant of record: it charges your card, adds any sales tax or VAT, and sends
+  your receipt. On your statement the charge appears as `POLAR*graph-modeler`.
+- **Your key.** Your license key arrives by email when you pay, and the confirmation page explains what to do with it. A key can be used on
+  up to three of your computers. The current beta does not ask for the key yet, so there is nothing to enter.
+- **Buying for a company.** Tick **I'm purchasing as a business** at checkout to add the business name and a tax ID to the invoice.
+- **More than one person.** A license is for one person. If five or more people at your organization need one, write to
+  [sales@graphmodeler.com](mailto:sales@graphmodeler.com) for a discounted price.
+- **Your money back.** If it is not right for you, you get a full refund within 30 days, no questions asked. See the
+  [Refund Policy](/refunds/).
+- **On a Mac.** The Mac version is not notarized by Apple yet, so the first time you open it macOS asks for one extra step, described on the
+  [Download page](/download/#install). A Mac that your employer manages may not allow that step. If yours does not, please try the free
+  download before you buy, or write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
+
+If you are not sure whether your use is commercial, or you have a question before you buy, write to
+[sales@graphmodeler.com](mailto:sales@graphmodeler.com).
 
 ## What the license does not allow
 
