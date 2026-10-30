@@ -14,13 +14,26 @@ to the node, the edge or the cluster the row makes. Change a style once and ever
 | **Style Name** | What a row types in its **Style Name** cell. Names are not case sensitive. If two styles have the same name, the first one wins and both are shown in red. |
 | **Preview** | A picture of the style, drawn by Graphviz. It needs Graphviz, and says so when there is none. |
 | **Description** | Your own note. It also goes into the Knowledge Graph. |
-| **Format** | The Graphviz attributes, such as `shape="box" style="rounded,filled"`. The pencil opens the [Designer](/docs/designer/) with this style loaded. |
+| **Format** | The Graphviz attributes, such as `shape="box" style="rounded,filled"`. Click the cell and a pencil button appears in it; the pencil opens the [Designer](/docs/designer/) with this style loaded. See [Editing a format in the Designer](#editing-a-format-in-the-designer). |
 | **Properties** | Facts that do not change the drawing but go into the Knowledge Graph, such as `kind="app"`. The pencil opens a small grid. |
 | **Style Type** | What the style is for: **Node**, **Edge**, **Cluster start**, **Cluster end**, **Keyword** or **Native DOT**. |
 | One column for each **view** | Whether the style is used in that view. |
 
 A format can mention `{label}`, `{xlabel}`, `{taillabel}` and `{headlabel}`. The values from the row are put in their places, so a
 style can wrap a row's label in a shape of its own. See [Placeholders](/docs/placeholders/).
+
+## Editing a format in the Designer
+
+You can type a format by hand, or build it with the controls of the [Designer](/docs/designer/) tab and see it drawn as you go.
+
+1. Click the **Format** cell of the style. A **pencil** button appears in the cell.
+2. Click the pencil. The Designer tab opens with the style loaded: its format is read apart and each attribute is set in its own control, and the
+   Designer says which style it loaded.
+3. Change the controls. The format they make is shown beside the picture.
+4. Press **Save to styles**. The style of that name on the Styles tab is updated.
+
+The pencil is there for **Node**, **Edge** and **Cluster start** styles. The other types, **Cluster end**, **Keyword** and **Native DOT**, have no
+controls in the Designer, so their formats are edited in the cell. A pencil in a **Properties** cell opens a small grid for those instead.
 
 ## The six styles every project has
 

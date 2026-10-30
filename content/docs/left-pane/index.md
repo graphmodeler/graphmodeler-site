@@ -13,7 +13,7 @@ the pane, with a picture of a panel closing, narrows it to a thin strip. **Ctrl+
 The same button, now showing a panel opening, is at the top of the strip.
 
 The strip keeps the buttons: New, Open, Save, Save as, Undo, Redo, Publish and Publish all views. A red dot on **Save** means that the project has
-changes that are not saved. When the data has problems, a red number under the buttons says how many, and pressing it opens the whole pane
+changes that are not saved. When the data has problems, or a file could not be opened, a red number under the buttons says how many, and pressing it opens the whole pane
 to list them. Everything else the pane shows, such as the folder, the file name and the messages, waits for you to open it again.
 The app remembers which way you left the pane, for the next time you start it.
 
@@ -36,8 +36,13 @@ A dot after the words **Project name** means there are changes that are not save
 
 On a Mac the keys use Command in place of Ctrl.
 
+**Dropping a file.** Instead of using **Open**, you can drag a project file from your file manager and drop it anywhere on the window. The
+mouse pointer shows that the file can be dropped. It opens just as it would with **Open**, including the question about unsaved changes first.
+One file at a time, and only a file that ends in `.json`; the exchange files of the Excel tool also end in `.json` and open the same way.
+
 If a file cannot be opened or saved, the reason is shown under the buttons. A project is a plain JSON file, and **SVG post-processing**
-starts off each time one is opened.
+starts off each time one is opened. If a file cannot be opened, the project you were working on stays as it is, and **Save** asks for a
+file name and does not write over the file that could not be read.
 
 ## Edit
 

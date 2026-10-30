@@ -15,7 +15,7 @@ lets you choose them from menus, shows the result as you go, and writes the form
 3. Give the style a **Style name** and, if you like, a **Description**.
 4. Press **Save to styles**. The style is added to the Styles tab, or updated if one of that name is there.
 
-To change a style you already have, press the pencil in its **Format** cell on the Styles tab. The Designer opens with that
+To change a style you already have, click its **Format** cell on the Styles tab and press the pencil that appears in the cell. The Designer opens with that
 style loaded. **Start over** clears everything.
 
 The Designer knows the attributes it offers. If a format has others, they are kept in the format string and written back
