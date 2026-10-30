@@ -28,13 +28,13 @@ checksums, so that you can check what you downloaded. Install [Graphviz](#instal
 
   If Windows says **Windows protected your PC**, hover your mouse over the download until the download is shaded and icon buttons appear.
 
-  ![Screenshot of the download warning.](/public/shots/download-warning.png)
+  ![Screenshot of the download warning.](/shots/download-warning.png)
   
   Click on the three dots `...` on the right side, beside the trash can icon. A pop-up menu appears. Click on **Keep**.
 
   A trust screen appears, asking you to confirm that you trust the exe before you open it.
 
-  ![Screenshot of the dialog asking for confirmation that you trust the download.](/public/shots/download-trust.png)
+  ![Screenshot of the dialog asking for confirmation that you trust the download.](/shots/download-trust.png)
   
   Click the `V` down arrow on the `Delete V` button. A pop-up button appears. Press the **Keep anyway** button. You can now run the exe installer.
   :::

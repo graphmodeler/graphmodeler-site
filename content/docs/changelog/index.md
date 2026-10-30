@@ -3,6 +3,24 @@
 What each version of Graph Modeler changed, newest first. Graph Modeler is in beta, so the version numbers are small and the changes are many. The installers for each are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+## Version 0.1.3, beta 4 (not released yet)
+
+**New**
+
+- **Open a project by dropping its file.** Drag a project file from your file manager and drop it anywhere on the window. It opens as it would with **Open**, after the usual
+  question about unsaved changes. One file at a time, and only a file that ends in `.json`. See [The left pane](/docs/left-pane/#the-project).
+- **A signed Windows installer.** The Windows installer and the program are signed with a certificate in the name of Jeffrey Long, so the publisher shows when you install it.
+  Windows may still warn the first time, until the signed file has been downloaded by enough people. The Mac version is not notarized by Apple yet; see
+  [Download](/download/#install).
+
+**Changed**
+
+- **A file that could not be opened is counted in the narrow strip.** The red number under the buttons now includes the message about it, so a refused file does not pass unseen.
+
+**Fixed**
+
+- After a file that could not be read was opened, **Save** was still set to write to that file. It now asks for a file name, and the file that could not be read is left alone.
+
 ## Version 0.1.2, beta 3 (October 28, 2026)
 
 **New**
