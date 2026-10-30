@@ -3,7 +3,7 @@
 What each version of Graph Modeler changed, newest first. Graph Modeler is in beta, so the version numbers are small and the changes are many. The installers for each are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
-## Version 0.1.3, beta 4 (not released yet)
+## Version 0.1.3, beta 4 (October 30, 2026)
 
 **New**
 
