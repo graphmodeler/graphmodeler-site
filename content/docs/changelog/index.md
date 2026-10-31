@@ -3,7 +3,7 @@
 What each version of Graph Modeler changed, newest first. Graph Modeler is in beta, so the version numbers are small and the changes are many. The installers for each are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
-## Next version (not yet released)
+## Version 0.1.4, beta 5 (October 31, 2026)
 
 **New**
 
@@ -13,6 +13,10 @@ What each version of Graph Modeler changed, newest first. Graph Modeler is in be
   [Your license](/docs/about/#your-license) and the [Privacy Policy](/privacy/), which now says what the check sends.
 - **Check for updates.** A button on the About tab asks whether a newer version has been released. It runs only when you press it. See
   [Updates](/docs/about/#updates).
+
+**Fixed**
+
+- The license page of the Windows installer showed the trademark sign as three odd characters. It now shows it correctly.
 
 ## Version 0.1.3, beta 4 (October 30, 2026)
 

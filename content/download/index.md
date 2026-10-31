@@ -8,20 +8,20 @@ while it is in testing is free; the [license](/license/) says what applies after
 
 ## Get the beta
 
-This is version 0.1.3, beta 4. See [what is new](/docs/changelog/) since beta 3.
+This is version 0.1.4, beta 5. See [what is new](/docs/changelog/) since beta 4.
 
 | Your computer | Download | Size |
 | --- | --- | --- |
-| **Windows** 10 or 11, 64-bit | [Graph-Modeler-Setup-0.1.3.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.3-beta.4/Graph-Modeler-Setup-0.1.3.exe) | 121 MB |
-| **macOS** 13 or later, Intel or Apple silicon | [Graph-Modeler-0.1.3-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.3-beta.4/Graph-Modeler-0.1.3-universal.dmg) | 233 MB |
-| **Linux**, 64-bit, Debian, Ubuntu and relatives | [graph-modeler_0.1.3_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.3-beta.4/graph-modeler_0.1.3_amd64.deb) | 100 MB |
-| **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.3.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.3-beta.4/Graph-Modeler-0.1.3.AppImage) | 128 MB |
+| **Windows** 10 or 11, 64-bit | [Graph-Modeler-Setup-0.1.4.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.4-beta.5/Graph-Modeler-Setup-0.1.4.exe) | 121 MB |
+| **macOS** 13 or later, Intel or Apple silicon | [Graph-Modeler-0.1.4-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.4-beta.5/Graph-Modeler-0.1.4-universal.dmg) | 233 MB |
+| **Linux**, 64-bit, Debian, Ubuntu and relatives | [graph-modeler_0.1.4_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.4-beta.5/graph-modeler_0.1.4_amd64.deb) | 100 MB |
+| **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.4.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.4-beta.5/Graph-Modeler-0.1.4.AppImage) | 128 MB |
 
 Check the [system requirements](#system-requirements) first: Graph Modeler needs a 64-bit computer. Then [install it](#install), and install
 [Graphviz](#install-graphviz) too, to see pictures. Once it is installed, **Check for updates** on its [About tab](/docs/about/#updates) tells you when a newer
 version is out.
 
-The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.3-beta.4) holds the same files and a list of
+The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.4-beta.5) holds the same files and a list of
 checksums, so that you can [check what you downloaded](#check-your-download).
 
 ## System requirements
@@ -129,7 +129,7 @@ If yours does not, write to [support@graphmodeler.com](mailto:support@graphmodel
 
 On Debian, Ubuntu and relatives, run this in a terminal, in the folder that holds the download:
 
-`sudo apt install ./graph-modeler_0.1.3_amd64.deb`
+`sudo apt install ./graph-modeler_0.1.4_amd64.deb`
 
 The program appears in the **Programming** or **Development** group of the applications menu.
 
@@ -140,7 +140,7 @@ The program appears in the **Programming** or **Development** group of the appli
 
 ### Linux .AppImage
 
-Make it executable with `chmod +x Graph-Modeler-0.1.3.AppImage`, then run it. A recent Ubuntu also needs `sudo apt install libfuse2t64`.
+Make it executable with `chmod +x Graph-Modeler-0.1.4.AppImage`, then run it. A recent Ubuntu also needs `sudo apt install libfuse2t64`.
 
 ## Install Graphviz
 
@@ -178,8 +178,8 @@ file that was published. The signature says the list came from Graph Modeler. Yo
 **1. Check the file against the list.**
 
 - **Linux.** In the folder that holds the downloads, run `sha256sum -c --ignore-missing SHA256SUMS.txt`.
-- **macOS.** Run `shasum -a 256 Graph-Modeler-0.1.3-universal.dmg` and compare the result with the line for that file in `SHA256SUMS.txt`.
-- **Windows.** In PowerShell, run `Get-FileHash -Algorithm SHA256 Graph-Modeler-Setup-0.1.3.exe` and compare the result with the line for that file.
+- **macOS.** Run `shasum -a 256 Graph-Modeler-0.1.4-universal.dmg` and compare the result with the line for that file in `SHA256SUMS.txt`.
+- **Windows.** In PowerShell, run `Get-FileHash -Algorithm SHA256 Graph-Modeler-Setup-0.1.4.exe` and compare the result with the line for that file.
   The two are the same when the letters and digits match, whether they are in capitals or not.
 
 **2. Check that the list is signed by Graph Modeler.** You need [GnuPG](https://gnupg.org/download/), which most Linux systems already have.
