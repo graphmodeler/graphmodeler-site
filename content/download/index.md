@@ -18,58 +18,84 @@ This is version 0.1.3, beta 4. See [what is new](/docs/changelog/) since beta 3.
 | **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.3.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.3-beta.4/Graph-Modeler-0.1.3.AppImage) | 128 MB |
 
 The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.3-beta.4) holds the same files and a list of
-checksums, so that you can check what you downloaded. Install [Graphviz](#install-graphviz) too, to see pictures. Check the
+checksums, so that you can [check what you downloaded](#check-your-download). Install [Graphviz](#install-graphviz) too, to see pictures. Check the
 [system requirements](#system-requirements) first: Graph Modeler needs a 64-bit computer.
 
-### Install
+## Installation Instructions
 
-- **Windows.** Run the installer. It is signed, so Windows can show **Jeffrey Long** as the publisher. If it still says **Windows protected your PC**, choose
-  **More info**, then **Run anyway**.
+Follow the link below to jump directly to the installation instructions for your chosen OS.
+
+| Windows .exe | macOS .dmg | Linux .deb | Linux .AppImage |
+|:--:|:--:|:--:|:--:|
+| [Instructions](./index.md#windows) | [Instructions](./index.md#macos) | [Instructions](./index.md#linux-deb) | [Instructions](./index.md#linux-appimage) |
+
+### Windows
+
+View the properties of the downloaded file to check the digital signature. It is a signed binary, so Windows will show **Jeffrey Long** as the publisher. 
+
+![Screenshot of the installer's signing certificate](/shots/install-win-00.png)
+
+Run the installer.
+
+![Screenshot of the Windows installer](/shots/install-win-01.png)
   
-  ::: tip Blocked after download?
+::: warning Blocked after download?
 
-  If Windows says **Windows protected your PC**, hover your mouse over the download until the download is shaded and icon buttons appear.
+If Windows says **Windows protected your PC**, hover your mouse over the download until the download is shaded and icon buttons appear.
 
-  ![Screenshot of the download warning.](/shots/download-warning.png)
-  
-  Click on the three dots `...` on the right side, beside the trash can icon. A pop-up menu appears. Click on **Keep**.
+![Screenshot of the download warning.](/shots/download-warning.png)
 
-  A trust screen appears, asking you to confirm that you trust the exe before you open it.
+Click on the three dots `...` on the right side, beside the trash can icon. A pop-up menu appears. Click on **Keep**.
 
-  ![Screenshot of the dialog asking for confirmation that you trust the download.](/shots/download-trust.png)
-  
-  Click the `V` down arrow on the `Delete V` button. A pop-up button appears. Press the **Keep anyway** button. You can now run the exe installer.
-  :::
+A trust screen appears, asking you to confirm that you trust the exe before you open it.
 
-- **macOS.** Open the `.dmg` and drag Graph Modeler to Applications. 
+![Screenshot of the dialog asking for confirmation that you trust the download.](/shots/download-trust.png)
 
-  ::: tip Blocked from running?
+Click the `V` down arrow on the `Delete V` button. A pop-up button appears. Press the **Keep anyway** button. You can now run the exe installer.
+:::
 
-  The first time you open it, macOS refuses. 
-  1. Open **System Setting** 
-  2. Select **Privacy & Security**
-  3. Scroll to the message about Graph Modeler
-  4. Choose **Open Anyway**.
+### macOS
 
-  Graph Modeler is not notarized by Apple yet, which is why macOS asks. A Mac that your employer manages may not show **Open Anyway**.
-  If yours does not, write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
+Open the `.dmg` file you downloaded. Drag Graph Modeler to Applications. 
 
-  :::
+![Screenshot of the macOS software installer asking you to drag the installer to Applications.](/shots/install-mac-01.png)
 
-- **Linux, the `.deb`** (Debian, Ubuntu and relatives).
-  - Install it with terminal command `sudo apt install ./graph-modeler_0.1.3_amd64.deb`.
-  - The program appears in the **Programming** group of the applications menu.
+::: warning Blocked after download?
 
-  ::: tip Warning message?
-  `apt` may end with a note that the `file couldn't be accessed by user _apt`. That message is harmless. It only means apt read the file as root,
-    because your Downloads folder is private.
-  :::
+The first time you open the downloaded file, macOS may refuse to open it with a message **"Graph Modeler" Not Opened**. 
+![Screenshot of the macOS stating "Graph Modeler" Not Opened](/shots/install-mac-02.png)
+1. Click **Done** to close the message (do not move the file to the trash). 
+2. Open the **System Settings** application, and select the **Privacy & Security** section in the left hand side.
+![Screenshot of the macOS stating "Graph Modeler" Not Opened](/shots/install-mac-03.png)
+3. Scroll to the Security section and find the message **"Graph Modeler" was blocked to protect your Mac**. Choose **Open Anyway**.
+4. Next, a warning will appear instructing you to not open this unless you are certain it is from a trustworthy source. Choose **Open Anyway**.
+![Screenshot of the macOS stating Open "Graph Modeler"?](/shots/install-mac-04.png)
+4. You must provideauthorization to open the application file by entering your username and password. You only have to enter this information once, and it will be remembered in the future. Enter these values and press **OK**. You can now launch the application.
+![Screenshot of the macOS Privacy & Security dialog asking for username and password](/shots/install-mac-05.png)
 
-- **Linux, the AppImage.**
-  - Make it executable with `chmod +x Graph-Modeler-0.1.3.AppImage`, then run it.
-  - A recent Ubuntu also needs `sudo apt install libfuse2t64`.
+Graph Modeler is not notarized by Apple yet, which is why macOS asks. A Mac that your employer manages may not show **Open Anyway**.
+If yours does not, write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
 
-### Check your download
+:::
+
+### Linux .deb
+
+On Debian, Ubuntu and relatives, install it with terminal command <br/>`sudo apt install ./graph-modeler_0.1.3_amd64.deb`.
+
+The program appears in the **Programming** or **Development** group of the applications menu.
+
+::: warning Warning message?
+`apt` may end with a note that the `file couldn't be accessed by user _apt`. That message is harmless. It only means apt read the file as root,
+  because your Downloads folder is private.
+:::
+
+### Linux .AppImage
+
+Make it executable with `chmod +x Graph-Modeler-0.1.3.AppImage`, then run it.
+
+A recent Ubuntu also needs `sudo apt install libfuse2t64`.
+
+## Check your download
 
 Each release page has a list of checksums, `SHA256SUMS.txt`, and a signature for it, `SHA256SUMS.txt.asc`. The checksums say whether your copy is the
 file that was published. The signature says the list came from Graph Modeler. You do not have to check, but you can.
@@ -92,10 +118,11 @@ file that was published. The signature says the list came from Graph Modeler. Yo
    A warning that the key is not certified with a trusted signature is normal, because you have not marked the key as trusted.
 
 If the signature is bad, or the fingerprint is different, do not use the file, and write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
-The same fingerprint is in the README of the [releases repository](https://github.com/graphmodeler/graphmodeler-releases), a second place to compare it. The key
-expires on 27 October 2028, and a new one is published here before then.
+The same fingerprint is in the README of the [releases repository](https://github.com/graphmodeler/graphmodeler-releases), a second place to compare it. The key expires on 27 October 2028, and a new one is published here before then.
 
-### Uninstall
+## Uninstall
+
+If you choose to unistall the application, follow these steps:
 
 - **Windows.** Settings, Apps, Installed apps, Graph Modeler, Uninstall.
 - **macOS.** Drag Graph Modeler from Applications to the Trash.
@@ -104,11 +131,6 @@ expires on 27 October 2028, and a new one is published here before then.
 Your projects and data files are yours and are never touched. The app's own settings and its list of fonts stay behind in a folder named
 `Graph Modeler`, which you can delete too: `%APPDATA%\Graph Modeler` on Windows, `~/Library/Application Support/Graph Modeler` on a Mac, and
 `~/.config/Graph Modeler` on Linux. See [Fonts](/docs/fonts/#starting-over).
-
-### Tell me how it went
-
-Write to [support@graphmodeler.com](mailto:support@graphmodeler.com), and say how the download and the install went as well as how the app did. In the app,
-the **About** tab has a **Copy** button for your support information: the version and your system, and nothing about your data.
 
 ## System requirements
 
@@ -181,3 +203,9 @@ what is the same and what is different.
 ## License
 
 Free for personal and non-commercial use, and licensed for commercial use. See [License](/license/).
+
+## Tell me how it went
+
+Write to [support@graphmodeler.com](mailto:support@graphmodeler.com), and say how the download and the install went as well as how the app did. In the app,
+the **About** tab has a **Copy** button for your support information: the version and your system, and nothing about your data.
+
