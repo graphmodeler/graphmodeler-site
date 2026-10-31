@@ -45,6 +45,14 @@ A purchase of a Graph Modeler license appears as `POLAR*graph-modeler`, because 
 sends shows the same name. If you do not recognize a charge, write to [sales@graphmodeler.com](mailto:sales@graphmodeler.com) before you dispute it,
 as the [Refund Policy](/refunds/) asks.
 
+### My license key is not accepted
+
+Copy the whole key from Polar's customer portal, the page that **Access purchase** in your purchase email opens after the 6-digit code, with no spaces added. A message
+that the key is **not valid** means Polar does not know it. A message that it is **no longer active** means it was refunded or turned off. The program can still be used
+under the free [personal terms](/license/). If you were charged and the key does not work, write to [sales@graphmodeler.com](mailto:sales@graphmodeler.com) with the
+name on the order. A message that the server **could not be reached** means the internet, a firewall or a proxy; try again later. See
+[Your license](/docs/about/#your-license).
+
 ### Can I change the colors of the app?
 
 The app has a light theme and a dark one. The switch is the moon in the banner, and it starts as your system's choice. The picture of the

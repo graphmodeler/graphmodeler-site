@@ -17,7 +17,9 @@ arrived in a few minutes, look in your junk folder. You can sign in the same way
 
 - Keep the key safe. It belongs to the person or the organization named on the order.
 - You can use the key on your own computers. If you reinstall or replace one, enter the same key there.
-- The current beta does not ask for the key, so nothing has to be entered yet. A later version will let you enter it, and your key will still be valid then.
+- To use the key, open Graph Modeler and choose **Enter license key** on the [About tab](/docs/about/#your-license), or in the question the program asks when it
+  first starts. Paste the key and press **Check the key**. The About tab then says **Licensed for commercial use** and shows the name on the order. The key is
+  checked with Polar when you enter it and about once a month after that; see the [Privacy Policy](/privacy/).
 - On your card or bank statement the charge appears as `POLAR*graph-modeler`, because Polar takes the payment. The receipt shows the same name.
 
 ## Get the software

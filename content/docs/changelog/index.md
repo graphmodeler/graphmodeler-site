@@ -3,6 +3,17 @@
 What each version of Graph Modeler changed, newest first. Graph Modeler is in beta, so the version numbers are small and the changes are many. The installers for each are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+## Next version (not yet released)
+
+**New**
+
+- **Your license.** The first time the program starts, it asks whether you will enter a commercial license key or use it for personal and non-commercial purposes.
+  The **About** tab shows the answer: who a license is for, the key with most of it hidden, and when it was last checked. A key is checked with Polar when you enter
+  it and about every 30 days, and a failed attempt to reach Polar never changes anything. Nothing is switched off with or without a key. See
+  [Your license](/docs/about/#your-license) and the [Privacy Policy](/privacy/), which now says what the check sends.
+- **Check for updates.** A button on the About tab asks whether a newer version has been released. It runs only when you press it. See
+  [Updates](/docs/about/#updates).
+
 ## Version 0.1.3, beta 4 (October 30, 2026)
 
 **New**

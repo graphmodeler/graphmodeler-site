@@ -27,6 +27,11 @@ contain mistakes. Keep copies of the files you care about.
 - You pay the price shown at checkout. The price does not include any tax that is added at checkout.
 - A license belongs to the person or the organization named on the order. You may not give it to someone else, lend it, or sell it, except as I agree in writing
   (for example, a move to a different person in your organization).
+- You may enter the key on your own computers. The app checks it with Polar so that it can show who the license is for. The check never switches off a
+  feature, and if Polar cannot be reached the program carries on. If a license is refunded, the key stops being accepted, and the program can still be used under the
+  free personal and non-commercial terms. What the check sends is described in the [Privacy Policy](/privacy/).
+- When the app asks and you choose free personal use, you are saying that your use is personal, educational, research or otherwise non-commercial. If it becomes
+  commercial, a commercial license is needed from then on.
 - Writing to [sales@graphmodeler.com](mailto:sales@graphmodeler.com) before you buy is welcome, especially when you are not sure whether your use is commercial.
 
 ## Buying

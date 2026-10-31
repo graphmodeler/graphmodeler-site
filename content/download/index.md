@@ -18,7 +18,8 @@ This is version 0.1.3, beta 4. See [what is new](/docs/changelog/) since beta 3.
 | **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.3.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.3-beta.4/Graph-Modeler-0.1.3.AppImage) | 128 MB |
 
 Check the [system requirements](#system-requirements) first: Graph Modeler needs a 64-bit computer. Then [install it](#install), and install
-[Graphviz](#install-graphviz) too, to see pictures.
+[Graphviz](#install-graphviz) too, to see pictures. Once it is installed, **Check for updates** on its [About tab](/docs/about/#updates) tells you when a newer
+version is out.
 
 The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.3-beta.4) holds the same files and a list of
 checksums, so that you can [check what you downloaded](#check-your-download).
