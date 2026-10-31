@@ -37,8 +37,9 @@ personal use.
   computer and does what you need. The [Download page](/download/) has the installers.
 - **Polar takes the payment.** [Polar](https://polar.sh) is the merchant of record: it charges your card, adds any sales tax or VAT, and sends
   your receipt. On your statement the charge appears as `POLAR*graph-modeler`.
-- **Your key.** Your license key arrives by email when you pay, and the confirmation page explains what to do with it. A key can be used on
-  up to three of your computers. The current beta does not ask for the key yet, so there is nothing to enter.
+- **Your key.** When you pay, Polar emails you a link, **Access purchase**. It sends a 6-digit code to your email address and then shows your license
+  key, ready to copy. The confirmation page explains it too. You can use the key on your own computers. The current beta does not ask for the key
+  yet, so there is nothing to enter.
 - **Buying for a company.** Tick **I'm purchasing as a business** at checkout to add the business name and a tax ID to the invoice.
 - **More than one person.** A license is for one person. If five or more people at your organization need one, write to
   [sales@graphmodeler.com](mailto:sales@graphmodeler.com) for a discounted price.

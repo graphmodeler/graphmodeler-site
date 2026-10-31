@@ -11,11 +11,12 @@ Thank you for buying a commercial license for Graph Modeler™. Your purchase is
 
 ## Your license key
 
-Your **license key** and your receipt were sent to the email address you gave at checkout, from Polar, which handles the payment. If the email has not
-arrived in a few minutes, look in your junk folder. Polar's customer portal, which the email links to, shows your key again and lets you copy it.
+Polar, which handles the payment, emails you at the address you gave at checkout. The email has your receipt and an **Access purchase** button. Click it, and Polar
+sends a 6-digit code to the same address. Type the code on the page that opens, and Polar shows your **license key** and lets you copy it. If the email has not
+arrived in a few minutes, look in your junk folder. You can sign in the same way at any time to see your key again.
 
 - Keep the key safe. It belongs to the person or the organization named on the order.
-- A key can be activated on up to three of your computers. If you reinstall or replace a computer, you can free an activation in the customer portal.
+- You can use the key on your own computers. If you reinstall or replace one, enter the same key there.
 - The current beta does not ask for the key, so nothing has to be entered yet. A later version will let you enter it, and your key will still be valid then.
 - On your card or bank statement the charge appears as `POLAR*graph-modeler`, because Polar takes the payment. The receipt shows the same name.
 
