@@ -1,6 +1,6 @@
 # Pricing
 
-Graph Modeler™ is **free for personal, educational, research and other non-commercial use**. If you use it for work, you need a commercial license.
+Graph Modeler™ is **free for personal, educational, research and other non-commercial use**. If you use it for work, you need a commercial license. The [License page](/license/) says what counts as commercial, and has the full text.
 
 | | Personal use | Commercial license |
 | --- | --- | --- |
@@ -14,10 +14,10 @@ Graph Modeler™ is **free for personal, educational, research and other non-com
 
 <p><a class="buy-button" href="https://buy.polar.sh/polar_cl_0yQbtG7kreOjTmOFLZ2mTd666yliOO4XQ9mvX3wJsD0">Buy a commercial license, US$99</a></p>
 
-## Five or more licenses
+## Volume licensing
 
-If several people at your organization need a license, five or more, write to [sales@graphmodeler.com](mailto:sales@graphmodeler.com) for a
-discounted price. Say how many licenses you need.
+If several people at your organization need a license, write to [sales@graphmodeler.com](mailto:sales@graphmodeler.com) for a discounted price.
+Say how many licenses you need.
 
 ## Questions
 

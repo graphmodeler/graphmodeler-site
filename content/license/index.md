@@ -41,8 +41,8 @@ personal use.
   key, ready to copy. The confirmation page explains it too. You can use the key on your own computers. In Graph Modeler, choose **Enter license key** on the
   [About tab](/docs/about/#your-license) and paste it. The program checks it with Polar, and nothing is switched off whether or not you enter it.
 - **Buying for a company.** Tick **I'm purchasing as a business** at checkout to add the business name and a tax ID to the invoice.
-- **More than one person.** A license is for one person. If five or more people at your organization need one, write to
-  [sales@graphmodeler.com](mailto:sales@graphmodeler.com) for a discounted price.
+- **More than one person.** A license is for one person. If several people at your organization need one, write to
+  [sales@graphmodeler.com](mailto:sales@graphmodeler.com) for a discounted price. See [Volume licensing](/pricing/#volume-licensing).
 - **Your money back.** If it is not right for you, you get a full refund within 30 days, no questions asked. See the
   [Refund Policy](/refunds/).
 - **On a Mac.** The Mac version is not notarized by Apple yet, so the first time you open it macOS asks for one extra step, described on the

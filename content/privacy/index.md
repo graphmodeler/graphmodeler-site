@@ -1,6 +1,6 @@
 # Privacy Policy
 
-Last updated: October 31, 2026
+Last updated: November 2, 2026
 
 This page says what information Graph Modeler™ and its website collect, and who sees it. The short version: the app collects nothing about you or your use, and
 connects to the internet only to check a license key you entered, or when you press its update button. The website does not use cookies or analytics, and the
@@ -76,7 +76,8 @@ that stops me from deleting something. Polar has its own way of handling request
 
 ## Children
 
-Graph Modeler is not meant for children, and I do not knowingly collect information about them.
+Graph Modeler is a general-purpose tool, like a spreadsheet, and anyone may use it. It does not ask your age, and I do not knowingly collect information
+about children.
 
 ## Changes
 
