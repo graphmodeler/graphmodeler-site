@@ -16,6 +16,8 @@ Data tab with what they produce, as one step that **Undo** puts back.
 - **Access databases** (`.mdb` and `.accdb`). Each table is a table, with its own column names: `FROM [timeline]`. Only the tables are
   read. Saved queries, linked tables and password-protected databases are not supported.
 - **SQLite databases** (`.sqlite` and `.sqlite3`). Each table is a table, as the file has it.
+- **Apple Numbers** (`.numbers`) files are not read. In Numbers, choose **File**, **Export To** and **Excel** (or **CSV**), and give the exported file to Graph Modeler. Each table of the Numbers
+  document becomes a sheet of the workbook.
 
 You do not need Excel to use any of these, so on Linux a LibreOffice spreadsheet, a workbook saved as `.xlsx` or a CSV file all work.
 
@@ -69,6 +71,14 @@ makes the nodes and the second makes the edges. The rows come out in the order t
 Queries written for the [Excel tool](/docs/from-excel/) this app grew out of mostly run unchanged. `&` joins text, double quotes can hold a string, and the Jet functions
 `Len`, `Mid`, `UCase`, `LCase`, `Nz`, `CLng`, `CInt`, `CDbl`, `CStr`, `IsNumeric`, `Left`, `Right` and `Switch` are there. Some
 things Jet does and SQLite does not are not, such as `Format` and `DateDiff`, and the message of the line says so.
+
+## Writing a long statement
+
+The grid shows each statement on one line, and cuts it short. The pencil in the **SQL Statement** cell opens a box with the whole statement, where it can run over several lines. **Save** keeps it and
+**Cancel** leaves it as it was, and **Wrap text** wraps long lines so they can be read without scrolling.
+
+<img class="shot shot-light" src="/shots/sql-edit-light.png" alt="The box for editing a statement, with a query written over several lines">
+<img class="shot shot-dark" src="/shots/sql-edit-dark.png" alt="The box for editing a statement, with a query written over several lines in the dark theme">
 
 ## Commands
 

@@ -2,7 +2,7 @@
 
 The About tab says what you are running, whether it has a commercial license, who made it, and what it is built on.
 
-<img class="shot shot-light" src="/shots/about-light.png" alt="The top of the About tab, with the version information">
+<img class="shot shot-light" src="/shots/about-light.png" alt="The top of the About tab, with the name of the program and the start of the license section">
 <img class="shot shot-dark" src="/shots/about-dark.png" alt="The top of the About tab in the dark theme">
 
 ## Your license
@@ -10,11 +10,34 @@ The About tab says what you are running, whether it has a commercial license, wh
 Graph Modeler is free for personal, educational, research and other non-commercial use, and a commercial license is for use at work, for a business or for clients.
 The first time the program starts it asks which applies to you, and this section shows the answer. **Nothing is switched off, whichever you choose.**
 
+### The first time it starts
+
+<img class="shot shot-light" src="/shots/license-welcome-light.png" alt="The question asked when the program starts for the first time, with three choices">
+<img class="shot shot-dark" src="/shots/license-welcome-dark.png" alt="The question asked when the program starts for the first time, with three choices in the dark theme">
+
+There are three choices:
+
+- **Enter license key** is for a commercial license you have bought. See below for how to get the key. The box takes the key and asks Polar whether it is valid.
+- **I will use it only for personal or other non-commercial purposes** goes on to one more step, which says what the license covers and asks you to tick a box that confirms it.
+  **Continue** stays off until the box is ticked. The date you confirmed is kept on your computer and shown here on the About tab. Nothing is sent anywhere.
+- **Buy a license** opens the [Pricing](/pricing/) page in your browser, where the price and the buy button are.
+
+<img class="shot shot-light" src="/shots/license-confirm-light.png" alt="The confirmation for personal use, with its box ticked">
+<img class="shot shot-dark" src="/shots/license-confirm-dark.png" alt="The confirmation for personal use, with its box ticked in the dark theme">
+
+<img class="shot shot-light" src="/shots/license-key-light.png" alt="The box that takes a license key">
+<img class="shot shot-dark" src="/shots/license-key-dark.png" alt="The box that takes a license key in the dark theme">
+
+If you close the question without answering, it asks again the next time the program starts. You can enter a key at any time from this tab.
+
+<img class="shot shot-light" src="/shots/about-license-light.png" alt="The license and updates sections of the About tab">
+<img class="shot shot-dark" src="/shots/about-license-dark.png" alt="The license and updates sections of the About tab in the dark theme">
+
 | It says | It means |
 | --- | --- |
 | **Licensed for commercial use** | A commercial license key was entered and Polar accepted it. It shows who the license is for, the key with most of it hidden, and the date it was last checked. |
 | **Licensed for non-commercial use** | A key for free non-commercial use was entered. It shows the same lines. |
-| **No commercial license: personal and non-commercial use only** | You chose free personal use, on the date shown. |
+| **No commercial license: personal and non-commercial use only** | You confirmed free personal use, on the date shown. A choice made in an earlier beta, before the confirmation existed, shows "chosen" in place of "confirmed". |
 | **No commercial license** | You have not answered the question yet. |
 
 The buttons:
@@ -23,7 +46,7 @@ The buttons:
   then shows your key. The program asks Polar whether the key is valid, and keeps it only if it is.
 - **Check now** asks Polar again at once. Otherwise a key is checked when you enter it and about every 30 days when the program starts.
 - **Enter another key** and **Remove key** change or clear the key.
-- **Buy a license** opens the [License](/license/) page in your browser.
+- **Buy a license** opens the [Pricing](/pricing/) page in your browser. The [License](/license/) page has the full text of the license.
 
 If Polar cannot be reached, because you are offline or behind a firewall, nothing changes: the program keeps the last result and no message is shown. Only when Polar
 says the key is no longer active, for example after a refund, does the program take the key off and ask the first question again, with the reason. It can still be used

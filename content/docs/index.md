@@ -5,11 +5,13 @@ Graph Modeler™ turns rows of data into a graph. Three things do the work, and 
 **The rows** are on the [Data](/docs/data/) tab. Each row is an item, or a relationship between two items, or a marker that
 opens or closes a cluster. A row can name a style.
 
-**The styles** say how things look. A style has a name and a format, and the format is a set of Graphviz attributes such as
-`shape`, `color` and `fontname`. The Styles tab lists them, and the [Designer](/docs/designer/) builds one from menus.
+**The styles** say how things look, and what they are. A style has a name and a format, and the format is a set of Graphviz attributes such as
+`shape`, `color` and `fontname`. It also has a description and properties, which do not change the drawing but go into the Knowledge Graph. The Styles tab
+lists the styles, and the [Designer](/docs/designer/) builds one from menus.
 
-**The output** comes from the rows and the styles together. The app writes them as DOT, the text Graphviz reads, draws
-the DOT with Graphviz, and can also publish the same rows as a Knowledge Graph in JSON.
+**The output** comes from the rows and the styles together. The app writes them as DOT, the text Graphviz reads, and draws
+the DOT with Graphviz. It can also publish the same rows as a [Knowledge Graph](/docs/knowledge-graph/), a JSON file that states what each node and edge is, with its
+style's description and properties, for programs and AI tools. One model gives you the picture and the data behind it.
 
 ## Start here
 

@@ -44,7 +44,7 @@ choose that style in the **Style Name** cell of the row that opens it.
 | **Item** | The node, or the start of an edge. |
 | **Label** | The text drawn on the node or the edge. Leave it empty to use the item's name. |
 | **Related Item** | The end of an edge. |
-| **Style Name** | The style the row uses. The list holds the styles of the Styles tab. |
+| **Style Name** | The style the row uses. The list holds the styles that suit the row: the node styles for a node, the edge styles for an edge, and so on. A row whose **Item** is `node` or `edge` sets the defaults for every node or every edge after it, so its list holds the node styles or the edge styles. A `graph` row is offered the keyword styles. |
 | **Attributes** | Graphviz attributes for this row alone, such as `color=red penwidth=2`. They win over the style's. |
 | **Properties** | Facts about the item that do not change the drawing but go into the Knowledge Graph, such as `owner="Finance" tier=1`. The pencil opens a small grid to edit them. |
 
@@ -58,13 +58,26 @@ A style's label can use `{label}`, `{xlabel}`, `{taillabel}` and `{headlabel}`, 
 - Type in a cell, or paste rows copied from Excel or another grid. Several cells paste at once.
 - Drag the small handle at the corner of the chosen cell to fill down.
 - **Undo** and **Redo** in the left pane step through your changes, including a paste or a fill.
-- The **Rows** buttons add a row above or below, remove the chosen rows, and comment them out or back in.
+- The row buttons add a row above or below, remove the chosen rows, and comment them out or back in. Choose several rows and **Add row above** or **Add row below** adds as many
+  rows as you chose, the way **Delete rows** removes as many.
+- Drag the edge of a column's heading to change the width of the column. The widths are saved with the project, and each of the Data, Styles and SQL tabs keeps its own.
+  **Reset widths**, in the menu of the columns button, puts the columns of that tab back to their usual widths.
 - **Clear data** (the trash can with sweep lines) removes every row and keeps your styles. A new project starts with a few
   empty rows to type into.
 
 ## Seeing the graph
 
-The **Graph** menu on the toolbar puts the diagram on its own tab, or beside the data so that you see it change as you type.
-The button beside it, with the arrows going round, draws after every change, and the button after that draws once.
+The button with the split window on the toolbar shows the diagram beside the data, so that you see it change as you type, and hides it again when you want the whole width for the data.
+The diagram is always on the [Diagram](/docs/diagram/) tab as well. The button beside it, with the arrows going round, draws after every change, and the button after that draws once.
 
-The bug button adds each row's number to its label, which is a quick way to find the row behind something odd in the picture.
+<img class="shot shot-light" src="/shots/data-graph-light.png" alt="The Data tab with the diagram beside the rows">
+<img class="shot shot-dark" src="/shots/data-graph-dark.png" alt="The Data tab with the diagram beside the rows, in the dark theme">
+
+The line between the data and the diagram can be dragged to give either more room, which helps on a small screen, and a double-click puts it back in its usual place. With the line selected, the left and right
+arrow keys move it, **Home** and **End** take it to its limits, and **Enter** puts it back. Where you left it is saved with the project.
+
+## The toolbar
+
+From left to right: the row buttons; the diagram buttons (show it beside the data, draw after every change, draw now); the columns button, which shows or hides columns and resets their widths, and the wrap button
+where a column can wrap; then the buttons that are used least, **Clear data** and the bug. The bug button adds each row's number to its label, which is a quick way to find the row behind
+something odd in the picture. **Clear data** removes every row and keeps your styles, and it is at the far end so that it is not pressed by mistake.

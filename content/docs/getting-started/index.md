@@ -18,7 +18,8 @@ check`, and then `Ship order` on the one after. Each is a node, and each row has
 To connect two of them, put one in **Item** and the other in **Related Item**. A row with `Order received` and `Credit check` is an edge
 from the first to the second. Its dot is orange. Add `Credit check` to `Ship order` the same way.
 
-The diagram appears beside the data, so you see it change as you type. If you do not see a picture, see [Without Graphviz](/docs/diagram/#without-graphviz). The **Graph** menu on the toolbar moves it to a tab of its own.
+The diagram appears beside the data, so you see it change as you type. If you do not see a picture, see [Without Graphviz](/docs/diagram/#without-graphviz). The button with the split window on the
+toolbar hides it, to give the data the whole width, and the diagram is always on the **Diagram** tab.
 
 <img class="shot shot-light" src="/shots/data-light.png" alt="The Data tab with a small graph typed in">
 <img class="shot shot-dark" src="/shots/data-dark.png" alt="The Data tab in the dark theme">
@@ -35,12 +36,24 @@ Every node and edge so far uses the plain default style, so all of them look ali
 Every row that uses `Step` follows it. Change the style again and they change together. See [the Designer](/docs/designer/) and
 [the Styles tab](/docs/styles/).
 
-## 4. Lay it out
+## 4. Say what they mean
+
+A style says how a thing looks. It can also say what it is, and that is what the Knowledge Graph carries.
+
+1. On the **Styles** tab, click the **Format** cell of `Step` and press the pencil, which opens the style in the **Designer**.
+2. Type a **Description**, such as `A step in the process`.
+3. Press the pencil beside **Properties** and add a property or two: a **Name** such as `owner` and a **Value** such as `"Fulfillment team"`. A bare number or `true` is read as a number or a true/false value, and
+   a value in quotes is text.
+4. Press **Save to styles**.
+
+Nothing in the picture changes. Open the **Knowledge Graph** tab and the style is there with its description and properties. See [the Designer](/docs/designer/#description-and-properties).
+
+## 5. Lay it out
 
 Open the **Diagram** tab. The buttons above the picture change the layout: left to right is easier to read for a process, and the layout
 engines place nodes in different ways. Try a few. See [the Diagram tab](/docs/diagram/).
 
-## 5. Publish it
+## 6. Publish it
 
 In the left pane, under **Publish**:
 
@@ -55,7 +68,7 @@ Press **Publish**, and the files written are listed. The pane is described on [i
 The diagram can be an SVG, a PNG, a PDF and more; the format is set under **Settings**. The Knowledge Graph is a JSON file, described in
 [the Knowledge Graph tab](/docs/knowledge-graph/).
 
-## 6. Save the project
+## 7. Save the project
 
 **Save** writes the project to a `.json` file. Open it again later and your rows, styles and settings are back. The file is plain text,
 which you can read, keep under version control, or generate from another program.

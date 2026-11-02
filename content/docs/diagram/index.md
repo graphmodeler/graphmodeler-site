@@ -6,28 +6,28 @@ it change how Graphviz lays it out, so you flip between choices until the pictur
 <img class="shot shot-light" src="/shots/diagram-light.png" alt="The Diagram tab, with its buttons for layout, edge routing, graph type, direction and output order">
 <img class="shot shot-dark" src="/shots/diagram-dark.png" alt="The Diagram tab in the dark theme">
 
-The diagram can also sit beside the data. The **Graph** menu on the Data tab chooses between that and a tab of its own, and the
-same buttons are over the picture either way.
+The diagram can also sit beside the data. The button with the split window on the Data tab shows or hides it there, and the
+same buttons are over the picture either way. The line between the data and the picture can be dragged to give either more room; see [The Data tab](/docs/data/#seeing-the-graph).
 
 ## The buttons
 
-Hover over a button to read what it does. From left to right:
+Hover over a button to read what it does. The ones you use most are first, and the ones you set once and leave are after them. From left to right:
 
 | Group | Choices |
 | --- | --- |
-| **Layout engine** | Graphviz has eight ways of placing nodes. **dot** puts them in ranks, which suits flows and hierarchies. **neato**, **fdp** and **sfdp** are spring models that pull connected nodes together, and **sfdp** is for large graphs. **circo** puts nodes on a circle. **twopi** puts them in rings around a center. **osage** lays out clusters, and **patchwork** draws a treemap. |
-| **Edge routing** | How edges run: smooth curves (`spline`), straight lines, polylines, curved arcs, right angles (`ortho`), or no edges drawn. |
+| **Zoom** | The box shows the magnification in percent. Type any whole number from 5 to 800, or choose one from its list. The minus and plus buttons step to the next value: by 5% up to 150%, by 25% up to 400%, and by 100% above that. The three buttons after them fit the whole picture in the window, to the width of the window, or to its height. While a fit is on, the box shows the magnification it comes to, and the minus and plus buttons start from it. |
 | **Graph type** | Directed, with arrows, or undirected, without. |
+| **Layout engine** | Graphviz has eight ways of placing nodes. **dot** puts them in ranks, which suits flows and hierarchies. **neato**, **fdp** and **sfdp** are spring models that pull connected nodes together, and **sfdp** is for large graphs. **circo** puts nodes on a circle. **twopi** puts them in rings around a center. **osage** lays out clusters, and **patchwork** draws a treemap. |
 | **Direction** | Which way the ranks run: top to bottom, left to right, bottom to top or right to left. Only the **dot** engine uses this. |
+| **Edge routing** | How edges run: smooth curves (`spline`), straight lines, polylines, curved arcs, right angles (`ortho`), or no edges drawn. |
 | **Output order** | **Nodes first** draws the edges over the nodes. **Edges first** draws them under, which is what to choose when edges cross behind a node in a large graph. The other two orders Graphviz has, breadth first and depth first, are seldom wanted and are in Settings. |
-| **Zoom** | Fit to the window, to its width or to its height, or a percentage in steps of five. |
 
 For edge routing, direction and output order, pressing the button that is on again goes back to Graphviz's own choice. The same choices
 are in **Settings**, with the picture of the one in use beside each.
 
 ## Drawing
 
-The two buttons beside the **Graph** menu on the Data tab decide when the picture is drawn. The one with the arrows going round draws
+The two buttons beside the split-window button on the Data tab decide when the picture is drawn. The one with the arrows going round draws
 after every change. Turn it off for a large graph that is slow to draw, and press the other one, which draws once, when you are ready. A
 picture that is out of date says so.
 

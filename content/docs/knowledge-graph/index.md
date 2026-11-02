@@ -32,7 +32,11 @@ messages**, with its row number.
   "directed": true,
   "view": "All Styles",
   "styles": {
-    "Step": { "description": "A step in the process", "type": "node" }
+    "Step": {
+      "description": "A step in the process",
+      "type": "node",
+      "properties": { "owner": "Fulfillment team", "criticality": 3, "automated": true }
+    }
   },
   "nodes": [
     { "id": "Order received", "style": "Step", "label": { "value": "Order received", "type": "text" } }
@@ -50,6 +54,17 @@ messages**, with its row number.
   number, `true` and `false` are booleans, and a quoted value is text. The properties of a style are listed with the style, and the
   properties of a node or an edge are its own.
 - The file says where it came from in `source_workbook`, a name kept from the [Excel tool](/docs/from-excel/) that this app grew out of. It is the name of the project file, or the project name when the project is not saved yet. The time it was made is there too.
+
+## Where each part comes from
+
+| In the file | It comes from |
+| --- | --- |
+| a style's `description` | The **Description** of the style, on the [Styles](/docs/styles/) tab and in the [Designer](/docs/designer/#description-and-properties). |
+| a style's `type` | The **Style Type** of the style: node, edge, cluster and so on. |
+| a style's `properties` | The **Properties** of the style. |
+| a node's `id`, `label` and `style` | The **Item**, **Label** and **Style Name** of the row on the [Data](/docs/data/) tab. |
+| an edge's `source`, `target` and `style` | The **Item**, **Related Item** and **Style Name** of the row. |
+| a node's or an edge's `properties` | The **Properties** of the row, which belong to that one node or edge. |
 
 ## The format
 
@@ -74,3 +89,11 @@ and not replaced.
 A diagram needs only names and links. A Knowledge Graph is worth more when each node and edge says what it is, who owns it, how critical it
 is, and so on. Add those as properties, on the style when everything of that kind shares them and on the row when it is particular, and
 the file carries them.
+
+- **A description on every style** tells a reader what the kind of thing is. A person reading the file, or an AI tool you ask about it, has the words and not only the shape.
+- **Properties on the style** hold what every thing of that kind shares: `owner="Finance"`, `layer="database"`, `criticality=3`.
+- **Properties on a row** hold what is particular to one node or edge: `rpo_hours=4`, `last_reviewed="2026-09-30"`.
+- **Type the value the way you want it read.** A bare number is a number and `true` is a true/false value, so a program can add up and compare. Put a value in quotes to keep it as text.
+
+The [Designer](/docs/designer/#description-and-properties) has a small grid for a style's properties, and the **Properties** column of the [Data](/docs/data/) and
+[Styles](/docs/styles/) tabs has the same pencil. Use the same names on every style and row, for the same kind of fact, so that the file can be searched and compared.

@@ -3,6 +3,34 @@
 What each version of Graph Modeler changed, newest first. Graph Modeler is in beta, so the version numbers are small and the changes are many. The installers for each are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+## Version 0.1.5, beta 6 (November 2026)
+
+**New**
+
+- **Zoom you can type in.** The diagram's zoom is a box that takes any whole percent from 5 to 800, with a list of common values. The minus and plus buttons take bigger steps as the picture grows, and the three fit
+  buttons (to the window, to its width, to its height) are pictures, not words in a list. See [The Diagram tab](/docs/diagram/#the-buttons).
+- **A divider between the data and the graph.** Drag the line between the grid and the diagram on the Data tab to give either more room. A double-click puts it back, and the arrow keys move it. It is saved with the project.
+  See [The Data tab](/docs/data/#seeing-the-graph).
+- **Column widths are saved.** A column you drag to a new width keeps it, on the Data, Styles and SQL tabs, when you leave the tab and when you save and open the project. **Reset widths** in the columns menu puts them back.
+- **Several rows at once.** **Add row above** and **Add row below** add as many rows as you chose.
+- **A confirmation for personal use.** Choosing free personal use in the first question leads to one more step, with a box to tick. See [Your license](/docs/about/#your-license).
+- **The Knowledge Graph in the documentation.** The Designer page explains the Description and the Properties of a style, and the Knowledge Graph page says where each part of the file comes from.
+- **Pictures for the Linux software center.** The `.deb` tells the software center that the license is proprietary and gives it an all-ages rating, so Zorin OS and similar no longer say "Unknown license" and
+  "No age rating information available".
+
+**Changed**
+
+- **The toolbars put the most used buttons first.** On the Data tab the graph controls come before the columns button, and **Clear data** and the bug are at the far end. On every tab with a grid, the columns
+  and wrap buttons are just before Help. On the Diagram tab the zoom comes first, then the graph type, the layout engine, the direction, the edge routing and the output order.
+- **A button with a split window** shows or hides the diagram beside the data, in place of the **Graph** menu.
+- **Buy a license** opens the Pricing page, where the buy button is in plain view.
+
+**Fixed**
+
+- Pressing Zoom in on a diagram that was fitted to the window jumped to 105%, whatever the fit was. It now steps from the magnification the fit comes to.
+- A row whose item is `node` or `edge` offered the keyword styles in **Style Name**. It now offers the node styles or the edge styles.
+- The one-line description of the Linux package was empty.
+
 ## Version 0.1.4, beta 5 (October 31, 2026)
 
 **New**

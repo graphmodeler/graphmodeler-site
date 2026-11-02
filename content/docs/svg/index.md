@@ -21,9 +21,15 @@ A rule has a **Find** and a **Replace**. They run from the top, and each one rep
 A rule is plain text replacement, with no special codes to learn.
 
 - **Add**, the plus button at the top, adds a rule. The buttons at the end of a row move it up or down, add one below it, or delete it.
-- The pencil beside a cell opens the whole text, for the long script a rule can hold.
+- The pencil beside a cell opens a box with the whole text, for the long script a rule can hold. A cell shows a long text as its start, with the number of characters.
 - The **#** cell comments a rule out, and a commented-out rule is skipped and doubles as a note.
 - **Standard rules** replaces all the rules with the ones that come with the app.
+
+<img class="shot shot-light" src="/shots/svg-edit-light.png" alt="The box for editing the replacement text of a rule, holding script">
+<img class="shot shot-dark" src="/shots/svg-edit-dark.png" alt="The box for editing the replacement text of a rule, holding script in the dark theme">
+
+The box shows the text in full, with **Wrap text** to wrap long lines. **Save** keeps your changes and **Cancel** throws them away. The rules above are the standard ones: the first few are notes, and the rest put
+the toolbar, the zoom and the highlighting into the SVG, one piece to a rule.
 
 The standard rules are based on the work of Bart Brood, in
 [dynamic-SVG-from-Graphviz](https://github.com/BartBrood/dynamic-SVG-from-Graphviz). They add the toolbar, the zoom and pan, the filters
