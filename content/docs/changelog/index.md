@@ -15,8 +15,8 @@ What each version of Graph Modeler changed, newest first. Graph Modeler is in be
 - **Several rows at once.** **Add row above** and **Add row below** add as many rows as you chose.
 - **A confirmation for personal use.** Choosing free personal use in the first question leads to one more step, with a box to tick. See [Your license](/docs/about/#your-license).
 - **The Knowledge Graph in the documentation.** The Designer page explains the Description and the Properties of a style, and the Knowledge Graph page says where each part of the file comes from.
-- **Pictures for the Linux software center.** The `.deb` tells the software center that the license is proprietary and gives it an all-ages rating, so Zorin OS and similar no longer say "Unknown license" and
-  "No age rating information available".
+- **A description for the Linux software center.** The `.deb` carries an AppStream description of the program: its license, an all-ages rating and its web addresses. The window that opens when you open a downloaded
+  `.deb`, before you install it, may still say "Unknown License" and "No age rating information available", because that window reads only the basic details of the package.
 
 **Changed**
 
@@ -29,7 +29,6 @@ What each version of Graph Modeler changed, newest first. Graph Modeler is in be
 
 - Pressing Zoom in on a diagram that was fitted to the window jumped to 105%, whatever the fit was. It now steps from the magnification the fit comes to.
 - A row whose item is `node` or `edge` offered the keyword styles in **Style Name**. It now offers the node styles or the edge styles.
-- The one-line description of the Linux package was empty.
 
 ## Version 0.1.4, beta 5 (October 31, 2026)
 
