@@ -52,3 +52,67 @@
 .dark .shot-dark {
   display: block;
 }
+
+/* The page for an address that does not exist. */
+.gm-not-found {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 80px 24px 96px;
+}
+
+.gm-not-found-code {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--vp-c-brand-1);
+}
+
+.gm-not-found-title {
+  margin: 8px 0 16px;
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.gm-not-found-text {
+  margin: 16px 0;
+  color: var(--vp-c-text-2);
+  line-height: 24px;
+}
+
+.gm-not-found-links {
+  list-style: none;
+  margin: 24px 0;
+  padding: 0;
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+.gm-not-found-links li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.gm-not-found-links a {
+  font-weight: 600;
+  min-width: 140px;
+}
+
+.gm-not-found-links span {
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.gm-not-found a {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+}
+
+.gm-not-found a:hover {
+  text-decoration: underline;
+}
