@@ -1,3 +1,8 @@
+---
+title: "Publishing: how files are named"
+description: "How Graph Modeler builds the name of each published file from a template, a prefix and a counter, so that every file is named the way you want."
+---
+
 # Publishing
 
 **Publish** writes your graph to files, and the name of each file is built from parts you choose. This page explains how the name is built, so that

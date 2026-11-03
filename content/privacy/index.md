@@ -1,3 +1,7 @@
+---
+description: "What information Graph Modeler and its website collect and who sees it: nothing about your use, and only what you send or what a sale needs."
+---
+
 # Privacy Policy
 
 Last updated: November 2, 2026

@@ -1,3 +1,7 @@
+---
+description: "Choose inches or millimeters for lengths, and control how Graphviz packs the separate parts of a graph. Both are settings of the whole project."
+---
+
 # Units and packing
 
 Two things that were settled in the Excel tool by one box and one corner of the Designer are now settings of the whole project: whether lengths are in

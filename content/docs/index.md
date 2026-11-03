@@ -1,3 +1,8 @@
+---
+title: "Graph Modeler documentation"
+description: "Documentation for Graph Modeler: how rows, styles and views become Graphviz diagrams and Knowledge Graphs, with a page for every tab of the app."
+---
+
 # Documentation
 
 Graph Modeler™ turns rows of data into a graph. Three things do the work, and the tabs of the app are laid out around them.

@@ -1,3 +1,7 @@
+---
+description: "Build your first graph in a few minutes: start a project, type rows, give them a look, lay them out, publish files and save the project."
+---
+
 # Getting started
 
 This takes a few minutes and ends with a graph on screen and a file you have written. You need Graph Modeler, and
@@ -53,7 +57,7 @@ Nothing in the picture changes. Open the **Knowledge Graph** tab and the style i
 Open the **Diagram** tab. The buttons above the picture change the layout: left to right is easier to read for a process, and the layout
 engines place nodes in different ways. Try a few. See [the Diagram tab](/docs/diagram/).
 
-## 6. Publish it
+## 6. Publish it {#publish}
 
 In the left pane, under **Publish**:
 

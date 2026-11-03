@@ -1,3 +1,7 @@
+---
+description: "The DOT tab shows the Graphviz DOT source that Graph Modeler writes from your rows and styles, so you can see exactly what a setting does."
+---
+
 # The DOT tab
 
 DOT is the text Graphviz reads. Graph Modeler writes it from your rows and styles, and the DOT tab shows it as it will be sent to

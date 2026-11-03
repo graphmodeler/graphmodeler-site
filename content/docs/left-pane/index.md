@@ -1,3 +1,7 @@
+---
+description: "The left pane holds what belongs to the whole project: opening and saving, undo, views, publishing, and the messages about what the app found."
+---
+
 # The left pane
 
 The pane on the left stays where it is as you move from tab to tab. It holds what belongs to the whole project: opening and saving it,
@@ -58,7 +62,7 @@ of files from different views is told apart.
 ## Publish
 
 **Publish** writes the graph to files. It never opens them, and it never changes the project. A first publish is described in
-[Getting started](/docs/getting-started/#_5-publish-it).
+[Getting started](/docs/getting-started/#publish).
 
 The two buttons at the top:
 

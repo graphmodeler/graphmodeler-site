@@ -1,3 +1,7 @@
+---
+description: "Publish your rows and styles as a Knowledge Graph: a JSON file of nodes, edges, styles and properties that programs and AI tools can read."
+---
+
 # The Knowledge Graph tab
 
 The same rows and styles that make a diagram can also be published as a **Knowledge Graph**: a JSON file that lists the nodes, the

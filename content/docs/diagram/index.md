@@ -1,3 +1,7 @@
+---
+description: "The Diagram tab draws your graph with Graphviz. Change the layout engine, edge routing, direction and zoom, and watch the picture redraw."
+---
+
 # The Diagram tab
 
 The Diagram tab draws the graph with Graphviz. The picture is redrawn as you change the data or the styles, and the buttons above

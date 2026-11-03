@@ -1,3 +1,7 @@
+---
+description: "The Graph Modeler refund policy: 30 days, no questions asked, for a commercial license, and what to do after that or if the software has a problem."
+---
+
 # Refund Policy
 
 Last updated: October 29, 2026

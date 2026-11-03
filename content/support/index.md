@@ -1,3 +1,8 @@
+---
+title: "Support and common questions"
+description: "How to get help with Graph Modeler: what to include in your message, answers to common questions, and how to report a problem."
+---
+
 # Support
 
 ## Asking for help

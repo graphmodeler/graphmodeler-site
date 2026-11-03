@@ -1,3 +1,7 @@
+---
+description: "What changed in each version of Graph Modeler, newest first: new features, fixes and changes since the first beta."
+---
+
 # What's new
 
 What each version of Graph Modeler changed, newest first. Graph Modeler is in beta, so the version numbers are small and the changes are many. The installers for each are on the

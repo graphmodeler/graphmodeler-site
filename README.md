@@ -27,10 +27,10 @@ Node 24 is used. The pages are in `content/`.
 - **Wording is original.** Nothing is copied from Graphviz's documentation; link to Graphviz's own page where an attribute
   needs explaining.
 
-## Pages that need the owner's eye
+## Before the launch
 
-The `/license/` page sets out the Personal Use License in plain words, and has no sale mechanism to describe yet. The `/download/`
-page says that there is no release. Both need updating when that changes, and the license wording is for an attorney.
+The site is `noindex` until `LAUNCHED` in `content/.vitepress/config.mts` is set to `true`; the home page says "Coming Soon". Every page needs its own `description` in its frontmatter. The
+license wording is for an attorney, and the Download page names the current beta in several places.
 
 ## Publishing
 

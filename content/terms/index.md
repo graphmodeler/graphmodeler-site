@@ -1,3 +1,7 @@
+---
+description: "The terms that cover the Graph Modeler website, the software and the commercial licenses sold for it."
+---
+
 # Terms of Service
 
 Last updated: October 28, 2026

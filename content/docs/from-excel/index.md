@@ -1,3 +1,7 @@
+---
+description: "For users of Relationship Visualizer (Excel to Graphviz): what carries over to Graph Modeler, what changed, and what was left out."
+---
+
 # Coming from the Excel tool
 
 Graph Modeler grows out of **Relationship Visualizer**, also known as **Excel to Graphviz**: a tool that runs inside Microsoft Excel and draws

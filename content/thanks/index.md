@@ -1,4 +1,5 @@
 ---
+description: "Thank you for buying a commercial license for Graph Modeler. How to find your license key and enter it in the app."
 head:
   - - meta
     - name: robots

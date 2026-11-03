@@ -1,3 +1,8 @@
+---
+title: "Placeholders"
+description: "Placeholders are words in braces, such as {label}, that Graph Modeler replaces when it builds the graph. See which are built in and how to make your own."
+---
+
 # Placeholders
 
 A **placeholder** is a word in braces, such as `{label}`, that Graph Modeler replaces with a value when it builds the graph. They let one

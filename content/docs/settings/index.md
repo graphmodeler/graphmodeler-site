@@ -1,3 +1,7 @@
+---
+description: "The Settings tab holds choices that apply to the whole project, such as layout, units and what is written into the graph. They are saved with the project."
+---
+
 # The Settings tab
 
 Settings are the choices that apply to the whole project, such as how it is laid out and what is written into the graph. They are saved

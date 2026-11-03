@@ -1,3 +1,7 @@
+---
+description: "The Data tab holds the rows of your graph: items, relationships and clusters. See how a row is read, and how to type, paste and style rows."
+---
+
 # The Data tab
 
 The Data tab holds the rows of your graph. A row says that something exists, or that two things are connected, or that a

@@ -1,3 +1,7 @@
+---
+description: "Graph Modeler is free for personal, educational and other non-commercial use, and commercial use needs a license. This page explains it, with the full text."
+---
+
 # License
 
 Graph Modeler™ is free for personal, educational, research and other non-commercial use. Commercial use needs a commercial license.

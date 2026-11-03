@@ -1,3 +1,7 @@
+---
+description: "Build the rows of your graph from SQL queries over Excel and LibreOffice workbooks, CSV files, and Access or SQLite databases."
+---
+
 # The SQL tab
 
 The SQL tab builds the rows of the Data tab from queries, so a graph can come from data you already keep in a spreadsheet, a CSV file or

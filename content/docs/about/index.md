@@ -1,3 +1,7 @@
+---
+description: "What the About tab shows: the version you run, your license, how to check for updates, who made Graph Modeler, and the software it is built on."
+---
+
 # The About tab
 
 The About tab says what you are running, whether it has a commercial license, who made it, and what it is built on.

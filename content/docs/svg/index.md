@@ -1,3 +1,7 @@
+---
+description: "The SVG tab adds a toolbar, zoom and pan, filters and highlighting to a published SVG with find-and-replace rules. It is off until you turn it on."
+---
+
 # The SVG tab
 
 SVG is the picture format that opens in a browser, and a plain one is just a drawing. The SVG tab can add behavior to it: a toolbar,

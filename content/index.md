@@ -1,5 +1,8 @@
 ---
 layout: home
+title: Graph Modeler™ – model graphs in a grid, draw them with Graphviz
+titleTemplate: false
+description: Graph Modeler turns rows of data into Graphviz diagrams and Knowledge Graphs. A desktop app for Windows, macOS and Linux; free for personal use.
 
 hero:
   name: Graph Modeler™

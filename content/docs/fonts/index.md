@@ -1,3 +1,8 @@
+---
+title: "Fonts in your diagrams"
+description: "How Graph Modeler finds fonts for your diagrams, what to do after you install one, and what happens to a font when you share the picture."
+---
+
 # Fonts
 
 Graphviz draws the text in your graph, so the fonts are the ones **on the computer that runs Graph Modeler**. The app does not carry any

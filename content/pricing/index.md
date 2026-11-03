@@ -1,3 +1,8 @@
+---
+title: "Pricing and licenses"
+description: "Graph Modeler is free for personal use. A commercial license is US$99, paid once, with a 30-day refund. See who needs one and how volume licensing works."
+---
+
 # Pricing
 
 Graph Modeler™ is **free for personal, educational, research and other non-commercial use**. If you use it for work, you need a commercial license. The [License page](/license/) says what counts as commercial, and has the full text.

@@ -1,3 +1,7 @@
+---
+description: "A style is a name and a Graphviz format. See how the Styles tab names and previews the node, edge and cluster styles that your rows use."
+---
+
 # The Styles tab
 
 A style is a name and a format. A row on the [Data](/docs/data/) tab names a style, and the format of that style is applied
