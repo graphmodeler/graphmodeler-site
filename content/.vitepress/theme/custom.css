@@ -116,3 +116,9 @@
 .gm-not-found a:hover {
   text-decoration: underline;
 }
+
+/* A screenshot says how big it is (so the page does not jump while it loads), and still shrinks to fit a narrow screen. */
+.vp-doc img[src^="/shots/"],
+.shot {
+  height: auto;
+}

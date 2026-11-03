@@ -1,5 +1,5 @@
 ---
-title: "Graph Modeler documentation"
+title: "Documentation and user guide"
 description: "Documentation for Graph Modeler: how rows, styles and views become Graphviz diagrams and Knowledge Graphs, with a page for every tab of the app."
 ---
 

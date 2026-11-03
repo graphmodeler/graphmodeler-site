@@ -1,5 +1,5 @@
 ---
-title: "Download Graph Modeler"
+title: "Download for Windows, macOS and Linux"
 description: "Download the Graph Modeler beta for Windows, macOS and Linux, with signed checksums and steps to install it and to check what you downloaded."
 ---
 

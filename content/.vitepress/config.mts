@@ -1,4 +1,35 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig, type HeadConfig } from 'vitepress';
+
+const PUBLIC = fileURLToPath(new URL('../public', import.meta.url));
+
+/** The size of a PNG, read from its header, so that a screenshot can say how big it is before it has loaded. */
+const pngSizes = new Map<string, { width: number; height: number } | undefined>();
+function pngSize(src: string) {
+  if (!pngSizes.has(src)) {
+    try {
+      const bytes = readFileSync(join(PUBLIC, src));
+      pngSizes.set(src, { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) });
+    } catch {
+      pngSizes.set(src, undefined);
+    }
+  }
+  return pngSizes.get(src);
+}
+
+/** Gives a screenshot tag its width and height (so the page does not jump as pictures arrive) and loads it only when it is near the screen. */
+function describeShot(tag: string): string {
+  const src = /\ssrc="(\/shots\/[^"]+\.png)"/.exec(tag)?.[1];
+  const size = src && pngSize(src);
+  if (!size) return tag;
+  const extra = [
+    /\swidth=/.test(tag) ? '' : ` width="${size.width}" height="${size.height}"`,
+    /\sloading=/.test(tag) ? '' : ' loading="lazy" decoding="async"',
+  ].join('');
+  return tag.replace(/\s*\/?>$/, `${extra}>`);
+}
 
 const SITE = 'https://graphmodeler.com';
 
@@ -15,6 +46,28 @@ export default defineConfig({
   lang: 'en-US',
   cleanUrls: false,
   lastUpdated: false,
+  markdown: {
+    // The screenshots are written as <img> tags and as ![alt](/shots/...) images; both get the same treatment.
+    config(md) {
+      md.core.ruler.push('shot-attributes', (state) => {
+        for (const token of state.tokens) {
+          if (token.type === 'html_block') token.content = token.content.replace(/<img\b[^>]*>/g, describeShot);
+          for (const child of token.children ?? []) {
+            if (child.type === 'html_inline') child.content = child.content.replace(/<img\b[^>]*>/g, describeShot);
+            if (child.type === 'image') {
+              const size = pngSize(child.attrGet('src') ?? '');
+              if (!size || !(child.attrGet('src') ?? '').startsWith('/shots/')) continue;
+              child.attrSet('width', String(size.width));
+              child.attrSet('height', String(size.height));
+              child.attrSet('loading', 'lazy');
+              child.attrSet('decoding', 'async');
+            }
+          }
+        }
+      });
+    },
+  },
+
   sitemap: {
     hostname: SITE,
     // The thank-you page is for buyers only (it is noindex), so it does not belong in the list of pages to find.
@@ -55,7 +108,34 @@ export default defineConfig({
       ['meta', { name: 'twitter:description', content: description }],
       ['meta', { name: 'twitter:image', content: `${SITE}/og-image.png` }],
     ];
+    // Only the home page says who the site is: the name and logo that a search engine may show beside the address.
+    if (pageData.relativePath === 'index.md') {
+      head.push([
+        'script',
+        { type: 'application/ld+json' },
+        JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': [
+            { '@type': 'WebSite', '@id': `${SITE}/#website`, name: 'Graph Modeler', url: `${SITE}/`, inLanguage: 'en-US' },
+            {
+              '@type': 'Organization',
+              '@id': `${SITE}/#organization`,
+              name: 'Graph Modeler',
+              url: `${SITE}/`,
+              logo: `${SITE}/apple-touch-icon.png`,
+              contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', email: 'support@graphmodeler.com' },
+            },
+          ],
+        }),
+      ]);
+    }
     return head;
+  },
+
+  // At the launch the site also gets a robots.txt that points to the sitemap. (While it is not launched, no file is written.)
+  buildEnd({ outDir }) {
+    if (!LAUNCHED) return;
+    writeFileSync(join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
   },
 
   themeConfig: {

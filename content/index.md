@@ -7,7 +7,7 @@ description: Graph Modeler turns rows of data into Graphviz diagrams and Knowled
 hero:
   name: Graph Modeler™
   text: See the connections
-  tagline: <i>Coming Soon</i> - A desktop application for creating graph models, generating Graphviz diagrams, and publishing standards-based knowledge graphs.
+  tagline: A desktop application for creating graph models, generating Graphviz diagrams, and publishing standards-based knowledge graphs.
   image:
     light: /hero-light.svg
     dark: /hero-dark.svg

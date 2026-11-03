@@ -29,7 +29,7 @@ Node 24 is used. The pages are in `content/`.
 
 ## Before the launch
 
-The site is `noindex` until `LAUNCHED` in `content/.vitepress/config.mts` is set to `true`; the home page says "Coming Soon". Every page needs its own `description` in its frontmatter. The
+The site is `noindex` until `LAUNCHED` in `content/.vitepress/config.mts` is set to `true`. Every page needs its own `description` in its frontmatter. The
 license wording is for an attorney, and the Download page names the current beta in several places.
 
 ## Publishing
