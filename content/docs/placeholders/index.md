@@ -17,12 +17,13 @@ that nothing replaces is left as it was typed, so a mistake is easy to see.
 | Where | Placeholders | Replaced by |
 | --- | --- | --- |
 | The **Format** of a style on the [Styles](/docs/styles/) tab | `{label}`, `{xlabel}`, `{taillabel}`, `{headlabel}` | The row's own text |
+| Any label or tooltip, and any value in a row's **Attributes** or a style's Format, a cluster's or the graph's, and native DOT rows | `{view}`, `{project}` | The view being drawn, and the project's name |
 | The values a query returns on the [SQL](/docs/sql/) tab | `{rsc}`, `{clc}`, `{scc}`, `{level}`, `{step}` | A count |
 | The detail query of `ITERATE` | `{id}` | The ID being worked on |
 | The queries after a `SET PLACEHOLDER` line | `{name}`, for a name you choose | The value you gave it |
 | The file names that [Publish](/docs/publishing/) writes, and the prefix a `PUBLISH` line gives | `{prefix}`, `{view}`, `{version}`, `{date}` and others | Parts of the name |
 
-The rest of this page goes through the first four. The file name placeholders have their own table on the
+The rest of this page goes through the first five. The file name placeholders have their own table on the
 [Publishing](/docs/publishing/#the-template) page.
 
 ## In labels
@@ -50,13 +51,29 @@ table can hold a picture beside the text:
 label=<<table border="0" cellborder="0"><tr><td><img src="server.png"/></td><td>{label}</td></tr></table>>
 ```
 
+### The view and the project
+
+Two more placeholders work in every label and tooltip, and in the values of the **Attributes** column and of a style's Format (so `URL="{view}.html"` works), wherever the text comes from: a row's own **Label**, **External Label** and **Tooltip**, a
+style's Format, a cluster's label, and the label of the graph itself, which a row with the keyword `graph` gives. They also work in the DOT that
+a native row (`>` in the **Item** column) writes as it is, so a row with `label="{view}"` in the **Label** column titles the graph.
+
+| Placeholder | Is replaced by |
+| --- | --- |
+| `{view}` | The name of the view being drawn |
+| `{project}` | The name of the project, as shown in the Project name box |
+
+They let a graph say what it is showing. A `graph` row with the label `Network map: {view}` titles each diagram with its view, and **Publish all views**
+writes every file with its own title. The same words are used for the [Knowledge Graph](/docs/knowledge-graph/), and they are worked out when the graph is
+drawn, so switching the view changes them at once.
+
 The style [preview](/docs/styles/) on the Styles tab has no row to take a label from, so it shows a placeholder as it was typed. The
 same placeholders are used when the [Knowledge Graph](/docs/knowledge-graph/) is made, so the labels there match the diagram.
 
 ## In the values of a SQL query
 
 A query on the SQL tab can number the rows it produces, and the clusters it makes. Write the placeholder in any text value of the result,
-and the number is put there as the rows are made.
+and the number is put there as the rows are made. A `{view}` or `{project}` in a value is not replaced by the query; it goes into the row as typed
+and is replaced when the graph is drawn, so each view shows its own name.
 
 | Placeholder | Is replaced by |
 | --- | --- |
