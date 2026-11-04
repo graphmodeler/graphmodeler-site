@@ -6,27 +6,27 @@ description: "Download the Graph Modeler beta for Windows, macOS and Linux, with
 # Download
 
 ::: warning A beta, for a few people to try
-**Graph Modeler** is not released yet. A **beta** can be downloaded below. The Windows installer is signed with a certificate, but Windows may still warn
-the first time, because the signed file is new. The Mac version is not notarized by Apple yet, so macOS warns the first time you open it. Using the beta
+**Graph Modeler** is not released yet. A **beta** can be downloaded below. The Windows installer is signed with a certificate, and the Mac app is signed and
+notarized by Apple, so neither should warn when you install it. Using the beta
 while it is in testing is free; the [license](/license/) says what applies after the release, and the [Pricing](/pricing/) page has the price of a commercial license.
 :::
 
 ## Get the beta
 
-This is version 0.1.5, beta 6. See [what is new](/docs/changelog/) since beta 5.
+This is version 0.1.6, beta 7. See [what is new](/docs/changelog/) since beta 6.
 
 | Your computer | Download | Size |
 | --- | --- | --- |
-| **Windows** 10 or 11, 64-bit | [Graph-Modeler-Setup-0.1.5.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.5-beta.6/Graph-Modeler-Setup-0.1.5.exe) | 121 MB |
-| **macOS** 13 or later, Intel or Apple silicon | [Graph-Modeler-0.1.5-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.5-beta.6/Graph-Modeler-0.1.5-universal.dmg) | 233 MB |
-| **Linux**, 64-bit, Debian, Ubuntu and relatives | [graph-modeler_0.1.5_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.5-beta.6/graph-modeler_0.1.5_amd64.deb) | 100 MB |
-| **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.5.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.5-beta.6/Graph-Modeler-0.1.5.AppImage) | 128 MB |
+| **Windows** 10 or 11, 64-bit | [Graph-Modeler-Setup-0.1.6.exe](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.6-beta.7/Graph-Modeler-Setup-0.1.6.exe) | 121 MB |
+| **macOS** 13 or later, Intel or Apple silicon | [Graph-Modeler-0.1.6-universal.dmg](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.6-beta.7/Graph-Modeler-0.1.6-universal.dmg) | 235 MB |
+| **Linux**, 64-bit, Debian, Ubuntu and relatives | [graph-modeler_0.1.6_amd64.deb](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.6-beta.7/graph-modeler_0.1.6_amd64.deb) | 100 MB |
+| **Linux**, 64-bit, anything else | [Graph-Modeler-0.1.6.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v0.1.6-beta.7/Graph-Modeler-0.1.6.AppImage) | 128 MB |
 
 Check the [system requirements](#system-requirements) first: Graph Modeler needs a 64-bit computer. Then [install it](#install), and install
 [Graphviz](#install-graphviz) too, to see pictures. Once it is installed, **Check for updates** on its [About tab](/docs/about/#updates) tells you when a newer
 version is out.
 
-The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.5-beta.6) holds the same files and a list of
+The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v0.1.6-beta.7) holds the same files and a list of
 checksums, so that you can [check what you downloaded](#check-your-download).
 
 ## System requirements
@@ -84,19 +84,10 @@ Then run the installer. It begins with the license agreement. Click **I Agree**,
 
 ![Screenshot of the Windows installer](/shots/install-win-01.png)
 
-::: warning Blocked after the download?
+::: tip If something warns anyway
 
-Your browser may say that the file **isn't commonly downloaded**. The pictures show Microsoft Edge, and other browsers say something similar. The installer is signed, but it is new,
-and a new file has to be downloaded by enough people before the warning goes away. Open the **Downloads** list and hover your mouse over the file until the buttons appear.
-
-![Screenshot of the download warning.](/shots/download-warning.png)
-
-Click the three dots `...` on the right, beside the trash can icon, and choose **Keep**. A dialog asks you to confirm that you trust the file.
-
-![Screenshot of the dialog asking for confirmation that you trust the download.](/shots/download-trust.png)
-
-Click the down arrow on the **Delete** button, and choose **Keep anyway**. You can now run the installer. If Windows then says **Windows protected your PC**, click
-**More info**, and then **Run anyway**.
+Neither your browser nor Windows should warn about the installer, which is signed. If one does, choose **Keep** in the browser, or **More info** and then **Run anyway** in
+Windows, and please [write to me](mailto:support@graphmodeler.com) about it, so that I know.
 :::
 
 ### macOS
@@ -105,36 +96,19 @@ Open the `.dmg` file you downloaded, and drag Graph Modeler to Applications.
 
 ![Screenshot of the macOS disk image, with Graph Modeler to be dragged to Applications.](/shots/install-mac-01.png)
 
-::: warning Blocked after the download?
+The app is signed with Jeffrey Long's Apple Developer ID and has been checked by Apple (notarized), so macOS opens it without a warning. The first time you open it,
+macOS asks once whether you want to open an app that was downloaded from the Internet. Click **Open**.
 
-The first time you open Graph Modeler, macOS may refuse with the message **"Graph Modeler" Not Opened**.
-
-![Screenshot of the macOS message "Graph Modeler" Not Opened.](/shots/install-mac-02.png)
-
-1. Click **Done** to close the message. Do not move the file to the Trash.
-2. Open **System Settings** and choose **Privacy & Security** in the sidebar.
-3. Scroll down to the **Security** section. Find the message **"Graph Modeler" was blocked to protect your Mac**, and click **Open Anyway**.
-
-   ![Screenshot of the Security section of Privacy & Security, with the Open Anyway button.](/shots/install-mac-03.png)
-
-4. A second warning asks you not to open the app unless you are certain it comes from a source you trust. Click **Open Anyway** again.
-
-   ![Screenshot of the macOS question Open "Graph Modeler"?](/shots/install-mac-04.png)
-
-5. macOS asks for your username and password, to authorize the change. Enter them and click **OK**. You only have to do this once. You can now start Graph Modeler.
-
-   ![Screenshot of macOS asking for a username and password.](/shots/install-mac-05.png)
-
-Graph Modeler is not notarized by Apple yet, which is why macOS asks. A Mac that your employer manages may not show **Open Anyway**.
-If yours does not, write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
-
+::: tip If macOS refuses anyway
+If macOS says the app cannot be opened, open **System Settings**, choose **Privacy & Security**, scroll to the **Security** section and click **Open Anyway** beside the message about
+Graph Modeler, then [write to me](mailto:support@graphmodeler.com) so that I know. A Mac that your employer manages may not show **Open Anyway**.
 :::
 
 ### Linux .deb
 
 On Debian, Ubuntu and relatives, run this in a terminal, in the folder that holds the download:
 
-`sudo apt install ./graph-modeler_0.1.5_amd64.deb`
+`sudo apt install ./graph-modeler_0.1.6_amd64.deb`
 
 The program appears in the **Programming** or **Development** group of the applications menu.
 
@@ -143,9 +117,12 @@ The program appears in the **Programming** or **Development** group of the appli
   because your Downloads folder is private.
 :::
 
+If you open the file from your file manager instead, the software center shows a window before it installs, and that window may say **Unknown License** and **No age rating information available**.
+It reads only the basic details of the package. Once Graph Modeler is installed, its page in the software center shows its license (Proprietary), its all-ages rating and its web addresses.
+
 ### Linux .AppImage
 
-Make it executable with `chmod +x Graph-Modeler-0.1.5.AppImage`, then run it. A recent Ubuntu also needs `sudo apt install libfuse2t64`.
+Make it executable with `chmod +x Graph-Modeler-0.1.6.AppImage`, then run it. A recent Ubuntu also needs `sudo apt install libfuse2t64`.
 
 ## Install Graphviz
 
@@ -183,8 +160,8 @@ file that was published. The signature says the list came from Graph Modeler. Yo
 **1. Check the file against the list.**
 
 - **Linux.** In the folder that holds the downloads, run `sha256sum -c --ignore-missing SHA256SUMS.txt`.
-- **macOS.** Run `shasum -a 256 Graph-Modeler-0.1.5-universal.dmg` and compare the result with the line for that file in `SHA256SUMS.txt`.
-- **Windows.** In PowerShell, run `Get-FileHash -Algorithm SHA256 Graph-Modeler-Setup-0.1.5.exe` and compare the result with the line for that file.
+- **macOS.** Run `shasum -a 256 Graph-Modeler-0.1.6-universal.dmg` and compare the result with the line for that file in `SHA256SUMS.txt`.
+- **Windows.** In PowerShell, run `Get-FileHash -Algorithm SHA256 Graph-Modeler-Setup-0.1.6.exe` and compare the result with the line for that file.
   The two are the same when the letters and digits match, whether they are in capitals or not.
 
 **2. Check that the list is signed by Graph Modeler.** You need [GnuPG](https://gnupg.org/download/), which most Linux systems already have.

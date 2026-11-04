@@ -49,9 +49,6 @@ personal use.
   [sales@graphmodeler.com](mailto:sales@graphmodeler.com) for a discounted price. See [Volume licensing](/pricing/#volume-licensing).
 - **Your money back.** If it is not right for you, you get a full refund within 30 days, no questions asked. See the
   [Refund Policy](/refunds/).
-- **On a Mac.** The Mac version is not notarized by Apple yet, so the first time you open it macOS asks for one extra step, described on the
-  [Download page](/download/#install). A Mac that your employer manages may not allow that step. If yours does not, please try the free
-  download before you buy, or write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
 
 If you are not sure whether your use is commercial, or you have a question before you buy, write to
 [sales@graphmodeler.com](mailto:sales@graphmodeler.com).

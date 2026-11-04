@@ -7,6 +7,26 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. Graph Modeler is in beta, so the version numbers are small and the changes are many. The installers for each are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+## Version 0.1.6, beta 7 (November 4, 2026)
+
+**New**
+
+- **The Mac app is signed and notarized.** It carries Apple's Developer ID signature and has been checked by Apple, so macOS opens it without the "Open Anyway" steps of the earlier betas. The
+  first time, macOS asks once whether you want to open an app downloaded from the Internet. See [Download](/download/#macos).
+- **`{view}` and `{project}` placeholders.** They put the name of the view being drawn, and of the project, in a label or tooltip, in a value of **Attributes** or of a style's Format, or in a native
+  DOT row, so a graph can say what it shows, and each published view carries its own name. They are replaced in the DOT and in the Knowledge Graph. A SQL query passes them through. See
+  [Placeholders](/docs/placeholders/#the-view-and-the-project).
+
+**Changed**
+
+- **A drawing that Graphviz could only partly finish is shown.** When Graphviz reports an error but still draws the graph, as the orthogonal edge routing can when it loses an edge, the diagram appears
+  with a red notice instead of nothing. Everything Graphviz says, including the long account of **Graphviz verbose messages**, is listed under **Graphviz messages** in the left pane, in a list that scrolls.
+  See [The Diagram tab](/docs/diagram/#drawing).
+- **The Include Tooltip boxes say where tooltips show.** They are written into the DOT and into published SVG files, where a browser shows them. The picture on the Diagram tab is an image and cannot show them,
+  unless SVG post-processing is on. See [Tooltips](/docs/diagram/#tooltips).
+- **The Linux software center page.** Once Graph Modeler is installed from the `.deb`, its page shows the license (Proprietary), an all-ages rating, the description and its web addresses. The window that
+  opens for a downloaded `.deb`, before it is installed, may still say "Unknown License", because that window reads only the basic details of the package.
+
 ## Version 0.1.5, beta 6 (November 2, 2026)
 
 **New**
