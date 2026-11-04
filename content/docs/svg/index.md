@@ -19,6 +19,9 @@ exactly what Graphviz drew. Turn it on and the rules are run on the diagram show
 Turn it on only for a project whose rules you trust. A project file carries its own rules, and a project that someone else gave you could
 have rules that do something you did not expect, so the box starts off every time a project is opened, and stays off until you turn it on.
 
+Turning it on also changes how the Diagram tab shows the picture. Without it the picture is an image, and an image cannot show tooltips; with it the
+diagram is a live page, so a tooltip appears when the pointer rests on an item. See [Tooltips](/docs/diagram/#tooltips).
+
 ## The rules
 
 A rule has a **Find** and a **Replace**. They run from the top, and each one replaces every match of its **Find** in the text of the SVG.

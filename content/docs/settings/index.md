@@ -61,7 +61,8 @@ joins them, `{name} {affix}`. See [Styles](/docs/styles/#naming-clusters).
 Three groups, with the same shape. Each says which of the parts of a node, an edge or a cluster are written, and what to do when one is blank.
 
 - **Include** choices for the label, the external label and the tooltip. Edges also have the head label, the tail label and ports, and can leave
-  out edges that name an item with no row of its own.
+  out edges that name an item with no row of its own. A tooltip is written to the DOT and to every published SVG, and a browser shows it when
+  the pointer rests on the node. The picture on the Diagram tab cannot show tooltips; see [Tooltips](/docs/diagram/#tooltips).
 - **When Label is blank** and **When Tooltip is blank** choose between using the default (the item's name or the edge's name) and leaving it empty.
 - **Include stand-alone nodes** keeps nodes that no edge touches.
 - **Apply "strict" rules** removes duplicate edges, **Concentrate edges** merges edges that share a path, and **Force xlabel placement** makes sure

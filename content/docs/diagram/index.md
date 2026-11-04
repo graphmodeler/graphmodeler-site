@@ -36,6 +36,20 @@ after every change. Turn it off for a large graph that is slow to draw, and pres
 picture that is out of date says so.
 
 If Graphviz has something to say about the graph, such as a warning, it appears in the left pane under **Graphviz messages**.
+When Graphviz reports an error but still draws the graph, which the `ortho` edge routing can do when it loses an edge, the picture is shown with a
+red notice above it, because it may be incomplete. Choosing another edge routing or direction usually clears it. If Graphviz cannot draw the graph at all, the notice says so and
+quotes the error. Either way, the full messages are in the left pane. With **Graphviz verbose messages** on in the Troubleshooting part of Settings, Graphviz
+describes everything it does, which can be hundreds of lines, so the list scrolls.
+
+## Tooltips
+
+A tooltip you give a node, an edge or a cluster is written into the DOT, and into every SVG you publish. Open the published file in a browser and
+the tooltip appears when the pointer rests on the item. The picture on this tab does not show them. It is displayed as an image, which is the way to
+show an SVG with a guarantee that no script in it can run, and a browser never shows tooltips for what is inside an image.
+
+To see tooltips while you work, turn on [SVG post-processing](/docs/svg/). The diagram is then shown as a live page, so its tooltips appear.
+Turn it on only for rules you trust; the SVG page says why. The **Include Tooltip** boxes in [Settings](/docs/settings/) decide whether
+tooltips are written at all.
 
 ## Without Graphviz
 
