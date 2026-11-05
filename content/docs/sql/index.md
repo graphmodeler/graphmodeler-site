@@ -78,7 +78,7 @@ things Jet does and SQLite does not are not, such as `Format` and `DateDiff`, an
 
 ## Writing a long statement
 
-The grid shows each statement on one line, and cuts it short. The pencil in the **SQL Statement** cell opens a box with the whole statement, where it can run over several lines. **Save** keeps it and
+The grid shows each statement on one line, and cuts it short. The pencil in the **SQL Statement** cell, or a double click on the cell, opens a box with the whole statement, where it can run over several lines. **Save** keeps it and
 **Cancel** leaves it as it was, and **Wrap text** wraps long lines so they can be read without scrolling.
 
 <img class="shot shot-light" src="/shots/sql-edit-light.png" alt="The box for editing a statement, with a query written over several lines">
