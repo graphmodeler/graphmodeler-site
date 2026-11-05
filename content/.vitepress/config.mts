@@ -34,7 +34,7 @@ function describeShot(tag: string): string {
 const SITE = 'https://graphmodeler.com';
 
 /** False until the launch: while it is, every page tells search engines to stay away. */
-const LAUNCHED = false;
+const LAUNCHED = true;
 
 /**
  * The Graph Modeler site, at graphmodeler.com. Every page is a folder with an index page in it, so its address ends in a

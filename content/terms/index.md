@@ -4,7 +4,7 @@ description: "The terms that cover the Graph Modeler website, the software and t
 
 # Terms of Service
 
-Last updated: October 28, 2026
+Last updated: November 5, 2026
 
 These terms cover your use of the Graph Modeler™ website at graphmodeler.com, the Graph Modeler software, and the commercial licenses sold for it.
 Graph Modeler is published by Jeffrey J. Long ("I", "me"). By downloading or using the software, or by buying a license, you agree to these terms. If
@@ -18,11 +18,6 @@ commercial use. If these terms and the license text disagree, the license text d
 
 Graph Modeler is built on the work of others, each under its own license, which are listed on the [About tab](/docs/about/) of the app. Graphviz is not part
 of Graph Modeler. It is installed separately, under its own license.
-
-## The beta
-
-While Graph Modeler is marked beta, it is still being tested. Features may change, files written by one version may not open in an earlier one, and it may
-contain mistakes. Keep copies of the files you care about.
 
 ## Commercial licenses
 

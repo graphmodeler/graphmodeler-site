@@ -4,8 +4,20 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 
 # What's new
 
-What each version of Graph Modeler changed, newest first. Graph Modeler is in beta, so the version numbers are small and the changes are many. The installers for each are on the
+What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
+
+## Version 1.0.0 (November 5, 2026)
+
+The first release that is not a beta. Everything from the betas is in it.
+
+**Changed**
+
+- **The buttons at the end of a row respond to every click.** After one row was deleted, the next click on the same spot could land on the grid's fill handle and only select the cell. A press on a
+  row button now stays out of the grid. This applies to the move, add and delete buttons on the Data, Styles and SQL tabs.
+- **A double click on a SQL statement opens it.** The window for the whole statement opens as it does from the pencil, as a double click opens a cell for editing in a spreadsheet. See
+  [Writing a long statement](/docs/sql/#writing-a-long-statement).
+- **The pencil in a cell is kept clear of the fill handle**, so a click on it is not taken by the handle when the cell is selected.
 
 ## Version 0.1.6, beta 7 (November 4, 2026)
 
