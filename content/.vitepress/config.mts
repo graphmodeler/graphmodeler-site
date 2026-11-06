@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, type HeadConfig } from 'vitepress';
@@ -160,6 +160,8 @@ export default defineConfig({
 
   // At the launch the site also gets a robots.txt that points to the sitemap. (While it is not launched, no file is written.)
   buildEnd({ outDir }) {
+    // The files of a draft example (public/examples/<name>/) are copied as they are, and would be on the site, unlisted but reachable.
+    for (const glob of draftExamples()) rmSync(join(outDir, glob.replace(/\/\*\*$/, '')), { recursive: true, force: true });
     if (!LAUNCHED) return;
     writeFileSync(join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
   },
