@@ -1,0 +1,110 @@
+{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": true,
+  "source_workbook": "order-process.json",
+  "view": "All Styles",
+  "export_datetime": "2026-11-06T13:36:26",
+  "styles": {
+    "Step": {
+      "description": "A step in the process",
+      "type": "node"
+    },
+    "Decision": {
+      "description": "A choice between paths",
+      "type": "node"
+    },
+    "Store": {
+      "description": "Somewhere data is kept",
+      "type": "node"
+    },
+    "Flow": {
+      "description": "Work moves on",
+      "type": "edge"
+    },
+    "Lookup": {
+      "description": "Reads data",
+      "type": "edge"
+    },
+    "Warehouse": {
+      "type": "cluster"
+    }
+  },
+  "nodes": [
+    {
+      "id": "Order received",
+      "style": "Step"
+    },
+    {
+      "id": "Credit check",
+      "style": "Decision"
+    },
+    {
+      "id": "Customers",
+      "style": "Store"
+    },
+    {
+      "id": "cluster_1",
+      "type": "cluster",
+      "style": "Warehouse",
+      "label": {
+        "value": "Warehouse",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Pick items",
+      "cluster": "cluster_1",
+      "style": "Step"
+    },
+    {
+      "id": "Pack order",
+      "cluster": "cluster_1",
+      "style": "Step"
+    },
+    {
+      "id": "Ship order",
+      "style": "Step"
+    }
+  ],
+  "edges": [
+    {
+      "id": "Order received->Credit check",
+      "source": "Order received",
+      "target": "Credit check",
+      "style": "Flow"
+    },
+    {
+      "id": "Credit check->Customers",
+      "source": "Credit check",
+      "target": "Customers",
+      "style": "Lookup",
+      "label": {
+        "value": "look up",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Pick items->Pack order",
+      "source": "Pick items",
+      "target": "Pack order",
+      "style": "Flow"
+    },
+    {
+      "id": "Credit check->Pick items",
+      "source": "Credit check",
+      "target": "Pick items",
+      "style": "Flow",
+      "label": {
+        "value": "approved",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Pack order->Ship order",
+      "source": "Pack order",
+      "target": "Ship order",
+      "style": "Flow"
+    }
+  ]
+}

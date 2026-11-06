@@ -5,7 +5,7 @@ title: "London Underground: a diagram for every line"
 tagline: "One dataset, a diagram for each line."
 description: "A model of the London Underground drawn as a diagram for each line, or for several lines together, from one set of stations and connections, with its Knowledge Graph."
 thumbnail: /examples/london-underground-views/thumbnail.webp
-order: 1
+order: 2
 facts:
   - "17 views"
   - "377 stations"

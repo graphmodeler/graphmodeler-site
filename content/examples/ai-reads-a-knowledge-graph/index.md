@@ -5,7 +5,7 @@ title: "Musicians and bands: a force-directed graph"
 tagline: "Who played with whom, in one picture."
 description: "A force-directed graph of 443 rock musicians and the 131 bands they joined, with its Knowledge Graph, a large file of about 78,000 tokens."
 thumbnail: /examples/ai-reads-a-knowledge-graph/thumbnail.webp
-order: 3
+order: 4
 facts:
   - "443 musicians, 131 bands"
   - "627 connections"

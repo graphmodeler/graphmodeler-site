@@ -5,7 +5,7 @@ title: "System context diagram of a notifications application"
 tagline: "Icons in the nodes, and a graph an AI can review."
 description: "A system context diagram of a hypothetical Consumer Notifications application, with a picture in every node, drawn from the Context Diagram Toolkit, with its Knowledge Graph."
 thumbnail: /examples/context-diagram-review/thumbnail.webp
-order: 2
+order: 3
 facts:
   - "163 styles"
   - "6 views"

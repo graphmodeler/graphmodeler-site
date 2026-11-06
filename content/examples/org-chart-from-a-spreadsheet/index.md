@@ -5,7 +5,7 @@ title: "Org chart from a spreadsheet"
 tagline: "Tree queries walk the reporting line."
 description: "An organization chart centered on one employee, drawn from a spreadsheet of employees and their supervisors with tree queries, with its Knowledge Graph."
 thumbnail: /examples/org-chart-from-a-spreadsheet/thumbnail.webp
-order: 4
+order: 5
 facts:
   - "11 nodes, 10 edges"
   - "dot layout, top to bottom"
