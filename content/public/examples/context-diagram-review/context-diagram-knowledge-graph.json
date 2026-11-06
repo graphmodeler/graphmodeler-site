@@ -1,0 +1,855 @@
+{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": true,
+  "source_workbook": "context-diagram.json",
+  "view": "Diagram",
+  "export_datetime": "2026-11-06T12:13:13",
+  "styles": {
+    "page_border": {
+      "type": "cluster"
+    },
+    "legend node": {
+      "type": "node"
+    },
+    "note": {
+      "description": "Annotation that clarifies or supplements the diagram. It is not part of any data flow.",
+      "type": "node",
+      "properties": {
+        "kind": "annotation",
+        "subtype": "note"
+      }
+    },
+    "transparent_edge": {
+      "description": "Invisible connection used only to influence layout, alignment, or ordering. It does not represent a real interaction.",
+      "type": "edge"
+    },
+    "boundary_1": {
+      "type": "cluster"
+    },
+    "boundary_2": {
+      "type": "cluster"
+    },
+    "homegrown": {
+      "description": "Custom application built and supported internally to meet specific business needs, often tightly coupled to internal processes.",
+      "type": "node",
+      "properties": {
+        "kind": "app",
+        "subtype": "homegrown",
+        "code_ownership": "internal",
+        "operated_by": "internal",
+        "support_model": "internal"
+      }
+    },
+    "event": {
+      "description": "Occurrence such as a message arrival, timer expiration, or state change that starts, continues, or interrupts a process.",
+      "type": "node",
+      "properties": {
+        "kind": "actor",
+        "subtype": "event",
+        "actor_role": "system"
+      }
+    },
+    "queue": {
+      "description": "Ordered store holding messages or tasks awaiting processing, decoupling producers from consumers.",
+      "type": "node",
+      "properties": {
+        "kind": "datastore",
+        "subtype": "queue",
+        "structure": "semi_structured",
+        "persistence": "transient",
+        "access_pattern": "sequential",
+        "concurrency_model": "ordered"
+      }
+    },
+    "system": {
+      "description": "Foundational platform such as an operating system, middleware, or enterprise service that provides core capabilities to other applications.",
+      "type": "node",
+      "properties": {
+        "kind": "app",
+        "subtype": "system",
+        "code_ownership": "mixed",
+        "operated_by": "internal",
+        "support_model": "internal"
+      }
+    },
+    "open-source": {
+      "description": "Community-maintained application with modifiable source code, self-hosted or customized to fit organizational workflows.",
+      "type": "node",
+      "properties": {
+        "kind": "app",
+        "subtype": "open_source",
+        "code_ownership": "community",
+        "operated_by": "internal",
+        "support_model": "community"
+      }
+    },
+    "person": {
+      "description": "Individual user who initiates or receives interactions, such as submitting requests, approving steps, or consuming information.",
+      "type": "node",
+      "properties": {
+        "kind": "actor",
+        "subtype": "person",
+        "actor_role": "human"
+      }
+    },
+    "cloud": {
+      "description": "Application hosted on remote infrastructure and delivered as an on-demand service, integrated through APIs or managed platform endpoints.",
+      "type": "node",
+      "properties": {
+        "kind": "app",
+        "subtype": "cloud",
+        "code_ownership": "vendor",
+        "operated_by": "vendor",
+        "support_model": "vendor"
+      }
+    },
+    "esb_rest_apis": {
+      "description": "RESTful endpoints mediated by the ESB for routing, transformation, and policy enforcement.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "app",
+        "via": "esb",
+        "protocol_type": "rest",
+        "transport": "tcp",
+        "directionality": "request_response",
+        "encryption_in_transit": "optional",
+        "reliable_delivery": false,
+        "ordered_delivery": true,
+        "real_time": false,
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "forward_proxy_https_rest": {
+      "description": "Outbound REST calls over HTTPS routed through the forward proxy for filtering and inspection before reaching external services. Requires approval.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "app",
+        "via": "forward_proxy",
+        "protocol_type": "rest",
+        "transport": "tcp",
+        "directionality": "request_response",
+        "encryption_in_transit": "enforced",
+        "reliable_delivery": false,
+        "ordered_delivery": true,
+        "real_time": false,
+        "status": "requires_approval",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "direct_network_https_rest": {
+      "description": "Point-to-point REST calls over HTTPS on the internal network, without an intermediary.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "app",
+        "via": "direct_network",
+        "protocol_type": "rest",
+        "transport": "tcp",
+        "directionality": "request_response",
+        "encryption_in_transit": "enforced",
+        "reliable_delivery": false,
+        "ordered_delivery": true,
+        "real_time": false,
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "email_smtp": {
+      "description": "Application sends email over SMTP for notifications or message-based delivery between systems. TLS is negotiated per connection.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "app",
+        "via": "email",
+        "protocol_type": "smtp",
+        "transport": "tcp",
+        "directionality": "push",
+        "encryption_in_transit": "optional",
+        "reliable_delivery": true,
+        "ordered_delivery": false,
+        "real_time": false,
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "established"
+      }
+    },
+    "sends_to_enqueue": {
+      "description": "Application places messages or tasks on a queue for asynchronous processing.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "datastore",
+        "interaction_type": "sends",
+        "operation": "write",
+        "protocol_type": "queue",
+        "transport": "tcp",
+        "encryption_in_transit": "optional",
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "gets_from_dequeue": {
+      "description": "Application removes and consumes the next message or task from a queue.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "datastore",
+        "interaction_type": "gets",
+        "operation": "consume",
+        "protocol_type": "queue",
+        "transport": "tcp",
+        "encryption_in_transit": "optional",
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "person_interacts_with": {
+      "description": "Person provides inputs to and receives outputs from the application during normal use.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "actor",
+        "target_kind": "app",
+        "source_subtype": "person",
+        "interaction_type": "interacts",
+        "interaction_mode": "control",
+        "directionality": "bidirectional",
+        "synchronous": true,
+        "real_time": false
+      }
+    },
+    "event_sends_to": {
+      "description": "Event notifies the application that a defined condition has occurred, triggering a response.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "actor",
+        "target_kind": "app",
+        "source_subtype": "event",
+        "interaction_type": "sends",
+        "interaction_mode": "notify",
+        "directionality": "push",
+        "synchronous": false,
+        "real_time": true
+      }
+    }
+  },
+  "nodes": [
+    {
+      "id": "cluster_1",
+      "type": "cluster",
+      "style": "page_border",
+      "label": {
+        "value": "System Context for Consumer Notifications Application",
+        "type": "text"
+      }
+    },
+    {
+      "id": "legend",
+      "cluster": "cluster_1",
+      "style": "legend node",
+      "label": {
+        "value": "<font face=\"Calibri\" point-size=\"10\"> <table border=\"1\" cellborder=\"0\" cellspacing=\"1\" color=\"#B3B3B3\"><tr><td colspan=\"9\" align=\"center\" ><font point-size=\"14\">Consumer Notifications</font></td></tr><tr>   <td colspan=\"3\" align=\"center\"><B>Actor</B></td>   <td colspan=\"3\" align=\"center\"><B>Application</B></td>   <td colspan=\"3\" align=\"center\"><B>Data Store</B></td>  </tr>  <tr>    <td bgcolor=\"#E6B8B7\">  </td><td><img src=\"images/alarm.png\" ></img></td><td align=\"left\">Alarm</td>    <td bgcolor=\"#4F81BD\">  </td><td><img src=\"images/cloud.png\"></img></td><td align=\"left\">Cloud</td>    <td bgcolor=\"#FFFFFF\">  </td><td><img src=\"images/database.png\"></img></td><td align=\"left\">Database</td>   </tr>  <tr>   <td bgcolor=\"#CCC0DA\">  </td><td><img src=\"images/robot.png\"></img></td><td align=\"left\">Bot / Robot</td>   <td bgcolor=\"#FF0000\">  </td><td><img src=\"images/commercial.png\"></img></td><td align=\"left\">Commercial</td>   <td bgcolor=\"#FFFFFF\">  </td><td><img src=\"images/directory.png\"></img></td><td align=\"left\">Directory</td>  </tr>  <tr>   <td bgcolor=\"#D8E4BC\">  </td><td><img src=\"images/event.png\"></img></td><td align=\"left\">Event</td>   <td bgcolor=\"#F79646\">  </td><td><img src=\"images/homegrown.png\"></img></td><td align=\"left\">Homegrown</td>   <td bgcolor=\"#FFFFFF\">  </td><td><img src=\"images/file.png\"></img></td><td align=\"left\">File</td>   </tr>  <tr>   <td bgcolor=\"#FCD5B4\">  </td><td><img src=\"images/org.png\"></img></td><td align=\"left\">Organization</td>   <td bgcolor=\"#9BBB59\">  </td><td><img src=\"images/opensource.png\"></img></td><td align=\"left\">Open-source</td>   <td bgcolor=\"#FFFFFF\">  </td><td><img src=\"images/folder.png\"></img></td><td align=\"left\">Folder</td>  </tr>  <tr>   <td bgcolor=\"#B8CCE4\">  </td><td><img src=\"images/person.png\"></img></td><td align=\"left\">Person</td>   <td bgcolor=\"#4BACC6\">  </td><td><img src=\"images/partner.png\"></img></td><td align=\"left\">Partner</td>   <td bgcolor=\"#FFFFFF\">  </td><td><img src=\"images/queue.png\"></img></td><td align=\"left\">Queue</td>  </tr>  <tr>   <td bgcolor=\"#B7DEE8\">  </td><td><img src=\"images/process.png\"></img></td><td align=\"left\">Process</td>   <td bgcolor=\"#D9D9D9\">  </td><td><img src=\"images/system.png\"></img></td><td align=\"left\">System</td>   <td bgcolor=\"#FFFFFF\">  </td><td><img src=\"images/repository.png\"></img></td><td align=\"left\">Repository</td>  </tr>  <tr>   <td colspan=\"9\">    <table border=\"0\" cellborder=\"0\" cellspacing=\"0\" >     <tr><td></td><td></td></tr> <tr><td align=\"right\" border=\"1\" bgcolor=\"#F0F0F0\"><b>Source Data:</b></td><td align=\"left\" border=\"1\">Context Diagram Data.xlsx</td></tr> <tr><td align=\"right\" border=\"1\" bgcolor=\"#F0F0F0\"><b>Author:</b></td><td align=\"left\" border=\"1\">Jeffrey Long</td></tr> <tr><td align=\"right\" border=\"1\" bgcolor=\"#F0F0F0\"><b>Date:</b></td><td align=\"left\" border=\"1\">September 27, 2026</td></tr><tr><td></td><td></td></tr>    </table>   </td>  </tr> </table> </font>",
+        "type": "html"
+      },
+      "tooltip": {
+        "value": "Legend",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Note 4",
+      "cluster": "cluster_1",
+      "style": "Note",
+      "label": {
+        "value": "Assumption: Consumer can apply for credit on-line, or at a retail establishment. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Note 5",
+      "cluster": "cluster_1",
+      "style": "Note",
+      "label": {
+        "value": "Assumption: Consumer has applied for credit, and is waiting to learn of the decision. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 5",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_2",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "boundary_1",
+      "label": {
+        "value": "Corporate Applications",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_3",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "boundary_2",
+      "label": {
+        "value": "Business to Consumer",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Consumer Notifications",
+      "cluster": "cluster_3",
+      "style": "homegrown",
+      "label": {
+        "value": "APP-10016  Consumer Notifications",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Consumer Notifications: A service that helps create, send, and manage various types of notifications to customers, including mobile text message notifications, push notifications, and email notifications.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10016",
+        "app_title": "Consumer Notifications",
+        "business_owner": "Consumer Applications",
+        "technical_owner": "IT Application Support"
+      }
+    },
+    {
+      "id": "System Timer",
+      "cluster": "cluster_3",
+      "style": "event",
+      "label": {
+        "value": "Event System Timer",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "System Timer: Runs once per minute to inform Consumer Notifications it is time to check for tasks to perform.",
+        "type": "text"
+      },
+      "properties": {
+        "origin": "Internal",
+        "trigger_source": "System Clock",
+        "failure_impact": "Degraded"
+      }
+    },
+    {
+      "id": "Notification Queue",
+      "cluster": "cluster_3",
+      "style": "queue",
+      "label": {
+        "value": "Notification Queue",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Notification Queue: Temporarily holds and manages notification messages before they're delivered to their intended recipients. A digital \"waiting room\" where prioritized messages line up to be processed in the right order, at the right time.",
+        "type": "text"
+      },
+      "properties": {
+        "data_owner": "Sales and Marketing",
+        "deployment_model": "On Premise",
+        "data_residency": "Local Region Only",
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "retention_period": "1 Year",
+        "encryption_at_rest": false,
+        "backup_strategy": "Daily Snapshots",
+        "failure_disposition": "Dead Letter Queue",
+        "retry_strategy": "Exponential Backoff",
+        "failure_alerting": "Alert"
+      }
+    },
+    {
+      "id": "Note 1",
+      "cluster": "cluster_3",
+      "style": "note",
+      "label": {
+        "value": "Business application uses the Consumer Notifications application to send graphics-rich emails to customers. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 1",
+        "type": "text"
+      },
+      "properties": {
+        "id": "1"
+      }
+    },
+    {
+      "id": "cluster_4",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "boundary_2",
+      "label": {
+        "value": "Consumer Lending",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Credit Application System",
+      "cluster": "cluster_4",
+      "style": "homegrown",
+      "label": {
+        "value": "APP-10004  Credit Application System",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Credit Application System: An in-house application used to process customer credit applications, assess creditworthiness, and manage credit risk.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10004",
+        "app_title": "Credit Application System",
+        "business_owner": "Credit Operations",
+        "technical_owner": "IT Application Support"
+      }
+    },
+    {
+      "id": "Note 2",
+      "cluster": "cluster_4",
+      "style": "note",
+      "label": {
+        "value": "An in-house application used to process customer credit applications, assess creditworthiness, and manage credit risk. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 2",
+        "type": "text"
+      },
+      "properties": {
+        "id": "2"
+      }
+    },
+    {
+      "id": "cluster_5",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "boundary_2",
+      "label": {
+        "value": "Perimeter Network",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Forward Proxy",
+      "cluster": "cluster_5",
+      "style": "system",
+      "label": {
+        "value": "APP-10011  Forward Proxy",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Forward Proxy: A type of proxy server that sits between a client and the internet, facilitating requests from the client to external servers.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10011",
+        "app_title": "Forward Proxy",
+        "business_owner": "IT Infrastructure Support",
+        "technical_owner": "IT Infrastructure Support"
+      }
+    },
+    {
+      "id": "cluster_6",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "boundary_1",
+      "label": {
+        "value": "Internet",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_7",
+      "type": "cluster",
+      "cluster": "cluster_6",
+      "style": "boundary_2",
+      "label": {
+        "value": "Consumer's Home",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Email Client",
+      "cluster": "cluster_7",
+      "style": "open-source",
+      "label": {
+        "value": "APP-10014  Email Client",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Email Client: A software application that allows users to access, compose, and send email messages. It acts as the interface between the user and the mail server. Also known as a Mail User Agent.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10014",
+        "app_title": "Email Client",
+        "business_owner": "IT Infrastructure Support",
+        "technical_owner": "IT Desktop Support ",
+        "vendor_product": "Microsoft Outlook",
+        "comprehensive_list": false
+      }
+    },
+    {
+      "id": "Consumer",
+      "cluster": "cluster_7",
+      "style": "person",
+      "label": {
+        "value": "Person Consumer",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Consumer: The recipient of the email notification being sent.",
+        "type": "text"
+      },
+      "properties": {
+        "origin": "External",
+        "population_scale": "Up to 50,000"
+      }
+    },
+    {
+      "id": "cluster_8",
+      "type": "cluster",
+      "cluster": "cluster_6",
+      "style": "boundary_2",
+      "label": {
+        "value": "Email Services",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Mail Relay",
+      "cluster": "cluster_8",
+      "style": "system",
+      "label": {
+        "value": "APP-10013  Mail Relay",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Mail Relay: A Simple Mail Transfer Protocol (SMTP) relay transfers email from one SMTP server to another over the internet until reaching the intended recipent.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10013",
+        "app_title": "Mail Relay",
+        "business_owner": "IT Infrastructure Support",
+        "technical_owner": "IT Infrastructure Support"
+      }
+    },
+    {
+      "id": "cluster_9",
+      "type": "cluster",
+      "cluster": "cluster_6",
+      "style": "boundary_2",
+      "label": {
+        "value": "Cloud Service Provider",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Marketing CRM",
+      "cluster": "cluster_9",
+      "style": "cloud",
+      "label": {
+        "value": "APP-10018  Marketing CRM",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Marketing CRM: A Customer Relationship Management (CRM) platform focused on digital marketing automation and analytics that helps businesses manage their relationships with customers and execute marketing campaigns across various channels.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10018",
+        "app_title": "Marketing CRM",
+        "business_owner": "Marketing Operations",
+        "technical_owner": "IT Application Support",
+        "vendor_product": "Salesforce Marketing Cloud",
+        "hosting_model": "SaaS",
+        "end_of_support_date": "N/A",
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "redundancy_model": "Active-Active",
+        "criticality": "Medium",
+        "regulatory_scope": "SOX",
+        "integrity": "Standard",
+        "availability": "Standard",
+        "business_continuity": "Standard"
+      }
+    },
+    {
+      "id": "Note 3",
+      "cluster": "cluster_9",
+      "style": "note",
+      "label": {
+        "value": "Consumer Notifications application uses cloud-based SAAS software to compose and deliver the message. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 3",
+        "type": "text"
+      },
+      "properties": {
+        "id": "3"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "Note 4->Note 5",
+      "source": "Note 4",
+      "target": "Note 5",
+      "style": "transparent_edge"
+    },
+    {
+      "id": "Credit Application System->Consumer Notifications",
+      "source": "Credit Application System",
+      "target": "Consumer Notifications",
+      "style": "esb_rest_apis",
+      "label": {
+        "value": "Notify customer of decision ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "REST APIs ",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "ESB",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "Service Account or App ID",
+        "failure_disposition": "Return Error to Caller",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Consumer Notifications->Forward Proxy",
+      "source": "Consumer Notifications",
+      "target": "Forward Proxy",
+      "style": "forward_proxy_https_rest",
+      "label": {
+        "value": "Invoke cloud service to send email ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "HTTPS REST ",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Forward Proxy ",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "Service Account or App ID",
+        "failure_disposition": "Fallback Route",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Forward Proxy->Marketing CRM",
+      "source": "Forward Proxy",
+      "target": "Marketing CRM",
+      "style": "direct_network_https_rest",
+      "label": {
+        "value": "Invoke cloud service to send email ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "REST",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "HTTPS",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "OAuth2 or OIDC",
+        "failure_disposition": "Return Error to Caller",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Marketing CRM->Mail Relay",
+      "source": "Marketing CRM",
+      "target": "Mail Relay",
+      "style": "email_smtp",
+      "label": {
+        "value": "Format appropriate template and transmit ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "SMTP",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Email",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "None",
+        "failure_disposition": "Fallback Route",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Mail Relay->Email Client",
+      "source": "Mail Relay",
+      "target": "Email Client",
+      "style": "email_smtp",
+      "label": {
+        "value": "Deliver email to mailbox ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "SMTP",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Email",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "None",
+        "failure_disposition": "Fallback Route",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Consumer Notifications->Notification Queue",
+      "source": "Consumer Notifications",
+      "target": "Notification Queue",
+      "style": "sends_to_enqueue",
+      "label": {
+        "value": "Add to send queue ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "Enqueue",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Sends To ",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "auth_mechanism": "Service Account or App ID",
+        "failure_disposition": "Return Error to Caller",
+        "retry_strategy": "None",
+        "failure_alerting": "Logged Only",
+        "approximate_volume": "Low"
+      }
+    },
+    {
+      "id": "Consumer Notifications->Notification Queue",
+      "source": "Consumer Notifications",
+      "target": "Notification Queue",
+      "style": "gets_from_dequeue",
+      "label": {
+        "value": "Release from send queue ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "Dequeue",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Gets From ",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "auth_mechanism": "Service Account or App ID",
+        "failure_disposition": "Return Error to Caller",
+        "retry_strategy": "None",
+        "failure_alerting": "Logged Only",
+        "approximate_volume": "Low"
+      }
+    },
+    {
+      "id": "Consumer->Email Client",
+      "source": "Consumer",
+      "target": "Email Client",
+      "style": "person_interacts_with",
+      "label": {
+        "value": "Read eMail notification ",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Interacts With ",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "auth_mechanism": "OAuth2 or OIDC",
+        "failure_disposition": "Dead Letter Queue",
+        "retry_strategy": "None",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "channel": "Web;Mobile App"
+      }
+    },
+    {
+      "id": "System Timer->Consumer Notifications",
+      "source": "System Timer",
+      "target": "Consumer Notifications",
+      "style": "event_sends_to",
+      "label": {
+        "value": "Check for pending requests ",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Sends To ",
+        "type": "text"
+      }
+    }
+  ]
+}

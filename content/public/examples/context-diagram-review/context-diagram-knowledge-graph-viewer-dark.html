@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html class="dark">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>JSON Knowledge Graph Viewer</title>
+<style>
+/* Kept deliberately simple / old-IE safe: no CSS grid, no CSS vars */
+html, body { height: 100%; margin: 0; }
+body {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    background: #f5f5f5;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+}
+#toolbar {
+    padding: 8px 10px;
+    background: #e8e8e8;
+    border-bottom: 1px solid #ccc;
+    flex: 0 0 auto;
+}
+#toolbar input[type=text] { width: 220px; }
+#toolbar button, #toolbar select { margin-left: 4px; }
+#matchCount { margin-left: 6px; color: #555; }
+#statsBar {
+    padding: 4px 10px;
+    background: #fafafa;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    font-size: 12px;
+    flex: 0 0 auto;
+}
+#errorBanner {
+    display: none;
+    padding: 6px 10px;
+    background: #ffe1e1;
+    color: #900;
+    border-bottom: 1px solid #e0a0a0;
+    flex: 0 0 auto;
+}
+#viewToggle { padding: 6px 10px; background: #eee; border-bottom: 1px solid #ccc; flex: 0 0 auto; }
+#viewToggle button.active { background: #444; color: #fff; }
+
+/* ---- Raw (virtualized) view ---- */
+#scrollArea {
+    position: relative;
+    overflow: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: #fff;
+}
+#sizer { position: relative; }
+.row {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: pre;
+    height: 18px;
+    line-height: 18px;
+}
+.rowNum {
+    display: inline-block;
+    width: 50px;
+    text-align: right;
+    padding-right: 8px;
+    color: #999;
+    background: #eee;
+    user-select: none;
+}
+.rowText { padding-left: 6px; }
+.row.matchRow .rowText { background: #fff6b0; }
+.row.currentMatchRow .rowText { background: #ffcf40; }
+mark { background: #ffcf40; padding: 0; }
+
+/* Syntax highlight colors */
+.jkey { color: #a1260d; font-weight: bold; }
+.jstr { color: #0a7c2f; }
+.jnum { color: #1a56db; }
+.jbool { color: #9b1bb3; }
+.jpunc { color: #555; }
+
+/* ---- Tree view ---- */
+#treeView {
+    display: none;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    background: #fff;
+    padding: 8px 10px;
+}
+.treeNode { margin-left: 16px; }
+.toggle {
+    cursor: pointer;
+    display: inline-block;
+    width: 14px;
+    color: #666;
+    user-select: none;
+}
+.treeKey { color: #a1260d; }
+.treeVal.jstr { color: #0a7c2f; }
+.treeVal.jnum { color: #1a56db; }
+.treeVal.jbool { color: #9b1bb3; }
+.moreLink { color: #1a56db; cursor: pointer; text-decoration: underline; }
+
+/* ---- Dark theme: only colors. The app asks for it by marking the page; a page that is not marked is light. ---- */
+html.dark { color-scheme: dark; }
+.dark body { background: #1b1f24; color: #e6e8eb; }
+.dark #toolbar { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #toolbar input[type=text], .dark #toolbar button, .dark #toolbar select, .dark #viewToggle button { background: #2b313a; color: #e6e8eb; border: 1px solid #5b6470; }
+.dark #toolbar input[type=text] { background: #22272e; }
+.dark #matchCount { color: #9aa3af; }
+.dark #statsBar { background: #22272e; border-bottom-color: #3a414b; color: #9aa3af; }
+.dark #errorBanner { background: #3a1f22; color: #f0625f; border-bottom-color: #6b2f33; }
+.dark #viewToggle { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #viewToggle button.active { background: #e6e8eb; color: #1b1f24; }
+.dark #scrollArea, .dark #treeView { background: #22272e; }
+.dark .rowNum { color: #8b949e; background: #2b313a; }
+.dark .row.matchRow .rowText { background: #4a4320; }
+.dark .row.currentMatchRow .rowText { background: #7a6212; }
+.dark mark { background: #7a6212; color: #fff; }
+.dark .jkey, .dark .treeKey { color: #f0846f; }
+.dark .jstr, .dark .treeVal.jstr { color: #5fd18a; }
+.dark .jnum, .dark .treeVal.jnum { color: #6ea8fe; }
+.dark .jbool, .dark .treeVal.jbool { color: #d79bef; }
+.dark .jpunc, .dark .toggle { color: #9aa3af; }
+.dark .moreLink { color: #6ea8fe; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <button id="btnSearch">Search</button>
+    <button id="btnPrev">&#8593; Prev</button>
+    <button id="btnNext">&#8595; Next</button>
+    <button id="btnClear">Clear</button>
+    <span id="matchCount"></span>
+    <button id="btnCopyRaw" style="margin-left:16px;">Copy Raw</button>
+    <button id="btnCopyPretty">Copy Pretty</button>
+    <button id="btnSaveRaw" style="margin-left:16px;">Save Raw As File</button>
+    <button id="btnSavePretty">Save Pretty As File</button>
+</div>
+
+<div id="viewToggle">
+    View:
+    <button id="btnRawView" class="active">Raw (line numbers)</button>
+    <button id="btnTreeView">Tree (collapsible)</button>
+</div>
+
+<div id="errorBanner"></div>
+<div id="statsBar"></div>
+
+<div id="scrollArea"><div id="sizer"></div></div>
+<div id="treeView"></div>
+
+<!-- The graph, as JSON text that is data and not script. The app writes it here with "<" escaped. -->
+<script type="application/json" id="graphData">{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": true,
+  "source_workbook": "context-diagram.json",
+  "view": "Diagram",
+  "export_datetime": "2026-11-06T12:13:13",
+  "styles": {
+    "page_border": {
+      "type": "cluster"
+    },
+    "legend node": {
+      "type": "node"
+    },
+    "note": {
+      "description": "Annotation that clarifies or supplements the diagram. It is not part of any data flow.",
+      "type": "node",
+      "properties": {
+        "kind": "annotation",
+        "subtype": "note"
+      }
+    },
+    "transparent_edge": {
+      "description": "Invisible connection used only to influence layout, alignment, or ordering. It does not represent a real interaction.",
+      "type": "edge"
+    },
+    "boundary_1": {
+      "type": "cluster"
+    },
+    "boundary_2": {
+      "type": "cluster"
+    },
+    "homegrown": {
+      "description": "Custom application built and supported internally to meet specific business needs, often tightly coupled to internal processes.",
+      "type": "node",
+      "properties": {
+        "kind": "app",
+        "subtype": "homegrown",
+        "code_ownership": "internal",
+        "operated_by": "internal",
+        "support_model": "internal"
+      }
+    },
+    "event": {
+      "description": "Occurrence such as a message arrival, timer expiration, or state change that starts, continues, or interrupts a process.",
+      "type": "node",
+      "properties": {
+        "kind": "actor",
+        "subtype": "event",
+        "actor_role": "system"
+      }
+    },
+    "queue": {
+      "description": "Ordered store holding messages or tasks awaiting processing, decoupling producers from consumers.",
+      "type": "node",
+      "properties": {
+        "kind": "datastore",
+        "subtype": "queue",
+        "structure": "semi_structured",
+        "persistence": "transient",
+        "access_pattern": "sequential",
+        "concurrency_model": "ordered"
+      }
+    },
+    "system": {
+      "description": "Foundational platform such as an operating system, middleware, or enterprise service that provides core capabilities to other applications.",
+      "type": "node",
+      "properties": {
+        "kind": "app",
+        "subtype": "system",
+        "code_ownership": "mixed",
+        "operated_by": "internal",
+        "support_model": "internal"
+      }
+    },
+    "open-source": {
+      "description": "Community-maintained application with modifiable source code, self-hosted or customized to fit organizational workflows.",
+      "type": "node",
+      "properties": {
+        "kind": "app",
+        "subtype": "open_source",
+        "code_ownership": "community",
+        "operated_by": "internal",
+        "support_model": "community"
+      }
+    },
+    "person": {
+      "description": "Individual user who initiates or receives interactions, such as submitting requests, approving steps, or consuming information.",
+      "type": "node",
+      "properties": {
+        "kind": "actor",
+        "subtype": "person",
+        "actor_role": "human"
+      }
+    },
+    "cloud": {
+      "description": "Application hosted on remote infrastructure and delivered as an on-demand service, integrated through APIs or managed platform endpoints.",
+      "type": "node",
+      "properties": {
+        "kind": "app",
+        "subtype": "cloud",
+        "code_ownership": "vendor",
+        "operated_by": "vendor",
+        "support_model": "vendor"
+      }
+    },
+    "esb_rest_apis": {
+      "description": "RESTful endpoints mediated by the ESB for routing, transformation, and policy enforcement.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "app",
+        "via": "esb",
+        "protocol_type": "rest",
+        "transport": "tcp",
+        "directionality": "request_response",
+        "encryption_in_transit": "optional",
+        "reliable_delivery": false,
+        "ordered_delivery": true,
+        "real_time": false,
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "forward_proxy_https_rest": {
+      "description": "Outbound REST calls over HTTPS routed through the forward proxy for filtering and inspection before reaching external services. Requires approval.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "app",
+        "via": "forward_proxy",
+        "protocol_type": "rest",
+        "transport": "tcp",
+        "directionality": "request_response",
+        "encryption_in_transit": "enforced",
+        "reliable_delivery": false,
+        "ordered_delivery": true,
+        "real_time": false,
+        "status": "requires_approval",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "direct_network_https_rest": {
+      "description": "Point-to-point REST calls over HTTPS on the internal network, without an intermediary.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "app",
+        "via": "direct_network",
+        "protocol_type": "rest",
+        "transport": "tcp",
+        "directionality": "request_response",
+        "encryption_in_transit": "enforced",
+        "reliable_delivery": false,
+        "ordered_delivery": true,
+        "real_time": false,
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "email_smtp": {
+      "description": "Application sends email over SMTP for notifications or message-based delivery between systems. TLS is negotiated per connection.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "app",
+        "via": "email",
+        "protocol_type": "smtp",
+        "transport": "tcp",
+        "directionality": "push",
+        "encryption_in_transit": "optional",
+        "reliable_delivery": true,
+        "ordered_delivery": false,
+        "real_time": false,
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "established"
+      }
+    },
+    "sends_to_enqueue": {
+      "description": "Application places messages or tasks on a queue for asynchronous processing.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "datastore",
+        "interaction_type": "sends",
+        "operation": "write",
+        "protocol_type": "queue",
+        "transport": "tcp",
+        "encryption_in_transit": "optional",
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "gets_from_dequeue": {
+      "description": "Application removes and consumes the next message or task from a queue.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "app",
+        "target_kind": "datastore",
+        "interaction_type": "gets",
+        "operation": "consume",
+        "protocol_type": "queue",
+        "transport": "tcp",
+        "encryption_in_transit": "optional",
+        "status": "approved",
+        "risk_level": "low",
+        "modernity": "modern"
+      }
+    },
+    "person_interacts_with": {
+      "description": "Person provides inputs to and receives outputs from the application during normal use.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "actor",
+        "target_kind": "app",
+        "source_subtype": "person",
+        "interaction_type": "interacts",
+        "interaction_mode": "control",
+        "directionality": "bidirectional",
+        "synchronous": true,
+        "real_time": false
+      }
+    },
+    "event_sends_to": {
+      "description": "Event notifies the application that a defined condition has occurred, triggering a response.",
+      "type": "edge",
+      "properties": {
+        "source_kind": "actor",
+        "target_kind": "app",
+        "source_subtype": "event",
+        "interaction_type": "sends",
+        "interaction_mode": "notify",
+        "directionality": "push",
+        "synchronous": false,
+        "real_time": true
+      }
+    }
+  },
+  "nodes": [
+    {
+      "id": "cluster_1",
+      "type": "cluster",
+      "style": "page_border",
+      "label": {
+        "value": "System Context for Consumer Notifications Application",
+        "type": "text"
+      }
+    },
+    {
+      "id": "legend",
+      "cluster": "cluster_1",
+      "style": "legend node",
+      "label": {
+        "value": "\u003cfont face=\"Calibri\" point-size=\"10\"> \u003ctable border=\"1\" cellborder=\"0\" cellspacing=\"1\" color=\"#B3B3B3\">\u003ctr>\u003ctd colspan=\"9\" align=\"center\" >\u003cfont point-size=\"14\">Consumer Notifications\u003c/font>\u003c/td>\u003c/tr>\u003ctr>   \u003ctd colspan=\"3\" align=\"center\">\u003cB>Actor\u003c/B>\u003c/td>   \u003ctd colspan=\"3\" align=\"center\">\u003cB>Application\u003c/B>\u003c/td>   \u003ctd colspan=\"3\" align=\"center\">\u003cB>Data Store\u003c/B>\u003c/td>  \u003c/tr>  \u003ctr>    \u003ctd bgcolor=\"#E6B8B7\">  \u003c/td>\u003ctd>\u003cimg src=\"images/alarm.png\" >\u003c/img>\u003c/td>\u003ctd align=\"left\">Alarm\u003c/td>    \u003ctd bgcolor=\"#4F81BD\">  \u003c/td>\u003ctd>\u003cimg src=\"images/cloud.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Cloud\u003c/td>    \u003ctd bgcolor=\"#FFFFFF\">  \u003c/td>\u003ctd>\u003cimg src=\"images/database.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Database\u003c/td>   \u003c/tr>  \u003ctr>   \u003ctd bgcolor=\"#CCC0DA\">  \u003c/td>\u003ctd>\u003cimg src=\"images/robot.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Bot / Robot\u003c/td>   \u003ctd bgcolor=\"#FF0000\">  \u003c/td>\u003ctd>\u003cimg src=\"images/commercial.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Commercial\u003c/td>   \u003ctd bgcolor=\"#FFFFFF\">  \u003c/td>\u003ctd>\u003cimg src=\"images/directory.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Directory\u003c/td>  \u003c/tr>  \u003ctr>   \u003ctd bgcolor=\"#D8E4BC\">  \u003c/td>\u003ctd>\u003cimg src=\"images/event.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Event\u003c/td>   \u003ctd bgcolor=\"#F79646\">  \u003c/td>\u003ctd>\u003cimg src=\"images/homegrown.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Homegrown\u003c/td>   \u003ctd bgcolor=\"#FFFFFF\">  \u003c/td>\u003ctd>\u003cimg src=\"images/file.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">File\u003c/td>   \u003c/tr>  \u003ctr>   \u003ctd bgcolor=\"#FCD5B4\">  \u003c/td>\u003ctd>\u003cimg src=\"images/org.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Organization\u003c/td>   \u003ctd bgcolor=\"#9BBB59\">  \u003c/td>\u003ctd>\u003cimg src=\"images/opensource.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Open-source\u003c/td>   \u003ctd bgcolor=\"#FFFFFF\">  \u003c/td>\u003ctd>\u003cimg src=\"images/folder.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Folder\u003c/td>  \u003c/tr>  \u003ctr>   \u003ctd bgcolor=\"#B8CCE4\">  \u003c/td>\u003ctd>\u003cimg src=\"images/person.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Person\u003c/td>   \u003ctd bgcolor=\"#4BACC6\">  \u003c/td>\u003ctd>\u003cimg src=\"images/partner.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Partner\u003c/td>   \u003ctd bgcolor=\"#FFFFFF\">  \u003c/td>\u003ctd>\u003cimg src=\"images/queue.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Queue\u003c/td>  \u003c/tr>  \u003ctr>   \u003ctd bgcolor=\"#B7DEE8\">  \u003c/td>\u003ctd>\u003cimg src=\"images/process.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Process\u003c/td>   \u003ctd bgcolor=\"#D9D9D9\">  \u003c/td>\u003ctd>\u003cimg src=\"images/system.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">System\u003c/td>   \u003ctd bgcolor=\"#FFFFFF\">  \u003c/td>\u003ctd>\u003cimg src=\"images/repository.png\">\u003c/img>\u003c/td>\u003ctd align=\"left\">Repository\u003c/td>  \u003c/tr>  \u003ctr>   \u003ctd colspan=\"9\">    \u003ctable border=\"0\" cellborder=\"0\" cellspacing=\"0\" >     \u003ctr>\u003ctd>\u003c/td>\u003ctd>\u003c/td>\u003c/tr> \u003ctr>\u003ctd align=\"right\" border=\"1\" bgcolor=\"#F0F0F0\">\u003cb>Source Data:\u003c/b>\u003c/td>\u003ctd align=\"left\" border=\"1\">Context Diagram Data.xlsx\u003c/td>\u003c/tr> \u003ctr>\u003ctd align=\"right\" border=\"1\" bgcolor=\"#F0F0F0\">\u003cb>Author:\u003c/b>\u003c/td>\u003ctd align=\"left\" border=\"1\">Jeffrey Long\u003c/td>\u003c/tr> \u003ctr>\u003ctd align=\"right\" border=\"1\" bgcolor=\"#F0F0F0\">\u003cb>Date:\u003c/b>\u003c/td>\u003ctd align=\"left\" border=\"1\">September 27, 2026\u003c/td>\u003c/tr>\u003ctr>\u003ctd>\u003c/td>\u003ctd>\u003c/td>\u003c/tr>    \u003c/table>   \u003c/td>  \u003c/tr> \u003c/table> \u003c/font>",
+        "type": "html"
+      },
+      "tooltip": {
+        "value": "Legend",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Note 4",
+      "cluster": "cluster_1",
+      "style": "Note",
+      "label": {
+        "value": "Assumption: Consumer can apply for credit on-line, or at a retail establishment. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Note 5",
+      "cluster": "cluster_1",
+      "style": "Note",
+      "label": {
+        "value": "Assumption: Consumer has applied for credit, and is waiting to learn of the decision. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 5",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_2",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "boundary_1",
+      "label": {
+        "value": "Corporate Applications",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_3",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "boundary_2",
+      "label": {
+        "value": "Business to Consumer",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Consumer Notifications",
+      "cluster": "cluster_3",
+      "style": "homegrown",
+      "label": {
+        "value": "APP-10016  Consumer Notifications",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Consumer Notifications: A service that helps create, send, and manage various types of notifications to customers, including mobile text message notifications, push notifications, and email notifications.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10016",
+        "app_title": "Consumer Notifications",
+        "business_owner": "Consumer Applications",
+        "technical_owner": "IT Application Support"
+      }
+    },
+    {
+      "id": "System Timer",
+      "cluster": "cluster_3",
+      "style": "event",
+      "label": {
+        "value": "Event System Timer",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "System Timer: Runs once per minute to inform Consumer Notifications it is time to check for tasks to perform.",
+        "type": "text"
+      },
+      "properties": {
+        "origin": "Internal",
+        "trigger_source": "System Clock",
+        "failure_impact": "Degraded"
+      }
+    },
+    {
+      "id": "Notification Queue",
+      "cluster": "cluster_3",
+      "style": "queue",
+      "label": {
+        "value": "Notification Queue",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Notification Queue: Temporarily holds and manages notification messages before they're delivered to their intended recipients. A digital \"waiting room\" where prioritized messages line up to be processed in the right order, at the right time.",
+        "type": "text"
+      },
+      "properties": {
+        "data_owner": "Sales and Marketing",
+        "deployment_model": "On Premise",
+        "data_residency": "Local Region Only",
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "retention_period": "1 Year",
+        "encryption_at_rest": false,
+        "backup_strategy": "Daily Snapshots",
+        "failure_disposition": "Dead Letter Queue",
+        "retry_strategy": "Exponential Backoff",
+        "failure_alerting": "Alert"
+      }
+    },
+    {
+      "id": "Note 1",
+      "cluster": "cluster_3",
+      "style": "note",
+      "label": {
+        "value": "Business application uses the Consumer Notifications application to send graphics-rich emails to customers. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 1",
+        "type": "text"
+      },
+      "properties": {
+        "id": "1"
+      }
+    },
+    {
+      "id": "cluster_4",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "boundary_2",
+      "label": {
+        "value": "Consumer Lending",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Credit Application System",
+      "cluster": "cluster_4",
+      "style": "homegrown",
+      "label": {
+        "value": "APP-10004  Credit Application System",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Credit Application System: An in-house application used to process customer credit applications, assess creditworthiness, and manage credit risk.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10004",
+        "app_title": "Credit Application System",
+        "business_owner": "Credit Operations",
+        "technical_owner": "IT Application Support"
+      }
+    },
+    {
+      "id": "Note 2",
+      "cluster": "cluster_4",
+      "style": "note",
+      "label": {
+        "value": "An in-house application used to process customer credit applications, assess creditworthiness, and manage credit risk. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 2",
+        "type": "text"
+      },
+      "properties": {
+        "id": "2"
+      }
+    },
+    {
+      "id": "cluster_5",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "boundary_2",
+      "label": {
+        "value": "Perimeter Network",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Forward Proxy",
+      "cluster": "cluster_5",
+      "style": "system",
+      "label": {
+        "value": "APP-10011  Forward Proxy",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Forward Proxy: A type of proxy server that sits between a client and the internet, facilitating requests from the client to external servers.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10011",
+        "app_title": "Forward Proxy",
+        "business_owner": "IT Infrastructure Support",
+        "technical_owner": "IT Infrastructure Support"
+      }
+    },
+    {
+      "id": "cluster_6",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "boundary_1",
+      "label": {
+        "value": "Internet",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_7",
+      "type": "cluster",
+      "cluster": "cluster_6",
+      "style": "boundary_2",
+      "label": {
+        "value": "Consumer's Home",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Email Client",
+      "cluster": "cluster_7",
+      "style": "open-source",
+      "label": {
+        "value": "APP-10014  Email Client",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Email Client: A software application that allows users to access, compose, and send email messages. It acts as the interface between the user and the mail server. Also known as a Mail User Agent.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10014",
+        "app_title": "Email Client",
+        "business_owner": "IT Infrastructure Support",
+        "technical_owner": "IT Desktop Support ",
+        "vendor_product": "Microsoft Outlook",
+        "comprehensive_list": false
+      }
+    },
+    {
+      "id": "Consumer",
+      "cluster": "cluster_7",
+      "style": "person",
+      "label": {
+        "value": "Person Consumer",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Consumer: The recipient of the email notification being sent.",
+        "type": "text"
+      },
+      "properties": {
+        "origin": "External",
+        "population_scale": "Up to 50,000"
+      }
+    },
+    {
+      "id": "cluster_8",
+      "type": "cluster",
+      "cluster": "cluster_6",
+      "style": "boundary_2",
+      "label": {
+        "value": "Email Services",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Mail Relay",
+      "cluster": "cluster_8",
+      "style": "system",
+      "label": {
+        "value": "APP-10013  Mail Relay",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Mail Relay: A Simple Mail Transfer Protocol (SMTP) relay transfers email from one SMTP server to another over the internet until reaching the intended recipent.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10013",
+        "app_title": "Mail Relay",
+        "business_owner": "IT Infrastructure Support",
+        "technical_owner": "IT Infrastructure Support"
+      }
+    },
+    {
+      "id": "cluster_9",
+      "type": "cluster",
+      "cluster": "cluster_6",
+      "style": "boundary_2",
+      "label": {
+        "value": "Cloud Service Provider",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Marketing CRM",
+      "cluster": "cluster_9",
+      "style": "cloud",
+      "label": {
+        "value": "APP-10018  Marketing CRM",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Marketing CRM: A Customer Relationship Management (CRM) platform focused on digital marketing automation and analytics that helps businesses manage their relationships with customers and execute marketing campaigns across various channels.",
+        "type": "text"
+      },
+      "properties": {
+        "app_id": "APP-10018",
+        "app_title": "Marketing CRM",
+        "business_owner": "Marketing Operations",
+        "technical_owner": "IT Application Support",
+        "vendor_product": "Salesforce Marketing Cloud",
+        "hosting_model": "SaaS",
+        "end_of_support_date": "N/A",
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "redundancy_model": "Active-Active",
+        "criticality": "Medium",
+        "regulatory_scope": "SOX",
+        "integrity": "Standard",
+        "availability": "Standard",
+        "business_continuity": "Standard"
+      }
+    },
+    {
+      "id": "Note 3",
+      "cluster": "cluster_9",
+      "style": "note",
+      "label": {
+        "value": "Consumer Notifications application uses cloud-based SAAS software to compose and deliver the message. ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Note 3",
+        "type": "text"
+      },
+      "properties": {
+        "id": "3"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "Note 4->Note 5",
+      "source": "Note 4",
+      "target": "Note 5",
+      "style": "transparent_edge"
+    },
+    {
+      "id": "Credit Application System->Consumer Notifications",
+      "source": "Credit Application System",
+      "target": "Consumer Notifications",
+      "style": "esb_rest_apis",
+      "label": {
+        "value": "Notify customer of decision ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "REST APIs ",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "ESB",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "Service Account or App ID",
+        "failure_disposition": "Return Error to Caller",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Consumer Notifications->Forward Proxy",
+      "source": "Consumer Notifications",
+      "target": "Forward Proxy",
+      "style": "forward_proxy_https_rest",
+      "label": {
+        "value": "Invoke cloud service to send email ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "HTTPS REST ",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Forward Proxy ",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "Service Account or App ID",
+        "failure_disposition": "Fallback Route",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Forward Proxy->Marketing CRM",
+      "source": "Forward Proxy",
+      "target": "Marketing CRM",
+      "style": "direct_network_https_rest",
+      "label": {
+        "value": "Invoke cloud service to send email ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "REST",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "HTTPS",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "OAuth2 or OIDC",
+        "failure_disposition": "Return Error to Caller",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Marketing CRM->Mail Relay",
+      "source": "Marketing CRM",
+      "target": "Mail Relay",
+      "style": "email_smtp",
+      "label": {
+        "value": "Format appropriate template and transmit ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "SMTP",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Email",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "None",
+        "failure_disposition": "Fallback Route",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Mail Relay->Email Client",
+      "source": "Mail Relay",
+      "target": "Email Client",
+      "style": "email_smtp",
+      "label": {
+        "value": "Deliver email to mailbox ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "SMTP",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Email",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": false,
+        "auth_mechanism": "None",
+        "failure_disposition": "Fallback Route",
+        "retry_strategy": "Immediate",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "agreements_in_place": true,
+        "stability": "Stable"
+      }
+    },
+    {
+      "id": "Consumer Notifications->Notification Queue",
+      "source": "Consumer Notifications",
+      "target": "Notification Queue",
+      "style": "sends_to_enqueue",
+      "label": {
+        "value": "Add to send queue ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "Enqueue",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Sends To ",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "auth_mechanism": "Service Account or App ID",
+        "failure_disposition": "Return Error to Caller",
+        "retry_strategy": "None",
+        "failure_alerting": "Logged Only",
+        "approximate_volume": "Low"
+      }
+    },
+    {
+      "id": "Consumer Notifications->Notification Queue",
+      "source": "Consumer Notifications",
+      "target": "Notification Queue",
+      "style": "gets_from_dequeue",
+      "label": {
+        "value": "Release from send queue ",
+        "type": "text"
+      },
+      "headlabel": {
+        "value": "Dequeue",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Gets From ",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "auth_mechanism": "Service Account or App ID",
+        "failure_disposition": "Return Error to Caller",
+        "retry_strategy": "None",
+        "failure_alerting": "Logged Only",
+        "approximate_volume": "Low"
+      }
+    },
+    {
+      "id": "Consumer->Email Client",
+      "source": "Consumer",
+      "target": "Email Client",
+      "style": "person_interacts_with",
+      "label": {
+        "value": "Read eMail notification ",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Interacts With ",
+        "type": "text"
+      },
+      "properties": {
+        "data_classification": "Internal",
+        "contains_pii": true,
+        "auth_mechanism": "OAuth2 or OIDC",
+        "failure_disposition": "Dead Letter Queue",
+        "retry_strategy": "None",
+        "failure_alerting": "None",
+        "approximate_volume": "Low",
+        "channel": "Web;Mobile App"
+      }
+    },
+    {
+      "id": "System Timer->Consumer Notifications",
+      "source": "System Timer",
+      "target": "Consumer Notifications",
+      "style": "event_sends_to",
+      "label": {
+        "value": "Check for pending requests ",
+        "type": "text"
+      },
+      "taillabel": {
+        "value": "Sends To ",
+        "type": "text"
+      }
+    }
+  ]
+}</script>
+
+<script>
+/* =====================================================================
+   JSON Knowledge Graph Viewer
+   - Written in ES5, as in the Excel tool's viewer, so the two behave alike.
+   ===================================================================== */
+
+var ROW_HEIGHT = 18;
+var BUFFER_ROWS = 8;
+
+var originalJson = "";
+var prettyJson = "";
+var lines = [];
+var parsedOk = false;
+var parsedObj = null;
+
+var matchLines = [];   // indices into lines that contain the search term
+var currentMatch = -1;
+var currentTerm = "";
+
+// ---------- sample data (kept as a JS object -> no backticks needed) ----------
+var SAMPLE_JSON_OBJ = {
+    "error": "Invalid JSON",
+    "message": "The JSON provided could not be parsed and is not valid JSON syntax.",
+    "common_causes": [
+        "Missing or extra comma",
+        "Unmatched { } or [ ]",
+        "Unquoted or single-quoted keys/strings",
+        "Trailing comma before a closing bracket",
+        "Comments (// or /*) — not allowed in JSON"
+    ],
+    "tip": "Check your JSON against a JSON syntax reference and try again."
+};
+
+function escHtml(s) {
+    return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+// ---------- load / parse ----------
+function loadJson(jsonText) {
+    originalJson = jsonText;
+    var banner = document.getElementById("errorBanner");
+    banner.style.display = "none";
+
+    try {
+        parsedObj = JSON.parse(jsonText);
+        prettyJson = JSON.stringify(parsedObj, null, 2);
+        parsedOk = true;
+    } catch (e) {
+        parsedObj = null;
+        prettyJson = jsonText;
+        parsedOk = false;
+        banner.style.display = "block";
+        banner.innerHTML = "Could not parse this as valid JSON (" + escHtml(e.message) + "). Showing raw text below.";
+    }
+
+    lines = prettyJson.split("\n");
+    matchLines = [];
+    currentMatch = -1;
+    currentTerm = "";
+    document.getElementById("matchCount").innerHTML = "";
+
+    renderStats();
+    setupSizer();
+    renderVisibleRows();
+    renderTree();
+}
+
+// Mirrors the VBA GetTokenEstimate() function so the displayed estimate
+// always matches what the workbook itself computes:
+//   charCount = Len(jsonText)
+//   estimatedTokens = -Int(-charCount / 4)         ' ceiling division, ~4 chars/token
+//   safetyBuffer = CLng(estimatedTokens * 0.08)    ' ~8% buffer for BPE edge cases
+//   GetTokenEstimate = estimatedTokens + safetyBuffer
+function getTokenEstimate(charCount) {
+    var estimatedTokens = Math.ceil(charCount / 4);
+    var safetyBuffer = Math.round(estimatedTokens * 0.08);
+    return estimatedTokens + safetyBuffer;
+}
+
+function renderStats() {
+    var tokenEstimate = getTokenEstimate(originalJson.length);
+    var stats = "Characters: " + originalJson.length + " &nbsp;|&nbsp; Est. Tokens: " + tokenEstimate + " &nbsp;|&nbsp; Lines: " + lines.length;
+    if (parsedOk && parsedObj && typeof parsedObj === "object") {
+        if (parsedObj.nodes && parsedObj.nodes.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Nodes: " + parsedObj.nodes.length;
+        }
+        if (parsedObj.edges && parsedObj.edges.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Edges: " + parsedObj.edges.length;
+        }
+    }
+    document.getElementById("statsBar").innerHTML = stats;
+}
+
+// ---------- raw view: virtualized rendering ----------
+// Only the rows currently in (or near) the viewport are ever created as
+// DOM nodes. This keeps the viewer fast even for JSON far too large for
+// an Excel cell (tens of thousands of lines), unlike a one-div-per-line
+// render of the whole file.
+function setupSizer() {
+    var sizer = document.getElementById("sizer");
+    sizer.style.height = (lines.length * ROW_HEIGHT) + "px";
+}
+
+function syntaxHighlight(lineText) {
+    // Very lightweight line-based tokenizer: good enough for pretty-printed
+    // JSON.stringify output (one token group per line), not a full parser.
+    var html = "";
+    var re = /("(?:\\.|[^"\\])*")(\s*:)?|(\btrue\b|\bfalse\b|\bnull\b)|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|([{}\[\],])/g;
+    var lastIndex = 0;
+    var m;
+    while ((m = re.exec(lineText)) !== null) {
+        if (m.index > lastIndex) {
+            html += escHtml(lineText.substring(lastIndex, m.index));
+        }
+        if (m[1]) {
+            var cls = m[2] ? "jkey" : "jstr";
+            html += "<span class=\"" + cls + "\">" + escHtml(m[1]) + "</span>" + (m[2] ? escHtml(m[2]) : "");
+        } else if (m[3]) {
+            html += "<span class=\"jbool\">" + escHtml(m[3]) + "</span>";
+        } else if (m[4]) {
+            html += "<span class=\"jnum\">" + escHtml(m[4]) + "</span>";
+        } else if (m[5]) {
+            html += "<span class=\"jpunc\">" + escHtml(m[5]) + "</span>";
+        }
+        lastIndex = re.lastIndex;
+    }
+    if (lastIndex < lineText.length) {
+        html += escHtml(lineText.substring(lastIndex));
+    }
+    return html;
+}
+
+function highlightSearchTerm(lineText, term) {
+    var lower = lineText.toLowerCase();
+    var termLower = term.toLowerCase();
+    var out = "";
+    var pos = 0;
+    var idx;
+    while ((idx = lower.indexOf(termLower, pos)) !== -1) {
+        out += escHtml(lineText.substring(pos, idx));
+        out += "<mark>" + escHtml(lineText.substring(idx, idx + term.length)) + "</mark>";
+        pos = idx + term.length;
+    }
+    out += escHtml(lineText.substring(pos));
+    return out;
+}
+
+function renderVisibleRows() {
+    var scrollArea = document.getElementById("scrollArea");
+    var sizer = document.getElementById("sizer");
+    var scrollTop = scrollArea.scrollTop;
+    var viewportH = scrollArea.clientHeight || 400;
+
+    var first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - BUFFER_ROWS);
+    var visibleCount = Math.ceil(viewportH / ROW_HEIGHT) + BUFFER_ROWS * 2;
+    var last = Math.min(lines.length - 1, first + visibleCount);
+
+    sizer.innerHTML = "";
+    var matchSet = {};
+    var i;
+    for (i = 0; i < matchLines.length; i++) { matchSet[matchLines[i]] = true; }
+
+    for (i = first; i <= last; i++) {
+        var row = document.createElement("div");
+        row.className = "row";
+        if (matchSet[i]) { row.className += " matchRow"; }
+        if (currentMatch !== -1 && matchLines[currentMatch] === i) { row.className += " currentMatchRow"; }
+        row.style.top = (i * ROW_HEIGHT) + "px";
+
+        var numSpan = document.createElement("span");
+        numSpan.className = "rowNum";
+        numSpan.textContent = (i + 1).toString();
+
+        var textSpan = document.createElement("span");
+        textSpan.className = "rowText";
+        var lineText = lines[i] || "";
+        if (currentTerm) {
+            textSpan.innerHTML = highlightSearchTerm(lineText, currentTerm);
+        } else {
+            textSpan.innerHTML = syntaxHighlight(lineText);
+        }
+
+        row.appendChild(numSpan);
+        row.appendChild(textSpan);
+        sizer.appendChild(row);
+    }
+}
+
+// ---------- search ----------
+function runSearch() {
+    var term = document.getElementById("searchInput").value;
+    currentTerm = term;
+    matchLines = [];
+    currentMatch = -1;
+
+    if (term) {
+        var termLower = term.toLowerCase();
+        for (var i = 0; i < lines.length; i++) {
+            if (lines[i].toLowerCase().indexOf(termLower) !== -1) {
+                matchLines.push(i);
+            }
+        }
+        if (matchLines.length > 0) { currentMatch = 0; }
+    }
+
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function updateMatchCount() {
+    var el = document.getElementById("matchCount");
+    if (!currentTerm) { el.innerHTML = ""; return; }
+    if (matchLines.length === 0) { el.innerHTML = "0 matches"; return; }
+    el.innerHTML = (currentMatch + 1) + " / " + matchLines.length + " lines";
+}
+
+function scrollToCurrentMatch() {
+    if (currentMatch === -1) { return; }
+    var scrollArea = document.getElementById("scrollArea");
+    var targetLine = matchLines[currentMatch];
+    var targetTop = targetLine * ROW_HEIGHT - (scrollArea.clientHeight / 2);
+    if (targetTop < 0) { targetTop = 0; }
+    scrollArea.scrollTop = targetTop;
+}
+
+function nextMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch + 1) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function prevMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch - 1 + matchLines.length) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function clearSearch() {
+    document.getElementById("searchInput").value = "";
+    currentTerm = "";
+    matchLines = [];
+    currentMatch = -1;
+    updateMatchCount();
+    renderVisibleRows();
+}
+
+// ---------- copy ----------
+function copyText(text) {
+    var temp = document.createElement("textarea");
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    try { document.execCommand("copy"); } catch (e) { /* ignore */ }
+    document.body.removeChild(temp);
+}
+
+// ---------- tree view ----------
+var TREE_ARRAY_LIMIT = 200; // cap initial render of large arrays so huge graphs don't freeze the tree
+
+function renderTree() {
+    var container = document.getElementById("treeView");
+    container.innerHTML = "";
+    if (!parsedOk) {
+        container.innerHTML = "<div style=\"color:#900;\">Tree view is unavailable because the input is not valid JSON.</div>";
+        return;
+    }
+    container.appendChild(buildTreeNode("root", parsedObj, true));
+}
+
+function typeLabel(v) {
+    if (v === null) { return "null"; }
+    if (Array.isArray(v)) { return "array(" + v.length + ")"; }
+    return typeof v;
+}
+
+function buildTreeNode(key, value, isRoot) {
+    var wrap = document.createElement("div");
+    wrap.className = "treeNode";
+
+    var isContainer = value !== null && typeof value === "object";
+
+    var line = document.createElement("div");
+    if (isContainer) {
+        var toggle = document.createElement("span");
+        toggle.className = "toggle";
+        toggle.textContent = "-";
+        var childHolder = document.createElement("div");
+
+        toggle.onclick = (function (t, holder) {
+            return function () {
+                var collapsed = holder.style.display === "none";
+                holder.style.display = collapsed ? "block" : "none";
+                t.textContent = collapsed ? "-" : "+";
+            };
+        })(toggle, childHolder);
+
+        line.appendChild(toggle);
+        var keySpan = document.createElement("span");
+        keySpan.className = "treeKey";
+        keySpan.textContent = (isRoot ? "" : key + ": ") + typeLabel(value);
+        line.appendChild(keySpan);
+        wrap.appendChild(line);
+        wrap.appendChild(childHolder);
+
+        var keys = Array.isArray(value) ? null : Object.keys(value);
+        var count = Array.isArray(value) ? value.length : keys.length;
+        var limit = Array.isArray(value) ? Math.min(count, TREE_ARRAY_LIMIT) : count;
+
+        var i;
+        if (Array.isArray(value)) {
+            for (i = 0; i < limit; i++) {
+                childHolder.appendChild(buildTreeNode("[" + i + "]", value[i], false));
+            }
+            if (count > limit) {
+                var more = document.createElement("div");
+                more.className = "treeNode moreLink";
+                more.textContent = "... " + (count - limit) + " more items (click to expand)";
+                more.onclick = (function (arr, holder, startAt) {
+                    return function () {
+                        for (var j = startAt; j < arr.length; j++) {
+                            holder.insertBefore(buildTreeNode("[" + j + "]", arr[j], false), more);
+                        }
+                        more.parentNode.removeChild(more);
+                    };
+                })(value, childHolder, limit);
+                childHolder.appendChild(more);
+            }
+        } else {
+            for (i = 0; i < keys.length; i++) {
+                childHolder.appendChild(buildTreeNode(keys[i], value[keys[i]], false));
+            }
+        }
+    } else {
+        var leafKey = document.createElement("span");
+        leafKey.className = "treeKey";
+        leafKey.textContent = key + ": ";
+        var leafVal = document.createElement("span");
+        var cls = "treeVal ";
+        if (typeof value === "string") { cls += "jstr"; }
+        else if (typeof value === "number") { cls += "jnum"; }
+        else if (typeof value === "boolean" || value === null) { cls += "jbool"; }
+        leafVal.className = cls;
+        leafVal.textContent = typeof value === "string" ? "\"" + value + "\"" : String(value);
+        line.appendChild(leafKey);
+        line.appendChild(leafVal);
+        wrap.appendChild(line);
+    }
+
+    return wrap;
+}
+
+// ---------- save as file ----------
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+function buildFilename(ext) {
+    var d = new Date();
+    var stamp = d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) +
+        "-" + pad2(d.getHours()) + pad2(d.getMinutes()) + pad2(d.getSeconds());
+    return "graph-" + stamp + "." + ext;
+}
+
+function saveTextAsFile(text, filename) {
+    var blob = new Blob([text], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+}
+
+// ---------- view toggle ----------
+function showRawView() {
+    document.getElementById("scrollArea").style.display = "block";
+    document.getElementById("treeView").style.display = "none";
+    document.getElementById("btnRawView").className = "active";
+    document.getElementById("btnTreeView").className = "";
+    renderVisibleRows();
+}
+function showTreeView() {
+    document.getElementById("scrollArea").style.display = "none";
+    document.getElementById("treeView").style.display = "block";
+    document.getElementById("btnRawView").className = "";
+    document.getElementById("btnTreeView").className = "active";
+}
+
+// ---------- wire up events (no inline handlers, so this also works if a host sets a strict CSP) ----------
+window.onload = function () {
+    document.getElementById("btnSearch").onclick = runSearch;
+    document.getElementById("btnNext").onclick = nextMatch;
+    document.getElementById("btnPrev").onclick = prevMatch;
+    document.getElementById("btnClear").onclick = clearSearch;
+    document.getElementById("btnCopyRaw").onclick = function () { copyText(originalJson); };
+    document.getElementById("btnCopyPretty").onclick = function () { copyText(prettyJson); };
+    document.getElementById("btnSaveRaw").onclick = function () { saveTextAsFile(originalJson, buildFilename("json")); };
+    document.getElementById("btnSavePretty").onclick = function () { saveTextAsFile(prettyJson, buildFilename("json")); };
+    document.getElementById("btnRawView").onclick = showRawView;
+    document.getElementById("btnTreeView").onclick = showTreeView;
+    document.getElementById("searchInput").onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode === 13) { runSearch(); }
+    };
+    document.getElementById("scrollArea").onscroll = renderVisibleRows;
+    window.onresize = function () { renderVisibleRows(); };
+
+    // The graph is in the page. If it is missing, fall back to the bundled sample.
+    var dataBlock = document.getElementById("graphData");
+    var graphText = dataBlock ? dataBlock.textContent : "";
+    var graph = null;
+    try { graph = JSON.parse(graphText); } catch (e) { graph = null; }
+    if (graph !== null) {
+        loadJson(JSON.stringify(graph));
+    } else if (graphText) {
+        loadJson(graphText);
+    } else {
+        loadJson(JSON.stringify(SAMPLE_JSON_OBJ));
+    }
+};
+</script>
+</body>
+</html>
