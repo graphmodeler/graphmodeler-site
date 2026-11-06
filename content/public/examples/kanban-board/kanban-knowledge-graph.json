@@ -1,0 +1,542 @@
+{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": true,
+  "source_workbook": "kanban.json",
+  "view": "All Styles",
+  "export_datetime": "2026-11-06T14:00:40",
+  "styles": {
+    "Kanban Board": {
+      "type": "cluster"
+    },
+    "Status": {
+      "type": "cluster"
+    },
+    "Feature Work": {
+      "type": "node"
+    },
+    "Customer Requests": {
+      "type": "node"
+    },
+    "Dependencies - Blockers": {
+      "type": "node"
+    },
+    "Research - Spikes": {
+      "type": "node"
+    },
+    "Bug Fix": {
+      "type": "node"
+    },
+    "subgraph-open": {
+      "type": "cluster"
+    },
+    "legend node": {
+      "type": "node"
+    }
+  },
+  "nodes": [
+    {
+      "id": "cluster_1",
+      "type": "cluster",
+      "style": "Kanban Board",
+      "label": {
+        "value": "Kanban Board",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_2",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "Status",
+      "label": {
+        "value": "To Do",
+        "type": "text"
+      }
+    },
+    {
+      "id": "ID-0001",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Design Login<br/>Flow</b><br/><br/>Create initial sketches<br/>for user login<br/>experience<br/><br/><br/><br/><i>High Importance<br/>ID-0001</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0003",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer Email<br/>Sync</b><br/><br/>Investigate sync delays<br/>reported by customers<br/><br/><br/><br/><i>Medium Importance<br/>ID-0003</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0006",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "<b>Resolve Build<br/>Blocker</b><br/><br/>Build failing due to<br/>missing dependency<br/><br/><br/><br/><i>High Importance<br/>ID-0006</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0009",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer Export<br/>Request</b><br/><br/>Add CSV export option<br/>for reports<br/><br/><br/><br/><i>High Importance<br/>ID-0009</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0010",
+      "cluster": "cluster_2",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>Database Migration<br/>Plan</b><br/><br/>Outline steps for moving<br/>to new DB cluster<br/><br/><br/><br/><i>Medium Importance<br/>ID-0010</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0012",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Refactor<br/>Notification Code</b><br/><br/>Clean up legacy<br/>notification handlers<br/><br/><br/><br/><i>Medium Importance<br/>ID-0012</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0014",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer Dashboard<br/>Feedback</b><br/><br/>Review and categorize<br/>dashboard feedback<br/><br/><br/><br/><i>Low Importance<br/>ID-0014</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0016",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "<b>Third\u2011Party API<br/>Delay</b><br/><br/>External API causing<br/>slow response times<br/><br/><br/><br/><i>High Importance<br/>ID-0016</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0021",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Search Bar<br/>Redesign</b><br/><br/>Improve search bar<br/>usability and layout<br/><br/><br/><br/><i>Medium Importance<br/>ID-0021</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0023",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer Theme<br/>Request</b><br/><br/>Add option for custom<br/>color themes<br/><br/><br/><br/><i>Low Importance<br/>ID-0023</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0026",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "<b>Deployment<br/>Blocker</b><br/><br/>Deployment halted due to<br/>missing config<br/><br/><br/><br/><i>High Importance<br/>ID-0026</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0029",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer Filter<br/>Request</b><br/><br/>Add advanced filtering<br/>options<br/><br/><br/><br/><i>Medium Importance<br/>ID-0029</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0030",
+      "cluster": "cluster_2",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>API Version<br/>Audit</b><br/><br/>Audit all API version<br/>usage<br/><br/><br/><br/><i>Low Importance<br/>ID-0030</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0032",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Refactor Auth<br/>Code</b><br/><br/>Simplify authentication<br/>logic<br/><br/><br/><br/><i>High Importance<br/>ID-0032</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0034",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer Sorting<br/>Issue</b><br/><br/>Investigate incorrect<br/>sort order<br/><br/><br/><br/><i>Medium Importance<br/>ID-0034</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0036",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "<b>Security Blocker</b><br/><br/>Security scan failing on<br/>critical issue<br/><br/><br/><br/><i>High Importance<br/>ID-0036</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0039",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer PDF<br/>Request</b><br/><br/>Add PDF export option<br/><br/><br/><br/><i>High Importance<br/>ID-0039</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0040",
+      "cluster": "cluster_2",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>Cache Strategy<br/>Review</b><br/><br/>Review caching strategy<br/>for performance<br/><br/><br/><br/><i>Medium Importance<br/>ID-0040</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0042",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Refactor Routing<br/>Code</b><br/><br/>Clean up routing logic<br/><br/><br/><br/><i>Medium Importance<br/>ID-0042</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0045",
+      "cluster": "cluster_2",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>Metrics Spike</b><br/><br/>Test new metrics<br/>collection tool<br/><br/><br/><br/><i>Medium Importance<br/>ID-0045</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0046",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "<b>Release Blocker</b><br/><br/>Release halted due to<br/>failing tests<br/><br/><br/><br/><i>High Importance<br/>ID-0046</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0049",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer Tagging<br/>Request</b><br/><br/>Add tagging support for<br/>items<br/><br/><br/><br/><i>Medium Importance<br/>ID-0049</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "cluster_3",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "Status",
+      "label": {
+        "value": "Doing",
+        "type": "text"
+      }
+    },
+    {
+      "id": "ID-0002",
+      "cluster": "cluster_3",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Crash on<br/>Save</b><br/><br/>Resolve app crash when<br/>saving user settings<br/><br/><br/><br/><i>High Importance<br/>ID-0002</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0005",
+      "cluster": "cluster_3",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>Payment Gateway<br/>Spike</b><br/><br/>Explore feasibility of<br/>new payment provider<br/><br/><br/><br/><i>Medium Importance<br/>ID-0005</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0008",
+      "cluster": "cluster_3",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Dark Mode<br/>Bug</b><br/><br/>Correct color contrast<br/>issues in dark mode<br/><br/><br/><br/><i>Medium Importance<br/>ID-0008</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0011",
+      "cluster": "cluster_3",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "<b>OAuth Dependency</b><br/><br/>Coordinate with security<br/>team for OAuth rollout<br/><br/><br/><br/><i>High Importance<br/>ID-0011</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0015",
+      "cluster": "cluster_3",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>Analytics Spike</b><br/><br/>Test new analytics SDK<br/>integration<br/><br/><br/><br/><i>Medium Importance<br/>ID-0015</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0017",
+      "cluster": "cluster_3",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Prototype Settings<br/>Page</b><br/><br/>Build quick prototype<br/>for new settings layout<br/><br/><br/><br/><i>High Importance<br/>ID-0017</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0020",
+      "cluster": "cluster_3",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer Billing<br/>Issue</b><br/><br/>Investigate incorrect<br/>billing totals<br/><br/><br/><br/><i>High Importance<br/>ID-0020</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0022",
+      "cluster": "cluster_3",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Mobile Layout<br/>Bug</b><br/><br/>Correct spacing issues<br/>on mobile view<br/><br/><br/><br/><i>Medium Importance<br/>ID-0022</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0025",
+      "cluster": "cluster_3",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>Auth Service<br/>Spike</b><br/><br/>Test new authentication<br/>microservice<br/><br/><br/><br/><i>High Importance<br/>ID-0025</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0028",
+      "cluster": "cluster_3",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Chart<br/>Rendering</b><br/><br/>Resolve chart not<br/>loading on dashboard<br/><br/><br/><br/><i>High Importance<br/>ID-0028</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0031",
+      "cluster": "cluster_3",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "<b>Vendor<br/>Dependency</b><br/><br/>Coordinate with vendor<br/>for SDK update<br/><br/><br/><br/><i>Medium Importance<br/>ID-0031</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0035",
+      "cluster": "cluster_3",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>Logging Spike</b><br/><br/>Test structured logging<br/>approach<br/><br/><br/><br/><i>Low Importance<br/>ID-0035</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0037",
+      "cluster": "cluster_3",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Improve Onboarding<br/>Flow</b><br/><br/>Enhance first\u2011time user<br/>experience<br/><br/><br/><br/><i>High Importance<br/>ID-0037</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0041",
+      "cluster": "cluster_3",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "<b>API Dependency</b><br/><br/>Coordinate with API team<br/>for new endpoints<br/><br/><br/><br/><i>High Importance<br/>ID-0041</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0044",
+      "cluster": "cluster_3",
+      "style": "Customer Requests",
+      "label": {
+        "value": "<b>Customer Login<br/>Issue</b><br/><br/>Investigate intermittent<br/>login failures<br/><br/><br/><br/><i>High Importance<br/>ID-0044</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0047",
+      "cluster": "cluster_3",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Improve Profile<br/>Page</b><br/><br/>Enhance layout and<br/>accessibility<br/><br/><br/><br/><i>Medium Importance<br/>ID-0047</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "cluster_4",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "Status",
+      "label": {
+        "value": "Done",
+        "type": "text"
+      }
+    },
+    {
+      "id": "ID-0004",
+      "cluster": "cluster_4",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>API Rate Limit<br/>Review</b><br/><br/>Document current API<br/>limits and propose<br/>adjustments<br/><br/><br/><br/><i>Low Importance<br/>ID-0004</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0007",
+      "cluster": "cluster_4",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Update User<br/>Guide</b><br/><br/>Add new screenshots and<br/>instructions to help<br/>docs<br/><br/><br/><br/><i>Low Importance<br/>ID-0007</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0013",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Tooltip<br/>Overlap</b><br/><br/>Resolve UI tooltip<br/>overlapping form fields<br/><br/><br/><br/><i>Low Importance<br/>ID-0013</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0018",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Logout<br/>Redirect</b><br/><br/>Correct redirect loop<br/>after logout<br/><br/><br/><br/><i>Medium Importance<br/>ID-0018</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0024",
+      "cluster": "cluster_4",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>Data Model<br/>Review</b><br/><br/>Review current data<br/>model for scalability<br/><br/><br/><br/><i>Medium Importance<br/>ID-0024</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0027",
+      "cluster": "cluster_4",
+      "style": "Feature Work",
+      "label": {
+        "value": "<b>Improve Error<br/>Messages</b><br/><br/>Rewrite unclear error<br/>messages<br/><br/><br/><br/><i>Low Importance<br/>ID-0027</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0033",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Tooltip<br/>Delay</b><br/><br/>Reduce tooltip display<br/>delay<br/><br/><br/><br/><i>Low Importance<br/>ID-0033</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0038",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Modal Close<br/>Bug</b><br/><br/>Modal not closing on ESC<br/>key<br/><br/><br/><br/><i>Medium Importance<br/>ID-0038</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0043",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Button<br/>Alignment</b><br/><br/>Correct misaligned<br/>buttons on forms<br/><br/><br/><br/><i>Low Importance<br/>ID-0043</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0048",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "<b>Fix Tooltip<br/>Flicker</b><br/><br/>Eliminate flicker on<br/>hover tooltips<br/><br/><br/><br/><i>Low Importance<br/>ID-0048</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0050",
+      "cluster": "cluster_4",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "<b>Data Retention<br/>Review</b><br/><br/>Review data retention<br/>policy<br/><br/><br/><br/><i>Low Importance<br/>ID-0050</i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "cluster_5",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "subgraph-open",
+      "label": {
+        "value": "Legend",
+        "type": "text"
+      }
+    },
+    {
+      "id": "legend",
+      "cluster": "cluster_5",
+      "style": "legend node",
+      "label": {
+        "value": "<font face='Verdana' point-size='10'> <table border='0' cellborder='1' cellspacing='2'> <tr><td bgcolor='#FFF4A3' color='#C2A600' >Feature Work</td></tr> <tr><td bgcolor='#F7B7C9' color='#B23A55' >Bug Fixes</td></tr> <tr><td bgcolor='#A9D3F5' color='#2A6FA1' >Research / Spikes</td></tr> <tr><td bgcolor='#C7EFC4' color='#3F8F3A' >Customer Requests</td></tr> <tr><td bgcolor='#F9C89B' color='#C46A1B' >Dependencies / Blockers</td></tr> </table> </font>",
+        "type": "html"
+      },
+      "tooltip": {
+        "value": "Legend",
+        "type": "text"
+      }
+    }
+  ]
+}

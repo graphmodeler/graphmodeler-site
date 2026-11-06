@@ -1,0 +1,3119 @@
+<!DOCTYPE html>
+<html class="dark">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>JSON Knowledge Graph Viewer</title>
+<style>
+/* Kept deliberately simple / old-IE safe: no CSS grid, no CSS vars */
+html, body { height: 100%; margin: 0; }
+body {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    background: #f5f5f5;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+}
+#toolbar {
+    padding: 8px 10px;
+    background: #e8e8e8;
+    border-bottom: 1px solid #ccc;
+    flex: 0 0 auto;
+}
+#toolbar input[type=text] { width: 220px; }
+#toolbar button, #toolbar select { margin-left: 4px; }
+#matchCount { margin-left: 6px; color: #555; }
+#statsBar {
+    padding: 4px 10px;
+    background: #fafafa;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    font-size: 12px;
+    flex: 0 0 auto;
+}
+#errorBanner {
+    display: none;
+    padding: 6px 10px;
+    background: #ffe1e1;
+    color: #900;
+    border-bottom: 1px solid #e0a0a0;
+    flex: 0 0 auto;
+}
+#viewToggle { padding: 6px 10px; background: #eee; border-bottom: 1px solid #ccc; flex: 0 0 auto; }
+#viewToggle button.active { background: #444; color: #fff; }
+
+/* ---- Raw (virtualized) view ---- */
+#scrollArea {
+    position: relative;
+    overflow: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: #fff;
+}
+#sizer { position: relative; }
+.row {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: pre;
+    height: 18px;
+    line-height: 18px;
+}
+.rowNum {
+    display: inline-block;
+    width: 50px;
+    text-align: right;
+    padding-right: 8px;
+    color: #999;
+    background: #eee;
+    user-select: none;
+}
+.rowText { padding-left: 6px; }
+.row.matchRow .rowText { background: #fff6b0; }
+.row.currentMatchRow .rowText { background: #ffcf40; }
+mark { background: #ffcf40; padding: 0; }
+
+/* Syntax highlight colors */
+.jkey { color: #a1260d; font-weight: bold; }
+.jstr { color: #0a7c2f; }
+.jnum { color: #1a56db; }
+.jbool { color: #9b1bb3; }
+.jpunc { color: #555; }
+
+/* ---- Tree view ---- */
+#treeView {
+    display: none;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    background: #fff;
+    padding: 8px 10px;
+}
+.treeNode { margin-left: 16px; }
+.toggle {
+    cursor: pointer;
+    display: inline-block;
+    width: 14px;
+    color: #666;
+    user-select: none;
+}
+.treeKey { color: #a1260d; }
+.treeVal.jstr { color: #0a7c2f; }
+.treeVal.jnum { color: #1a56db; }
+.treeVal.jbool { color: #9b1bb3; }
+.moreLink { color: #1a56db; cursor: pointer; text-decoration: underline; }
+
+/* ---- Dark theme: only colors. The app asks for it by marking the page; a page that is not marked is light. ---- */
+html.dark { color-scheme: dark; }
+.dark body { background: #1b1f24; color: #e6e8eb; }
+.dark #toolbar { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #toolbar input[type=text], .dark #toolbar button, .dark #toolbar select, .dark #viewToggle button { background: #2b313a; color: #e6e8eb; border: 1px solid #5b6470; }
+.dark #toolbar input[type=text] { background: #22272e; }
+.dark #matchCount { color: #9aa3af; }
+.dark #statsBar { background: #22272e; border-bottom-color: #3a414b; color: #9aa3af; }
+.dark #errorBanner { background: #3a1f22; color: #f0625f; border-bottom-color: #6b2f33; }
+.dark #viewToggle { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #viewToggle button.active { background: #e6e8eb; color: #1b1f24; }
+.dark #scrollArea, .dark #treeView { background: #22272e; }
+.dark .rowNum { color: #8b949e; background: #2b313a; }
+.dark .row.matchRow .rowText { background: #4a4320; }
+.dark .row.currentMatchRow .rowText { background: #7a6212; }
+.dark mark { background: #7a6212; color: #fff; }
+.dark .jkey, .dark .treeKey { color: #f0846f; }
+.dark .jstr, .dark .treeVal.jstr { color: #5fd18a; }
+.dark .jnum, .dark .treeVal.jnum { color: #6ea8fe; }
+.dark .jbool, .dark .treeVal.jbool { color: #d79bef; }
+.dark .jpunc, .dark .toggle { color: #9aa3af; }
+.dark .moreLink { color: #6ea8fe; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <button id="btnSearch">Search</button>
+    <button id="btnPrev">&#8593; Prev</button>
+    <button id="btnNext">&#8595; Next</button>
+    <button id="btnClear">Clear</button>
+    <span id="matchCount"></span>
+    <button id="btnCopyRaw" style="margin-left:16px;">Copy Raw</button>
+    <button id="btnCopyPretty">Copy Pretty</button>
+    <button id="btnSaveRaw" style="margin-left:16px;">Save Raw As File</button>
+    <button id="btnSavePretty">Save Pretty As File</button>
+</div>
+
+<div id="viewToggle">
+    View:
+    <button id="btnRawView" class="active">Raw (line numbers)</button>
+    <button id="btnTreeView">Tree (collapsible)</button>
+</div>
+
+<div id="errorBanner"></div>
+<div id="statsBar"></div>
+
+<div id="scrollArea"><div id="sizer"></div></div>
+<div id="treeView"></div>
+
+<!-- The graph, as JSON text that is data and not script. The app writes it here with "<" escaped. -->
+<script type="application/json" id="graphData">{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": false,
+  "source_workbook": "rock-bands-by-decade.json",
+  "view": "All Styles",
+  "export_datetime": "2026-11-06T14:01:35",
+  "styles": {
+    "Page Cluster": {
+      "type": "cluster"
+    },
+    "genre_cluster": {
+      "type": "cluster"
+    },
+    "genre_subcluster": {
+      "type": "cluster"
+    },
+    "genre_blues_rock": {
+      "type": "node"
+    },
+    "genre_country_rock": {
+      "type": "node"
+    },
+    "genre_folk_rock": {
+      "type": "node"
+    },
+    "genre_funk": {
+      "type": "node"
+    },
+    "genre_hard_rock": {
+      "type": "node"
+    },
+    "genre_heavy_metal": {
+      "type": "node"
+    },
+    "genre_latin_rock": {
+      "type": "node"
+    },
+    "genre_pop_rock": {
+      "type": "node"
+    },
+    "genre_progressive_rock": {
+      "type": "node"
+    },
+    "genre_rock": {
+      "type": "node"
+    },
+    "genre_soul": {
+      "type": "node"
+    },
+    "genre_glam_rock": {
+      "type": "node"
+    },
+    "genre_new_wave": {
+      "type": "node"
+    },
+    "genre_punk_rock": {
+      "type": "node"
+    },
+    "genre_ska": {
+      "type": "node"
+    },
+    "genre_alternative_rock": {
+      "type": "node"
+    },
+    "genre_funk_rock": {
+      "type": "node"
+    },
+    "genre_grunge": {
+      "type": "node"
+    }
+  },
+  "nodes": [
+    {
+      "id": "cluster_1",
+      "type": "cluster",
+      "style": "Page Cluster",
+      "label": {
+        "value": "Bands by Decade and Genre",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_2",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "genre_cluster",
+      "label": {
+        "value": "'60s",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "'60s",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_3",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Blues Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Blues Rock: Rock rooted in blues scales & phrasing emphasizing expressive guitar work & soulful rhythms.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Blind Faith",
+      "cluster": "cluster_3",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "Blind Faith",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Blind Faith | Blues Rock Supergroup | London, UK | 1969  A short\u2011lived supergroup featuring Eric Clapton, Ginger Baker, & Steve Winwood, known for virtuosic blues\u2011rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Cream",
+      "cluster": "cluster_3",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "Cream",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Cream | Blues Rock Supergroup | London, UK | 1966\u20131968  A pioneering power trio known for virtuosic blues\u2011rock improvisation & psychedelic experimentation.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Free",
+      "cluster": "cluster_3",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "Free",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Free | Blues Rock Band | London, UK | 1968\u20131973  A British blues\u2011rock band best known for the soulful vocals of Paul Rodgers & the classic hit All Right Now.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "John Mayall\u2019s Bluesbreakers",
+      "cluster": "cluster_3",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "John Mayall\u2019s Bluesbreakers",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "John Mayall\u2019s Bluesbreakers | Blues Rock Band | London, UK | 1963\u20132024  A foundational British blues band that became the premier training ground for future rock legends.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Animals",
+      "cluster": "cluster_3",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "The Animals",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Animals | Blues Rock Band | Newcastle, UK | 1963\u20131969  A British RandB/rock band famous for gritty vocals & blues\u2011based hits like House of the Rising Sun.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Jeff Beck Group",
+      "cluster": "cluster_3",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "The Jeff Beck Group",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Jeff Beck Group | Blues Rock Band | London, UK | 1967\u20131972  A blues\u2011rock powerhouse led by guitarist Jeff Beck, known for fiery improvisation & influential musicianship.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Yardbirds",
+      "cluster": "cluster_3",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "The Yardbirds",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Yardbirds | Blues Rock Band | London, UK | 1963\u20131968  A British blues\u2011rock band famous for launching the careers of Eric Clapton, Jeff Beck, & Jimmy Page.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_4",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Country Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Country Rock: Rock infused with country rhythms storytelling & twang-oriented instrumentation.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Flying Burrito Brothers",
+      "cluster": "cluster_4",
+      "style": "genre_country_rock",
+      "label": {
+        "value": "The Flying Burrito Brothers",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Flying Burrito Brothers | Country Rock Band | Los Angeles, USA | 1968\u20131972  A pioneering country\u2011rock band blending Bakersfield twang with rock attitude & emotional songwriting.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_5",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Folk Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Folk Rock: Rock instrumentation combined with folk-style songwriting harmonies & acoustic textures.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Buffalo Springfield",
+      "cluster": "cluster_5",
+      "style": "genre_folk_rock",
+      "label": {
+        "value": "Buffalo Springfield",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Buffalo Springfield | Folk Rock Band | Los Angeles, USA | 1966\u20131968  A folk\u2011rock band featuring Stephen Stills & Neil Young, known for harmonies & political songwriting.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Crosby Stills & Nash",
+      "cluster": "cluster_5",
+      "style": "genre_folk_rock",
+      "label": {
+        "value": "Crosby Stills & Nash",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Crosby Stills & Nash | Folk Rock Supergroup | USA | 1968\u20132015  A folk\u2011rock supergroup celebrated for intricate vocal harmonies & socially conscious songwriting.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Crosby Stills Nash & Young",
+      "cluster": "cluster_5",
+      "style": "genre_folk_rock",
+      "label": {
+        "value": "Crosby Stills Nash & Young",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Crosby Stills Nash & Young | Folk Rock Supergroup | USA | 1969\u20132015  The expanded lineup adding Neil Young\u2019s edge & songwriting depth to the CSN sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Byrds",
+      "cluster": "cluster_5",
+      "style": "genre_folk_rock",
+      "label": {
+        "value": "The Byrds",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Byrds | Folk Rock Band | Los Angeles, USA | 1964\u20131973  A folk\u2011rock band known for jangly guitars, tight harmonies, & influential forays into psychedelia & country rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Grass Roots",
+      "cluster": "cluster_5",
+      "style": "genre_folk_rock",
+      "label": {
+        "value": "The Grass Roots",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Grass Roots | Folk Rock Band | Los Angeles, USA | 1965\u20132003  A pop\u2011rock band with a string of \u201960s & \u201970s hits built on strong melodies & polished vocal arrangements.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The New Christy Minstrels",
+      "cluster": "cluster_5",
+      "style": "genre_folk_rock",
+      "label": {
+        "value": "The New Christy Minstrels",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The New Christy Minstrels | Folk Rock Ensemble | Los Angeles, USA | 1961\u2013present  A large folk ensemble known for polished harmonies & helping launch several major careers.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_6",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Funk  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Funk: A groove-centered genre built on syncopated rhythms prominent bass lines & a dance-oriented feel.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "War",
+      "cluster": "cluster_6",
+      "style": "genre_funk",
+      "label": {
+        "value": "War",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "War | Funk Band | Long Beach, USA | 1969\u2013present  A funk\u2011rock band blending Latin, soul, & jazz influences into socially conscious, groove\u2011heavy music.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_7",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Hard Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Hard Rock: Guitar-driven rock characterized by heavy riffs strong backbeats & an aggressive sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Led Zeppelin",
+      "cluster": "cluster_7",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Led Zeppelin",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Led Zeppelin | Hard Rock Band | London, UK | 1968\u20131980  A legendary rock band blending blues, folk, & hard rock into a powerful, influential sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_8",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Heavy Metal  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Heavy Metal: Loud intense rock defined by powerful riffs high energy & a darker more aggressive tone.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Black Sabbath",
+      "cluster": "cluster_8",
+      "style": "genre_heavy_metal",
+      "label": {
+        "value": "Black Sabbath",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Black Sabbath | Heavy Metal Band | Birmingham, UK | 1968\u20132017  The pioneering heavy\u2011metal band whose dark riffs & occult\u2011tinged themes reshaped rock music.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_9",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Latin Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Latin Rock: Rock blended with Latin rhythms percussion & melodic traditions from Latin American music.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Santana",
+      "cluster": "cluster_9",
+      "style": "genre_latin_rock",
+      "label": {
+        "value": "Santana",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Santana | Latin Rock Band | San Francisco, USA | 1966\u2013present  A fusion band led by Carlos Santana, known for blending Latin rhythms with rock, blues, & jazz.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_10",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Pop Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Pop Rock: Melodic radio-friendly rock that emphasizes catchy hooks clean production & broad accessibility.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Dave Clark Five",
+      "cluster": "cluster_10",
+      "style": "genre_pop_rock",
+      "label": {
+        "value": "The Dave Clark Five",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Dave Clark Five | Pop Rock Band | London, UK | 1958\u20131970  A British Invasion band known for driving beats & catchy pop\u2011rock hits that rivaled early Beatles popularity.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_11",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Progressive Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Progressive Rock: Complex ambitious rock featuring extended compositions technical musicianship & experimental structures.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Atomic Rooster",
+      "cluster": "cluster_11",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "Atomic Rooster",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Atomic Rooster | Progressive Rock Band | London, UK | 1969\u20131983  A British progressive/hard\u2011rock band centered on Vincent Crane\u2019s Hammond\u2011driven, dramatic sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Mabel Greer\u2019s Toyshop",
+      "cluster": "cluster_11",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "Mabel Greer\u2019s Toyshop",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Mabel Greer\u2019s Toyshop | Progressive Rock Band | London, UK | 1966\u20131968  A psychedelic/progressive band that evolved into the earliest lineup of Yes.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Manfred Mann",
+      "cluster": "cluster_11",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "Manfred Mann",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Manfred Mann | Progressive Rock Band | London, UK | 1962-present  British Invasion act that evolved from a R&B pop hit-maker in the 1960s into a progressive rock powerhouse by the 1970s.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Syn",
+      "cluster": "cluster_11",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "The Syn",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Syn | Progressive Rock Band | London, UK | 1965\u20131967  A 1960s mod/psychedelic band notable as an early musical home for future Yes members.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Traffic",
+      "cluster": "cluster_11",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "Traffic",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Traffic | Progressive Rock Band | Birmingham, UK | 1967\u20131974  A British band blending rock, jazz, folk, & psychedelia into sophisticated, exploratory music.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Yes",
+      "cluster": "cluster_11",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "Yes",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Yes | Progressive Rock Band | London, UK | 1968\u2013present  A pioneering progressive\u2011rock band known for virtuosic musicianship, complex compositions, & soaring vocals.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_12",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Rock: A foundational guitar-based genre built on strong rhythms melodic hooks & wide stylistic range.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Badfinger",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "Badfinger",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Badfinger | Rock Band | Swansea, UK | 1968\u20131983  A melodic British rock band signed to Apple Records, famous for Beatlesque songwriting & a tragic history.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Bowie",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "Bowie",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Bowie | Rock Solo Artist | London, UK | 1962\u20132016  David Bowie\u2019s ever\u2011evolving solo project spanning glam, art\u2011rock, soul, electronic, & experimental pop.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Faces",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "Faces",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Faces | Rock Band | London, UK | 1969\u20131975  A rollicking British rock band featuring Rod Stewart & Ronnie Wood, known for loose, boozy, good\u2011time rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Fleetwood Mac",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "Fleetwood Mac",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Fleetwood Mac | Rock Band | London, UK | 1967\u20132002  A band that evolved from British blues roots into one of the most successful pop\u2011rock groups of all time.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Ginger Baker's Air Force",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "Ginger Baker's Air Force",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Ginger Baker's Air Force | Rock Supergroup | UK | 1969\u20131971  A jazz\u2011rock fusion ensemble led by Cream\u2019s drummer Ginger Baker, mixing rock, African rhythms, & big\u2011band arrangements.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Beach Boys",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "The Beach Boys",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Beach Boys | Rock Band | Hawthorne, USA | 1961\u2013present  A pioneering American band known for lush harmonies & innovative studio production that shaped surf rock & pop music.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Beatles",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "The Beatles",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Beatles | Rock Band | Liverpool, UK | 1960\u20131970  The most influential rock band of all time, evolving rapidly from pop beginnings into groundbreaking studio experimentation.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Dirty Mac",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "The Dirty Mac",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Dirty Mac | Rock Supergroup | London, UK | 1968  A one\u2011off supergroup assembled for The Rolling Stones Rock & Roll Circus featuring Lennon, Clapton, Richards, & Mitchell.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Iveys",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "The Iveys",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Iveys | Rock Band | Swansea, UK | 1965\u20131969  The original incarnation of Badfinger, known for melodic pop\u2011rock before signing to Apple Records.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Kinks",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "The Kinks",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Kinks | Rock Band | London, UK | 1963\u20131996  A British rock band known for sharp songwriting, distinctive riffs, & influential proto\u2011punk & Britpop sensibilities.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Rolling Stones",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "The Rolling Stones",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Rolling Stones | Rock Band | London, UK | 1962\u2013present  One of rock\u2019s longest\u2011running bands, blending blues roots with swaggering rock & roll attitude.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Spencer Davis Group",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "The Spencer Davis Group",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Spencer Davis Group | Rock Band | Birmingham, UK | 1963\u20131969  A British RandB band known for soulful vocals & energetic organ\u2011driven hits.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Who",
+      "cluster": "cluster_12",
+      "style": "genre_rock",
+      "label": {
+        "value": "The Who",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Who | Rock Band | London, UK | 1964\u20131978  A powerhouse rock band known for explosive performances, conceptual albums, & pioneering hard\u2011rock energy.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_13",
+      "type": "cluster",
+      "cluster": "cluster_2",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Soul  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Soul: A vocal-driven genre blending gospel R & B & pop with emotional delivery & groove-centered arrangements.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Booker T. & the M.G.\u2019s",
+      "cluster": "cluster_13",
+      "style": "genre_soul",
+      "label": {
+        "value": "Booker T. & the M.G.\u2019s",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Booker T. & the M.G.\u2019s | Soul Band | Memphis, USA | 1962\u20131971  The legendary Stax house band whose tight, soulful instrumentals defined Southern soul.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_14",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "genre_cluster",
+      "label": {
+        "value": "'70s",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "'70s",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_15",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Blues Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Blues Rock: Rock rooted in blues scales & phrasing emphasizing expressive guitar work & soulful rhythms.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Derek & the Dominos",
+      "cluster": "cluster_15",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "Derek & the Dominos",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Derek & the Dominos | Blues Rock Band | London, UK | 1970\u20131971  Eric Clapton\u2019s blues\u2011rock band best known for the emotionally charged classic Layla.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Eric Burdon Band",
+      "cluster": "cluster_15",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "Eric Burdon Band",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Eric Burdon Band | Blues Rock Band | USA/UK | 1971\u20131974  Eric Burdon\u2019s blues\u2011rock outfit continuing his gritty, soulful vocal style after The Animals.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Blues Brothers",
+      "cluster": "cluster_15",
+      "style": "genre_blues_rock",
+      "label": {
+        "value": "The Blues Brothers",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Blues Brothers | Blues Rock Ensemble | Chicago, USA | 1978\u20131982  A rhythm\u2011and\u2011blues revue created by Dan Aykroyd & John Belushi, celebrating classic soul & blues with high\u2011energy performances.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_16",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Glam Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Glam Rock: Theatrical flamboyant rock blending catchy pop hooks with bold visual style.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Arnold Corns",
+      "cluster": "cluster_16",
+      "style": "genre_glam_rock",
+      "label": {
+        "value": "Arnold Corns",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Arnold Corns | Glam Rock Studio Project | London, UK | 1971\u20131972  A David Bowie side project used to prototype songs that later appeared on Ziggy Stardust.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_17",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Hard Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Hard Rock: Guitar-driven rock characterized by heavy riffs strong backbeats & an aggressive sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Empire",
+      "cluster": "cluster_17",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Empire",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Empire | Hard Rock Band | UK | 1973\u20131980  A post\u2011Wishbone Ash project led by Peter Banks exploring melodic, guitar\u2011driven progressive rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Greedies",
+      "cluster": "cluster_17",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "The Greedies",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Greedies | Hard Rock Supergroup | London, UK | 1978\u20131980  A short\u2011lived collaboration between Thin Lizzy members & Steve Jones/Paul Cook of the Sex Pistols.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_18",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Heavy Metal  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Heavy Metal: Loud intense rock defined by powerful riffs high energy & a darker more aggressive tone.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Ozzy Osbourne",
+      "cluster": "cluster_18",
+      "style": "genre_heavy_metal",
+      "label": {
+        "value": "Ozzy Osbourne",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Ozzy Osbourne | Heavy Metal Solo Artist | Birmingham, UK | 1979\u20132025  The solo work of Black Sabbath\u2019s frontman, blending heavy riffs with theatrical, larger\u2011than\u2011life metal.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_19",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "New Wave  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "New Wave: A polished modern evolution of punk emphasizing melody rhythm & synth-friendly production.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Blondie",
+      "cluster": "cluster_19",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "Blondie",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Blondie | New Wave Band | New York, USA | 1974\u20131982  A New York new\u2011wave band that fused punk roots with pop, disco, reggae, & early hip\u2011hop experimentation.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Cinema",
+      "cluster": "cluster_19",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "Cinema",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Cinema | New Wave Precursor Band | London, UK | 1970\u20131971  A short\u2011lived pre\u2011Yes project featuring future members developing early progressive\u2011rock ideas.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Cowboys International",
+      "cluster": "cluster_19",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "Cowboys International",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Cowboys International | New Wave Band | London, UK | 1979\u20131980  A post\u2011punk/new\u2011wave band blending art\u2011rock sophistication with sleek, synth\u2011driven pop.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Dexy's Midnight Runners",
+      "cluster": "cluster_19",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "Dexy's Midnight Runners",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Dexy's Midnight Runners | New Wave Band | Birmingham, UK | 1978\u20131987  A British pop\u2011soul group blending Celtic influences, brass arrangements, & passionate vocals.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Elvis Costello",
+      "cluster": "cluster_19",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "Elvis Costello",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Elvis Costello | New Wave Solo Artist | London, UK | 1977\u2013present  A sharp\u2011tongued songwriter blending punk energy with sophisticated pop, soul, & country influences.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Elvis Costello & the Attractions",
+      "cluster": "cluster_19",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "Elvis Costello & the Attractions",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Elvis Costello & the Attractions | New Wave Backing Band | London, UK | 1977\u20131996  Costello\u2019s classic backing band known for tight, energetic performances & genre\u2011spanning versatility.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Attractions",
+      "cluster": "cluster_19",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "The Attractions",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Attractions | New Wave Backing Band | London, UK | 1977\u20131996  Elvis Costello\u2019s classic backing band known for tight, punchy, genre\u2011spanning performances.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Buggles",
+      "cluster": "cluster_19",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "The Buggles",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Buggles | New Wave Duo | London, UK | 1977\u20131981  A synth\u2011pop duo best known for Video Killed the Radio Star & their futuristic, studio\u2011driven sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_20",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Pop Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Pop Rock: Melodic radio-friendly rock that emphasizes catchy hooks clean production & broad accessibility.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Smith & d'Abo",
+      "cluster": "cluster_20",
+      "style": "genre_pop_rock",
+      "label": {
+        "value": "Smith & d'Abo",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Smith & d'Abo | Pop Rock Duo | UK | 1970s  A melodic pop\u2011rock duo featuring members of Manfred Mann & The Love Affair.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_21",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Progressive Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Progressive Rock: Complex ambitious rock featuring extended compositions technical musicianship & experimental structures.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Emerson Lake & Palmer",
+      "cluster": "cluster_21",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "Emerson Lake & Palmer",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Emerson Lake & Palmer | Progressive Rock Supergroup | UK | 1970\u20132010  A progressive\u2011rock supergroup famed for virtuosic musicianship & ambitious classical\u2011rock fusion.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Flash",
+      "cluster": "cluster_21",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "Flash",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Flash | Progressive Rock Band | London, UK | 1971\u20131973  A progressive\u2011rock band formed by ex\u2011Yes guitarist Peter Banks, known for intricate, energetic arrangements.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_22",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Punk Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Punk Rock: Fast raw minimalist rock built on simplicity attitude & anti-establishment energy.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Billy Idol",
+      "cluster": "cluster_22",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Billy Idol",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Billy Idol | Punk Rock Solo Artist | London, UK | 1976\u2013present  A punk\u2011turned\u2011pop\u2011rock icon blending sneering attitude with synth\u2011driven, hook\u2011heavy anthems.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Generation X",
+      "cluster": "cluster_22",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Generation X",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Generation X | Punk Rock Band | London, UK | 1976\u20131981  A late\u2011\u201970s punk band fronted by Billy Idol, blending raw energy with pop\u2011leaning hooks.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Hanoi Rocks",
+      "cluster": "cluster_22",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Hanoi Rocks",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Hanoi Rocks | Punk Rock Band | Helsinki, Finland | 1979\u20131985  A Finnish glam\u2011punk band whose flamboyant style & melodic swagger influenced the Hollywood rock scene.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Public Image Ltd",
+      "cluster": "cluster_22",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Public Image Ltd",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Public Image Ltd | Punk Rock Band | London, UK | 1978\u20131990s  John Lydon\u2019s post\u2011Sex Pistols project blending experimental rock, dub, & avant\u2011garde influences.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The 101'ers",
+      "cluster": "cluster_22",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "The 101'ers",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The 101'ers | Punk Rock Band | London, UK | 1974\u20131976  Joe Strummer\u2019s pre\u2011Clash pub\u2011rock band rooted in energetic, R&B\u2011inflected rock & roll.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Clash",
+      "cluster": "cluster_22",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "The Clash",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Clash | Punk Rock Band | London, UK | 1976\u20131986  A politically charged punk band that expanded into reggae, funk, & rock, becoming one of the most important groups of their era.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Sex Pistols",
+      "cluster": "cluster_22",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "The Sex Pistols",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Sex Pistols | Punk Rock Band | London, UK | 1975\u20131978  A seminal punk band whose raw sound & confrontational style helped ignite the punk movement.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_23",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Rock: A foundational guitar-based genre built on strong rhythms melodic hooks & wide stylistic range.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Bad Company",
+      "cluster": "cluster_23",
+      "style": "genre_rock",
+      "label": {
+        "value": "Bad Company",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Bad Company | Rock Band | London, UK | 1973\u20132019  A blues\u2011based hard\u2011rock band formed from Free & Mott the Hoople alumni, known for muscular, radio\u2011ready anthems.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Electric Light Orchestra",
+      "cluster": "cluster_23",
+      "style": "genre_rock",
+      "label": {
+        "value": "Electric Light Orchestra",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Electric Light Orchestra | Rock Band | Birmingham, UK | 1970\u2013present  A symphonic\u2011rock band merging Beatlesque pop with lush orchestration & futuristic production.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Journey",
+      "cluster": "cluster_23",
+      "style": "genre_rock",
+      "label": {
+        "value": "Journey",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Journey | Rock Band | San Francisco, USA | 1973\u20131987  A melodic rock band famed for soaring vocals, polished production, & arena\u2011ready anthems.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Tom Petty & the Heartbreakers",
+      "cluster": "cluster_23",
+      "style": "genre_rock",
+      "label": {
+        "value": "Tom Petty & the Heartbreakers",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Tom Petty & the Heartbreakers | Rock Band | Gainesville/Los Angeles, USA | 1976\u20132017  A heartland\u2011rock band known for timeless songwriting, jangly guitars, & unpretentious American rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Wings",
+      "cluster": "cluster_23",
+      "style": "genre_rock",
+      "label": {
+        "value": "Wings",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Wings | Rock Band | London, UK | 1971\u20131981  Paul McCartney\u2019s post\u2011Beatles band known for melodic, radio\u2011friendly rock & wide stylistic range.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_24",
+      "type": "cluster",
+      "cluster": "cluster_14",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Ska  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Ska: A rhythm-driven Jamaican genre featuring off-beat guitar patterns upbeat tempos & brass-heavy arrangements.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Akrylykz",
+      "cluster": "cluster_24",
+      "style": "genre_ska",
+      "label": {
+        "value": "The Akrylykz",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Akrylykz | Ska Band | Hull, UK | 1978\u20131982  A British ska band associated with the 2\u2011Tone movement, known for upbeat, horn\u2011driven tracks.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Beat",
+      "cluster": "cluster_24",
+      "style": "genre_ska",
+      "label": {
+        "value": "The Beat",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Beat | Ska Band | Birmingham, UK | 1978\u20131983  A key 2\u2011Tone ska band blending upbeat rhythms with socially conscious lyrics & sharp pop sensibilities.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_25",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "genre_cluster",
+      "label": {
+        "value": "'80s",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "'80s",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_26",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Alternative Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Alternative Rock: A broad non-mainstream rock category defined by eclectic influences & a rejection of commercial formulas.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Bad Radio",
+      "cluster": "cluster_26",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Bad Radio",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Bad Radio | Alternative Rock Band | San Diego, USA | 1986\u20131990  An early San Diego alternative/funk\u2011rock band best known as Eddie Vedder\u2019s pre\u2011Pearl Jam project.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Jane's Addiction",
+      "cluster": "cluster_26",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Jane's Addiction",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Jane's Addiction | Alternative Rock Band | Los Angeles, USA | 1985\u2013present  A genre\u2011blending alternative\u2011rock band mixing art\u2011rock, metal, psychedelia, & theatrical flair.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Luma",
+      "cluster": "cluster_26",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Luma",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Luma | Alternative Rock Band | Seattle, USA | 1989\u20131990  A short\u2011lived project featuring members of Mother Love Bone exploring melodic alternative rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Tin Machine",
+      "cluster": "cluster_26",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Tin Machine",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Tin Machine | Alternative Rock Band | London, UK | 1988\u20131992  David Bowie\u2019s hard\u2011edged rock band emphasizing raw, guitar\u2011driven sound over his usual theatrical polish.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_27",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Funk Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Funk Rock: Rock fused with funk rhythms emphasizing syncopated bass lines groove & high-energy performance.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Red Hot Chili Peppers",
+      "cluster": "cluster_27",
+      "style": "genre_funk_rock",
+      "label": {
+        "value": "Red Hot Chili Peppers",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Red Hot Chili Peppers | Funk Rock Band | Los Angeles, USA | 1983\u2013present  A funk\u2011rock band blending punk energy, melodic pop, & explosive stage presence.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_28",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Grunge  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Grunge: A fusion of punk & heavy rock marked by distorted guitars gritty textures & angst-driven lyrics.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Alice in Chains",
+      "cluster": "cluster_28",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Alice in Chains",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Alice in Chains | Grunge Band | Seattle, USA | 1987\u2013present  A defining Seattle band blending heavy metal & grunge with dark harmonies & emotionally intense songwriting.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Green River",
+      "cluster": "cluster_28",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Green River",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Green River | Grunge Band | Seattle, USA | 1984\u20131988  A pioneering Seattle band whose gritty sound helped shape the early grunge movement.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Mighty Joe Young",
+      "cluster": "cluster_28",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Mighty Joe Young",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Mighty Joe Young | Grunge Precursor Band | San Diego/Los Angeles, USA | 1989  The early incarnation of Stone Temple Pilots, blending grunge\u2011leaning riffs with melodic hard rock before their name change.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Mother Love Bone",
+      "cluster": "cluster_28",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Mother Love Bone",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Mother Love Bone | Grunge Band | Seattle, USA | 1988\u20131990  A pivotal Seattle band whose glam\u2011infused alternative rock helped set the stage for the grunge movement.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Nirvana",
+      "cluster": "cluster_28",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Nirvana",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Nirvana | Grunge Band | Aberdeen/Seattle, USA | 1987\u20131994  A groundbreaking Seattle trio whose raw, emotionally charged music brought grunge into the mainstream.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Soundgarden",
+      "cluster": "cluster_28",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Soundgarden",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Soundgarden | Grunge Band | Seattle, USA | 1984\u20132019  A pioneering Seattle band blending heavy riffs, unusual tunings, & Chris Cornell\u2019s soaring vocals.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Stone Temple Pilots",
+      "cluster": "cluster_28",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Stone Temple Pilots",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Stone Temple Pilots | Grunge Band | San Diego, USA | 1989\u2013present  A major \u201990s rock band blending grunge, classic rock, & psychedelic influences with strong melodic hooks.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_29",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Hard Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Hard Rock: Guitar-driven rock characterized by heavy riffs strong backbeats & an aggressive sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Chequered Past",
+      "cluster": "cluster_29",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Chequered Past",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Chequered Past | Hard Rock Band | Los Angeles, USA | 1982\u20131985  A mid\u2011\u201980s rock band featuring members of Blondie, Sex Pistols, & Iggy Pop\u2019s circle, blending punk pedigree with hard\u2011rock polish.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Cherry Bombz",
+      "cluster": "cluster_29",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Cherry Bombz",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Cherry Bombz | Hard Rock Band | Finland/UK | 1984\u20131987  A glam\u2011punk band formed by Hanoi Rocks members, known for loud, swaggering rock with theatrical flair.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Guns N\u2019 Roses",
+      "cluster": "cluster_29",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Guns N\u2019 Roses",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Guns N\u2019 Roses | Hard Rock Band | Los Angeles, USA | 1985\u2013present  A hard\u2011rock band blending sleaze, punk attitude, & arena\u2011sized hooks, becoming one of the biggest acts of the late \u201980s.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Rapidfire",
+      "cluster": "cluster_29",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Rapidfire",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Rapidfire | Hard Rock Band | Los Angeles, USA | 1983  A short\u2011lived early metal band best known for featuring Axl Rose before his rise with Guns N\u2019 Roses.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Firm",
+      "cluster": "cluster_29",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "The Firm",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Firm | Hard Rock Supergroup | London, UK | 1984\u20131986  A hard\u2011rock supergroup featuring Jimmy Page & Paul Rodgers, known for polished, riff\u2011driven arena rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_30",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Heavy Metal  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Heavy Metal: Loud intense rock defined by powerful riffs high energy & a darker more aggressive tone.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Hollywood Rose",
+      "cluster": "cluster_30",
+      "style": "genre_heavy_metal",
+      "label": {
+        "value": "Hollywood Rose",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Hollywood Rose | Heavy Metal Band | Los Angeles, USA | 1983\u20131984  A pre\u2011Guns N\u2019 Roses band featuring Axl Rose & Izzy Stradlin developing the early GN\u2019R sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_31",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "New Wave  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "New Wave: A polished modern evolution of punk emphasizing melody rhythm & synth-friendly production.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Big Audio Dynamite",
+      "cluster": "cluster_31",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "Big Audio Dynamite",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Big Audio Dynamite | New Wave Band | London, UK | 1984\u20131990  Mick Jones\u2019s post\u2011Clash project mixing rock, dance, reggae, & sampling into a pioneering alternative sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Fine Young Cannibals",
+      "cluster": "cluster_31",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "Fine Young Cannibals",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Fine Young Cannibals | New Wave Band | Birmingham, UK | 1984\u20131992  A British pop band blending soulful vocals with sleek, dance\u2011inflected new\u2011wave production.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "General Public",
+      "cluster": "cluster_31",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "General Public",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "General Public | New Wave Band | Birmingham, UK | 1983\u20131987  A new\u2011wave/ska\u2011pop band formed by members of The Beat, known for bright, melodic, socially conscious songs.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Producers",
+      "cluster": "cluster_31",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "The Producers",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Producers | New Wave Band | Atlanta, USA | 1980\u20131981  A new\u2011wave/power\u2011pop band known for tight arrangements & hook\u2011driven songwriting.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_32",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Progressive Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Progressive Rock: Complex ambitious rock featuring extended compositions technical musicianship & experimental structures.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Asia",
+      "cluster": "cluster_32",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "Asia",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Asia | Progressive Rock Supergroup | UK | 1981\u2013present  A progressive\u2011rock supergroup known for polished, radio\u2011friendly hits built on virtuoso musicianship.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_33",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Punk Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Punk Rock: Fast raw minimalist rock built on simplicity attitude & anti-establishment energy.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Adolph's Dog",
+      "cluster": "cluster_33",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Adolph's Dog",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Adolph's Dog | Punk Rock Band | Los Angeles, USA | 1980-1984  A short\u2011lived early LA punk/metal crossover band featuring musicians who later joined Guns N\u2019 Roses.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Deranged Diction",
+      "cluster": "cluster_33",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Deranged Diction",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Deranged Diction | Punk Rock Band | Missoula, USA | 1981\u20131984  A Montana punk band notable as an early musical home for future Pearl Jam bassist Jeff Ament.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Janie Jones",
+      "cluster": "cluster_33",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Janie Jones",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Janie Jones | Punk Rock Project | UK | 1980s  A short\u2011lived punk\u2011influenced project named after the Clash song, featuring rotating musicians.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Pato & Roger",
+      "cluster": "cluster_33",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Pato & Roger",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Pato & Roger | Punk Rock Duo | Birmingham, UK | 1980s  A reggae\u2011influenced collaboration between members of The Beat exploring upbeat, socially conscious grooves.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_34",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Rock: A foundational guitar-based genre built on strong rhythms melodic hooks & wide stylistic range.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Elvis Costello & the Confederates",
+      "cluster": "cluster_34",
+      "style": "genre_rock",
+      "label": {
+        "value": "Elvis Costello & the Confederates",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Elvis Costello & the Confederates | Rock Backing Band | USA | 1980s  A roots\u2011oriented live ensemble supporting Costello\u2019s explorations into Americana & country\u2011tinged material.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Honeydrippers",
+      "cluster": "cluster_34",
+      "style": "genre_rock",
+      "label": {
+        "value": "The Honeydrippers",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Honeydrippers | Rock Project | UK/USA | 1981\u20131985  A retro\u2011styled project led by Robert Plant paying homage to early rock & R&B.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Traveling Wilburys",
+      "cluster": "cluster_34",
+      "style": "genre_rock",
+      "label": {
+        "value": "Traveling Wilburys",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Traveling Wilburys | Rock Supergroup | USA/UK | 1988\u20131991  A supergroup of legendary songwriters blending folk\u2011rock, pop, & roots influences with relaxed charm.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_35",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Ska  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Ska: A rhythm-driven Jamaican genre featuring off-beat guitar patterns upbeat tempos & brass-heavy arrangements.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Mission Impossible",
+      "cluster": "cluster_35",
+      "style": "genre_ska",
+      "label": {
+        "value": "Mission Impossible",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Mission Impossible | Ska Band | Seattle, USA | 1983\u20131984  A short\u2011lived Seattle punk band notable as an early project for future Pearl Jam members.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Ranking Roger",
+      "cluster": "cluster_35",
+      "style": "genre_ska",
+      "label": {
+        "value": "Ranking Roger",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Ranking Roger | Ska Solo Artist | Birmingham, UK | 1980s\u20132010s  The solo & collaborative work of The Beat\u2019s vocalist, mixing ska, reggae, & socially aware pop.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_36",
+      "type": "cluster",
+      "cluster": "cluster_25",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Soul  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Soul: A vocal-driven genre blending gospel R & B & pop with emotional delivery & groove-centered arrangements.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "JB\u2019s Allstars",
+      "cluster": "cluster_36",
+      "style": "genre_soul",
+      "label": {
+        "value": "JB\u2019s Allstars",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "JB\u2019s Allstars | Soul Band | UK | 1980s  A British ska revival group connected to the 2\u2011Tone movement & known for upbeat, horn\u2011driven tracks.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_37",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "genre_cluster",
+      "label": {
+        "value": "'90s",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "'90s",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_38",
+      "type": "cluster",
+      "cluster": "cluster_37",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Alternative Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Alternative Rock: A broad non-mainstream rock category defined by eclectic influences & a rejection of commercial formulas.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Class of '99",
+      "cluster": "cluster_38",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Class of '99",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Class of '99 | Alternative Rock Supergroup | Los Angeles, USA | 1998  A studio supergroup formed to record covers for the film The Faculty, featuring members of Alice in Chains & Rage Against the Machine.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Foo Fighters",
+      "cluster": "cluster_38",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Foo Fighters",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Foo Fighters | Alternative Rock Band | Seattle/Los Angeles, USA | 1994\u2013present  Dave Grohl\u2019s post\u2011Nirvana rock band known for melodic, high\u2011energy alternative rock & arena\u2011sized hooks.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Mad Season",
+      "cluster": "cluster_38",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Mad Season",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Mad Season | Alternative Rock Supergroup | Seattle, USA | 1994\u20131995  A Seattle supergroup blending blues, grunge, & atmospheric rock featuring Layne Staley & Mike McCready.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Mescaleros",
+      "cluster": "cluster_38",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "The Mescaleros",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Mescaleros | Alternative Rock Band | London, UK | 1999\u20132002  Joe Strummer\u2019s late\u2011career band blending rock, world music, & socially conscious themes.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Unified Theory",
+      "cluster": "cluster_38",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Unified Theory",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Unified Theory | Alternative Rock Band | Seattle, USA | 1998\u20132001  A post\u2011grunge/alternative band featuring former Blind Melon members exploring atmospheric, melodic rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_39",
+      "type": "cluster",
+      "cluster": "cluster_37",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Grunge  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Grunge: A fusion of punk & heavy rock marked by distorted guitars gritty textures & angst-driven lyrics.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Alice Mudgarden",
+      "cluster": "cluster_39",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Alice Mudgarden",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Alice Mudgarden | Grunge Supergroup | Seattle, USA | 1990  A one\u2011off grunge supergroup combining members of Alice in Chains, Mudhoney, & Soundgarden for a single track.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Pearl Jam",
+      "cluster": "cluster_39",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Pearl Jam",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Pearl Jam | Grunge Band | Seattle, USA | 1990\u2013present  A major Seattle band known for emotionally intense alternative rock & a fiercely independent artistic ethos.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Temple of the Dog",
+      "cluster": "cluster_39",
+      "style": "genre_grunge",
+      "label": {
+        "value": "Temple of the Dog",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Temple of the Dog | Grunge Supergroup | Seattle, USA | 1990\u20131992  A Seattle supergroup formed as a tribute to Andrew Wood, blending soulful vocals with atmospheric rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_40",
+      "type": "cluster",
+      "cluster": "cluster_37",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Heavy Metal  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Heavy Metal: Loud intense rock defined by powerful riffs high energy & a darker more aggressive tone.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Bullring Brummies",
+      "cluster": "cluster_40",
+      "style": "genre_heavy_metal",
+      "label": {
+        "value": "Bullring Brummies",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Bullring Brummies | Heavy Metal Supergroup | UK | 1994  A short\u2011lived project featuring Black Sabbath alumni contributing to the Nativity in Black tribute album.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Geezer",
+      "cluster": "cluster_40",
+      "style": "genre_heavy_metal",
+      "label": {
+        "value": "Geezer",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Geezer | Heavy Metal Solo Project | Birmingham, UK | 1995\u20132005  Geezer Butler\u2019s solo/side\u2011project ventures exploring heavy, groove\u2011driven metal with dark lyrical themes.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "GZR",
+      "cluster": "cluster_40",
+      "style": "genre_heavy_metal",
+      "label": {
+        "value": "GZR",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "GZR | Heavy Metal Solo Project | Birmingham, UK | 1995\u20132005  Another Geezer Butler project delivering industrial\u2011tinged heavy metal with a modern edge.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_41",
+      "type": "cluster",
+      "cluster": "cluster_37",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "New Wave  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "New Wave: A polished modern evolution of punk emphasizing melody rhythm & synth-friendly production.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Big Audio Dynamite II",
+      "cluster": "cluster_41",
+      "style": "genre_new_wave",
+      "label": {
+        "value": "Big Audio Dynamite II",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Big Audio Dynamite II | New Wave Band | London, UK | 1990\u20131997  A retooled version of Big Audio Dynamite that leaned further into electronic dance\u2011rock & early \u201990s club influences.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_42",
+      "type": "cluster",
+      "cluster": "cluster_37",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Pop Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Pop Rock: Melodic radio-friendly rock that emphasizes catchy hooks clean production & broad accessibility.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "The Backbeat Band",
+      "cluster": "cluster_42",
+      "style": "genre_pop_rock",
+      "label": {
+        "value": "The Backbeat Band",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "The Backbeat Band | Pop Rock Supergroup | Los Angeles, USA | 1993  A studio supergroup assembled to record early Beatles\u2011style rock for the film Backbeat.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_43",
+      "type": "cluster",
+      "cluster": "cluster_37",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Punk Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Punk Rock: Fast raw minimalist rock built on simplicity attitude & anti-establishment energy.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Neurotic Outsiders",
+      "cluster": "cluster_43",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Neurotic Outsiders",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Neurotic Outsiders | Punk Rock Supergroup | Los Angeles, USA | 1995\u20131997  A punk\u2011leaning supergroup featuring members of Guns N\u2019 Roses, Duran Duran, & the Sex Pistols.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Shut Up Frank",
+      "cluster": "cluster_43",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Shut Up Frank",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Shut Up Frank | Punk Rock Band | UK | 1990s  A punk\u2011rock collective featuring members of The Damned & other UK punk veterans.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_44",
+      "type": "cluster",
+      "cluster": "cluster_37",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Ska  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Ska: A rhythm-driven Jamaican genre featuring off-beat guitar patterns upbeat tempos & brass-heavy arrangements.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Special Beat",
+      "cluster": "cluster_44",
+      "style": "genre_ska",
+      "label": {
+        "value": "Special Beat",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Special Beat | Ska Supergroup | UK | 1990\u20131995  A ska supergroup combining members of The Beat & The Specials for high\u2011energy revival tours.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_45",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "genre_cluster",
+      "label": {
+        "value": "'00s",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "'00s",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_46",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Alternative Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Alternative Rock: A broad non-mainstream rock category defined by eclectic influences & a rejection of commercial formulas.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Audioslave",
+      "cluster": "cluster_46",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Audioslave",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Audioslave | Alternative Rock Supergroup | Los Angeles, USA | 2001\u20132007  A supergroup merging Chris Cornell with Rage Against the Machine\u2019s instrumentalists to create soulful, heavy alt\u2011rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Novatone",
+      "cluster": "cluster_46",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Novatone",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Novatone | Alternative Rock Band | Seattle, USA | 2000s  A post\u2011grunge/alternative project featuring former members of Candlebox exploring melodic, modern rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_47",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Folk Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Folk Rock: Rock instrumentation combined with folk-style songwriting harmonies & acoustic textures.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Creed Bratton",
+      "cluster": "cluster_47",
+      "style": "genre_folk_rock",
+      "label": {
+        "value": "Creed Bratton",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Creed Bratton | Folk Rock Solo Artist | Los Angeles, USA | 1965\u2013present  The folk\u2011rock musician best known for his work with The Grass Roots before his later acting career.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_48",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Hard Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Hard Rock: Guitar-driven rock characterized by heavy riffs strong backbeats & an aggressive sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Adler's Appetite",
+      "cluster": "cluster_48",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Adler's Appetite",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Adler's Appetite | Hard Rock Band | Los Angeles, USA | 2003\u20132011  A hard\u2011rock band formed by Guns N\u2019 Roses drummer Steven Adler to perform GN\u2019R\u2011era material with rotating lineups.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Camp Freddy",
+      "cluster": "cluster_48",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Camp Freddy",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Camp Freddy | Hard Rock Supergroup | Los Angeles, USA | 2002\u20132014  A revolving\u2011door LA supergroup known for high\u2011energy live shows packed with celebrity guests.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Velvet Revolver",
+      "cluster": "cluster_48",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Velvet Revolver",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Velvet Revolver | Hard Rock Supergroup | Los Angeles, USA | 2002\u20132008  A hard\u2011rock supergroup combining Guns N\u2019 Roses members with Scott Weiland for a modern, aggressive sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_49",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Progressive Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Progressive Rock: Complex ambitious rock featuring extended compositions technical musicianship & experimental structures.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Harmony in Diversity",
+      "cluster": "cluster_49",
+      "style": "genre_progressive_rock",
+      "label": {
+        "value": "Harmony in Diversity",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Harmony in Diversity | Progressive Rock Project | UK | 2004\u20132007  A progressive/experimental project led by Yes guitarist Peter Banks exploring improvisational, jazz\u2011inflected rock.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_50",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Punk Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Punk Rock: Fast raw minimalist rock built on simplicity attitude & anti-establishment energy.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Mad For The Racket",
+      "cluster": "cluster_50",
+      "style": "genre_punk_rock",
+      "label": {
+        "value": "Mad For The Racket",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Mad For The Racket | Punk Rock Supergroup | UK/USA | 2000s  A punk\u2011leaning supergroup featuring members of MC5, The Damned, & Hanoi Rocks.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_51",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Rock: A foundational guitar-based genre built on strong rhythms melodic hooks & wide stylistic range.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Elvis Costello & the Imposters",
+      "cluster": "cluster_51",
+      "style": "genre_rock",
+      "label": {
+        "value": "Elvis Costello & the Imposters",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Elvis Costello & the Imposters | Rock Backing Band | USA/UK | 2001\u2013present  Costello\u2019s modern touring & recording band continuing the Attractions\u2019 punchy, eclectic sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_52",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "genre_cluster",
+      "label": {
+        "value": "'10s",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "'10s",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_53",
+      "type": "cluster",
+      "cluster": "cluster_52",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Alternative Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Alternative Rock: A broad non-mainstream rock category defined by eclectic influences & a rejection of commercial formulas.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Scott Weiland & the Wildabouts",
+      "cluster": "cluster_53",
+      "style": "genre_alternative_rock",
+      "label": {
+        "value": "Scott Weiland & the Wildabouts",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Scott Weiland & the Wildabouts | Alternative Rock Band | Los Angeles, USA | 2010\u20132015  A gritty, guitar\u2011driven rock project led by the Stone Temple Pilots frontman.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_54",
+      "type": "cluster",
+      "cluster": "cluster_52",
+      "style": "genre_subcluster",
+      "label": {
+        "value": "Hard Rock  ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Hard Rock: Guitar-driven rock characterized by heavy riffs strong backbeats & an aggressive sound.",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Deadland Ritual",
+      "cluster": "cluster_54",
+      "style": "genre_hard_rock",
+      "label": {
+        "value": "Deadland Ritual",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Deadland Ritual | Hard Rock Supergroup | Los Angeles, USA | 2018\u20132021  A modern hard\u2011rock supergroup featuring Geezer Butler, Matt Sorum, & Steve Stevens.",
+        "type": "text"
+      }
+    }
+  ]
+}</script>
+
+<script>
+/* =====================================================================
+   JSON Knowledge Graph Viewer
+   - Written in ES5, as in the Excel tool's viewer, so the two behave alike.
+   ===================================================================== */
+
+var ROW_HEIGHT = 18;
+var BUFFER_ROWS = 8;
+
+var originalJson = "";
+var prettyJson = "";
+var lines = [];
+var parsedOk = false;
+var parsedObj = null;
+
+var matchLines = [];   // indices into lines that contain the search term
+var currentMatch = -1;
+var currentTerm = "";
+
+// ---------- sample data (kept as a JS object -> no backticks needed) ----------
+var SAMPLE_JSON_OBJ = {
+    "error": "Invalid JSON",
+    "message": "The JSON provided could not be parsed and is not valid JSON syntax.",
+    "common_causes": [
+        "Missing or extra comma",
+        "Unmatched { } or [ ]",
+        "Unquoted or single-quoted keys/strings",
+        "Trailing comma before a closing bracket",
+        "Comments (// or /*) — not allowed in JSON"
+    ],
+    "tip": "Check your JSON against a JSON syntax reference and try again."
+};
+
+function escHtml(s) {
+    return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+// ---------- load / parse ----------
+function loadJson(jsonText) {
+    originalJson = jsonText;
+    var banner = document.getElementById("errorBanner");
+    banner.style.display = "none";
+
+    try {
+        parsedObj = JSON.parse(jsonText);
+        prettyJson = JSON.stringify(parsedObj, null, 2);
+        parsedOk = true;
+    } catch (e) {
+        parsedObj = null;
+        prettyJson = jsonText;
+        parsedOk = false;
+        banner.style.display = "block";
+        banner.innerHTML = "Could not parse this as valid JSON (" + escHtml(e.message) + "). Showing raw text below.";
+    }
+
+    lines = prettyJson.split("\n");
+    matchLines = [];
+    currentMatch = -1;
+    currentTerm = "";
+    document.getElementById("matchCount").innerHTML = "";
+
+    renderStats();
+    setupSizer();
+    renderVisibleRows();
+    renderTree();
+}
+
+// Mirrors the VBA GetTokenEstimate() function so the displayed estimate
+// always matches what the workbook itself computes:
+//   charCount = Len(jsonText)
+//   estimatedTokens = -Int(-charCount / 4)         ' ceiling division, ~4 chars/token
+//   safetyBuffer = CLng(estimatedTokens * 0.08)    ' ~8% buffer for BPE edge cases
+//   GetTokenEstimate = estimatedTokens + safetyBuffer
+function getTokenEstimate(charCount) {
+    var estimatedTokens = Math.ceil(charCount / 4);
+    var safetyBuffer = Math.round(estimatedTokens * 0.08);
+    return estimatedTokens + safetyBuffer;
+}
+
+function renderStats() {
+    var tokenEstimate = getTokenEstimate(originalJson.length);
+    var stats = "Characters: " + originalJson.length + " &nbsp;|&nbsp; Est. Tokens: " + tokenEstimate + " &nbsp;|&nbsp; Lines: " + lines.length;
+    if (parsedOk && parsedObj && typeof parsedObj === "object") {
+        if (parsedObj.nodes && parsedObj.nodes.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Nodes: " + parsedObj.nodes.length;
+        }
+        if (parsedObj.edges && parsedObj.edges.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Edges: " + parsedObj.edges.length;
+        }
+    }
+    document.getElementById("statsBar").innerHTML = stats;
+}
+
+// ---------- raw view: virtualized rendering ----------
+// Only the rows currently in (or near) the viewport are ever created as
+// DOM nodes. This keeps the viewer fast even for JSON far too large for
+// an Excel cell (tens of thousands of lines), unlike a one-div-per-line
+// render of the whole file.
+function setupSizer() {
+    var sizer = document.getElementById("sizer");
+    sizer.style.height = (lines.length * ROW_HEIGHT) + "px";
+}
+
+function syntaxHighlight(lineText) {
+    // Very lightweight line-based tokenizer: good enough for pretty-printed
+    // JSON.stringify output (one token group per line), not a full parser.
+    var html = "";
+    var re = /("(?:\\.|[^"\\])*")(\s*:)?|(\btrue\b|\bfalse\b|\bnull\b)|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|([{}\[\],])/g;
+    var lastIndex = 0;
+    var m;
+    while ((m = re.exec(lineText)) !== null) {
+        if (m.index > lastIndex) {
+            html += escHtml(lineText.substring(lastIndex, m.index));
+        }
+        if (m[1]) {
+            var cls = m[2] ? "jkey" : "jstr";
+            html += "<span class=\"" + cls + "\">" + escHtml(m[1]) + "</span>" + (m[2] ? escHtml(m[2]) : "");
+        } else if (m[3]) {
+            html += "<span class=\"jbool\">" + escHtml(m[3]) + "</span>";
+        } else if (m[4]) {
+            html += "<span class=\"jnum\">" + escHtml(m[4]) + "</span>";
+        } else if (m[5]) {
+            html += "<span class=\"jpunc\">" + escHtml(m[5]) + "</span>";
+        }
+        lastIndex = re.lastIndex;
+    }
+    if (lastIndex < lineText.length) {
+        html += escHtml(lineText.substring(lastIndex));
+    }
+    return html;
+}
+
+function highlightSearchTerm(lineText, term) {
+    var lower = lineText.toLowerCase();
+    var termLower = term.toLowerCase();
+    var out = "";
+    var pos = 0;
+    var idx;
+    while ((idx = lower.indexOf(termLower, pos)) !== -1) {
+        out += escHtml(lineText.substring(pos, idx));
+        out += "<mark>" + escHtml(lineText.substring(idx, idx + term.length)) + "</mark>";
+        pos = idx + term.length;
+    }
+    out += escHtml(lineText.substring(pos));
+    return out;
+}
+
+function renderVisibleRows() {
+    var scrollArea = document.getElementById("scrollArea");
+    var sizer = document.getElementById("sizer");
+    var scrollTop = scrollArea.scrollTop;
+    var viewportH = scrollArea.clientHeight || 400;
+
+    var first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - BUFFER_ROWS);
+    var visibleCount = Math.ceil(viewportH / ROW_HEIGHT) + BUFFER_ROWS * 2;
+    var last = Math.min(lines.length - 1, first + visibleCount);
+
+    sizer.innerHTML = "";
+    var matchSet = {};
+    var i;
+    for (i = 0; i < matchLines.length; i++) { matchSet[matchLines[i]] = true; }
+
+    for (i = first; i <= last; i++) {
+        var row = document.createElement("div");
+        row.className = "row";
+        if (matchSet[i]) { row.className += " matchRow"; }
+        if (currentMatch !== -1 && matchLines[currentMatch] === i) { row.className += " currentMatchRow"; }
+        row.style.top = (i * ROW_HEIGHT) + "px";
+
+        var numSpan = document.createElement("span");
+        numSpan.className = "rowNum";
+        numSpan.textContent = (i + 1).toString();
+
+        var textSpan = document.createElement("span");
+        textSpan.className = "rowText";
+        var lineText = lines[i] || "";
+        if (currentTerm) {
+            textSpan.innerHTML = highlightSearchTerm(lineText, currentTerm);
+        } else {
+            textSpan.innerHTML = syntaxHighlight(lineText);
+        }
+
+        row.appendChild(numSpan);
+        row.appendChild(textSpan);
+        sizer.appendChild(row);
+    }
+}
+
+// ---------- search ----------
+function runSearch() {
+    var term = document.getElementById("searchInput").value;
+    currentTerm = term;
+    matchLines = [];
+    currentMatch = -1;
+
+    if (term) {
+        var termLower = term.toLowerCase();
+        for (var i = 0; i < lines.length; i++) {
+            if (lines[i].toLowerCase().indexOf(termLower) !== -1) {
+                matchLines.push(i);
+            }
+        }
+        if (matchLines.length > 0) { currentMatch = 0; }
+    }
+
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function updateMatchCount() {
+    var el = document.getElementById("matchCount");
+    if (!currentTerm) { el.innerHTML = ""; return; }
+    if (matchLines.length === 0) { el.innerHTML = "0 matches"; return; }
+    el.innerHTML = (currentMatch + 1) + " / " + matchLines.length + " lines";
+}
+
+function scrollToCurrentMatch() {
+    if (currentMatch === -1) { return; }
+    var scrollArea = document.getElementById("scrollArea");
+    var targetLine = matchLines[currentMatch];
+    var targetTop = targetLine * ROW_HEIGHT - (scrollArea.clientHeight / 2);
+    if (targetTop < 0) { targetTop = 0; }
+    scrollArea.scrollTop = targetTop;
+}
+
+function nextMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch + 1) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function prevMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch - 1 + matchLines.length) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function clearSearch() {
+    document.getElementById("searchInput").value = "";
+    currentTerm = "";
+    matchLines = [];
+    currentMatch = -1;
+    updateMatchCount();
+    renderVisibleRows();
+}
+
+// ---------- copy ----------
+function copyText(text) {
+    var temp = document.createElement("textarea");
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    try { document.execCommand("copy"); } catch (e) { /* ignore */ }
+    document.body.removeChild(temp);
+}
+
+// ---------- tree view ----------
+var TREE_ARRAY_LIMIT = 200; // cap initial render of large arrays so huge graphs don't freeze the tree
+
+function renderTree() {
+    var container = document.getElementById("treeView");
+    container.innerHTML = "";
+    if (!parsedOk) {
+        container.innerHTML = "<div style=\"color:#900;\">Tree view is unavailable because the input is not valid JSON.</div>";
+        return;
+    }
+    container.appendChild(buildTreeNode("root", parsedObj, true));
+}
+
+function typeLabel(v) {
+    if (v === null) { return "null"; }
+    if (Array.isArray(v)) { return "array(" + v.length + ")"; }
+    return typeof v;
+}
+
+function buildTreeNode(key, value, isRoot) {
+    var wrap = document.createElement("div");
+    wrap.className = "treeNode";
+
+    var isContainer = value !== null && typeof value === "object";
+
+    var line = document.createElement("div");
+    if (isContainer) {
+        var toggle = document.createElement("span");
+        toggle.className = "toggle";
+        toggle.textContent = "-";
+        var childHolder = document.createElement("div");
+
+        toggle.onclick = (function (t, holder) {
+            return function () {
+                var collapsed = holder.style.display === "none";
+                holder.style.display = collapsed ? "block" : "none";
+                t.textContent = collapsed ? "-" : "+";
+            };
+        })(toggle, childHolder);
+
+        line.appendChild(toggle);
+        var keySpan = document.createElement("span");
+        keySpan.className = "treeKey";
+        keySpan.textContent = (isRoot ? "" : key + ": ") + typeLabel(value);
+        line.appendChild(keySpan);
+        wrap.appendChild(line);
+        wrap.appendChild(childHolder);
+
+        var keys = Array.isArray(value) ? null : Object.keys(value);
+        var count = Array.isArray(value) ? value.length : keys.length;
+        var limit = Array.isArray(value) ? Math.min(count, TREE_ARRAY_LIMIT) : count;
+
+        var i;
+        if (Array.isArray(value)) {
+            for (i = 0; i < limit; i++) {
+                childHolder.appendChild(buildTreeNode("[" + i + "]", value[i], false));
+            }
+            if (count > limit) {
+                var more = document.createElement("div");
+                more.className = "treeNode moreLink";
+                more.textContent = "... " + (count - limit) + " more items (click to expand)";
+                more.onclick = (function (arr, holder, startAt) {
+                    return function () {
+                        for (var j = startAt; j < arr.length; j++) {
+                            holder.insertBefore(buildTreeNode("[" + j + "]", arr[j], false), more);
+                        }
+                        more.parentNode.removeChild(more);
+                    };
+                })(value, childHolder, limit);
+                childHolder.appendChild(more);
+            }
+        } else {
+            for (i = 0; i < keys.length; i++) {
+                childHolder.appendChild(buildTreeNode(keys[i], value[keys[i]], false));
+            }
+        }
+    } else {
+        var leafKey = document.createElement("span");
+        leafKey.className = "treeKey";
+        leafKey.textContent = key + ": ";
+        var leafVal = document.createElement("span");
+        var cls = "treeVal ";
+        if (typeof value === "string") { cls += "jstr"; }
+        else if (typeof value === "number") { cls += "jnum"; }
+        else if (typeof value === "boolean" || value === null) { cls += "jbool"; }
+        leafVal.className = cls;
+        leafVal.textContent = typeof value === "string" ? "\"" + value + "\"" : String(value);
+        line.appendChild(leafKey);
+        line.appendChild(leafVal);
+        wrap.appendChild(line);
+    }
+
+    return wrap;
+}
+
+// ---------- save as file ----------
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+function buildFilename(ext) {
+    var d = new Date();
+    var stamp = d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) +
+        "-" + pad2(d.getHours()) + pad2(d.getMinutes()) + pad2(d.getSeconds());
+    return "graph-" + stamp + "." + ext;
+}
+
+function saveTextAsFile(text, filename) {
+    var blob = new Blob([text], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+}
+
+// ---------- view toggle ----------
+function showRawView() {
+    document.getElementById("scrollArea").style.display = "block";
+    document.getElementById("treeView").style.display = "none";
+    document.getElementById("btnRawView").className = "active";
+    document.getElementById("btnTreeView").className = "";
+    renderVisibleRows();
+}
+function showTreeView() {
+    document.getElementById("scrollArea").style.display = "none";
+    document.getElementById("treeView").style.display = "block";
+    document.getElementById("btnRawView").className = "";
+    document.getElementById("btnTreeView").className = "active";
+}
+
+// ---------- wire up events (no inline handlers, so this also works if a host sets a strict CSP) ----------
+window.onload = function () {
+    document.getElementById("btnSearch").onclick = runSearch;
+    document.getElementById("btnNext").onclick = nextMatch;
+    document.getElementById("btnPrev").onclick = prevMatch;
+    document.getElementById("btnClear").onclick = clearSearch;
+    document.getElementById("btnCopyRaw").onclick = function () { copyText(originalJson); };
+    document.getElementById("btnCopyPretty").onclick = function () { copyText(prettyJson); };
+    document.getElementById("btnSaveRaw").onclick = function () { saveTextAsFile(originalJson, buildFilename("json")); };
+    document.getElementById("btnSavePretty").onclick = function () { saveTextAsFile(prettyJson, buildFilename("json")); };
+    document.getElementById("btnRawView").onclick = showRawView;
+    document.getElementById("btnTreeView").onclick = showTreeView;
+    document.getElementById("searchInput").onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode === 13) { runSearch(); }
+    };
+    document.getElementById("scrollArea").onscroll = renderVisibleRows;
+    window.onresize = function () { renderVisibleRows(); };
+
+    // The graph is in the page. If it is missing, fall back to the bundled sample.
+    var dataBlock = document.getElementById("graphData");
+    var graphText = dataBlock ? dataBlock.textContent : "";
+    var graph = null;
+    try { graph = JSON.parse(graphText); } catch (e) { graph = null; }
+    if (graph !== null) {
+        loadJson(JSON.stringify(graph));
+    } else if (graphText) {
+        loadJson(graphText);
+    } else {
+        loadJson(JSON.stringify(SAMPLE_JSON_OBJ));
+    }
+};
+</script>
+</body>
+</html>

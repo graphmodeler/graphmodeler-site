@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html class="dark">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>JSON Knowledge Graph Viewer</title>
+<style>
+/* Kept deliberately simple / old-IE safe: no CSS grid, no CSS vars */
+html, body { height: 100%; margin: 0; }
+body {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    background: #f5f5f5;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+}
+#toolbar {
+    padding: 8px 10px;
+    background: #e8e8e8;
+    border-bottom: 1px solid #ccc;
+    flex: 0 0 auto;
+}
+#toolbar input[type=text] { width: 220px; }
+#toolbar button, #toolbar select { margin-left: 4px; }
+#matchCount { margin-left: 6px; color: #555; }
+#statsBar {
+    padding: 4px 10px;
+    background: #fafafa;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    font-size: 12px;
+    flex: 0 0 auto;
+}
+#errorBanner {
+    display: none;
+    padding: 6px 10px;
+    background: #ffe1e1;
+    color: #900;
+    border-bottom: 1px solid #e0a0a0;
+    flex: 0 0 auto;
+}
+#viewToggle { padding: 6px 10px; background: #eee; border-bottom: 1px solid #ccc; flex: 0 0 auto; }
+#viewToggle button.active { background: #444; color: #fff; }
+
+/* ---- Raw (virtualized) view ---- */
+#scrollArea {
+    position: relative;
+    overflow: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: #fff;
+}
+#sizer { position: relative; }
+.row {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: pre;
+    height: 18px;
+    line-height: 18px;
+}
+.rowNum {
+    display: inline-block;
+    width: 50px;
+    text-align: right;
+    padding-right: 8px;
+    color: #999;
+    background: #eee;
+    user-select: none;
+}
+.rowText { padding-left: 6px; }
+.row.matchRow .rowText { background: #fff6b0; }
+.row.currentMatchRow .rowText { background: #ffcf40; }
+mark { background: #ffcf40; padding: 0; }
+
+/* Syntax highlight colors */
+.jkey { color: #a1260d; font-weight: bold; }
+.jstr { color: #0a7c2f; }
+.jnum { color: #1a56db; }
+.jbool { color: #9b1bb3; }
+.jpunc { color: #555; }
+
+/* ---- Tree view ---- */
+#treeView {
+    display: none;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    background: #fff;
+    padding: 8px 10px;
+}
+.treeNode { margin-left: 16px; }
+.toggle {
+    cursor: pointer;
+    display: inline-block;
+    width: 14px;
+    color: #666;
+    user-select: none;
+}
+.treeKey { color: #a1260d; }
+.treeVal.jstr { color: #0a7c2f; }
+.treeVal.jnum { color: #1a56db; }
+.treeVal.jbool { color: #9b1bb3; }
+.moreLink { color: #1a56db; cursor: pointer; text-decoration: underline; }
+
+/* ---- Dark theme: only colors. The app asks for it by marking the page; a page that is not marked is light. ---- */
+html.dark { color-scheme: dark; }
+.dark body { background: #1b1f24; color: #e6e8eb; }
+.dark #toolbar { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #toolbar input[type=text], .dark #toolbar button, .dark #toolbar select, .dark #viewToggle button { background: #2b313a; color: #e6e8eb; border: 1px solid #5b6470; }
+.dark #toolbar input[type=text] { background: #22272e; }
+.dark #matchCount { color: #9aa3af; }
+.dark #statsBar { background: #22272e; border-bottom-color: #3a414b; color: #9aa3af; }
+.dark #errorBanner { background: #3a1f22; color: #f0625f; border-bottom-color: #6b2f33; }
+.dark #viewToggle { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #viewToggle button.active { background: #e6e8eb; color: #1b1f24; }
+.dark #scrollArea, .dark #treeView { background: #22272e; }
+.dark .rowNum { color: #8b949e; background: #2b313a; }
+.dark .row.matchRow .rowText { background: #4a4320; }
+.dark .row.currentMatchRow .rowText { background: #7a6212; }
+.dark mark { background: #7a6212; color: #fff; }
+.dark .jkey, .dark .treeKey { color: #f0846f; }
+.dark .jstr, .dark .treeVal.jstr { color: #5fd18a; }
+.dark .jnum, .dark .treeVal.jnum { color: #6ea8fe; }
+.dark .jbool, .dark .treeVal.jbool { color: #d79bef; }
+.dark .jpunc, .dark .toggle { color: #9aa3af; }
+.dark .moreLink { color: #6ea8fe; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <button id="btnSearch">Search</button>
+    <button id="btnPrev">&#8593; Prev</button>
+    <button id="btnNext">&#8595; Next</button>
+    <button id="btnClear">Clear</button>
+    <span id="matchCount"></span>
+    <button id="btnCopyRaw" style="margin-left:16px;">Copy Raw</button>
+    <button id="btnCopyPretty">Copy Pretty</button>
+    <button id="btnSaveRaw" style="margin-left:16px;">Save Raw As File</button>
+    <button id="btnSavePretty">Save Pretty As File</button>
+</div>
+
+<div id="viewToggle">
+    View:
+    <button id="btnRawView" class="active">Raw (line numbers)</button>
+    <button id="btnTreeView">Tree (collapsible)</button>
+</div>
+
+<div id="errorBanner"></div>
+<div id="statsBar"></div>
+
+<div id="scrollArea"><div id="sizer"></div></div>
+<div id="treeView"></div>
+
+<!-- The graph, as JSON text that is data and not script. The app writes it here with "<" escaped. -->
+<script type="application/json" id="graphData">{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": true,
+  "source_workbook": "kanban.json",
+  "view": "All Styles",
+  "export_datetime": "2026-11-06T14:00:40",
+  "styles": {
+    "Kanban Board": {
+      "type": "cluster"
+    },
+    "Status": {
+      "type": "cluster"
+    },
+    "Feature Work": {
+      "type": "node"
+    },
+    "Customer Requests": {
+      "type": "node"
+    },
+    "Dependencies - Blockers": {
+      "type": "node"
+    },
+    "Research - Spikes": {
+      "type": "node"
+    },
+    "Bug Fix": {
+      "type": "node"
+    },
+    "subgraph-open": {
+      "type": "cluster"
+    },
+    "legend node": {
+      "type": "node"
+    }
+  },
+  "nodes": [
+    {
+      "id": "cluster_1",
+      "type": "cluster",
+      "style": "Kanban Board",
+      "label": {
+        "value": "Kanban Board",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_2",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "Status",
+      "label": {
+        "value": "To Do",
+        "type": "text"
+      }
+    },
+    {
+      "id": "ID-0001",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Design Login\u003cbr/>Flow\u003c/b>\u003cbr/>\u003cbr/>Create initial sketches\u003cbr/>for user login\u003cbr/>experience\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0001\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0003",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer Email\u003cbr/>Sync\u003c/b>\u003cbr/>\u003cbr/>Investigate sync delays\u003cbr/>reported by customers\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0003\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0006",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "\u003cb>Resolve Build\u003cbr/>Blocker\u003c/b>\u003cbr/>\u003cbr/>Build failing due to\u003cbr/>missing dependency\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0006\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0009",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer Export\u003cbr/>Request\u003c/b>\u003cbr/>\u003cbr/>Add CSV export option\u003cbr/>for reports\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0009\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0010",
+      "cluster": "cluster_2",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>Database Migration\u003cbr/>Plan\u003c/b>\u003cbr/>\u003cbr/>Outline steps for moving\u003cbr/>to new DB cluster\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0010\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0012",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Refactor\u003cbr/>Notification Code\u003c/b>\u003cbr/>\u003cbr/>Clean up legacy\u003cbr/>notification handlers\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0012\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0014",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer Dashboard\u003cbr/>Feedback\u003c/b>\u003cbr/>\u003cbr/>Review and categorize\u003cbr/>dashboard feedback\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0014\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0016",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "\u003cb>Third\u2011Party API\u003cbr/>Delay\u003c/b>\u003cbr/>\u003cbr/>External API causing\u003cbr/>slow response times\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0016\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0021",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Search Bar\u003cbr/>Redesign\u003c/b>\u003cbr/>\u003cbr/>Improve search bar\u003cbr/>usability and layout\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0021\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0023",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer Theme\u003cbr/>Request\u003c/b>\u003cbr/>\u003cbr/>Add option for custom\u003cbr/>color themes\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0023\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0026",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "\u003cb>Deployment\u003cbr/>Blocker\u003c/b>\u003cbr/>\u003cbr/>Deployment halted due to\u003cbr/>missing config\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0026\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0029",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer Filter\u003cbr/>Request\u003c/b>\u003cbr/>\u003cbr/>Add advanced filtering\u003cbr/>options\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0029\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0030",
+      "cluster": "cluster_2",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>API Version\u003cbr/>Audit\u003c/b>\u003cbr/>\u003cbr/>Audit all API version\u003cbr/>usage\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0030\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0032",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Refactor Auth\u003cbr/>Code\u003c/b>\u003cbr/>\u003cbr/>Simplify authentication\u003cbr/>logic\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0032\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0034",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer Sorting\u003cbr/>Issue\u003c/b>\u003cbr/>\u003cbr/>Investigate incorrect\u003cbr/>sort order\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0034\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0036",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "\u003cb>Security Blocker\u003c/b>\u003cbr/>\u003cbr/>Security scan failing on\u003cbr/>critical issue\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0036\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0039",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer PDF\u003cbr/>Request\u003c/b>\u003cbr/>\u003cbr/>Add PDF export option\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0039\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0040",
+      "cluster": "cluster_2",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>Cache Strategy\u003cbr/>Review\u003c/b>\u003cbr/>\u003cbr/>Review caching strategy\u003cbr/>for performance\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0040\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0042",
+      "cluster": "cluster_2",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Refactor Routing\u003cbr/>Code\u003c/b>\u003cbr/>\u003cbr/>Clean up routing logic\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0042\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0045",
+      "cluster": "cluster_2",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>Metrics Spike\u003c/b>\u003cbr/>\u003cbr/>Test new metrics\u003cbr/>collection tool\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0045\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0046",
+      "cluster": "cluster_2",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "\u003cb>Release Blocker\u003c/b>\u003cbr/>\u003cbr/>Release halted due to\u003cbr/>failing tests\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0046\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0049",
+      "cluster": "cluster_2",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer Tagging\u003cbr/>Request\u003c/b>\u003cbr/>\u003cbr/>Add tagging support for\u003cbr/>items\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0049\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "cluster_3",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "Status",
+      "label": {
+        "value": "Doing",
+        "type": "text"
+      }
+    },
+    {
+      "id": "ID-0002",
+      "cluster": "cluster_3",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Crash on\u003cbr/>Save\u003c/b>\u003cbr/>\u003cbr/>Resolve app crash when\u003cbr/>saving user settings\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0002\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0005",
+      "cluster": "cluster_3",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>Payment Gateway\u003cbr/>Spike\u003c/b>\u003cbr/>\u003cbr/>Explore feasibility of\u003cbr/>new payment provider\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0005\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0008",
+      "cluster": "cluster_3",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Dark Mode\u003cbr/>Bug\u003c/b>\u003cbr/>\u003cbr/>Correct color contrast\u003cbr/>issues in dark mode\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0008\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0011",
+      "cluster": "cluster_3",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "\u003cb>OAuth Dependency\u003c/b>\u003cbr/>\u003cbr/>Coordinate with security\u003cbr/>team for OAuth rollout\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0011\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0015",
+      "cluster": "cluster_3",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>Analytics Spike\u003c/b>\u003cbr/>\u003cbr/>Test new analytics SDK\u003cbr/>integration\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0015\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0017",
+      "cluster": "cluster_3",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Prototype Settings\u003cbr/>Page\u003c/b>\u003cbr/>\u003cbr/>Build quick prototype\u003cbr/>for new settings layout\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0017\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0020",
+      "cluster": "cluster_3",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer Billing\u003cbr/>Issue\u003c/b>\u003cbr/>\u003cbr/>Investigate incorrect\u003cbr/>billing totals\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0020\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0022",
+      "cluster": "cluster_3",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Mobile Layout\u003cbr/>Bug\u003c/b>\u003cbr/>\u003cbr/>Correct spacing issues\u003cbr/>on mobile view\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0022\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0025",
+      "cluster": "cluster_3",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>Auth Service\u003cbr/>Spike\u003c/b>\u003cbr/>\u003cbr/>Test new authentication\u003cbr/>microservice\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0025\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0028",
+      "cluster": "cluster_3",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Chart\u003cbr/>Rendering\u003c/b>\u003cbr/>\u003cbr/>Resolve chart not\u003cbr/>loading on dashboard\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0028\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0031",
+      "cluster": "cluster_3",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "\u003cb>Vendor\u003cbr/>Dependency\u003c/b>\u003cbr/>\u003cbr/>Coordinate with vendor\u003cbr/>for SDK update\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0031\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0035",
+      "cluster": "cluster_3",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>Logging Spike\u003c/b>\u003cbr/>\u003cbr/>Test structured logging\u003cbr/>approach\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0035\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0037",
+      "cluster": "cluster_3",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Improve Onboarding\u003cbr/>Flow\u003c/b>\u003cbr/>\u003cbr/>Enhance first\u2011time user\u003cbr/>experience\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0037\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0041",
+      "cluster": "cluster_3",
+      "style": "Dependencies - Blockers",
+      "label": {
+        "value": "\u003cb>API Dependency\u003c/b>\u003cbr/>\u003cbr/>Coordinate with API team\u003cbr/>for new endpoints\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0041\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0044",
+      "cluster": "cluster_3",
+      "style": "Customer Requests",
+      "label": {
+        "value": "\u003cb>Customer Login\u003cbr/>Issue\u003c/b>\u003cbr/>\u003cbr/>Investigate intermittent\u003cbr/>login failures\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>High Importance\u003cbr/>ID-0044\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0047",
+      "cluster": "cluster_3",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Improve Profile\u003cbr/>Page\u003c/b>\u003cbr/>\u003cbr/>Enhance layout and\u003cbr/>accessibility\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0047\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "cluster_4",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "Status",
+      "label": {
+        "value": "Done",
+        "type": "text"
+      }
+    },
+    {
+      "id": "ID-0004",
+      "cluster": "cluster_4",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>API Rate Limit\u003cbr/>Review\u003c/b>\u003cbr/>\u003cbr/>Document current API\u003cbr/>limits and propose\u003cbr/>adjustments\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0004\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0007",
+      "cluster": "cluster_4",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Update User\u003cbr/>Guide\u003c/b>\u003cbr/>\u003cbr/>Add new screenshots and\u003cbr/>instructions to help\u003cbr/>docs\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0007\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0013",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Tooltip\u003cbr/>Overlap\u003c/b>\u003cbr/>\u003cbr/>Resolve UI tooltip\u003cbr/>overlapping form fields\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0013\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0018",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Logout\u003cbr/>Redirect\u003c/b>\u003cbr/>\u003cbr/>Correct redirect loop\u003cbr/>after logout\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0018\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0024",
+      "cluster": "cluster_4",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>Data Model\u003cbr/>Review\u003c/b>\u003cbr/>\u003cbr/>Review current data\u003cbr/>model for scalability\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0024\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0027",
+      "cluster": "cluster_4",
+      "style": "Feature Work",
+      "label": {
+        "value": "\u003cb>Improve Error\u003cbr/>Messages\u003c/b>\u003cbr/>\u003cbr/>Rewrite unclear error\u003cbr/>messages\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0027\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0033",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Tooltip\u003cbr/>Delay\u003c/b>\u003cbr/>\u003cbr/>Reduce tooltip display\u003cbr/>delay\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0033\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0038",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Modal Close\u003cbr/>Bug\u003c/b>\u003cbr/>\u003cbr/>Modal not closing on ESC\u003cbr/>key\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Medium Importance\u003cbr/>ID-0038\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0043",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Button\u003cbr/>Alignment\u003c/b>\u003cbr/>\u003cbr/>Correct misaligned\u003cbr/>buttons on forms\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0043\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0048",
+      "cluster": "cluster_4",
+      "style": "Bug Fix",
+      "label": {
+        "value": "\u003cb>Fix Tooltip\u003cbr/>Flicker\u003c/b>\u003cbr/>\u003cbr/>Eliminate flicker on\u003cbr/>hover tooltips\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0048\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "ID-0050",
+      "cluster": "cluster_4",
+      "style": "Research - Spikes",
+      "label": {
+        "value": "\u003cb>Data Retention\u003cbr/>Review\u003c/b>\u003cbr/>\u003cbr/>Review data retention\u003cbr/>policy\u003cbr/>\u003cbr/>\u003cbr/>\u003cbr/>\u003ci>Low Importance\u003cbr/>ID-0050\u003c/i>",
+        "type": "html"
+      }
+    },
+    {
+      "id": "cluster_5",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "subgraph-open",
+      "label": {
+        "value": "Legend",
+        "type": "text"
+      }
+    },
+    {
+      "id": "legend",
+      "cluster": "cluster_5",
+      "style": "legend node",
+      "label": {
+        "value": "\u003cfont face='Verdana' point-size='10'> \u003ctable border='0' cellborder='1' cellspacing='2'> \u003ctr>\u003ctd bgcolor='#FFF4A3' color='#C2A600' >Feature Work\u003c/td>\u003c/tr> \u003ctr>\u003ctd bgcolor='#F7B7C9' color='#B23A55' >Bug Fixes\u003c/td>\u003c/tr> \u003ctr>\u003ctd bgcolor='#A9D3F5' color='#2A6FA1' >Research / Spikes\u003c/td>\u003c/tr> \u003ctr>\u003ctd bgcolor='#C7EFC4' color='#3F8F3A' >Customer Requests\u003c/td>\u003c/tr> \u003ctr>\u003ctd bgcolor='#F9C89B' color='#C46A1B' >Dependencies / Blockers\u003c/td>\u003c/tr> \u003c/table> \u003c/font>",
+        "type": "html"
+      },
+      "tooltip": {
+        "value": "Legend",
+        "type": "text"
+      }
+    }
+  ]
+}</script>
+
+<script>
+/* =====================================================================
+   JSON Knowledge Graph Viewer
+   - Written in ES5, as in the Excel tool's viewer, so the two behave alike.
+   ===================================================================== */
+
+var ROW_HEIGHT = 18;
+var BUFFER_ROWS = 8;
+
+var originalJson = "";
+var prettyJson = "";
+var lines = [];
+var parsedOk = false;
+var parsedObj = null;
+
+var matchLines = [];   // indices into lines that contain the search term
+var currentMatch = -1;
+var currentTerm = "";
+
+// ---------- sample data (kept as a JS object -> no backticks needed) ----------
+var SAMPLE_JSON_OBJ = {
+    "error": "Invalid JSON",
+    "message": "The JSON provided could not be parsed and is not valid JSON syntax.",
+    "common_causes": [
+        "Missing or extra comma",
+        "Unmatched { } or [ ]",
+        "Unquoted or single-quoted keys/strings",
+        "Trailing comma before a closing bracket",
+        "Comments (// or /*) — not allowed in JSON"
+    ],
+    "tip": "Check your JSON against a JSON syntax reference and try again."
+};
+
+function escHtml(s) {
+    return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+// ---------- load / parse ----------
+function loadJson(jsonText) {
+    originalJson = jsonText;
+    var banner = document.getElementById("errorBanner");
+    banner.style.display = "none";
+
+    try {
+        parsedObj = JSON.parse(jsonText);
+        prettyJson = JSON.stringify(parsedObj, null, 2);
+        parsedOk = true;
+    } catch (e) {
+        parsedObj = null;
+        prettyJson = jsonText;
+        parsedOk = false;
+        banner.style.display = "block";
+        banner.innerHTML = "Could not parse this as valid JSON (" + escHtml(e.message) + "). Showing raw text below.";
+    }
+
+    lines = prettyJson.split("\n");
+    matchLines = [];
+    currentMatch = -1;
+    currentTerm = "";
+    document.getElementById("matchCount").innerHTML = "";
+
+    renderStats();
+    setupSizer();
+    renderVisibleRows();
+    renderTree();
+}
+
+// Mirrors the VBA GetTokenEstimate() function so the displayed estimate
+// always matches what the workbook itself computes:
+//   charCount = Len(jsonText)
+//   estimatedTokens = -Int(-charCount / 4)         ' ceiling division, ~4 chars/token
+//   safetyBuffer = CLng(estimatedTokens * 0.08)    ' ~8% buffer for BPE edge cases
+//   GetTokenEstimate = estimatedTokens + safetyBuffer
+function getTokenEstimate(charCount) {
+    var estimatedTokens = Math.ceil(charCount / 4);
+    var safetyBuffer = Math.round(estimatedTokens * 0.08);
+    return estimatedTokens + safetyBuffer;
+}
+
+function renderStats() {
+    var tokenEstimate = getTokenEstimate(originalJson.length);
+    var stats = "Characters: " + originalJson.length + " &nbsp;|&nbsp; Est. Tokens: " + tokenEstimate + " &nbsp;|&nbsp; Lines: " + lines.length;
+    if (parsedOk && parsedObj && typeof parsedObj === "object") {
+        if (parsedObj.nodes && parsedObj.nodes.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Nodes: " + parsedObj.nodes.length;
+        }
+        if (parsedObj.edges && parsedObj.edges.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Edges: " + parsedObj.edges.length;
+        }
+    }
+    document.getElementById("statsBar").innerHTML = stats;
+}
+
+// ---------- raw view: virtualized rendering ----------
+// Only the rows currently in (or near) the viewport are ever created as
+// DOM nodes. This keeps the viewer fast even for JSON far too large for
+// an Excel cell (tens of thousands of lines), unlike a one-div-per-line
+// render of the whole file.
+function setupSizer() {
+    var sizer = document.getElementById("sizer");
+    sizer.style.height = (lines.length * ROW_HEIGHT) + "px";
+}
+
+function syntaxHighlight(lineText) {
+    // Very lightweight line-based tokenizer: good enough for pretty-printed
+    // JSON.stringify output (one token group per line), not a full parser.
+    var html = "";
+    var re = /("(?:\\.|[^"\\])*")(\s*:)?|(\btrue\b|\bfalse\b|\bnull\b)|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|([{}\[\],])/g;
+    var lastIndex = 0;
+    var m;
+    while ((m = re.exec(lineText)) !== null) {
+        if (m.index > lastIndex) {
+            html += escHtml(lineText.substring(lastIndex, m.index));
+        }
+        if (m[1]) {
+            var cls = m[2] ? "jkey" : "jstr";
+            html += "<span class=\"" + cls + "\">" + escHtml(m[1]) + "</span>" + (m[2] ? escHtml(m[2]) : "");
+        } else if (m[3]) {
+            html += "<span class=\"jbool\">" + escHtml(m[3]) + "</span>";
+        } else if (m[4]) {
+            html += "<span class=\"jnum\">" + escHtml(m[4]) + "</span>";
+        } else if (m[5]) {
+            html += "<span class=\"jpunc\">" + escHtml(m[5]) + "</span>";
+        }
+        lastIndex = re.lastIndex;
+    }
+    if (lastIndex < lineText.length) {
+        html += escHtml(lineText.substring(lastIndex));
+    }
+    return html;
+}
+
+function highlightSearchTerm(lineText, term) {
+    var lower = lineText.toLowerCase();
+    var termLower = term.toLowerCase();
+    var out = "";
+    var pos = 0;
+    var idx;
+    while ((idx = lower.indexOf(termLower, pos)) !== -1) {
+        out += escHtml(lineText.substring(pos, idx));
+        out += "<mark>" + escHtml(lineText.substring(idx, idx + term.length)) + "</mark>";
+        pos = idx + term.length;
+    }
+    out += escHtml(lineText.substring(pos));
+    return out;
+}
+
+function renderVisibleRows() {
+    var scrollArea = document.getElementById("scrollArea");
+    var sizer = document.getElementById("sizer");
+    var scrollTop = scrollArea.scrollTop;
+    var viewportH = scrollArea.clientHeight || 400;
+
+    var first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - BUFFER_ROWS);
+    var visibleCount = Math.ceil(viewportH / ROW_HEIGHT) + BUFFER_ROWS * 2;
+    var last = Math.min(lines.length - 1, first + visibleCount);
+
+    sizer.innerHTML = "";
+    var matchSet = {};
+    var i;
+    for (i = 0; i < matchLines.length; i++) { matchSet[matchLines[i]] = true; }
+
+    for (i = first; i <= last; i++) {
+        var row = document.createElement("div");
+        row.className = "row";
+        if (matchSet[i]) { row.className += " matchRow"; }
+        if (currentMatch !== -1 && matchLines[currentMatch] === i) { row.className += " currentMatchRow"; }
+        row.style.top = (i * ROW_HEIGHT) + "px";
+
+        var numSpan = document.createElement("span");
+        numSpan.className = "rowNum";
+        numSpan.textContent = (i + 1).toString();
+
+        var textSpan = document.createElement("span");
+        textSpan.className = "rowText";
+        var lineText = lines[i] || "";
+        if (currentTerm) {
+            textSpan.innerHTML = highlightSearchTerm(lineText, currentTerm);
+        } else {
+            textSpan.innerHTML = syntaxHighlight(lineText);
+        }
+
+        row.appendChild(numSpan);
+        row.appendChild(textSpan);
+        sizer.appendChild(row);
+    }
+}
+
+// ---------- search ----------
+function runSearch() {
+    var term = document.getElementById("searchInput").value;
+    currentTerm = term;
+    matchLines = [];
+    currentMatch = -1;
+
+    if (term) {
+        var termLower = term.toLowerCase();
+        for (var i = 0; i < lines.length; i++) {
+            if (lines[i].toLowerCase().indexOf(termLower) !== -1) {
+                matchLines.push(i);
+            }
+        }
+        if (matchLines.length > 0) { currentMatch = 0; }
+    }
+
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function updateMatchCount() {
+    var el = document.getElementById("matchCount");
+    if (!currentTerm) { el.innerHTML = ""; return; }
+    if (matchLines.length === 0) { el.innerHTML = "0 matches"; return; }
+    el.innerHTML = (currentMatch + 1) + " / " + matchLines.length + " lines";
+}
+
+function scrollToCurrentMatch() {
+    if (currentMatch === -1) { return; }
+    var scrollArea = document.getElementById("scrollArea");
+    var targetLine = matchLines[currentMatch];
+    var targetTop = targetLine * ROW_HEIGHT - (scrollArea.clientHeight / 2);
+    if (targetTop < 0) { targetTop = 0; }
+    scrollArea.scrollTop = targetTop;
+}
+
+function nextMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch + 1) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function prevMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch - 1 + matchLines.length) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function clearSearch() {
+    document.getElementById("searchInput").value = "";
+    currentTerm = "";
+    matchLines = [];
+    currentMatch = -1;
+    updateMatchCount();
+    renderVisibleRows();
+}
+
+// ---------- copy ----------
+function copyText(text) {
+    var temp = document.createElement("textarea");
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    try { document.execCommand("copy"); } catch (e) { /* ignore */ }
+    document.body.removeChild(temp);
+}
+
+// ---------- tree view ----------
+var TREE_ARRAY_LIMIT = 200; // cap initial render of large arrays so huge graphs don't freeze the tree
+
+function renderTree() {
+    var container = document.getElementById("treeView");
+    container.innerHTML = "";
+    if (!parsedOk) {
+        container.innerHTML = "<div style=\"color:#900;\">Tree view is unavailable because the input is not valid JSON.</div>";
+        return;
+    }
+    container.appendChild(buildTreeNode("root", parsedObj, true));
+}
+
+function typeLabel(v) {
+    if (v === null) { return "null"; }
+    if (Array.isArray(v)) { return "array(" + v.length + ")"; }
+    return typeof v;
+}
+
+function buildTreeNode(key, value, isRoot) {
+    var wrap = document.createElement("div");
+    wrap.className = "treeNode";
+
+    var isContainer = value !== null && typeof value === "object";
+
+    var line = document.createElement("div");
+    if (isContainer) {
+        var toggle = document.createElement("span");
+        toggle.className = "toggle";
+        toggle.textContent = "-";
+        var childHolder = document.createElement("div");
+
+        toggle.onclick = (function (t, holder) {
+            return function () {
+                var collapsed = holder.style.display === "none";
+                holder.style.display = collapsed ? "block" : "none";
+                t.textContent = collapsed ? "-" : "+";
+            };
+        })(toggle, childHolder);
+
+        line.appendChild(toggle);
+        var keySpan = document.createElement("span");
+        keySpan.className = "treeKey";
+        keySpan.textContent = (isRoot ? "" : key + ": ") + typeLabel(value);
+        line.appendChild(keySpan);
+        wrap.appendChild(line);
+        wrap.appendChild(childHolder);
+
+        var keys = Array.isArray(value) ? null : Object.keys(value);
+        var count = Array.isArray(value) ? value.length : keys.length;
+        var limit = Array.isArray(value) ? Math.min(count, TREE_ARRAY_LIMIT) : count;
+
+        var i;
+        if (Array.isArray(value)) {
+            for (i = 0; i < limit; i++) {
+                childHolder.appendChild(buildTreeNode("[" + i + "]", value[i], false));
+            }
+            if (count > limit) {
+                var more = document.createElement("div");
+                more.className = "treeNode moreLink";
+                more.textContent = "... " + (count - limit) + " more items (click to expand)";
+                more.onclick = (function (arr, holder, startAt) {
+                    return function () {
+                        for (var j = startAt; j < arr.length; j++) {
+                            holder.insertBefore(buildTreeNode("[" + j + "]", arr[j], false), more);
+                        }
+                        more.parentNode.removeChild(more);
+                    };
+                })(value, childHolder, limit);
+                childHolder.appendChild(more);
+            }
+        } else {
+            for (i = 0; i < keys.length; i++) {
+                childHolder.appendChild(buildTreeNode(keys[i], value[keys[i]], false));
+            }
+        }
+    } else {
+        var leafKey = document.createElement("span");
+        leafKey.className = "treeKey";
+        leafKey.textContent = key + ": ";
+        var leafVal = document.createElement("span");
+        var cls = "treeVal ";
+        if (typeof value === "string") { cls += "jstr"; }
+        else if (typeof value === "number") { cls += "jnum"; }
+        else if (typeof value === "boolean" || value === null) { cls += "jbool"; }
+        leafVal.className = cls;
+        leafVal.textContent = typeof value === "string" ? "\"" + value + "\"" : String(value);
+        line.appendChild(leafKey);
+        line.appendChild(leafVal);
+        wrap.appendChild(line);
+    }
+
+    return wrap;
+}
+
+// ---------- save as file ----------
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+function buildFilename(ext) {
+    var d = new Date();
+    var stamp = d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) +
+        "-" + pad2(d.getHours()) + pad2(d.getMinutes()) + pad2(d.getSeconds());
+    return "graph-" + stamp + "." + ext;
+}
+
+function saveTextAsFile(text, filename) {
+    var blob = new Blob([text], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+}
+
+// ---------- view toggle ----------
+function showRawView() {
+    document.getElementById("scrollArea").style.display = "block";
+    document.getElementById("treeView").style.display = "none";
+    document.getElementById("btnRawView").className = "active";
+    document.getElementById("btnTreeView").className = "";
+    renderVisibleRows();
+}
+function showTreeView() {
+    document.getElementById("scrollArea").style.display = "none";
+    document.getElementById("treeView").style.display = "block";
+    document.getElementById("btnRawView").className = "";
+    document.getElementById("btnTreeView").className = "active";
+}
+
+// ---------- wire up events (no inline handlers, so this also works if a host sets a strict CSP) ----------
+window.onload = function () {
+    document.getElementById("btnSearch").onclick = runSearch;
+    document.getElementById("btnNext").onclick = nextMatch;
+    document.getElementById("btnPrev").onclick = prevMatch;
+    document.getElementById("btnClear").onclick = clearSearch;
+    document.getElementById("btnCopyRaw").onclick = function () { copyText(originalJson); };
+    document.getElementById("btnCopyPretty").onclick = function () { copyText(prettyJson); };
+    document.getElementById("btnSaveRaw").onclick = function () { saveTextAsFile(originalJson, buildFilename("json")); };
+    document.getElementById("btnSavePretty").onclick = function () { saveTextAsFile(prettyJson, buildFilename("json")); };
+    document.getElementById("btnRawView").onclick = showRawView;
+    document.getElementById("btnTreeView").onclick = showTreeView;
+    document.getElementById("searchInput").onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode === 13) { runSearch(); }
+    };
+    document.getElementById("scrollArea").onscroll = renderVisibleRows;
+    window.onresize = function () { renderVisibleRows(); };
+
+    // The graph is in the page. If it is missing, fall back to the bundled sample.
+    var dataBlock = document.getElementById("graphData");
+    var graphText = dataBlock ? dataBlock.textContent : "";
+    var graph = null;
+    try { graph = JSON.parse(graphText); } catch (e) { graph = null; }
+    if (graph !== null) {
+        loadJson(JSON.stringify(graph));
+    } else if (graphText) {
+        loadJson(graphText);
+    } else {
+        loadJson(JSON.stringify(SAMPLE_JSON_OBJ));
+    }
+};
+</script>
+</body>
+</html>

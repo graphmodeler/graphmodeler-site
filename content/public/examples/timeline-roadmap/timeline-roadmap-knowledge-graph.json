@@ -1,0 +1,672 @@
+{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": true,
+  "source_workbook": "timeline-roadmap.json",
+  "view": "All Styles",
+  "export_datetime": "2026-11-06T14:07:04",
+  "styles": {
+    "Transparent Edge": {
+      "type": "edge"
+    },
+    "Year": {
+      "type": "node"
+    },
+    "Planned": {
+      "type": "edge"
+    },
+    "On Schedule": {
+      "type": "edge"
+    },
+    "Behind Schedule": {
+      "type": "edge"
+    },
+    "Completed": {
+      "type": "edge"
+    },
+    "Dependency": {
+      "type": "edge"
+    },
+    "Start": {
+      "type": "node"
+    },
+    "Finish": {
+      "type": "node"
+    },
+    "Same": {
+      "type": "node"
+    }
+  },
+  "graph": {
+    "label": {
+      "value": "2022 - 2029 Roadmap",
+      "type": "text"
+    }
+  },
+  "nodes": [
+    {
+      "id": "2022",
+      "style": "Year",
+      "label": {
+        "value": "2022",
+        "type": "text"
+      }
+    },
+    {
+      "id": "2023",
+      "style": "Year",
+      "label": {
+        "value": "2023",
+        "type": "text"
+      }
+    },
+    {
+      "id": "2024",
+      "style": "Year",
+      "label": {
+        "value": "2024",
+        "type": "text"
+      }
+    },
+    {
+      "id": "2025",
+      "style": "Year",
+      "label": {
+        "value": "2025",
+        "type": "text"
+      }
+    },
+    {
+      "id": "2026",
+      "style": "Year",
+      "label": {
+        "value": "2026",
+        "type": "text"
+      }
+    },
+    {
+      "id": "2027",
+      "style": "Year",
+      "label": {
+        "value": "2027",
+        "type": "text"
+      }
+    },
+    {
+      "id": "2028",
+      "style": "Year",
+      "label": {
+        "value": "2028",
+        "type": "text"
+      }
+    },
+    {
+      "id": "2029",
+      "style": "Year",
+      "label": {
+        "value": "2029",
+        "type": "text"
+      }
+    },
+    {
+      "id": "2030",
+      "style": "Year",
+      "label": {
+        "value": "2030",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E020_Start",
+      "style": "Start",
+      "label": {
+        "value": "2029 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E020_End",
+      "style": "Finish",
+      "label": {
+        "value": "2030 Q2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E018_Start",
+      "style": "Start",
+      "label": {
+        "value": "2027 Q3",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E018_End",
+      "style": "Finish",
+      "label": {
+        "value": "2029 Q2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E017_Start",
+      "style": "Start",
+      "label": {
+        "value": "2027 Q2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E017_End",
+      "style": "Finish",
+      "label": {
+        "value": "2028 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E014_Start",
+      "style": "Start",
+      "label": {
+        "value": "2027 Q1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E014_End",
+      "style": "Finish",
+      "label": {
+        "value": "2028 Q2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E009_Start",
+      "style": "Start",
+      "label": {
+        "value": "2026 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E009_End",
+      "style": "Finish",
+      "label": {
+        "value": "2027 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E004_Start",
+      "style": "Start",
+      "label": {
+        "value": "2026 Q1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E004_End",
+      "style": "Finish",
+      "label": {
+        "value": "2027 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E015_Start",
+      "style": "Start",
+      "label": {
+        "value": "2026 Q1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E015_End",
+      "style": "Finish",
+      "label": {
+        "value": "2026 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E003_Start",
+      "style": "Start",
+      "label": {
+        "value": "2025 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E003_End",
+      "style": "Finish",
+      "label": {
+        "value": "2027 Q2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E013_Start",
+      "style": "Start",
+      "label": {
+        "value": "2025 Q2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E013_End",
+      "style": "Finish",
+      "label": {
+        "value": "2026 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E007_Start",
+      "style": "Start",
+      "label": {
+        "value": "2025 Q1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E007_End",
+      "style": "Finish",
+      "label": {
+        "value": "2026 Q2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E012_Start",
+      "style": "Start",
+      "label": {
+        "value": "2024 Q3",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E012_End",
+      "style": "Finish",
+      "label": {
+        "value": "2025 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E006_Start",
+      "style": "Start",
+      "label": {
+        "value": "2024 Q2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E006_End",
+      "style": "Finish",
+      "label": {
+        "value": "2024 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E001_Start",
+      "style": "Start",
+      "label": {
+        "value": "2023 Q1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E001_End",
+      "style": "Finish",
+      "label": {
+        "value": "2025 Q4",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E010_Start",
+      "style": "Start",
+      "label": {
+        "value": "2022 Q3",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E010_End",
+      "style": "Finish",
+      "label": {
+        "value": "2024 Q1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E011_Start",
+      "style": "Same",
+      "label": {
+        "value": "2024 Q2",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E002_Start",
+      "style": "Same",
+      "label": {
+        "value": "2025 Q3",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E008_Start",
+      "style": "Same",
+      "label": {
+        "value": "2026 Q3",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E016_Start",
+      "style": "Same",
+      "label": {
+        "value": "2027 Q1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E005_Start",
+      "style": "Same",
+      "label": {
+        "value": "2028 Q1",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E019_Start",
+      "style": "Same",
+      "label": {
+        "value": "2029 Q3",
+        "type": "text"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "2022->2023",
+      "source": "2022",
+      "target": "2023",
+      "style": "Transparent Edge"
+    },
+    {
+      "id": "2023->2024",
+      "source": "2023",
+      "target": "2024",
+      "style": "Transparent Edge"
+    },
+    {
+      "id": "2024->2025",
+      "source": "2024",
+      "target": "2025",
+      "style": "Transparent Edge"
+    },
+    {
+      "id": "2025->2026",
+      "source": "2025",
+      "target": "2026",
+      "style": "Transparent Edge"
+    },
+    {
+      "id": "2026->2027",
+      "source": "2026",
+      "target": "2027",
+      "style": "Transparent Edge"
+    },
+    {
+      "id": "2027->2028",
+      "source": "2027",
+      "target": "2028",
+      "style": "Transparent Edge"
+    },
+    {
+      "id": "2028->2029",
+      "source": "2028",
+      "target": "2029",
+      "style": "Transparent Edge"
+    },
+    {
+      "id": "2029->2030",
+      "source": "2029",
+      "target": "2030",
+      "style": "Transparent Edge"
+    },
+    {
+      "id": "E020_Start->E020_End",
+      "source": "E020_Start",
+      "target": "E020_End",
+      "style": "Planned",
+      "label": {
+        "value": "E020 - Fusion 1.x Patch Cycle",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E018_Start->E018_End",
+      "source": "E018_Start",
+      "target": "E018_End",
+      "style": "Planned",
+      "label": {
+        "value": "E018 - Fusion Platform R&D",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E017_Start->E017_End",
+      "source": "E017_Start",
+      "target": "E017_End",
+      "style": "Planned",
+      "label": {
+        "value": "E017 - Echo 1.x Support",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E014_Start->E014_End",
+      "source": "E014_Start",
+      "target": "E014_End",
+      "style": "Planned",
+      "label": {
+        "value": "E014 - DeltaCloud 2.0 Upgrade",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E009_Start->E009_End",
+      "source": "E009_Start",
+      "target": "E009_End",
+      "style": "Planned",
+      "label": {
+        "value": "E009 - Beacon 1.x Enhancements",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E004_Start->E004_End",
+      "source": "E004_Start",
+      "target": "E004_End",
+      "style": "On Schedule",
+      "label": {
+        "value": "E004 - Atlas 2.0 Development",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E015_Start->E015_End",
+      "source": "E015_Start",
+      "target": "E015_End",
+      "style": "On Schedule",
+      "label": {
+        "value": "E015 - Echo Services Pilot",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E003_Start->E003_End",
+      "source": "E003_Start",
+      "target": "E003_End",
+      "style": "On Schedule",
+      "label": {
+        "value": "E003 - Atlas 1.x Support",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E013_Start->E013_End",
+      "source": "E013_Start",
+      "target": "E013_End",
+      "style": "Behind Schedule",
+      "label": {
+        "value": "E013 - DeltaCloud Integration",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E007_Start->E007_End",
+      "source": "E007_Start",
+      "target": "E007_End",
+      "style": "On Schedule",
+      "label": {
+        "value": "E007 - Beacon 1.0 Development",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E012_Start->E012_End",
+      "source": "E012_Start",
+      "target": "E012_End",
+      "style": "Completed",
+      "label": {
+        "value": "E012 - Cipher 1.x Optimization",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E006_Start->E006_End",
+      "source": "E006_Start",
+      "target": "E006_End",
+      "style": "Completed",
+      "label": {
+        "value": "E006 - Beacon UI Prototype",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E001_Start->E001_End",
+      "source": "E001_Start",
+      "target": "E001_End",
+      "style": "Completed",
+      "label": {
+        "value": "E001 - Atlas Core R&D",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E010_Start->E010_End",
+      "source": "E010_Start",
+      "target": "E010_End",
+      "style": "Completed",
+      "label": {
+        "value": "E010 - Cipher Engine Research",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E011_Start->E011_Start",
+      "source": "E011_Start",
+      "target": "E011_Start",
+      "style": "Completed",
+      "label": {
+        "value": "E011 - Cipher Engine 1.0 Release",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E002_Start->E002_Start",
+      "source": "E002_Start",
+      "target": "E002_Start",
+      "style": "Completed",
+      "label": {
+        "value": "E002 - Atlas 1.0 Release",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E008_Start->E008_Start",
+      "source": "E008_Start",
+      "target": "E008_Start",
+      "style": "Planned",
+      "label": {
+        "value": "E008 - Beacon 1.0 Release",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E016_Start->E016_Start",
+      "source": "E016_Start",
+      "target": "E016_Start",
+      "style": "Planned",
+      "label": {
+        "value": "E016 - Echo 1.0 Release",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E005_Start->E005_Start",
+      "source": "E005_Start",
+      "target": "E005_Start",
+      "style": "Planned",
+      "label": {
+        "value": "E005 - Atlas 2.0 Release",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E019_Start->E019_Start",
+      "source": "E019_Start",
+      "target": "E019_Start",
+      "style": "Planned",
+      "label": {
+        "value": "E019 - Fusion 1.0 Release",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E004_End->E009_Start",
+      "source": "E004_End",
+      "target": "E009_Start",
+      "style": "Dependency",
+      "label": {
+        "value": "dependency",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E004_End->E005_Start",
+      "source": "E004_End",
+      "target": "E005_Start",
+      "style": "Dependency",
+      "label": {
+        "value": "dependency",
+        "type": "text"
+      }
+    },
+    {
+      "id": "E016_Start->E003_Start",
+      "source": "E016_Start",
+      "target": "E003_Start",
+      "style": "Dependency",
+      "label": {
+        "value": "dependency",
+        "type": "text"
+      }
+    }
+  ]
+}
