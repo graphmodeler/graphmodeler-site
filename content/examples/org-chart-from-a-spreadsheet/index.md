@@ -1,6 +1,6 @@
 ---
 # A DRAFT: it is left out of the finished site until this line says false (or is removed). Look at it with `npm run dev`.
-draft: true
+draft: false
 title: "Org chart from a spreadsheet"
 tagline: "Tree queries walk the reporting line."
 description: "An organization chart centered on one employee, drawn from a spreadsheet of employees and their supervisors with tree queries, with its Knowledge Graph."
