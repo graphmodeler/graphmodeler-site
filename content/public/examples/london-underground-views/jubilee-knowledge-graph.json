@@ -1,0 +1,774 @@
+{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": false,
+  "source_workbook": "london-underground.json",
+  "view": "Jubilee",
+  "export_datetime": "2026-11-06T10:54:01",
+  "styles": {
+    "Jubilee": {
+      "type": "edge"
+    },
+    "Postcode area covered": {
+      "type": "cluster"
+    },
+    "District": {
+      "type": "cluster"
+    },
+    "Station": {
+      "type": "node"
+    },
+    "Interchange": {
+      "type": "node"
+    }
+  },
+  "graph": {
+    "label": {
+      "value": "Jubilee",
+      "type": "text"
+    }
+  },
+  "nodes": [
+    {
+      "id": "Baker Street",
+      "cluster": "cluster_46",
+      "style": "Station",
+      "label": {
+        "value": "Baker Street",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Baker Street Station Regent's Park Camden North West London NW1 5LA  Latitude: 51.523129366058797 Longitude: -0.15690419298618399",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Bond Street",
+      "cluster": "cluster_16",
+      "style": "Interchange",
+      "label": {
+        "value": "Bond Street",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Bond Street Station West End Westminster West London W1C 2HU  Latitude: 51.513797282327403 Longitude: -0.14961360853164599",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Bermondsey",
+      "cluster": "cluster_10",
+      "style": "Station",
+      "label": {
+        "value": "Bermondsey",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Bermondsey Station North Bermondsey Southwark South East London SE16 4RX  Latitude: 51.497960677506299 Longitude: -0.064330089811523605",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Canada Water",
+      "cluster": "cluster_10",
+      "style": "Interchange",
+      "label": {
+        "value": "Canada Water",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Canada Water Station Rotherhithe Southwark South East London SE16 7BB  Latitude: 51.498168331250803 Longitude: -0.0508071208490972",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Green Park",
+      "cluster": "cluster_16",
+      "style": "Station",
+      "label": {
+        "value": "Green Park",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Green Park Station West End Westminster West London W1J 7BX  Latitude: 51.506760253714603 Longitude: -0.142477574422533",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Canary Wharf",
+      "cluster": "cluster_3",
+      "style": "Interchange",
+      "label": {
+        "value": "Canary Wharf",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Canary Wharf Station Canary Wharf Tower Hamlets East London E14 4QS  Latitude: 51.503578375128797 Longitude: -0.019466840139324398",
+        "type": "text"
+      }
+    },
+    {
+      "id": "North Greenwich",
+      "cluster": "cluster_8",
+      "style": "Interchange",
+      "label": {
+        "value": "North Greenwich",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "North Greenwich Station Greenwich Peninsula Greenwich South East London SE10 0PH  Latitude: 51.500255161089498 Longitude: 0.0035862591259508301",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Canning Town",
+      "cluster": "cluster_2",
+      "style": "Interchange",
+      "label": {
+        "value": "Canning Town",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Canning Town Station Royal Victoria Newham East London E16 1DQ  Latitude: 51.513870303505101 Longitude: 0.0083056327487643893",
+        "type": "text"
+      }
+    },
+    {
+      "id": "West Ham",
+      "cluster": "cluster_2",
+      "style": "Interchange",
+      "label": {
+        "value": "West Ham",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "West Ham Station Canning Town North Newham East London E15 3BN  Latitude: 51.528525530726903 Longitude: 0.0053173938327879099",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Canons Park",
+      "cluster": "cluster_30",
+      "style": "Station",
+      "label": {
+        "value": "Canons Park",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Canons Park Station Canons Harrow Harrow HA8 6RN  Latitude: 51.607650090285297 Longitude: -0.29439159149414601",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Queensbury",
+      "cluster": "cluster_33",
+      "style": "Station",
+      "label": {
+        "value": "Queensbury",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Queensbury Station Queensbury Brent Harrow HA8 5NP  Latitude: 51.593882509313197 Longitude: -0.28633159262062902",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Dollis Hill",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Dollis Hill",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Dollis Hill Station Harlesden & Kensal Green Brent North West London NW10 5NB  Latitude: 51.551850202274302 Longitude: -0.238797758364757",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Willesden Green",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Willesden Green",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Willesden Green Station Willesden Green Brent North West London NW2 4QT  Latitude: 51.549372924826898 Longitude: -0.22240760124964601",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Finchley Road",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Finchley Road",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Finchley Road Station South Hampstead Brent North West London NW6 3BS  Latitude: 51.547095906434301 Longitude: -0.180050558632493",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Swiss Cottage",
+      "cluster": "cluster_46",
+      "style": "Station",
+      "label": {
+        "value": "Swiss Cottage",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Swiss Cottage Station South Hampstead Camden North West London NW3 6HY  Latitude: 51.5430345616616 Longitude: -0.175626602641137",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Westminster",
+      "cluster": "cluster_55",
+      "style": "Station",
+      "label": {
+        "value": "Westminster",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Westminster Station St James's Westminster South West London SW1A 2JR  Latitude: 51.501401389193198 Longitude: -0.12500207834677901",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Kilburn",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Kilburn",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Kilburn Station Cricklewood & Mapesbury Brent North West London NW6 7QL  Latitude: 51.546944102865901 Longitude: -0.20463271669925501",
+        "type": "text"
+      }
+    },
+    {
+      "id": "West Hampstead",
+      "cluster": "cluster_48",
+      "style": "Interchange",
+      "label": {
+        "value": "West Hampstead",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "West Hampstead Station South Hampstead Brent North West London NW6 2LX  Latitude: 51.547474022672702 Longitude: -0.19112658344309499",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Kingsbury",
+      "cluster": "cluster_47",
+      "style": "Station",
+      "label": {
+        "value": "Kingsbury",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Kingsbury Station Queensbury Barnet North West London NW9 9EG  Latitude: 51.584876063491102 Longitude: -0.278601603713172",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Wembley Park",
+      "cluster": "cluster_33",
+      "style": "Station",
+      "label": {
+        "value": "Wembley Park",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Wembley Park Station Barnhill Brent Harrow HA9 9AA  Latitude: 51.5633220034915 Longitude: -0.27924254811115601",
+        "type": "text"
+      }
+    },
+    {
+      "id": "London Bridge",
+      "cluster": "cluster_10",
+      "style": "Interchange",
+      "label": {
+        "value": "London Bridge",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "London Bridge Station London Bridge & West Bermondsey Southwark South East London SE1 2SW  Latitude: 51.504674209304298 Longitude: -0.086005597748139595",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Neasden",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Neasden",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Neasden Station Dollis Hill Brent North West London NW10 1PH  Latitude: 51.554627310041099 Longitude: -0.25011504169361198",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Southwark",
+      "cluster": "cluster_10",
+      "style": "Station",
+      "label": {
+        "value": "Southwark",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Southwark Station Borough & Bankside Southwark South East London SE1 8NW  Latitude: 51.503853449721603 Longitude: -0.10579493892509199",
+        "type": "text"
+      }
+    },
+    {
+      "id": "St. Johns Wood",
+      "cluster": "cluster_46",
+      "style": "Station",
+      "label": {
+        "value": "St. Johns Wood",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "St. Johns Wood Station Regent's Park Camden North West London NW8 6DN  Latitude: 51.534854128393199 Longitude: -0.17406483866207001",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Stanmore",
+      "cluster": "cluster_30",
+      "style": "Station",
+      "label": {
+        "value": "Stanmore",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Stanmore Station Canons Harrow Harrow HA7 4PD  Latitude: 51.619672950483498 Longitude: -0.30309928759529797",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Waterloo",
+      "cluster": "cluster_10",
+      "style": "Interchange",
+      "label": {
+        "value": "Waterloo",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Waterloo Station Waterloo & South Bank Southwark South East London SE1 7NY  Latitude: 51.503146456783398 Longitude: -0.113259251258195",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Stratford",
+      "cluster": "cluster_2",
+      "style": "Interchange",
+      "label": {
+        "value": "Stratford",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Stratford Station Stratford Newham East London E15 1AZ  Latitude: 51.541692575873903 Longitude: -0.0037516410271907501",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_1",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "East London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_2",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "District",
+      "label": {
+        "value": "Newham",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Newham, East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_3",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "District",
+      "label": {
+        "value": "Tower Hamlets",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Tower Hamlets, East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_7",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "South East London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "South East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_8",
+      "type": "cluster",
+      "cluster": "cluster_7",
+      "style": "District",
+      "label": {
+        "value": "Greenwich",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Greenwich, South East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_10",
+      "type": "cluster",
+      "cluster": "cluster_7",
+      "style": "District",
+      "label": {
+        "value": "Southwark",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Southwark, South East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_13",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "West London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_16",
+      "type": "cluster",
+      "cluster": "cluster_13",
+      "style": "District",
+      "label": {
+        "value": "Westminster",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Westminster, West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_29",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "Harrow",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Harrow",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_30",
+      "type": "cluster",
+      "cluster": "cluster_29",
+      "style": "District",
+      "label": {
+        "value": "Harrow",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Harrow, Harrow",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_33",
+      "type": "cluster",
+      "cluster": "cluster_29",
+      "style": "District",
+      "label": {
+        "value": "Brent",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Brent, Harrow",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_45",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "North West London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "North West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_46",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "District",
+      "label": {
+        "value": "Camden",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Camden, North West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_47",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "District",
+      "label": {
+        "value": "Barnet",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Barnet, North West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_48",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "District",
+      "label": {
+        "value": "Brent",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Brent, North West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_49",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "South West London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "South West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_55",
+      "type": "cluster",
+      "cluster": "cluster_49",
+      "style": "District",
+      "label": {
+        "value": "Westminster",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Westminster, South West London",
+        "type": "text"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "Baker Street--Bond Street",
+      "source": "Baker Street",
+      "target": "Bond Street",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Bermondsey--Canada Water",
+      "source": "Bermondsey",
+      "target": "Canada Water",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Bond Street--Green Park",
+      "source": "Bond Street",
+      "target": "Green Park",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Canada Water--Canary Wharf",
+      "source": "Canada Water",
+      "target": "Canary Wharf",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Canary Wharf--North Greenwich",
+      "source": "Canary Wharf",
+      "target": "North Greenwich",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Canning Town--West Ham",
+      "source": "Canning Town",
+      "target": "West Ham",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Canons Park--Queensbury",
+      "source": "Canons Park",
+      "target": "Queensbury",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Dollis Hill--Willesden Green",
+      "source": "Dollis Hill",
+      "target": "Willesden Green",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Finchley Road--Swiss Cottage",
+      "source": "Finchley Road",
+      "target": "Swiss Cottage",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Green Park--Westminster",
+      "source": "Green Park",
+      "target": "Westminster",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Kilburn--West Hampstead",
+      "source": "Kilburn",
+      "target": "West Hampstead",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Kingsbury--Wembley Park",
+      "source": "Kingsbury",
+      "target": "Wembley Park",
+      "style": "Jubilee"
+    },
+    {
+      "id": "London Bridge--Bermondsey",
+      "source": "London Bridge",
+      "target": "Bermondsey",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Neasden--Dollis Hill",
+      "source": "Neasden",
+      "target": "Dollis Hill",
+      "style": "Jubilee"
+    },
+    {
+      "id": "North Greenwich--Canning Town",
+      "source": "North Greenwich",
+      "target": "Canning Town",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Queensbury--Kingsbury",
+      "source": "Queensbury",
+      "target": "Kingsbury",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Southwark--London Bridge",
+      "source": "Southwark",
+      "target": "London Bridge",
+      "style": "Jubilee"
+    },
+    {
+      "id": "St. Johns Wood--Baker Street",
+      "source": "St. Johns Wood",
+      "target": "Baker Street",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Stanmore--Canons Park",
+      "source": "Stanmore",
+      "target": "Canons Park",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Swiss Cottage--St. Johns Wood",
+      "source": "Swiss Cottage",
+      "target": "St. Johns Wood",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Waterloo--Southwark",
+      "source": "Waterloo",
+      "target": "Southwark",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Wembley Park--Neasden",
+      "source": "Wembley Park",
+      "target": "Neasden",
+      "style": "Jubilee"
+    },
+    {
+      "id": "West Ham--Stratford",
+      "source": "West Ham",
+      "target": "Stratford",
+      "style": "Jubilee"
+    },
+    {
+      "id": "West Hampstead--Finchley Road",
+      "source": "West Hampstead",
+      "target": "Finchley Road",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Westminster--Waterloo",
+      "source": "Westminster",
+      "target": "Waterloo",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Willesden Green--Kilburn",
+      "source": "Willesden Green",
+      "target": "Kilburn",
+      "style": "Jubilee"
+    }
+  ]
+}

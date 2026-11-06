@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>JSON Knowledge Graph Viewer</title>
+<style>
+/* Kept deliberately simple / old-IE safe: no CSS grid, no CSS vars */
+html, body { height: 100%; margin: 0; }
+body {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    background: #f5f5f5;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+}
+#toolbar {
+    padding: 8px 10px;
+    background: #e8e8e8;
+    border-bottom: 1px solid #ccc;
+    flex: 0 0 auto;
+}
+#toolbar input[type=text] { width: 220px; }
+#toolbar button, #toolbar select { margin-left: 4px; }
+#matchCount { margin-left: 6px; color: #555; }
+#statsBar {
+    padding: 4px 10px;
+    background: #fafafa;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    font-size: 12px;
+    flex: 0 0 auto;
+}
+#errorBanner {
+    display: none;
+    padding: 6px 10px;
+    background: #ffe1e1;
+    color: #900;
+    border-bottom: 1px solid #e0a0a0;
+    flex: 0 0 auto;
+}
+#viewToggle { padding: 6px 10px; background: #eee; border-bottom: 1px solid #ccc; flex: 0 0 auto; }
+#viewToggle button.active { background: #444; color: #fff; }
+
+/* ---- Raw (virtualized) view ---- */
+#scrollArea {
+    position: relative;
+    overflow: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: #fff;
+}
+#sizer { position: relative; }
+.row {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: pre;
+    height: 18px;
+    line-height: 18px;
+}
+.rowNum {
+    display: inline-block;
+    width: 50px;
+    text-align: right;
+    padding-right: 8px;
+    color: #999;
+    background: #eee;
+    user-select: none;
+}
+.rowText { padding-left: 6px; }
+.row.matchRow .rowText { background: #fff6b0; }
+.row.currentMatchRow .rowText { background: #ffcf40; }
+mark { background: #ffcf40; padding: 0; }
+
+/* Syntax highlight colors */
+.jkey { color: #a1260d; font-weight: bold; }
+.jstr { color: #0a7c2f; }
+.jnum { color: #1a56db; }
+.jbool { color: #9b1bb3; }
+.jpunc { color: #555; }
+
+/* ---- Tree view ---- */
+#treeView {
+    display: none;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    background: #fff;
+    padding: 8px 10px;
+}
+.treeNode { margin-left: 16px; }
+.toggle {
+    cursor: pointer;
+    display: inline-block;
+    width: 14px;
+    color: #666;
+    user-select: none;
+}
+.treeKey { color: #a1260d; }
+.treeVal.jstr { color: #0a7c2f; }
+.treeVal.jnum { color: #1a56db; }
+.treeVal.jbool { color: #9b1bb3; }
+.moreLink { color: #1a56db; cursor: pointer; text-decoration: underline; }
+
+/* ---- Dark theme: only colors. The app asks for it by marking the page; a page that is not marked is light. ---- */
+html.dark { color-scheme: dark; }
+.dark body { background: #1b1f24; color: #e6e8eb; }
+.dark #toolbar { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #toolbar input[type=text], .dark #toolbar button, .dark #toolbar select, .dark #viewToggle button { background: #2b313a; color: #e6e8eb; border: 1px solid #5b6470; }
+.dark #toolbar input[type=text] { background: #22272e; }
+.dark #matchCount { color: #9aa3af; }
+.dark #statsBar { background: #22272e; border-bottom-color: #3a414b; color: #9aa3af; }
+.dark #errorBanner { background: #3a1f22; color: #f0625f; border-bottom-color: #6b2f33; }
+.dark #viewToggle { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #viewToggle button.active { background: #e6e8eb; color: #1b1f24; }
+.dark #scrollArea, .dark #treeView { background: #22272e; }
+.dark .rowNum { color: #8b949e; background: #2b313a; }
+.dark .row.matchRow .rowText { background: #4a4320; }
+.dark .row.currentMatchRow .rowText { background: #7a6212; }
+.dark mark { background: #7a6212; color: #fff; }
+.dark .jkey, .dark .treeKey { color: #f0846f; }
+.dark .jstr, .dark .treeVal.jstr { color: #5fd18a; }
+.dark .jnum, .dark .treeVal.jnum { color: #6ea8fe; }
+.dark .jbool, .dark .treeVal.jbool { color: #d79bef; }
+.dark .jpunc, .dark .toggle { color: #9aa3af; }
+.dark .moreLink { color: #6ea8fe; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <button id="btnSearch">Search</button>
+    <button id="btnPrev">&#8593; Prev</button>
+    <button id="btnNext">&#8595; Next</button>
+    <button id="btnClear">Clear</button>
+    <span id="matchCount"></span>
+    <button id="btnCopyRaw" style="margin-left:16px;">Copy Raw</button>
+    <button id="btnCopyPretty">Copy Pretty</button>
+    <button id="btnSaveRaw" style="margin-left:16px;">Save Raw As File</button>
+    <button id="btnSavePretty">Save Pretty As File</button>
+</div>
+
+<div id="viewToggle">
+    View:
+    <button id="btnRawView" class="active">Raw (line numbers)</button>
+    <button id="btnTreeView">Tree (collapsible)</button>
+</div>
+
+<div id="errorBanner"></div>
+<div id="statsBar"></div>
+
+<div id="scrollArea"><div id="sizer"></div></div>
+<div id="treeView"></div>
+
+<!-- The graph, as JSON text that is data and not script. The app writes it here with "<" escaped. -->
+<script type="application/json" id="graphData">{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": true,
+  "source_workbook": "org-chart.json",
+  "view": "All Styles",
+  "export_datetime": "2026-11-06T11:14:38",
+  "styles": {
+    "Department": {
+      "type": "node"
+    },
+    "Leader to Leader": {
+      "type": "edge"
+    },
+    "Department Below": {
+      "type": "node"
+    },
+    "Department Above": {
+      "type": "node"
+    },
+    "Associate": {
+      "type": "node"
+    },
+    "Leader to Associate": {
+      "type": "edge"
+    }
+  },
+  "nodes": [
+    {
+      "id": "EID-0589",
+      "style": "Department",
+      "label": {
+        "value": "\u003cb>Jamison Ford\u003c/b>\u003cbr/>\u003cbr/>Dir. - Software Infrastructure\u003cbr/>Software Infrastructure",
+        "type": "html"
+      },
+      "tooltip": {
+        "value": "EID-0589",
+        "type": "text"
+      }
+    },
+    {
+      "id": "EID-0593",
+      "style": "Department Below",
+      "label": {
+        "value": "\u003cb>Branden Gregory\u003c/b>\u003cbr/>\u003cbr/>Manager - Service Delivery\u003cbr/>Service Delivery",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0124",
+      "style": "Department Below",
+      "label": {
+        "value": "\u003cb>Gunnar Fuentes\u003c/b>\u003cbr/>\u003cbr/>Manager - Middleware\u003cbr/>Middleware",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0131",
+      "style": "Department Below",
+      "label": {
+        "value": "\u003cb>Mason Knox\u003c/b>\u003cbr/>\u003cbr/>Manager - Database Administration\u003cbr/>Database Administration",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0443",
+      "style": "Department Above",
+      "label": {
+        "value": "\u003cb>Wade Greer\u003c/b>\u003cbr/>\u003cbr/>VP - IT Infrastructure\u003cbr/>IT Infrastructure",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0280",
+      "style": "Department Above",
+      "label": {
+        "value": "\u003cb>Julius Frey\u003c/b>\u003cbr/>\u003cbr/>Sr. VP - Chief Information Officer (CIO)\u003cbr/>Information Technology",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-1028",
+      "style": "Department Above",
+      "label": {
+        "value": "\u003cb>Laci Elliott\u003c/b>\u003cbr/>\u003cbr/>Exec. VP - Chief Executive Officer (CEO)\u003cbr/>Executive Leadership",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0124_team",
+      "style": "Associate",
+      "label": {
+        "value": "Cale Hayes Middleware Administrator  Giancarlo Hooper IT Sr. Systems Analyst  Jalen Grant Lead - Systems Analyst  Jeramiah Dodson Sr. Systems Integration Analyst  Jesus Evans IT Sr. Systems Analyst  Nathalie Frost IT Applications Systems Analyst  Owen Hatfield Sr. Middleware Administrator  Paige Lin Lead - Systems Analyst  Sean Glenn Sr. Systems Analyst  Veronica Church Operations Support Technician  Willow Cunningham Sr. Systems Analyst ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "EID-0124",
+        "type": "text"
+      }
+    },
+    {
+      "id": "EID-0131_team",
+      "style": "Associate",
+      "label": {
+        "value": "Brayden Huang Sr. Database Administrator  Dustin Hayden Sr. Database Administrator  Isabelle Campbell Sr. Database Administrator  Piper Hester Sr. Database Administrator  Sylvia Kane Database Admin  Tamara Durham Sr. Database Administrator  Yareli Delacruz Sr. Database Administrator ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "EID-0131",
+        "type": "text"
+      }
+    },
+    {
+      "id": "EID-0589_team",
+      "style": "Associate",
+      "label": {
+        "value": "Sydnee Haney Sr. Technical Architect ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "EID-0589",
+        "type": "text"
+      }
+    },
+    {
+      "id": "EID-0593_team",
+      "style": "Associate",
+      "label": {
+        "value": "Annabelle Chandler Help Desk Representative  Ciara Carney IT Service Desk Team Leader  Gina Aguilar IT Sr. Systems Analyst  Jax Crosby IT Sr. Systems Analyst  Julie Conrad Help Desk Representative  Miranda Franklin Help Desk Representative  Regina Galvan Systems Analyst  Zoey Cantrell Systems Analyst ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "EID-0593",
+        "type": "text"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "EID-0589->EID-0593",
+      "source": "EID-0589",
+      "target": "EID-0593",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0589->EID-0124",
+      "source": "EID-0589",
+      "target": "EID-0124",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0589->EID-0131",
+      "source": "EID-0589",
+      "target": "EID-0131",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0443->EID-0589",
+      "source": "EID-0443",
+      "target": "EID-0589",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0280->EID-0443",
+      "source": "EID-0280",
+      "target": "EID-0443",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-1028->EID-0280",
+      "source": "EID-1028",
+      "target": "EID-0280",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0589->EID-0589_team",
+      "source": "EID-0589",
+      "target": "EID-0589_team",
+      "style": "Leader to Associate"
+    },
+    {
+      "id": "EID-0593->EID-0593_team",
+      "source": "EID-0593",
+      "target": "EID-0593_team",
+      "style": "Leader to Associate"
+    },
+    {
+      "id": "EID-0124->EID-0124_team",
+      "source": "EID-0124",
+      "target": "EID-0124_team",
+      "style": "Leader to Associate"
+    },
+    {
+      "id": "EID-0131->EID-0131_team",
+      "source": "EID-0131",
+      "target": "EID-0131_team",
+      "style": "Leader to Associate"
+    }
+  ]
+}</script>
+
+<script>
+/* =====================================================================
+   JSON Knowledge Graph Viewer
+   - Written in ES5, as in the Excel tool's viewer, so the two behave alike.
+   ===================================================================== */
+
+var ROW_HEIGHT = 18;
+var BUFFER_ROWS = 8;
+
+var originalJson = "";
+var prettyJson = "";
+var lines = [];
+var parsedOk = false;
+var parsedObj = null;
+
+var matchLines = [];   // indices into lines that contain the search term
+var currentMatch = -1;
+var currentTerm = "";
+
+// ---------- sample data (kept as a JS object -> no backticks needed) ----------
+var SAMPLE_JSON_OBJ = {
+    "error": "Invalid JSON",
+    "message": "The JSON provided could not be parsed and is not valid JSON syntax.",
+    "common_causes": [
+        "Missing or extra comma",
+        "Unmatched { } or [ ]",
+        "Unquoted or single-quoted keys/strings",
+        "Trailing comma before a closing bracket",
+        "Comments (// or /*) — not allowed in JSON"
+    ],
+    "tip": "Check your JSON against a JSON syntax reference and try again."
+};
+
+function escHtml(s) {
+    return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+// ---------- load / parse ----------
+function loadJson(jsonText) {
+    originalJson = jsonText;
+    var banner = document.getElementById("errorBanner");
+    banner.style.display = "none";
+
+    try {
+        parsedObj = JSON.parse(jsonText);
+        prettyJson = JSON.stringify(parsedObj, null, 2);
+        parsedOk = true;
+    } catch (e) {
+        parsedObj = null;
+        prettyJson = jsonText;
+        parsedOk = false;
+        banner.style.display = "block";
+        banner.innerHTML = "Could not parse this as valid JSON (" + escHtml(e.message) + "). Showing raw text below.";
+    }
+
+    lines = prettyJson.split("\n");
+    matchLines = [];
+    currentMatch = -1;
+    currentTerm = "";
+    document.getElementById("matchCount").innerHTML = "";
+
+    renderStats();
+    setupSizer();
+    renderVisibleRows();
+    renderTree();
+}
+
+// Mirrors the VBA GetTokenEstimate() function so the displayed estimate
+// always matches what the workbook itself computes:
+//   charCount = Len(jsonText)
+//   estimatedTokens = -Int(-charCount / 4)         ' ceiling division, ~4 chars/token
+//   safetyBuffer = CLng(estimatedTokens * 0.08)    ' ~8% buffer for BPE edge cases
+//   GetTokenEstimate = estimatedTokens + safetyBuffer
+function getTokenEstimate(charCount) {
+    var estimatedTokens = Math.ceil(charCount / 4);
+    var safetyBuffer = Math.round(estimatedTokens * 0.08);
+    return estimatedTokens + safetyBuffer;
+}
+
+function renderStats() {
+    var tokenEstimate = getTokenEstimate(originalJson.length);
+    var stats = "Characters: " + originalJson.length + " &nbsp;|&nbsp; Est. Tokens: " + tokenEstimate + " &nbsp;|&nbsp; Lines: " + lines.length;
+    if (parsedOk && parsedObj && typeof parsedObj === "object") {
+        if (parsedObj.nodes && parsedObj.nodes.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Nodes: " + parsedObj.nodes.length;
+        }
+        if (parsedObj.edges && parsedObj.edges.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Edges: " + parsedObj.edges.length;
+        }
+    }
+    document.getElementById("statsBar").innerHTML = stats;
+}
+
+// ---------- raw view: virtualized rendering ----------
+// Only the rows currently in (or near) the viewport are ever created as
+// DOM nodes. This keeps the viewer fast even for JSON far too large for
+// an Excel cell (tens of thousands of lines), unlike a one-div-per-line
+// render of the whole file.
+function setupSizer() {
+    var sizer = document.getElementById("sizer");
+    sizer.style.height = (lines.length * ROW_HEIGHT) + "px";
+}
+
+function syntaxHighlight(lineText) {
+    // Very lightweight line-based tokenizer: good enough for pretty-printed
+    // JSON.stringify output (one token group per line), not a full parser.
+    var html = "";
+    var re = /("(?:\\.|[^"\\])*")(\s*:)?|(\btrue\b|\bfalse\b|\bnull\b)|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|([{}\[\],])/g;
+    var lastIndex = 0;
+    var m;
+    while ((m = re.exec(lineText)) !== null) {
+        if (m.index > lastIndex) {
+            html += escHtml(lineText.substring(lastIndex, m.index));
+        }
+        if (m[1]) {
+            var cls = m[2] ? "jkey" : "jstr";
+            html += "<span class=\"" + cls + "\">" + escHtml(m[1]) + "</span>" + (m[2] ? escHtml(m[2]) : "");
+        } else if (m[3]) {
+            html += "<span class=\"jbool\">" + escHtml(m[3]) + "</span>";
+        } else if (m[4]) {
+            html += "<span class=\"jnum\">" + escHtml(m[4]) + "</span>";
+        } else if (m[5]) {
+            html += "<span class=\"jpunc\">" + escHtml(m[5]) + "</span>";
+        }
+        lastIndex = re.lastIndex;
+    }
+    if (lastIndex < lineText.length) {
+        html += escHtml(lineText.substring(lastIndex));
+    }
+    return html;
+}
+
+function highlightSearchTerm(lineText, term) {
+    var lower = lineText.toLowerCase();
+    var termLower = term.toLowerCase();
+    var out = "";
+    var pos = 0;
+    var idx;
+    while ((idx = lower.indexOf(termLower, pos)) !== -1) {
+        out += escHtml(lineText.substring(pos, idx));
+        out += "<mark>" + escHtml(lineText.substring(idx, idx + term.length)) + "</mark>";
+        pos = idx + term.length;
+    }
+    out += escHtml(lineText.substring(pos));
+    return out;
+}
+
+function renderVisibleRows() {
+    var scrollArea = document.getElementById("scrollArea");
+    var sizer = document.getElementById("sizer");
+    var scrollTop = scrollArea.scrollTop;
+    var viewportH = scrollArea.clientHeight || 400;
+
+    var first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - BUFFER_ROWS);
+    var visibleCount = Math.ceil(viewportH / ROW_HEIGHT) + BUFFER_ROWS * 2;
+    var last = Math.min(lines.length - 1, first + visibleCount);
+
+    sizer.innerHTML = "";
+    var matchSet = {};
+    var i;
+    for (i = 0; i < matchLines.length; i++) { matchSet[matchLines[i]] = true; }
+
+    for (i = first; i <= last; i++) {
+        var row = document.createElement("div");
+        row.className = "row";
+        if (matchSet[i]) { row.className += " matchRow"; }
+        if (currentMatch !== -1 && matchLines[currentMatch] === i) { row.className += " currentMatchRow"; }
+        row.style.top = (i * ROW_HEIGHT) + "px";
+
+        var numSpan = document.createElement("span");
+        numSpan.className = "rowNum";
+        numSpan.textContent = (i + 1).toString();
+
+        var textSpan = document.createElement("span");
+        textSpan.className = "rowText";
+        var lineText = lines[i] || "";
+        if (currentTerm) {
+            textSpan.innerHTML = highlightSearchTerm(lineText, currentTerm);
+        } else {
+            textSpan.innerHTML = syntaxHighlight(lineText);
+        }
+
+        row.appendChild(numSpan);
+        row.appendChild(textSpan);
+        sizer.appendChild(row);
+    }
+}
+
+// ---------- search ----------
+function runSearch() {
+    var term = document.getElementById("searchInput").value;
+    currentTerm = term;
+    matchLines = [];
+    currentMatch = -1;
+
+    if (term) {
+        var termLower = term.toLowerCase();
+        for (var i = 0; i < lines.length; i++) {
+            if (lines[i].toLowerCase().indexOf(termLower) !== -1) {
+                matchLines.push(i);
+            }
+        }
+        if (matchLines.length > 0) { currentMatch = 0; }
+    }
+
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function updateMatchCount() {
+    var el = document.getElementById("matchCount");
+    if (!currentTerm) { el.innerHTML = ""; return; }
+    if (matchLines.length === 0) { el.innerHTML = "0 matches"; return; }
+    el.innerHTML = (currentMatch + 1) + " / " + matchLines.length + " lines";
+}
+
+function scrollToCurrentMatch() {
+    if (currentMatch === -1) { return; }
+    var scrollArea = document.getElementById("scrollArea");
+    var targetLine = matchLines[currentMatch];
+    var targetTop = targetLine * ROW_HEIGHT - (scrollArea.clientHeight / 2);
+    if (targetTop < 0) { targetTop = 0; }
+    scrollArea.scrollTop = targetTop;
+}
+
+function nextMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch + 1) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function prevMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch - 1 + matchLines.length) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function clearSearch() {
+    document.getElementById("searchInput").value = "";
+    currentTerm = "";
+    matchLines = [];
+    currentMatch = -1;
+    updateMatchCount();
+    renderVisibleRows();
+}
+
+// ---------- copy ----------
+function copyText(text) {
+    var temp = document.createElement("textarea");
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    try { document.execCommand("copy"); } catch (e) { /* ignore */ }
+    document.body.removeChild(temp);
+}
+
+// ---------- tree view ----------
+var TREE_ARRAY_LIMIT = 200; // cap initial render of large arrays so huge graphs don't freeze the tree
+
+function renderTree() {
+    var container = document.getElementById("treeView");
+    container.innerHTML = "";
+    if (!parsedOk) {
+        container.innerHTML = "<div style=\"color:#900;\">Tree view is unavailable because the input is not valid JSON.</div>";
+        return;
+    }
+    container.appendChild(buildTreeNode("root", parsedObj, true));
+}
+
+function typeLabel(v) {
+    if (v === null) { return "null"; }
+    if (Array.isArray(v)) { return "array(" + v.length + ")"; }
+    return typeof v;
+}
+
+function buildTreeNode(key, value, isRoot) {
+    var wrap = document.createElement("div");
+    wrap.className = "treeNode";
+
+    var isContainer = value !== null && typeof value === "object";
+
+    var line = document.createElement("div");
+    if (isContainer) {
+        var toggle = document.createElement("span");
+        toggle.className = "toggle";
+        toggle.textContent = "-";
+        var childHolder = document.createElement("div");
+
+        toggle.onclick = (function (t, holder) {
+            return function () {
+                var collapsed = holder.style.display === "none";
+                holder.style.display = collapsed ? "block" : "none";
+                t.textContent = collapsed ? "-" : "+";
+            };
+        })(toggle, childHolder);
+
+        line.appendChild(toggle);
+        var keySpan = document.createElement("span");
+        keySpan.className = "treeKey";
+        keySpan.textContent = (isRoot ? "" : key + ": ") + typeLabel(value);
+        line.appendChild(keySpan);
+        wrap.appendChild(line);
+        wrap.appendChild(childHolder);
+
+        var keys = Array.isArray(value) ? null : Object.keys(value);
+        var count = Array.isArray(value) ? value.length : keys.length;
+        var limit = Array.isArray(value) ? Math.min(count, TREE_ARRAY_LIMIT) : count;
+
+        var i;
+        if (Array.isArray(value)) {
+            for (i = 0; i < limit; i++) {
+                childHolder.appendChild(buildTreeNode("[" + i + "]", value[i], false));
+            }
+            if (count > limit) {
+                var more = document.createElement("div");
+                more.className = "treeNode moreLink";
+                more.textContent = "... " + (count - limit) + " more items (click to expand)";
+                more.onclick = (function (arr, holder, startAt) {
+                    return function () {
+                        for (var j = startAt; j < arr.length; j++) {
+                            holder.insertBefore(buildTreeNode("[" + j + "]", arr[j], false), more);
+                        }
+                        more.parentNode.removeChild(more);
+                    };
+                })(value, childHolder, limit);
+                childHolder.appendChild(more);
+            }
+        } else {
+            for (i = 0; i < keys.length; i++) {
+                childHolder.appendChild(buildTreeNode(keys[i], value[keys[i]], false));
+            }
+        }
+    } else {
+        var leafKey = document.createElement("span");
+        leafKey.className = "treeKey";
+        leafKey.textContent = key + ": ";
+        var leafVal = document.createElement("span");
+        var cls = "treeVal ";
+        if (typeof value === "string") { cls += "jstr"; }
+        else if (typeof value === "number") { cls += "jnum"; }
+        else if (typeof value === "boolean" || value === null) { cls += "jbool"; }
+        leafVal.className = cls;
+        leafVal.textContent = typeof value === "string" ? "\"" + value + "\"" : String(value);
+        line.appendChild(leafKey);
+        line.appendChild(leafVal);
+        wrap.appendChild(line);
+    }
+
+    return wrap;
+}
+
+// ---------- save as file ----------
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+function buildFilename(ext) {
+    var d = new Date();
+    var stamp = d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) +
+        "-" + pad2(d.getHours()) + pad2(d.getMinutes()) + pad2(d.getSeconds());
+    return "graph-" + stamp + "." + ext;
+}
+
+function saveTextAsFile(text, filename) {
+    var blob = new Blob([text], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+}
+
+// ---------- view toggle ----------
+function showRawView() {
+    document.getElementById("scrollArea").style.display = "block";
+    document.getElementById("treeView").style.display = "none";
+    document.getElementById("btnRawView").className = "active";
+    document.getElementById("btnTreeView").className = "";
+    renderVisibleRows();
+}
+function showTreeView() {
+    document.getElementById("scrollArea").style.display = "none";
+    document.getElementById("treeView").style.display = "block";
+    document.getElementById("btnRawView").className = "";
+    document.getElementById("btnTreeView").className = "active";
+}
+
+// ---------- wire up events (no inline handlers, so this also works if a host sets a strict CSP) ----------
+window.onload = function () {
+    document.getElementById("btnSearch").onclick = runSearch;
+    document.getElementById("btnNext").onclick = nextMatch;
+    document.getElementById("btnPrev").onclick = prevMatch;
+    document.getElementById("btnClear").onclick = clearSearch;
+    document.getElementById("btnCopyRaw").onclick = function () { copyText(originalJson); };
+    document.getElementById("btnCopyPretty").onclick = function () { copyText(prettyJson); };
+    document.getElementById("btnSaveRaw").onclick = function () { saveTextAsFile(originalJson, buildFilename("json")); };
+    document.getElementById("btnSavePretty").onclick = function () { saveTextAsFile(prettyJson, buildFilename("json")); };
+    document.getElementById("btnRawView").onclick = showRawView;
+    document.getElementById("btnTreeView").onclick = showTreeView;
+    document.getElementById("searchInput").onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode === 13) { runSearch(); }
+    };
+    document.getElementById("scrollArea").onscroll = renderVisibleRows;
+    window.onresize = function () { renderVisibleRows(); };
+
+    // The graph is in the page. If it is missing, fall back to the bundled sample.
+    var dataBlock = document.getElementById("graphData");
+    var graphText = dataBlock ? dataBlock.textContent : "";
+    var graph = null;
+    try { graph = JSON.parse(graphText); } catch (e) { graph = null; }
+    if (graph !== null) {
+        loadJson(JSON.stringify(graph));
+    } else if (graphText) {
+        loadJson(graphText);
+    } else {
+        loadJson(JSON.stringify(SAMPLE_JSON_OBJ));
+    }
+};
+</script>
+</body>
+</html>

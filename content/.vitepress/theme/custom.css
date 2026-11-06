@@ -122,3 +122,197 @@
 .shot {
   height: auto;
 }
+
+/* The Examples: the list, the line under a title, a published diagram in a frame, and the box with the files to download. */
+.gm-example-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 1.2rem 0;
+}
+
+.gm-example-filter button {
+  padding: 4px 14px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 16px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.gm-example-filter button.on {
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+
+/* The theme styles every list in a page as bullets with an indent; the list of examples is a column of cards. */
+.vp-doc ul.gm-example-cards {
+  display: grid;
+  gap: 16px;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.vp-doc ul.gm-example-cards > li {
+  margin: 0;
+}
+
+.gm-example-card {
+  padding: 16px 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+}
+
+.gm-example-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+}
+
+.gm-example-title:hover {
+  text-decoration: underline;
+}
+
+.gm-example-description {
+  margin: 6px 0 10px;
+  color: var(--vp-c-text-2);
+}
+
+.gm-example-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin: 0;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.gm-example-byline {
+  margin: -8px 0 24px;
+}
+
+.gm-example-tag {
+  padding: 1px 10px;
+  border-radius: 12px;
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+a.gm-example-tag:hover {
+  text-decoration: underline;
+}
+
+.gm-example-none {
+  color: var(--vp-c-text-2);
+}
+
+/* A diagram of an example: a plain picture, on white because the diagrams are made for a light page, and the button that opens the interactive one. */
+.gm-diagram {
+  margin: 1.5rem 0;
+}
+
+.gm-diagram-picture {
+  display: block;
+  padding: 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.gm-diagram-picture img {
+  display: inline-block;
+  max-width: 100%;
+  max-height: 640px;
+  width: auto;
+  height: auto;
+}
+
+.gm-diagram figcaption,
+.gm-viewer figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 12px;
+}
+
+.vp-doc a.gm-figure-button {
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  background: var(--vp-c-brand-1);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.vp-doc a.gm-figure-button:hover {
+  background: var(--vp-c-brand-2);
+}
+
+.dark .vp-doc a.gm-figure-button {
+  color: #06232b;
+}
+
+.gm-figure-note {
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+/* The Knowledge Graph viewer of an example: a page with its own toolbar and scroll, in a frame. */
+.gm-viewer {
+  margin: 1.5rem 0;
+}
+
+.gm-viewer iframe {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+}
+
+.gm-download {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin: 1.5rem 0;
+  padding: 16px 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+}
+
+.gm-download p {
+  margin: 4px 0 0;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+}
+
+.vp-doc a.gm-download-button {
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  background: var(--vp-c-brand-1);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.vp-doc a.gm-download-button:hover {
+  background: var(--vp-c-brand-2);
+}
+
+.dark .vp-doc a.gm-download-button {
+  color: #06232b;
+}

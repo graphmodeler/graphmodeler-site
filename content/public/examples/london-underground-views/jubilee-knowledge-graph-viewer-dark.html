@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html class="dark">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>JSON Knowledge Graph Viewer</title>
+<style>
+/* Kept deliberately simple / old-IE safe: no CSS grid, no CSS vars */
+html, body { height: 100%; margin: 0; }
+body {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 13px;
+    background: #f5f5f5;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+}
+#toolbar {
+    padding: 8px 10px;
+    background: #e8e8e8;
+    border-bottom: 1px solid #ccc;
+    flex: 0 0 auto;
+}
+#toolbar input[type=text] { width: 220px; }
+#toolbar button, #toolbar select { margin-left: 4px; }
+#matchCount { margin-left: 6px; color: #555; }
+#statsBar {
+    padding: 4px 10px;
+    background: #fafafa;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    font-size: 12px;
+    flex: 0 0 auto;
+}
+#errorBanner {
+    display: none;
+    padding: 6px 10px;
+    background: #ffe1e1;
+    color: #900;
+    border-bottom: 1px solid #e0a0a0;
+    flex: 0 0 auto;
+}
+#viewToggle { padding: 6px 10px; background: #eee; border-bottom: 1px solid #ccc; flex: 0 0 auto; }
+#viewToggle button.active { background: #444; color: #fff; }
+
+/* ---- Raw (virtualized) view ---- */
+#scrollArea {
+    position: relative;
+    overflow: auto;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: #fff;
+}
+#sizer { position: relative; }
+.row {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: pre;
+    height: 18px;
+    line-height: 18px;
+}
+.rowNum {
+    display: inline-block;
+    width: 50px;
+    text-align: right;
+    padding-right: 8px;
+    color: #999;
+    background: #eee;
+    user-select: none;
+}
+.rowText { padding-left: 6px; }
+.row.matchRow .rowText { background: #fff6b0; }
+.row.currentMatchRow .rowText { background: #ffcf40; }
+mark { background: #ffcf40; padding: 0; }
+
+/* Syntax highlight colors */
+.jkey { color: #a1260d; font-weight: bold; }
+.jstr { color: #0a7c2f; }
+.jnum { color: #1a56db; }
+.jbool { color: #9b1bb3; }
+.jpunc { color: #555; }
+
+/* ---- Tree view ---- */
+#treeView {
+    display: none;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    background: #fff;
+    padding: 8px 10px;
+}
+.treeNode { margin-left: 16px; }
+.toggle {
+    cursor: pointer;
+    display: inline-block;
+    width: 14px;
+    color: #666;
+    user-select: none;
+}
+.treeKey { color: #a1260d; }
+.treeVal.jstr { color: #0a7c2f; }
+.treeVal.jnum { color: #1a56db; }
+.treeVal.jbool { color: #9b1bb3; }
+.moreLink { color: #1a56db; cursor: pointer; text-decoration: underline; }
+
+/* ---- Dark theme: only colors. The app asks for it by marking the page; a page that is not marked is light. ---- */
+html.dark { color-scheme: dark; }
+.dark body { background: #1b1f24; color: #e6e8eb; }
+.dark #toolbar { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #toolbar input[type=text], .dark #toolbar button, .dark #toolbar select, .dark #viewToggle button { background: #2b313a; color: #e6e8eb; border: 1px solid #5b6470; }
+.dark #toolbar input[type=text] { background: #22272e; }
+.dark #matchCount { color: #9aa3af; }
+.dark #statsBar { background: #22272e; border-bottom-color: #3a414b; color: #9aa3af; }
+.dark #errorBanner { background: #3a1f22; color: #f0625f; border-bottom-color: #6b2f33; }
+.dark #viewToggle { background: #2b313a; border-bottom-color: #3a414b; }
+.dark #viewToggle button.active { background: #e6e8eb; color: #1b1f24; }
+.dark #scrollArea, .dark #treeView { background: #22272e; }
+.dark .rowNum { color: #8b949e; background: #2b313a; }
+.dark .row.matchRow .rowText { background: #4a4320; }
+.dark .row.currentMatchRow .rowText { background: #7a6212; }
+.dark mark { background: #7a6212; color: #fff; }
+.dark .jkey, .dark .treeKey { color: #f0846f; }
+.dark .jstr, .dark .treeVal.jstr { color: #5fd18a; }
+.dark .jnum, .dark .treeVal.jnum { color: #6ea8fe; }
+.dark .jbool, .dark .treeVal.jbool { color: #d79bef; }
+.dark .jpunc, .dark .toggle { color: #9aa3af; }
+.dark .moreLink { color: #6ea8fe; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+    <input type="text" id="searchInput" placeholder="Search...">
+    <button id="btnSearch">Search</button>
+    <button id="btnPrev">&#8593; Prev</button>
+    <button id="btnNext">&#8595; Next</button>
+    <button id="btnClear">Clear</button>
+    <span id="matchCount"></span>
+    <button id="btnCopyRaw" style="margin-left:16px;">Copy Raw</button>
+    <button id="btnCopyPretty">Copy Pretty</button>
+    <button id="btnSaveRaw" style="margin-left:16px;">Save Raw As File</button>
+    <button id="btnSavePretty">Save Pretty As File</button>
+</div>
+
+<div id="viewToggle">
+    View:
+    <button id="btnRawView" class="active">Raw (line numbers)</button>
+    <button id="btnTreeView">Tree (collapsible)</button>
+</div>
+
+<div id="errorBanner"></div>
+<div id="statsBar"></div>
+
+<div id="scrollArea"><div id="sizer"></div></div>
+<div id="treeView"></div>
+
+<!-- The graph, as JSON text that is data and not script. The app writes it here with "<" escaped. -->
+<script type="application/json" id="graphData">{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": false,
+  "source_workbook": "london-underground.json",
+  "view": "Jubilee",
+  "export_datetime": "2026-11-06T10:54:01",
+  "styles": {
+    "Jubilee": {
+      "type": "edge"
+    },
+    "Postcode area covered": {
+      "type": "cluster"
+    },
+    "District": {
+      "type": "cluster"
+    },
+    "Station": {
+      "type": "node"
+    },
+    "Interchange": {
+      "type": "node"
+    }
+  },
+  "graph": {
+    "label": {
+      "value": "Jubilee",
+      "type": "text"
+    }
+  },
+  "nodes": [
+    {
+      "id": "Baker Street",
+      "cluster": "cluster_46",
+      "style": "Station",
+      "label": {
+        "value": "Baker Street",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Baker Street Station Regent's Park Camden North West London NW1 5LA  Latitude: 51.523129366058797 Longitude: -0.15690419298618399",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Bond Street",
+      "cluster": "cluster_16",
+      "style": "Interchange",
+      "label": {
+        "value": "Bond Street",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Bond Street Station West End Westminster West London W1C 2HU  Latitude: 51.513797282327403 Longitude: -0.14961360853164599",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Bermondsey",
+      "cluster": "cluster_10",
+      "style": "Station",
+      "label": {
+        "value": "Bermondsey",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Bermondsey Station North Bermondsey Southwark South East London SE16 4RX  Latitude: 51.497960677506299 Longitude: -0.064330089811523605",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Canada Water",
+      "cluster": "cluster_10",
+      "style": "Interchange",
+      "label": {
+        "value": "Canada Water",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Canada Water Station Rotherhithe Southwark South East London SE16 7BB  Latitude: 51.498168331250803 Longitude: -0.0508071208490972",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Green Park",
+      "cluster": "cluster_16",
+      "style": "Station",
+      "label": {
+        "value": "Green Park",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Green Park Station West End Westminster West London W1J 7BX  Latitude: 51.506760253714603 Longitude: -0.142477574422533",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Canary Wharf",
+      "cluster": "cluster_3",
+      "style": "Interchange",
+      "label": {
+        "value": "Canary Wharf",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Canary Wharf Station Canary Wharf Tower Hamlets East London E14 4QS  Latitude: 51.503578375128797 Longitude: -0.019466840139324398",
+        "type": "text"
+      }
+    },
+    {
+      "id": "North Greenwich",
+      "cluster": "cluster_8",
+      "style": "Interchange",
+      "label": {
+        "value": "North Greenwich",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "North Greenwich Station Greenwich Peninsula Greenwich South East London SE10 0PH  Latitude: 51.500255161089498 Longitude: 0.0035862591259508301",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Canning Town",
+      "cluster": "cluster_2",
+      "style": "Interchange",
+      "label": {
+        "value": "Canning Town",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Canning Town Station Royal Victoria Newham East London E16 1DQ  Latitude: 51.513870303505101 Longitude: 0.0083056327487643893",
+        "type": "text"
+      }
+    },
+    {
+      "id": "West Ham",
+      "cluster": "cluster_2",
+      "style": "Interchange",
+      "label": {
+        "value": "West Ham",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "West Ham Station Canning Town North Newham East London E15 3BN  Latitude: 51.528525530726903 Longitude: 0.0053173938327879099",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Canons Park",
+      "cluster": "cluster_30",
+      "style": "Station",
+      "label": {
+        "value": "Canons Park",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Canons Park Station Canons Harrow Harrow HA8 6RN  Latitude: 51.607650090285297 Longitude: -0.29439159149414601",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Queensbury",
+      "cluster": "cluster_33",
+      "style": "Station",
+      "label": {
+        "value": "Queensbury",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Queensbury Station Queensbury Brent Harrow HA8 5NP  Latitude: 51.593882509313197 Longitude: -0.28633159262062902",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Dollis Hill",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Dollis Hill",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Dollis Hill Station Harlesden & Kensal Green Brent North West London NW10 5NB  Latitude: 51.551850202274302 Longitude: -0.238797758364757",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Willesden Green",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Willesden Green",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Willesden Green Station Willesden Green Brent North West London NW2 4QT  Latitude: 51.549372924826898 Longitude: -0.22240760124964601",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Finchley Road",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Finchley Road",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Finchley Road Station South Hampstead Brent North West London NW6 3BS  Latitude: 51.547095906434301 Longitude: -0.180050558632493",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Swiss Cottage",
+      "cluster": "cluster_46",
+      "style": "Station",
+      "label": {
+        "value": "Swiss Cottage",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Swiss Cottage Station South Hampstead Camden North West London NW3 6HY  Latitude: 51.5430345616616 Longitude: -0.175626602641137",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Westminster",
+      "cluster": "cluster_55",
+      "style": "Station",
+      "label": {
+        "value": "Westminster",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Westminster Station St James's Westminster South West London SW1A 2JR  Latitude: 51.501401389193198 Longitude: -0.12500207834677901",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Kilburn",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Kilburn",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Kilburn Station Cricklewood & Mapesbury Brent North West London NW6 7QL  Latitude: 51.546944102865901 Longitude: -0.20463271669925501",
+        "type": "text"
+      }
+    },
+    {
+      "id": "West Hampstead",
+      "cluster": "cluster_48",
+      "style": "Interchange",
+      "label": {
+        "value": "West Hampstead",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "West Hampstead Station South Hampstead Brent North West London NW6 2LX  Latitude: 51.547474022672702 Longitude: -0.19112658344309499",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Kingsbury",
+      "cluster": "cluster_47",
+      "style": "Station",
+      "label": {
+        "value": "Kingsbury",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Kingsbury Station Queensbury Barnet North West London NW9 9EG  Latitude: 51.584876063491102 Longitude: -0.278601603713172",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Wembley Park",
+      "cluster": "cluster_33",
+      "style": "Station",
+      "label": {
+        "value": "Wembley Park",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Wembley Park Station Barnhill Brent Harrow HA9 9AA  Latitude: 51.5633220034915 Longitude: -0.27924254811115601",
+        "type": "text"
+      }
+    },
+    {
+      "id": "London Bridge",
+      "cluster": "cluster_10",
+      "style": "Interchange",
+      "label": {
+        "value": "London Bridge",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "London Bridge Station London Bridge & West Bermondsey Southwark South East London SE1 2SW  Latitude: 51.504674209304298 Longitude: -0.086005597748139595",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Neasden",
+      "cluster": "cluster_48",
+      "style": "Station",
+      "label": {
+        "value": "Neasden",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Neasden Station Dollis Hill Brent North West London NW10 1PH  Latitude: 51.554627310041099 Longitude: -0.25011504169361198",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Southwark",
+      "cluster": "cluster_10",
+      "style": "Station",
+      "label": {
+        "value": "Southwark",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Southwark Station Borough & Bankside Southwark South East London SE1 8NW  Latitude: 51.503853449721603 Longitude: -0.10579493892509199",
+        "type": "text"
+      }
+    },
+    {
+      "id": "St. Johns Wood",
+      "cluster": "cluster_46",
+      "style": "Station",
+      "label": {
+        "value": "St. Johns Wood",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "St. Johns Wood Station Regent's Park Camden North West London NW8 6DN  Latitude: 51.534854128393199 Longitude: -0.17406483866207001",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Stanmore",
+      "cluster": "cluster_30",
+      "style": "Station",
+      "label": {
+        "value": "Stanmore",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Stanmore Station Canons Harrow Harrow HA7 4PD  Latitude: 51.619672950483498 Longitude: -0.30309928759529797",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Waterloo",
+      "cluster": "cluster_10",
+      "style": "Interchange",
+      "label": {
+        "value": "Waterloo",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Waterloo Station Waterloo & South Bank Southwark South East London SE1 7NY  Latitude: 51.503146456783398 Longitude: -0.113259251258195",
+        "type": "text"
+      }
+    },
+    {
+      "id": "Stratford",
+      "cluster": "cluster_2",
+      "style": "Interchange",
+      "label": {
+        "value": "Stratford",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Stratford Station Stratford Newham East London E15 1AZ  Latitude: 51.541692575873903 Longitude: -0.0037516410271907501",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_1",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "East London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_2",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "District",
+      "label": {
+        "value": "Newham",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Newham, East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_3",
+      "type": "cluster",
+      "cluster": "cluster_1",
+      "style": "District",
+      "label": {
+        "value": "Tower Hamlets",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Tower Hamlets, East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_7",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "South East London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "South East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_8",
+      "type": "cluster",
+      "cluster": "cluster_7",
+      "style": "District",
+      "label": {
+        "value": "Greenwich",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Greenwich, South East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_10",
+      "type": "cluster",
+      "cluster": "cluster_7",
+      "style": "District",
+      "label": {
+        "value": "Southwark",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Southwark, South East London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_13",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "West London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_16",
+      "type": "cluster",
+      "cluster": "cluster_13",
+      "style": "District",
+      "label": {
+        "value": "Westminster",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Westminster, West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_29",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "Harrow",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Harrow",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_30",
+      "type": "cluster",
+      "cluster": "cluster_29",
+      "style": "District",
+      "label": {
+        "value": "Harrow",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Harrow, Harrow",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_33",
+      "type": "cluster",
+      "cluster": "cluster_29",
+      "style": "District",
+      "label": {
+        "value": "Brent",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Brent, Harrow",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_45",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "North West London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "North West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_46",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "District",
+      "label": {
+        "value": "Camden",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Camden, North West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_47",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "District",
+      "label": {
+        "value": "Barnet",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Barnet, North West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_48",
+      "type": "cluster",
+      "cluster": "cluster_45",
+      "style": "District",
+      "label": {
+        "value": "Brent",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Brent, North West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_49",
+      "type": "cluster",
+      "style": "Postcode area covered",
+      "label": {
+        "value": "South West London",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "South West London",
+        "type": "text"
+      }
+    },
+    {
+      "id": "cluster_55",
+      "type": "cluster",
+      "cluster": "cluster_49",
+      "style": "District",
+      "label": {
+        "value": "Westminster",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "Westminster, South West London",
+        "type": "text"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "Baker Street--Bond Street",
+      "source": "Baker Street",
+      "target": "Bond Street",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Bermondsey--Canada Water",
+      "source": "Bermondsey",
+      "target": "Canada Water",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Bond Street--Green Park",
+      "source": "Bond Street",
+      "target": "Green Park",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Canada Water--Canary Wharf",
+      "source": "Canada Water",
+      "target": "Canary Wharf",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Canary Wharf--North Greenwich",
+      "source": "Canary Wharf",
+      "target": "North Greenwich",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Canning Town--West Ham",
+      "source": "Canning Town",
+      "target": "West Ham",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Canons Park--Queensbury",
+      "source": "Canons Park",
+      "target": "Queensbury",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Dollis Hill--Willesden Green",
+      "source": "Dollis Hill",
+      "target": "Willesden Green",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Finchley Road--Swiss Cottage",
+      "source": "Finchley Road",
+      "target": "Swiss Cottage",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Green Park--Westminster",
+      "source": "Green Park",
+      "target": "Westminster",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Kilburn--West Hampstead",
+      "source": "Kilburn",
+      "target": "West Hampstead",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Kingsbury--Wembley Park",
+      "source": "Kingsbury",
+      "target": "Wembley Park",
+      "style": "Jubilee"
+    },
+    {
+      "id": "London Bridge--Bermondsey",
+      "source": "London Bridge",
+      "target": "Bermondsey",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Neasden--Dollis Hill",
+      "source": "Neasden",
+      "target": "Dollis Hill",
+      "style": "Jubilee"
+    },
+    {
+      "id": "North Greenwich--Canning Town",
+      "source": "North Greenwich",
+      "target": "Canning Town",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Queensbury--Kingsbury",
+      "source": "Queensbury",
+      "target": "Kingsbury",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Southwark--London Bridge",
+      "source": "Southwark",
+      "target": "London Bridge",
+      "style": "Jubilee"
+    },
+    {
+      "id": "St. Johns Wood--Baker Street",
+      "source": "St. Johns Wood",
+      "target": "Baker Street",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Stanmore--Canons Park",
+      "source": "Stanmore",
+      "target": "Canons Park",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Swiss Cottage--St. Johns Wood",
+      "source": "Swiss Cottage",
+      "target": "St. Johns Wood",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Waterloo--Southwark",
+      "source": "Waterloo",
+      "target": "Southwark",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Wembley Park--Neasden",
+      "source": "Wembley Park",
+      "target": "Neasden",
+      "style": "Jubilee"
+    },
+    {
+      "id": "West Ham--Stratford",
+      "source": "West Ham",
+      "target": "Stratford",
+      "style": "Jubilee"
+    },
+    {
+      "id": "West Hampstead--Finchley Road",
+      "source": "West Hampstead",
+      "target": "Finchley Road",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Westminster--Waterloo",
+      "source": "Westminster",
+      "target": "Waterloo",
+      "style": "Jubilee"
+    },
+    {
+      "id": "Willesden Green--Kilburn",
+      "source": "Willesden Green",
+      "target": "Kilburn",
+      "style": "Jubilee"
+    }
+  ]
+}</script>
+
+<script>
+/* =====================================================================
+   JSON Knowledge Graph Viewer
+   - Written in ES5, as in the Excel tool's viewer, so the two behave alike.
+   ===================================================================== */
+
+var ROW_HEIGHT = 18;
+var BUFFER_ROWS = 8;
+
+var originalJson = "";
+var prettyJson = "";
+var lines = [];
+var parsedOk = false;
+var parsedObj = null;
+
+var matchLines = [];   // indices into lines that contain the search term
+var currentMatch = -1;
+var currentTerm = "";
+
+// ---------- sample data (kept as a JS object -> no backticks needed) ----------
+var SAMPLE_JSON_OBJ = {
+    "error": "Invalid JSON",
+    "message": "The JSON provided could not be parsed and is not valid JSON syntax.",
+    "common_causes": [
+        "Missing or extra comma",
+        "Unmatched { } or [ ]",
+        "Unquoted or single-quoted keys/strings",
+        "Trailing comma before a closing bracket",
+        "Comments (// or /*) — not allowed in JSON"
+    ],
+    "tip": "Check your JSON against a JSON syntax reference and try again."
+};
+
+function escHtml(s) {
+    return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+// ---------- load / parse ----------
+function loadJson(jsonText) {
+    originalJson = jsonText;
+    var banner = document.getElementById("errorBanner");
+    banner.style.display = "none";
+
+    try {
+        parsedObj = JSON.parse(jsonText);
+        prettyJson = JSON.stringify(parsedObj, null, 2);
+        parsedOk = true;
+    } catch (e) {
+        parsedObj = null;
+        prettyJson = jsonText;
+        parsedOk = false;
+        banner.style.display = "block";
+        banner.innerHTML = "Could not parse this as valid JSON (" + escHtml(e.message) + "). Showing raw text below.";
+    }
+
+    lines = prettyJson.split("\n");
+    matchLines = [];
+    currentMatch = -1;
+    currentTerm = "";
+    document.getElementById("matchCount").innerHTML = "";
+
+    renderStats();
+    setupSizer();
+    renderVisibleRows();
+    renderTree();
+}
+
+// Mirrors the VBA GetTokenEstimate() function so the displayed estimate
+// always matches what the workbook itself computes:
+//   charCount = Len(jsonText)
+//   estimatedTokens = -Int(-charCount / 4)         ' ceiling division, ~4 chars/token
+//   safetyBuffer = CLng(estimatedTokens * 0.08)    ' ~8% buffer for BPE edge cases
+//   GetTokenEstimate = estimatedTokens + safetyBuffer
+function getTokenEstimate(charCount) {
+    var estimatedTokens = Math.ceil(charCount / 4);
+    var safetyBuffer = Math.round(estimatedTokens * 0.08);
+    return estimatedTokens + safetyBuffer;
+}
+
+function renderStats() {
+    var tokenEstimate = getTokenEstimate(originalJson.length);
+    var stats = "Characters: " + originalJson.length + " &nbsp;|&nbsp; Est. Tokens: " + tokenEstimate + " &nbsp;|&nbsp; Lines: " + lines.length;
+    if (parsedOk && parsedObj && typeof parsedObj === "object") {
+        if (parsedObj.nodes && parsedObj.nodes.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Nodes: " + parsedObj.nodes.length;
+        }
+        if (parsedObj.edges && parsedObj.edges.length !== undefined) {
+            stats += " &nbsp;|&nbsp; Edges: " + parsedObj.edges.length;
+        }
+    }
+    document.getElementById("statsBar").innerHTML = stats;
+}
+
+// ---------- raw view: virtualized rendering ----------
+// Only the rows currently in (or near) the viewport are ever created as
+// DOM nodes. This keeps the viewer fast even for JSON far too large for
+// an Excel cell (tens of thousands of lines), unlike a one-div-per-line
+// render of the whole file.
+function setupSizer() {
+    var sizer = document.getElementById("sizer");
+    sizer.style.height = (lines.length * ROW_HEIGHT) + "px";
+}
+
+function syntaxHighlight(lineText) {
+    // Very lightweight line-based tokenizer: good enough for pretty-printed
+    // JSON.stringify output (one token group per line), not a full parser.
+    var html = "";
+    var re = /("(?:\\.|[^"\\])*")(\s*:)?|(\btrue\b|\bfalse\b|\bnull\b)|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|([{}\[\],])/g;
+    var lastIndex = 0;
+    var m;
+    while ((m = re.exec(lineText)) !== null) {
+        if (m.index > lastIndex) {
+            html += escHtml(lineText.substring(lastIndex, m.index));
+        }
+        if (m[1]) {
+            var cls = m[2] ? "jkey" : "jstr";
+            html += "<span class=\"" + cls + "\">" + escHtml(m[1]) + "</span>" + (m[2] ? escHtml(m[2]) : "");
+        } else if (m[3]) {
+            html += "<span class=\"jbool\">" + escHtml(m[3]) + "</span>";
+        } else if (m[4]) {
+            html += "<span class=\"jnum\">" + escHtml(m[4]) + "</span>";
+        } else if (m[5]) {
+            html += "<span class=\"jpunc\">" + escHtml(m[5]) + "</span>";
+        }
+        lastIndex = re.lastIndex;
+    }
+    if (lastIndex < lineText.length) {
+        html += escHtml(lineText.substring(lastIndex));
+    }
+    return html;
+}
+
+function highlightSearchTerm(lineText, term) {
+    var lower = lineText.toLowerCase();
+    var termLower = term.toLowerCase();
+    var out = "";
+    var pos = 0;
+    var idx;
+    while ((idx = lower.indexOf(termLower, pos)) !== -1) {
+        out += escHtml(lineText.substring(pos, idx));
+        out += "<mark>" + escHtml(lineText.substring(idx, idx + term.length)) + "</mark>";
+        pos = idx + term.length;
+    }
+    out += escHtml(lineText.substring(pos));
+    return out;
+}
+
+function renderVisibleRows() {
+    var scrollArea = document.getElementById("scrollArea");
+    var sizer = document.getElementById("sizer");
+    var scrollTop = scrollArea.scrollTop;
+    var viewportH = scrollArea.clientHeight || 400;
+
+    var first = Math.max(0, Math.floor(scrollTop / ROW_HEIGHT) - BUFFER_ROWS);
+    var visibleCount = Math.ceil(viewportH / ROW_HEIGHT) + BUFFER_ROWS * 2;
+    var last = Math.min(lines.length - 1, first + visibleCount);
+
+    sizer.innerHTML = "";
+    var matchSet = {};
+    var i;
+    for (i = 0; i < matchLines.length; i++) { matchSet[matchLines[i]] = true; }
+
+    for (i = first; i <= last; i++) {
+        var row = document.createElement("div");
+        row.className = "row";
+        if (matchSet[i]) { row.className += " matchRow"; }
+        if (currentMatch !== -1 && matchLines[currentMatch] === i) { row.className += " currentMatchRow"; }
+        row.style.top = (i * ROW_HEIGHT) + "px";
+
+        var numSpan = document.createElement("span");
+        numSpan.className = "rowNum";
+        numSpan.textContent = (i + 1).toString();
+
+        var textSpan = document.createElement("span");
+        textSpan.className = "rowText";
+        var lineText = lines[i] || "";
+        if (currentTerm) {
+            textSpan.innerHTML = highlightSearchTerm(lineText, currentTerm);
+        } else {
+            textSpan.innerHTML = syntaxHighlight(lineText);
+        }
+
+        row.appendChild(numSpan);
+        row.appendChild(textSpan);
+        sizer.appendChild(row);
+    }
+}
+
+// ---------- search ----------
+function runSearch() {
+    var term = document.getElementById("searchInput").value;
+    currentTerm = term;
+    matchLines = [];
+    currentMatch = -1;
+
+    if (term) {
+        var termLower = term.toLowerCase();
+        for (var i = 0; i < lines.length; i++) {
+            if (lines[i].toLowerCase().indexOf(termLower) !== -1) {
+                matchLines.push(i);
+            }
+        }
+        if (matchLines.length > 0) { currentMatch = 0; }
+    }
+
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function updateMatchCount() {
+    var el = document.getElementById("matchCount");
+    if (!currentTerm) { el.innerHTML = ""; return; }
+    if (matchLines.length === 0) { el.innerHTML = "0 matches"; return; }
+    el.innerHTML = (currentMatch + 1) + " / " + matchLines.length + " lines";
+}
+
+function scrollToCurrentMatch() {
+    if (currentMatch === -1) { return; }
+    var scrollArea = document.getElementById("scrollArea");
+    var targetLine = matchLines[currentMatch];
+    var targetTop = targetLine * ROW_HEIGHT - (scrollArea.clientHeight / 2);
+    if (targetTop < 0) { targetTop = 0; }
+    scrollArea.scrollTop = targetTop;
+}
+
+function nextMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch + 1) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function prevMatch() {
+    if (matchLines.length === 0) { return; }
+    currentMatch = (currentMatch - 1 + matchLines.length) % matchLines.length;
+    updateMatchCount();
+    scrollToCurrentMatch();
+    renderVisibleRows();
+}
+
+function clearSearch() {
+    document.getElementById("searchInput").value = "";
+    currentTerm = "";
+    matchLines = [];
+    currentMatch = -1;
+    updateMatchCount();
+    renderVisibleRows();
+}
+
+// ---------- copy ----------
+function copyText(text) {
+    var temp = document.createElement("textarea");
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    try { document.execCommand("copy"); } catch (e) { /* ignore */ }
+    document.body.removeChild(temp);
+}
+
+// ---------- tree view ----------
+var TREE_ARRAY_LIMIT = 200; // cap initial render of large arrays so huge graphs don't freeze the tree
+
+function renderTree() {
+    var container = document.getElementById("treeView");
+    container.innerHTML = "";
+    if (!parsedOk) {
+        container.innerHTML = "<div style=\"color:#900;\">Tree view is unavailable because the input is not valid JSON.</div>";
+        return;
+    }
+    container.appendChild(buildTreeNode("root", parsedObj, true));
+}
+
+function typeLabel(v) {
+    if (v === null) { return "null"; }
+    if (Array.isArray(v)) { return "array(" + v.length + ")"; }
+    return typeof v;
+}
+
+function buildTreeNode(key, value, isRoot) {
+    var wrap = document.createElement("div");
+    wrap.className = "treeNode";
+
+    var isContainer = value !== null && typeof value === "object";
+
+    var line = document.createElement("div");
+    if (isContainer) {
+        var toggle = document.createElement("span");
+        toggle.className = "toggle";
+        toggle.textContent = "-";
+        var childHolder = document.createElement("div");
+
+        toggle.onclick = (function (t, holder) {
+            return function () {
+                var collapsed = holder.style.display === "none";
+                holder.style.display = collapsed ? "block" : "none";
+                t.textContent = collapsed ? "-" : "+";
+            };
+        })(toggle, childHolder);
+
+        line.appendChild(toggle);
+        var keySpan = document.createElement("span");
+        keySpan.className = "treeKey";
+        keySpan.textContent = (isRoot ? "" : key + ": ") + typeLabel(value);
+        line.appendChild(keySpan);
+        wrap.appendChild(line);
+        wrap.appendChild(childHolder);
+
+        var keys = Array.isArray(value) ? null : Object.keys(value);
+        var count = Array.isArray(value) ? value.length : keys.length;
+        var limit = Array.isArray(value) ? Math.min(count, TREE_ARRAY_LIMIT) : count;
+
+        var i;
+        if (Array.isArray(value)) {
+            for (i = 0; i < limit; i++) {
+                childHolder.appendChild(buildTreeNode("[" + i + "]", value[i], false));
+            }
+            if (count > limit) {
+                var more = document.createElement("div");
+                more.className = "treeNode moreLink";
+                more.textContent = "... " + (count - limit) + " more items (click to expand)";
+                more.onclick = (function (arr, holder, startAt) {
+                    return function () {
+                        for (var j = startAt; j < arr.length; j++) {
+                            holder.insertBefore(buildTreeNode("[" + j + "]", arr[j], false), more);
+                        }
+                        more.parentNode.removeChild(more);
+                    };
+                })(value, childHolder, limit);
+                childHolder.appendChild(more);
+            }
+        } else {
+            for (i = 0; i < keys.length; i++) {
+                childHolder.appendChild(buildTreeNode(keys[i], value[keys[i]], false));
+            }
+        }
+    } else {
+        var leafKey = document.createElement("span");
+        leafKey.className = "treeKey";
+        leafKey.textContent = key + ": ";
+        var leafVal = document.createElement("span");
+        var cls = "treeVal ";
+        if (typeof value === "string") { cls += "jstr"; }
+        else if (typeof value === "number") { cls += "jnum"; }
+        else if (typeof value === "boolean" || value === null) { cls += "jbool"; }
+        leafVal.className = cls;
+        leafVal.textContent = typeof value === "string" ? "\"" + value + "\"" : String(value);
+        line.appendChild(leafKey);
+        line.appendChild(leafVal);
+        wrap.appendChild(line);
+    }
+
+    return wrap;
+}
+
+// ---------- save as file ----------
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+function buildFilename(ext) {
+    var d = new Date();
+    var stamp = d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) +
+        "-" + pad2(d.getHours()) + pad2(d.getMinutes()) + pad2(d.getSeconds());
+    return "graph-" + stamp + "." + ext;
+}
+
+function saveTextAsFile(text, filename) {
+    var blob = new Blob([text], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+}
+
+// ---------- view toggle ----------
+function showRawView() {
+    document.getElementById("scrollArea").style.display = "block";
+    document.getElementById("treeView").style.display = "none";
+    document.getElementById("btnRawView").className = "active";
+    document.getElementById("btnTreeView").className = "";
+    renderVisibleRows();
+}
+function showTreeView() {
+    document.getElementById("scrollArea").style.display = "none";
+    document.getElementById("treeView").style.display = "block";
+    document.getElementById("btnRawView").className = "";
+    document.getElementById("btnTreeView").className = "active";
+}
+
+// ---------- wire up events (no inline handlers, so this also works if a host sets a strict CSP) ----------
+window.onload = function () {
+    document.getElementById("btnSearch").onclick = runSearch;
+    document.getElementById("btnNext").onclick = nextMatch;
+    document.getElementById("btnPrev").onclick = prevMatch;
+    document.getElementById("btnClear").onclick = clearSearch;
+    document.getElementById("btnCopyRaw").onclick = function () { copyText(originalJson); };
+    document.getElementById("btnCopyPretty").onclick = function () { copyText(prettyJson); };
+    document.getElementById("btnSaveRaw").onclick = function () { saveTextAsFile(originalJson, buildFilename("json")); };
+    document.getElementById("btnSavePretty").onclick = function () { saveTextAsFile(prettyJson, buildFilename("json")); };
+    document.getElementById("btnRawView").onclick = showRawView;
+    document.getElementById("btnTreeView").onclick = showTreeView;
+    document.getElementById("searchInput").onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode === 13) { runSearch(); }
+    };
+    document.getElementById("scrollArea").onscroll = renderVisibleRows;
+    window.onresize = function () { renderVisibleRows(); };
+
+    // The graph is in the page. If it is missing, fall back to the bundled sample.
+    var dataBlock = document.getElementById("graphData");
+    var graphText = dataBlock ? dataBlock.textContent : "";
+    var graph = null;
+    try { graph = JSON.parse(graphText); } catch (e) { graph = null; }
+    if (graph !== null) {
+        loadJson(JSON.stringify(graph));
+    } else if (graphText) {
+        loadJson(graphText);
+    } else {
+        loadJson(JSON.stringify(SAMPLE_JSON_OBJ));
+    }
+};
+</script>
+</body>
+</html>

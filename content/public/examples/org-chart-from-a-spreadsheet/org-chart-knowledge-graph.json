@@ -1,0 +1,200 @@
+{
+  "format": "RV-KGF",
+  "version": "1.1",
+  "directed": true,
+  "source_workbook": "org-chart.json",
+  "view": "All Styles",
+  "export_datetime": "2026-11-06T11:14:38",
+  "styles": {
+    "Department": {
+      "type": "node"
+    },
+    "Leader to Leader": {
+      "type": "edge"
+    },
+    "Department Below": {
+      "type": "node"
+    },
+    "Department Above": {
+      "type": "node"
+    },
+    "Associate": {
+      "type": "node"
+    },
+    "Leader to Associate": {
+      "type": "edge"
+    }
+  },
+  "nodes": [
+    {
+      "id": "EID-0589",
+      "style": "Department",
+      "label": {
+        "value": "<b>Jamison Ford</b><br/><br/>Dir. - Software Infrastructure<br/>Software Infrastructure",
+        "type": "html"
+      },
+      "tooltip": {
+        "value": "EID-0589",
+        "type": "text"
+      }
+    },
+    {
+      "id": "EID-0593",
+      "style": "Department Below",
+      "label": {
+        "value": "<b>Branden Gregory</b><br/><br/>Manager - Service Delivery<br/>Service Delivery",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0124",
+      "style": "Department Below",
+      "label": {
+        "value": "<b>Gunnar Fuentes</b><br/><br/>Manager - Middleware<br/>Middleware",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0131",
+      "style": "Department Below",
+      "label": {
+        "value": "<b>Mason Knox</b><br/><br/>Manager - Database Administration<br/>Database Administration",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0443",
+      "style": "Department Above",
+      "label": {
+        "value": "<b>Wade Greer</b><br/><br/>VP - IT Infrastructure<br/>IT Infrastructure",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0280",
+      "style": "Department Above",
+      "label": {
+        "value": "<b>Julius Frey</b><br/><br/>Sr. VP - Chief Information Officer (CIO)<br/>Information Technology",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-1028",
+      "style": "Department Above",
+      "label": {
+        "value": "<b>Laci Elliott</b><br/><br/>Exec. VP - Chief Executive Officer (CEO)<br/>Executive Leadership",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0124_team",
+      "style": "Associate",
+      "label": {
+        "value": "Cale Hayes Middleware Administrator  Giancarlo Hooper IT Sr. Systems Analyst  Jalen Grant Lead - Systems Analyst  Jeramiah Dodson Sr. Systems Integration Analyst  Jesus Evans IT Sr. Systems Analyst  Nathalie Frost IT Applications Systems Analyst  Owen Hatfield Sr. Middleware Administrator  Paige Lin Lead - Systems Analyst  Sean Glenn Sr. Systems Analyst  Veronica Church Operations Support Technician  Willow Cunningham Sr. Systems Analyst ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "EID-0124",
+        "type": "text"
+      }
+    },
+    {
+      "id": "EID-0131_team",
+      "style": "Associate",
+      "label": {
+        "value": "Brayden Huang Sr. Database Administrator  Dustin Hayden Sr. Database Administrator  Isabelle Campbell Sr. Database Administrator  Piper Hester Sr. Database Administrator  Sylvia Kane Database Admin  Tamara Durham Sr. Database Administrator  Yareli Delacruz Sr. Database Administrator ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "EID-0131",
+        "type": "text"
+      }
+    },
+    {
+      "id": "EID-0589_team",
+      "style": "Associate",
+      "label": {
+        "value": "Sydnee Haney Sr. Technical Architect ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "EID-0589",
+        "type": "text"
+      }
+    },
+    {
+      "id": "EID-0593_team",
+      "style": "Associate",
+      "label": {
+        "value": "Annabelle Chandler Help Desk Representative  Ciara Carney IT Service Desk Team Leader  Gina Aguilar IT Sr. Systems Analyst  Jax Crosby IT Sr. Systems Analyst  Julie Conrad Help Desk Representative  Miranda Franklin Help Desk Representative  Regina Galvan Systems Analyst  Zoey Cantrell Systems Analyst ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "EID-0593",
+        "type": "text"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "EID-0589->EID-0593",
+      "source": "EID-0589",
+      "target": "EID-0593",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0589->EID-0124",
+      "source": "EID-0589",
+      "target": "EID-0124",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0589->EID-0131",
+      "source": "EID-0589",
+      "target": "EID-0131",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0443->EID-0589",
+      "source": "EID-0443",
+      "target": "EID-0589",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0280->EID-0443",
+      "source": "EID-0280",
+      "target": "EID-0443",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-1028->EID-0280",
+      "source": "EID-1028",
+      "target": "EID-0280",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0589->EID-0589_team",
+      "source": "EID-0589",
+      "target": "EID-0589_team",
+      "style": "Leader to Associate"
+    },
+    {
+      "id": "EID-0593->EID-0593_team",
+      "source": "EID-0593",
+      "target": "EID-0593_team",
+      "style": "Leader to Associate"
+    },
+    {
+      "id": "EID-0124->EID-0124_team",
+      "source": "EID-0124",
+      "target": "EID-0124_team",
+      "style": "Leader to Associate"
+    },
+    {
+      "id": "EID-0131->EID-0131_team",
+      "source": "EID-0131",
+      "target": "EID-0131_team",
+      "style": "Leader to Associate"
+    }
+  ]
+}
