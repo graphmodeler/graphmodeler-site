@@ -7,6 +7,17 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+## Version 1.0.1 (November 6, 2026)
+
+**Changed**
+
+- **The Knowledge Graph follows the diagram.** The settings **Include stand-alone nodes** and **Include edges that name undefined nodes** were honored by the drawing and ignored by the Knowledge Graph,
+  so a view's Knowledge Graph could list every node in the project while its diagram drew only the connected ones. Both now use the same rule: with stand-alone nodes off, nodes that no edge touches are
+  left out, and so are clusters left empty; with the edges setting off, an edge whose end is not a defined node is left out. Both settings are on by default, so nothing changes unless you turned them off.
+  See [The Knowledge Graph tab](/docs/knowledge-graph/).
+- **Style names are matched ignoring capital letters and repeated spaces.** A SQL query that builds a style name with an extra space, such as a cluster style name that ends in a space joined to a Begin or End
+  word by the naming mask, found no style and the cluster was lost. It is found now, as it was in the Excel tool. See [Styles](/docs/styles/).
+
 ## Version 1.0.0 (November 5, 2026)
 
 The first release that is not a beta. Everything from the betas is in it.
