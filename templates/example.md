@@ -1,20 +1,29 @@
 ---
 # Copy this file to content/examples/<short-name>/index.md (a folder with an index page, like every page of the site).
-# `draft: true` keeps the example out of the finished site (no page, no list entry, no feed item, no sitemap entry) while you write it:
-# look at it with `npm run dev`. Delete the line, or set it to false, to publish it with the next push.
+# `draft: true` keeps the example out of the finished site (no page, no card in the gallery, no sitemap entry) while you work on it:
+# look at it with `npm run dev`. Set it to false to publish it with the next push.
 draft: true
-title: "The title, in the words someone would search for"
-description: "One or two sentences that say what the reader gets. It is shown in the list, in search results and when the link is shared."
-date: 2026-11-06
-# Who it is for. Any of: consultants, architects, knowledge-graph
-audience: [consultants]
+# What was drawn, in a few words. The same title is on the card and the page.
+title: "System context diagram of a notifications application"
+# One line under the title on the card.
+tagline: "Icons in the nodes, and a graph an AI can review."
+# Shown in search results and when the link is shared.
+description: "One or two sentences that say what was drawn and what comes with it."
+# The card's picture: a 960 by 600 image made from the diagram (see the README, "Thumbnails").
+thumbnail: /examples/short-name/thumbnail.webp
+# The place on the Examples page (1 is first).
+order: 5
+# Small facts under the title: the numbers, and the layout.
+facts:
+  - "24 nodes, 10 edges"
+  - "dot layout, top to bottom"
 ---
 
-# The title, in the words someone would search for
+# System context diagram of a notifications application
 
-<ExampleMeta />
+<ExampleFacts />
 
-The problem, in two or three sentences: what the reader has (a spreadsheet, a CSV export, a database) and what they want to end up with.
+State what was drawn, in two or three sentences: what the picture shows, and what it was drawn from. Say it plainly ("This is a ..."), without a story; the stories are on the blog.
 
 <!--
 The diagram, in two files in content/public/examples/<short-name>/: publish it from Graph Modeler once with SVG post-processing OFF (diagram.svg, the picture on the page)
@@ -22,21 +31,26 @@ and once with it ON (diagram-interactive.svg, which opens in a new tab with zoom
 -->
 <ExampleDiagram image="/examples/short-name/diagram.svg" interactive="/examples/short-name/diagram-interactive.svg" alt="What the diagram shows, for someone who cannot see it" />
 
-## The data
+## Key aspects
 
-What the input looks like. A small table of a few rows is enough.
+Two to four points, each naming one feature the example shows (views, tree queries, clusters, pictures in nodes, a layout engine) in a sentence, with a link to the page of the documentation that explains it (with the closing slash). Do not explain how to click through it: the downloaded project is the how-to.
 
-## How the model is built
+- **The feature.** What it does here, in one sentence. See [Styles](/docs/styles/).
 
-The steps, in the order the reader would do them, with a screenshot where it helps (put screenshots in content/public/shots/, each in a light and a dark version).
+## Knowledge Graph
 
-## Try it yourself
+One or two sentences: how many nodes and edges, how big the file is (the viewer's counts), and one thing a program can answer from it that the picture only shows (check it against the file).
 
-<!-- A zip of the project (.json) and its data files, in content/public/examples/<short-name>/. -->
+<!-- Made with: node tools/make-knowledge-viewer.mjs <knowledge-graph.json> <folder> <name>, in the app's repository. -->
+<ExampleKnowledgeViewer light="/examples/short-name/knowledge-graph-viewer-light.html" dark="/examples/short-name/knowledge-graph-viewer-dark.html" title="The Knowledge Graph of the example, in the viewer of Graph Modeler" :height="560" />
+
+See [The Knowledge Graph tab](/docs/knowledge-graph/).
+
+## Download
+
+<!-- A zip of the project (.json), its data files and the Knowledge Graph, in content/public/examples/<short-name>/. Make it with tools/make-zip.mjs (forward slashes). -->
 <ExampleDownload file="/examples/short-name/short-name.zip" size="0 KB">
-The project and its data. Unzip them into one folder and open the project in Graph Modeler.
+The project, the spreadsheet and the Knowledge Graph.
 </ExampleDownload>
 
-## Related
-
-- A link to the page of the documentation that explains the feature used, with the closing slash: [Data](/docs/data/).
+Say where the data and any pictures come from, and their licenses. If you use Graph Modeler for client work, a [commercial license](/pricing/) is needed; for learning and your own projects it is free.

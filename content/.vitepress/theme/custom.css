@@ -123,96 +123,110 @@
   height: auto;
 }
 
-/* The Examples: the list, the line under a title, a published diagram in a frame, and the box with the files to download. */
-.gm-example-filter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 1.2rem 0;
-}
-
-.gm-example-filter button {
-  padding: 4px 14px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 16px;
-  background: var(--vp-c-bg-soft);
-  color: var(--vp-c-text-1);
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.gm-example-filter button.on {
-  border-color: var(--vp-c-brand-1);
-  background: var(--vp-c-brand-soft);
-  color: var(--vp-c-brand-1);
-  font-weight: 600;
-}
-
-/* The theme styles every list in a page as bullets with an indent; the list of examples is a column of cards. */
-.vp-doc ul.gm-example-cards {
+/* The Examples page: a gallery of pictures with a title and one line. Two columns on a wide screen, one on a phone. */
+.gm-gallery {
   display: grid;
-  gap: 16px;
-  margin: 0 0 1.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin: 1.5rem 0;
   padding: 0;
   list-style: none;
 }
 
-.vp-doc ul.gm-example-cards > li {
-  margin: 0;
-}
-
-.gm-example-card {
-  padding: 16px 20px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-}
-
-.gm-example-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--vp-c-brand-1);
-  text-decoration: none;
-}
-
-.gm-example-title:hover {
-  text-decoration: underline;
-}
-
-.gm-example-description {
-  margin: 6px 0 10px;
-  color: var(--vp-c-text-2);
-}
-
-.gm-example-meta {
+.gm-gallery li {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 12px;
   margin: 0;
+}
+
+a.gm-gallery-card {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg-soft);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+a.gm-gallery-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.gm-gallery-thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  border-bottom: 1px solid var(--vp-c-divider);
+  background: #ffffff;
+}
+
+.gm-gallery-caption {
+  display: block;
+  padding: 12px 16px 14px;
+}
+
+.gm-gallery-caption strong {
+  display: block;
+  font-size: 17px;
+}
+
+.gm-gallery-caption span {
+  display: block;
+  margin-top: 2px;
   color: var(--vp-c-text-2);
   font-size: 14px;
 }
 
-.gm-example-byline {
-  margin: -8px 0 24px;
+/* The Examples page is a page of its own, wider than a page of text. */
+.gm-wide {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
 }
 
-.gm-example-tag {
-  padding: 1px 10px;
+.gm-wide h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.gm-wide-sub {
+  margin: 0 0 28px;
+  color: var(--vp-c-text-2);
+}
+
+.gm-gallery-none {
+  color: var(--vp-c-text-2);
+}
+
+@media (max-width: 720px) {
+  .gm-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The small facts under the title of an example: its numbers and its layout. */
+.vp-doc ul.gm-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.vp-doc ul.gm-facts li {
+  margin: 0;
+  padding: 2px 12px;
   border-radius: 12px;
   background: var(--vp-c-brand-soft);
   color: var(--vp-c-brand-1);
   font-size: 13px;
-  text-decoration: none;
-}
-
-a.gm-example-tag:hover {
-  text-decoration: underline;
-}
-
-.gm-example-none {
-  color: var(--vp-c-text-2);
 }
 
 /* A diagram of an example: a plain picture, on white because the diagrams are made for a light page, and the button that opens the interactive one. */

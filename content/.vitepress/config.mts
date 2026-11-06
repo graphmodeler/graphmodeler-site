@@ -1,14 +1,14 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createContentLoader, defineConfig, type HeadConfig } from 'vitepress';
+import { defineConfig, type HeadConfig } from 'vitepress';
 
 const PUBLIC = fileURLToPath(new URL('../public', import.meta.url));
 const EXAMPLES = fileURLToPath(new URL('../examples', import.meta.url));
 
 /**
  * The examples that say `draft: true` in their front matter. A draft is written and looked at with `npm run dev`, and is left out of
- * the finished site altogether (no page, no entry in the list, the feed or the sitemap), so it can be committed half done.
+ * the finished site altogether (no page, no card in the gallery, no entry in the sitemap), so it can be committed half done.
  */
 function draftExamples(): string[] {
   try {
@@ -29,8 +29,6 @@ function draftExamples(): string[] {
   }
 }
 const BUILDING = process.argv.includes('build');
-
-const xml = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** The size of a PNG, read from its header, so that a screenshot can say how big it is before it has loaded. */
 const pngSizes = new Map<string, { width: number; height: number } | undefined>();
@@ -107,7 +105,6 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' }],
     ['link', { rel: 'icon', sizes: '48x48', href: '/favicon.ico' }],
     ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' }],
-    ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'Graph Modeler: examples', href: '/feed.xml' }],
     ['meta', { name: 'theme-color', content: '#0e7490', media: '(prefers-color-scheme: light)' }],
     ['meta', { name: 'theme-color', content: '#14181c', media: '(prefers-color-scheme: dark)' }],
     // Until the launch, keep search engines away: set LAUNCHED to true when the site is ready to be found.
@@ -121,10 +118,9 @@ export default defineConfig({
     const url = `${SITE}/${pageData.relativePath.replace(/index\.md$/, '')}`;
     const title = pageData.frontmatter.title ?? pageData.title ?? 'Graph Modeler';
     const description = pageData.frontmatter.description ?? pageData.description;
-    const isExample = /^examples\/[^/]+\/index\.md$/.test(pageData.relativePath);
     const head: HeadConfig[] = [
       ['link', { rel: 'canonical', href: url }],
-      ['meta', { property: 'og:type', content: isExample ? 'article' : 'website' }],
+      ['meta', { property: 'og:type', content: 'website' }],
       ['meta', { property: 'og:site_name', content: 'Graph Modeler' }],
       ['meta', { property: 'og:title', content: title }],
       ['meta', { property: 'og:description', content: description }],
@@ -159,58 +155,13 @@ export default defineConfig({
         }),
       ]);
     }
-    // An example says who wrote it and when, so that a search engine can show it as an article.
-    if (isExample && pageData.frontmatter.date) {
-      const date = new Date(pageData.frontmatter.date).toISOString();
-      head.push([
-        'script',
-        { type: 'application/ld+json' },
-        JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'BlogPosting',
-          headline: title,
-          description,
-          datePublished: date,
-          dateModified: date,
-          mainEntityOfPage: url,
-          author: { '@type': 'Person', name: 'Jeffrey J. Long' },
-          publisher: { '@type': 'Organization', name: 'Graph Modeler', logo: { '@type': 'ImageObject', url: `${SITE}/apple-touch-icon.png` } },
-        }),
-      ]);
-    }
     return head;
   },
 
   // At the launch the site also gets a robots.txt that points to the sitemap. (While it is not launched, no file is written.)
-  // The examples also get a feed, `feed.xml`, newest first.
-  async buildEnd({ outDir }) {
-    if (LAUNCHED) writeFileSync(join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
-
-    const posts = (await createContentLoader('examples/*/index.md', { includeSrc: false, render: false, excerpt: false }).load())
-      // The loader reads the files itself, so a draft (which has no page in the finished site) is left out here too.
-      .filter((post) => post.frontmatter['date'] && !post.frontmatter['draft'])
-      .map((post) => ({ post, date: new Date(post.frontmatter['date'] as string) }))
-      .sort((a, b) => b.date.getTime() - a.date.getTime());
-    const items = posts
-      .map(({ post, date }) =>
-        [
-          '    <item>',
-          `      <title>${xml(String(post.frontmatter['title'] ?? ''))}</title>`,
-          `      <link>${SITE}${post.url}</link>`,
-          `      <guid isPermaLink="true">${SITE}${post.url}</guid>`,
-          `      <pubDate>${date.toUTCString()}</pubDate>`,
-          `      <description>${xml(String(post.frontmatter['description'] ?? ''))}</description>`,
-          '    </item>',
-        ].join('\n'),
-      )
-      .join('\n');
-    writeFileSync(
-      join(outDir, 'feed.xml'),
-      `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n  <channel>\n` +
-        `    <title>Graph Modeler: examples</title>\n    <link>${SITE}/examples/</link>\n` +
-        `    <description>Worked examples and techniques for Graph Modeler.</description>\n    <language>en-us</language>\n` +
-        `    <atom:link href="${SITE}/feed.xml" rel="self" type="application/rss+xml" />\n${items}${items ? '\n' : ''}  </channel>\n</rss>\n`,
-    );
+  buildEnd({ outDir }) {
+    if (!LAUNCHED) return;
+    writeFileSync(join(outDir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
   },
 
   themeConfig: {
