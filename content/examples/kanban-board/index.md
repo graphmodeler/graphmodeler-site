@@ -2,7 +2,7 @@
 # A DRAFT: it is left out of the finished site until this line says false (or is removed). Look at it with `npm run dev`.
 draft: false
 title: "A kanban board from a spreadsheet"
-tagline: "Post-it notes in columns, from rows of tasks."
+tagline: "Post-it Notes® in columns, from rows of tasks."
 description: "A kanban board of 49 tasks in To Do, Doing and Done columns, drawn with the osage layout from a spreadsheet, with its Knowledge Graph."
 thumbnail: /examples/kanban-board/thumbnail.webp
 order: 6
@@ -16,15 +16,13 @@ facts:
 
 <ExampleFacts />
 
-<!--
-NOTE FOR THE AUTHOR: the Knowledge Graph section describes version 1.0.1 and later. Checked in the file: 55 nodes (3 columns, the title box, the legend box, 49 tasks, one legend node), no edges;
-22 tasks To Do, 16 Doing, 11 Done; Research / Spikes is the largest kind of work with 11. The spreadsheet has 50 tasks, and one is Archive, which the query leaves out. The tasks are made-up test data.
--->
+This is a kanban board: 49 tasks in three columns, `To Do`, `Doing` and `Done`, each task styled as a Post-it Note® with its name, a short description, its importance and its ID. 
 
-This is a kanban board: 49 tasks in three columns, To Do, Doing and Done, each task a post-it note with its name, a short description, its importance and its ID. The color of a note says the kind of work (feature work, bug fix, research,
-customer request or dependency), and a legend at the bottom lists them. The tasks are made-up data in a spreadsheet, one row for each task.
+The color of a note says the kind of work (feature work, bug fix, research, customer request or dependency), and a legend at the bottom lists them. 
 
-<ExampleDiagram image="/examples/kanban-board/kanban.svg" interactive="/examples/kanban-board/kanban-interactive.svg" alt="A kanban board with the columns To Do, Doing and Done, each holding colored post-it notes with a task name, a description, an importance and an ID, and a legend of the five colors below" caption="The board is tall: the interactive version opens in a new tab, where it can be zoomed and hovered." />
+The tasks are made-up data in a spreadsheet, one row for each task.
+
+<ExampleDiagram image="/examples/kanban-board/kanban.svg" interactive="/examples/kanban-board/kanban-interactive.svg" alt="A kanban board with the columns To Do, Doing and Done, each holding colored Post-it Notes® with a task name, a description, an importance and an ID, and a legend of the five colors below" caption="The board is tall: the interactive version opens in a new tab, where it can be zoomed and hovered." />
 
 ## Key aspects
 
