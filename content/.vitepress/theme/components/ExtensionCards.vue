@@ -43,6 +43,15 @@ const cards: Card[] = [
     paths: ['M8.5 16a5.5 5.5 0 1 0 -5.5 -5.5v.5', 'M3 16h18', 'M18 13l3 3l-3 3'],
   },
   {
+    link: '/docs/sql-extensions/ranks/',
+    title: 'Align nodes on a rank',
+    text: 'Put the nodes of a query level with each other, as a team in one row or the stages of a project in line.',
+    paths: [
+      'M4 6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2l0 -12',
+      'M14 6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2l0 -6',
+    ],
+  },
+  {
     link: '/docs/sql-extensions/concatenate/',
     title: 'Concatenate values',
     text: 'Join the rows of a detail query into one value, such as a label that lists the members of a team.',

@@ -26,5 +26,5 @@ A script written for the [Excel tool](/docs/from-excel/) that uses them runs her
 
 <ExtensionCards />
 
-The [SQL tab](/docs/sql/#clusters-sequences-and-trees) page lists the others briefly: `CREATE EDGES` and `CREATE RANK`.
+The [SQL tab](/docs/sql/#clusters-sequences-and-trees) page lists the other one briefly: `CREATE EDGES`.
 The [Placeholders](/docs/placeholders/) page lists the counters, such as `{step}` and `{id}`, that these queries use.

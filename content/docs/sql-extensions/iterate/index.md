@@ -35,7 +35,7 @@ SELECT
   TRUE AS [ITERATE]
 ```
 
-The first query returns `1972`, `1976`, `1978` and the other years. The second is run for each of them, and its rows are gathered by `CREATE RANK` into one line:
+The first query returns `1972`, `1976`, `1978` and the other years. The second is run for each of them, and its rows are gathered by [`CREATE RANK`](/docs/sql-extensions/ranks/) into one line:
 
 ```
 { rank="same"; "Thompson"; }

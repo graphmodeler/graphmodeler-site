@@ -22,12 +22,12 @@ There are two ways to write it. The first has two levels and the second has as m
 | `CLUSTER TOOLTIP` | The text shown when the pointer is over the box, in an SVG. |
 | `SUBCLUSTER`, `SUBCLUSTER LABEL`, `SUBCLUSTER STYLE NAME`, `SUBCLUSTER ATTRIBUTES`, `SUBCLUSTER TOOLTIP` | The same, for a box inside the cluster. |
 
-A file `sites.csv` has the columns `Name`, `Region`, `Area` and `Building`. This puts each person in their region, and in an area inside it:
+A file `people.csv` has the columns `Name`, `Region`, `Area` and `Building`. This puts each person in their region, and in an area inside it:
 
 ```sql
 SELECT [Name] AS [Item], [Region] AS [Cluster], 'Region: ' & [Region] AS [Cluster Label],
        'Region' AS [Cluster Style Name], [Area] AS [Subcluster]
-FROM [sites]
+FROM [people]
 ```
 
 Each region becomes a box with the label `Region: North` or `Region: South`, and the style `Region`. Inside it, each area is a box with its people.
@@ -54,7 +54,7 @@ The same file, with three levels:
 
 ```sql
 SELECT [Name] AS [Item], [Region] AS [Cluster1], [Area] AS [Cluster2], [Building] AS [Cluster3]
-FROM [sites]
+FROM [people]
 ```
 
 North holds Leeds, which holds the Hall, and York, which holds the Tower. South holds Bath, which holds a Hall and a Tower.
