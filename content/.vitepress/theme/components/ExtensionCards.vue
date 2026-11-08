@@ -86,11 +86,25 @@ const cards: Card[] = [
     ],
   },
 ];
+
+// The order of the cards, and of the sidebar (see config.mts): the most used first, and a page after the one it builds on.
+const order = [
+  'clusters',
+  'split-labels',
+  'counters',
+  'chaining',
+  'tree-query',
+  'enumerate',
+  'ranks',
+  'iterate',
+  'concatenate',
+].map((name) => `/docs/sql-extensions/${name}/`);
+const sorted = [...cards].sort((a, b) => order.indexOf(a.link) - order.indexOf(b.link));
 </script>
 
 <template>
   <div class="gm-cards">
-    <a v-for="card in cards" :key="card.link" class="gm-card" :href="card.link">
+    <a v-for="card in sorted" :key="card.link" class="gm-card" :href="card.link">
       <span class="gm-card-icon">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path v-for="d in card.paths" :key="d" :d="d" />
