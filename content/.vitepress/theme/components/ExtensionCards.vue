@@ -72,7 +72,7 @@ const cards: Card[] = [
   {
     link: '/docs/sql-extensions/tree-query/',
     title: 'Walk a tree',
-    text: 'Follow a hierarchy stored as rows, such as an org chart or a route map, down from a starting row, or up from it.',
+    text: 'Follow a hierarchy stored as rows, such as an org chart or a route map, down from a starting row or up from it, with a recursive query or TREE QUERY.',
     paths: [
       'M6 20a2 2 0 1 0 -4 0a2 2 0 0 0 4 0',
       'M16 4a2 2 0 1 0 -4 0a2 2 0 0 0 4 0',

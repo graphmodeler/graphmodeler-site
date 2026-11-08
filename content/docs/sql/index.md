@@ -5,7 +5,7 @@ description: "Build the rows of your graph from SQL queries over Excel and Libre
 # The SQL tab
 
 The SQL tab builds the rows of the Data tab from queries, so a graph can come from data you already keep in a spreadsheet, a CSV file or
-a database file. Each line of the script is a command or a `SELECT`. **Run SQL** runs the lines in order and replaces the rows of the
+a database file. Each line of the script is a command or a query: a `SELECT`, or a `WITH` that leads to one. **Run SQL** runs the lines in order and replaces the rows of the
 Data tab with what they produce, as one step that **Undo** puts back.
 
 <img class="shot shot-light" src="/shots/sql-light.png" alt="The SQL tab after a run, with a mark beside each line">
@@ -72,6 +72,8 @@ SELECT [From] AS [Item], [To] AS [Related Item], [Label], [Kind] AS [Style Name]
 
 The two lines above, run against a workbook with a `Steps` sheet and a `Flows` sheet, make the graph in the screenshot: the first line
 makes the nodes and the second makes the edges. The rows come out in the order the lines are written.
+
+A query can also begin with `WITH`, which names a result so that the rest of the query can use it, or lets a result call itself to walk a hierarchy: see [Walk a tree](/docs/sql-extensions/tree-query/). Comments in front of a query, `-- ...` or `/* ... */`, are fine. A statement returns at most 100,000 rows, and a query that would return more stops with a message that says so.
 
 Queries written for the [Excel tool](/docs/from-excel/) this app grew out of mostly run unchanged. `&` joins text, double quotes can hold a string, and the Jet functions
 `Len`, `Mid`, `UCase`, `LCase`, `Nz`, `CLng`, `CInt`, `CDbl`, `CStr`, `IsNumeric`, `Left`, `Right` and `Switch` are there. Some
@@ -140,7 +142,7 @@ A mark beside the **#** shows how a line ran, and fills in as the script goes:
 - A line that is commented out, or left out by the filter, has no mark.
 
 A mark goes away when you edit its line, because nothing yet says whether the change put it right. The broom button takes every mark
-away. A line that is neither a `SELECT` nor a command fails, and its message lists the commands.
+away. A line that is neither a query nor a command fails, and its message lists the commands.
 
 ## Filters
 

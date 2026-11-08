@@ -52,12 +52,19 @@ Added to the same query, a `PREFIX` and a `SUFFIX` make the text a label for a r
 
 The label of Antarctica is now `{Antarctica|Bouvet Island|South Georgia and the South Sandwich Islands|Heard Island and McDonald Islands|French Southern Territories}`.
 
+Spaces at the ends of a prefix, a separator and a suffix are kept, so the text can be a sentence:
+
+```sql
+  'The countries in Antarctica are ' AS [PREFIX], ', ' AS [SEPARATOR], '.' AS [SUFFIX]
+```
+
+The label is now `The countries in Antarctica are Antarctica, Bouvet Island, South Georgia and the South Sandwich Islands, Heard Island and McDonald Islands, French Southern Territories.`
+
 The joined text can go in any column, not only the one it was read from. Joining the names into the `Tooltip` column, with `', '` as the separator, leaves the label alone and shows the list when the pointer is over the node.
 
 ## Things to know
 
 - **Use `DISTINCT` in the first query.** Each row of the first query makes a row, and the detail query is run for each. A first query that returns a continent five times makes five identical nodes. An ordinary `ITERATE` skips an ID it has seen, and a concatenation does not.
-- **Spaces at the ends are dropped.** The `PREFIX`, `SEPARATOR` and `SUFFIX` are trimmed, so `', '` joins with a comma alone and `'Countries: '` has no space after its colon. Use a break such as `\n`, or `<br/>` in an HTML-like label, or a character that is not a space.
 - **Empty values are left out.** A row of the detail query with nothing in `FIELD` adds nothing, and no separator.
 - **A header with no detail rows** gets the prefix and suffix and nothing between them.
 - **The row keeps its other columns.** Whatever the first query returns, such as `Item`, `Style Name` and `External Label`, is kept, and `ASSIGN TO` adds or replaces one column of it.

@@ -17,7 +17,7 @@ Where this site says "the Excel tool", that is what it means.
   cluster.
 - **Views.** A view is a named set of the styles that are in use, as before.
 - **SQL.** A script of `SELECT` statements and commands builds the rows. The commands, the columns that a query can return and the
-  advanced ones such as `ENUMERATE`, `ITERATE` and `TREE QUERY` (see [SQL extensions](/docs/sql-extensions/)) are carried over, so scripts written for the Excel tool mostly run unchanged.
+  advanced ones such as `ENUMERATE`, `ITERATE` and `TREE QUERY` (see [SQL extensions](/docs/sql-extensions/)) are carried over, so scripts written for the Excel tool mostly run unchanged. The SQL can also use `WITH RECURSIVE`, which the Excel tool's SQL could not, to walk a tree: see [Walk a tree](/docs/sql-extensions/tree-query/).
   See [the SQL tab](/docs/sql/).
 - **The Knowledge Graph.** It is the same format, [RV-KGF](https://github.com/jjlong150/rv-kgf), and the two tools write the same file for the
   same data, so the files can be compared.

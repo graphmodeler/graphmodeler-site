@@ -7,6 +7,22 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+<!--
+THE NEXT VERSION, NOT RELEASED. At the release: set the number and the date, take away this comment and its closing line, and say in Walk a tree and on the SQL page which version first runs a WITH.
+
+## Version 1.0.x (November ?, 2026)
+
+**New**
+
+- **A query can begin with `WITH`.** SQL can name a result and use it in the next part of the query, and a recursive `WITH RECURSIVE` walks a tree: down from a starting row, up from it, to a depth or until the data runs out. It gives the edges that `TREE QUERY` gives, and `TREE QUERY` stays for scripts from the Excel tool. Comments in front of a query are fine. See [Walk a tree](/docs/sql-extensions/tree-query/).
+- **A query returns at most 100,000 rows.** A recursive query that never ends is stopped, and its line says why, instead of leaving the app stuck.
+
+**Changed**
+
+- **Concatenation keeps the spaces at the ends of `PREFIX`, `SEPARATOR` and `SUFFIX`**, so `', '` and `'The countries are '` work, and a joined label can read as a sentence. See [Concatenate values](/docs/sql-extensions/concatenate/).
+- **The closing row of a numbered cluster is named for the cluster it closes.** It could carry the style name of another cluster, so a view that switched one cluster's Begin and End styles off could leave the braces unmatched and break the diagram. A row with no cluster at a middle level of `Cluster1`, `Cluster2` and on now sits in the cluster above, and two clusters at a deeper level are side by side and not nested. See [Group rows into clusters](/docs/sql-extensions/clusters/).
+-->
+
 ## Version 1.0.1 (November 6, 2026)
 
 **Changed**
