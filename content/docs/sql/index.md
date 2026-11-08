@@ -59,7 +59,8 @@ some columns from one file and some from another.
 ## Writing a query
 
 Name the columns of the result after the columns of the Data tab, in any case and with or without spaces: `Item`, `Label`,
-`External Label`, `Tail Label`, `Head Label`, `Tooltip`, `Related Item`, `Style Name` and `Attributes`. Other columns are ignored.
+`External Label`, `Tail Label`, `Head Label`, `Tooltip`, `Related Item`, `Style Name`, `Attributes` and `Properties`. A column with any other name is ignored, unless it is one of
+the special columns under [Extensions](#extensions).
 
 ```sql
 SELECT [Step] AS [Item], [Kind] AS [Style Name] FROM [Steps$]
@@ -76,6 +77,23 @@ Queries written for the [Excel tool](/docs/from-excel/) this app grew out of mos
 `Len`, `Mid`, `UCase`, `LCase`, `Nz`, `CLng`, `CInt`, `CDbl`, `CStr`, `IsNumeric`, `Left`, `Right` and `Switch` are there. Some
 things Jet does and SQLite does not are not, such as `Format` and `DateDiff`, and the message of the line says so.
 
+## Extensions
+
+A `SELECT` can do more than fill the columns of the Data tab. Columns with special names, the **extensions**, make a query put its rows in clusters, wrap its labels, count through a range, run a second query for each value of a first, or walk down a hierarchy.
+They come from the [Excel tool](/docs/from-excel/), and a script that uses them runs here. [SQL extensions](/docs/sql-extensions/) has a page for each, with its columns and examples.
+
+| To do this | Use |
+| --- | --- |
+| Put rows in boxes inside boxes | [Group rows into clusters](/docs/sql-extensions/clusters/) |
+| Wrap a long label | [Split long labels](/docs/sql-extensions/split-labels/) |
+| Keep an order, or give each cluster a style | [Number rows and clusters](/docs/sql-extensions/counters/) |
+| Chain an ordered list | [Chain nodes with edges](/docs/sql-extensions/chaining/) |
+| Draw an org chart or a route map | [Walk a tree](/docs/sql-extensions/tree-query/) |
+| Make a node for every year of a timeline | [Enumerate values](/docs/sql-extensions/enumerate/) |
+| Put nodes level with each other | [Align nodes on a rank](/docs/sql-extensions/ranks/) |
+| Draw a group of rows for each year, team or customer | [Iterate query results](/docs/sql-extensions/iterate/) |
+| Join many rows into one label | [Concatenate values](/docs/sql-extensions/concatenate/) |
+
 ## Writing a long statement
 
 The grid shows each statement on one line, and cuts it short. The pencil in the **SQL Statement** cell, or a double click on the cell, opens a box with the whole statement, where it can run over several lines. **Save** keeps it and
@@ -85,6 +103,8 @@ The grid shows each statement on one line, and cuts it short. The pencil in the 
 <img class="shot shot-dark" src="/shots/sql-edit-dark.png" alt="The box for editing a statement, with a query written over several lines in the dark theme">
 
 ## Commands
+
+A **command** is a whole line of the script, such as `RESET` or `PUBLISH`. The special columns a `SELECT` can return are [extensions](#extensions).
 
 | Line | What it does |
 | --- | --- |
@@ -127,20 +147,3 @@ away. A line that is neither a `SELECT` nor a command fails, and its message lis
 Each line can carry a tag in a **filter column**, and a script can have several filter columns. Choose a filter column and a tag
 on the toolbar, and only the lines with that tag run. The others are skipped. A project can have a column for each task it does,
 such as "weekly" and "audit", and one script holds them all.
-
-## Clusters, sequences and trees
-
-Some result columns do more than fill a cell.
-
-- **Clusters.** `Cluster` and `Subcluster` columns put rows into nested clusters, with `Cluster Label`, `Cluster Style Name`,
-  `Cluster Attributes` and `Cluster Tooltip` to describe them. `Cluster1`, `Cluster2` and so on go deeper. `{clc}` and `{scc}`
-  stand for the cluster and subcluster number, and `{rsc}` for a row's position in the results. [Placeholders](/docs/placeholders/) lists them all.
-- **`ENUMERATE`** repeats a row for every number in a range (`START AT`, `STOP AT`, `STEP BY`), with `{step}` in any value.
-  **`CREATE EDGES`** links consecutive rows into a chain. **`CREATE RANK`** collects the items of a query into one line that tells
-  Graphviz to align them.
-- **`ITERATE`** runs one query for each ID that another query returns, for header and detail data. **`CONCATENATE`** joins many
-  detail rows into one value.
-- **`TREE QUERY`** follows a hierarchy stored as rows, such as an org chart or a route map, down from a starting row.
-
-These come from the [Excel tool](/docs/from-excel/), and a script that uses them runs here. [SQL extensions](/docs/sql-extensions/) has a page for each, with its columns and examples: so far
-[Group rows into clusters](/docs/sql-extensions/clusters/), [Split long labels](/docs/sql-extensions/split-labels/), [Enumerate values](/docs/sql-extensions/enumerate/), [Iterate query results](/docs/sql-extensions/iterate/), [Chain nodes with edges](/docs/sql-extensions/chaining/), [Align nodes on a rank](/docs/sql-extensions/ranks/), [Concatenate values](/docs/sql-extensions/concatenate/), [Number rows and clusters](/docs/sql-extensions/counters/) and [Walk a tree](/docs/sql-extensions/tree-query/).
