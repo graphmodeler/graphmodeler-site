@@ -10,6 +10,12 @@ interface Card {
 
 const cards: Card[] = [
   {
+    link: '/docs/sql-extensions/clusters/',
+    title: 'Group rows into clusters',
+    text: 'Put rows into boxes inside boxes, with two levels or with as many as the data has.',
+    paths: ['M8 8h8v8h-8l0 -8', 'M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12'],
+  },
+  {
     link: '/docs/sql-extensions/enumerate/',
     title: 'Enumerate values',
     text: 'Make a row for every number in a range, to fill the gaps in a sequence of years or to build a timeline.',

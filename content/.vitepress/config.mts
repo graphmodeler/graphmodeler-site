@@ -213,6 +213,7 @@ export default defineConfig({
               link: '/docs/sql-extensions/',
               collapsed: false,
               items: [
+                { text: 'Group rows into clusters', link: '/docs/sql-extensions/clusters/' },
                 { text: 'Enumerate values', link: '/docs/sql-extensions/enumerate/' },
                 { text: 'Iterate query results', link: '/docs/sql-extensions/iterate/' },
                 { text: 'Walk a tree', link: '/docs/sql-extensions/tree-query/' },

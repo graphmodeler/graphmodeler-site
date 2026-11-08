@@ -28,7 +28,7 @@ genres come and go. The data was compiled by hand from publicly available inform
 
 ## Key aspects
 
-- **Clusters inside clusters.** The query gives every band a cluster for its decade and a subcluster for its genre, and the boxes are made from them. See [Clusters, sequences and trees](/docs/sql/#clusters-sequences-and-trees).
+- **Clusters inside clusters.** The query gives every band a cluster for its decade and a subcluster for its genre, and the boxes are made from them. See [Group rows into clusters](/docs/sql-extensions/clusters/).
 - **The osage layout.** The `osage` engine packs the contents of each box into rows and columns, and a pack mode on each kind of box sets how: the decades in one column, and up to six genres across inside a decade. See [Units and packing](/docs/units-and-packing/#the-osage-layout-and-clusters).
 - **Sorting.** The boxes and the bands in them are ordered by a number the query writes in an attribute, so the decades run from the oldest down and the genres follow in alphabetical order. See [Placeholders](/docs/placeholders/).
 - **Details in tooltips.** Each band's tooltip holds its genre, origin, years active and description, and each genre box's tooltip holds the definition of the genre, both from other sheets joined by the query.

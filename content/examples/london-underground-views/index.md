@@ -46,7 +46,7 @@ This is a model of the **London Underground** subway network: its stations, the 
 
   *The Styles tab: each style is a row and each view is a column. The ticks form a diagonal, because each line's view uses that line.*
 - **A title for every view.** The `{view}` placeholder puts the name of the view being drawn on each diagram. See [Placeholders](/docs/placeholders/#the-view-and-the-project).
-- **Clusters.** The stations are grouped by district and by postcode area, in boxes inside boxes. See [Clusters, sequences and trees](/docs/sql/#clusters-sequences-and-trees).
+- **Clusters.** The stations are grouped by district and by postcode area, in boxes inside boxes. See [Group rows into clusters](/docs/sql-extensions/clusters/).
 - **Short queries.** Three short SQL queries make the model from the spreadsheet: one for the connections, one for the stations and one for the title. See [The SQL tab](/docs/sql/).
 - **Tooltips.** Including informative tooltips makes graphs easier to explore. 
   | ![](./tooltip.png) |
