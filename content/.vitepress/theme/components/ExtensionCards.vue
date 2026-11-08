@@ -64,6 +64,12 @@ const cards: Card[] = [
     paths: ['M12 4l-8 4l8 4l8 -4l-8 -4', 'M4 12l8 4l8 -4', 'M4 16l8 4l8 -4'],
   },
   {
+    link: '/docs/sql-extensions/counters/',
+    title: 'Number rows and clusters',
+    text: 'Write the number of a row or a cluster into a value, to keep an order or to give each cluster a style of its own.',
+    paths: ['M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3', 'M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3', 'M11 11l1 -1v4'],
+  },
+  {
     link: '/docs/sql-extensions/tree-query/',
     title: 'Walk a tree',
     text: 'Follow a hierarchy stored as rows, such as an org chart or a route map, down from a starting row, or up from it.',

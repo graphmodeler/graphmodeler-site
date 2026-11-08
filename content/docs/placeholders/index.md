@@ -108,6 +108,8 @@ FROM [shells$]
 
 One node for each year, from the earliest in the sheet to the latest. [Enumerate values](/docs/sql-extensions/enumerate/) says more about it, and [Iterate query results](/docs/sql-extensions/iterate/) about `ITERATE`.
 
+[Number rows and clusters](/docs/sql-extensions/counters/) shows them at work, keeping an order and giving each cluster a style.
+
 ### The Excel tool's spelling
 
 The Excel tool wrote the three counters between percent signs: `%clc%`, `%scc%` and `%rsc%`. Graph Modeler writes them in braces like all

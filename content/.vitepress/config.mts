@@ -220,6 +220,7 @@ export default defineConfig({
                 { text: 'Chain nodes with edges', link: '/docs/sql-extensions/chaining/' },
                 { text: 'Align nodes on a rank', link: '/docs/sql-extensions/ranks/' },
                 { text: 'Concatenate values', link: '/docs/sql-extensions/concatenate/' },
+                { text: 'Number rows and clusters', link: '/docs/sql-extensions/counters/' },
                 { text: 'Walk a tree', link: '/docs/sql-extensions/tree-query/' },
               ],
             },
