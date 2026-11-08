@@ -43,6 +43,12 @@ const cards: Card[] = [
     paths: ['M8.5 16a5.5 5.5 0 1 0 -5.5 -5.5v.5', 'M3 16h18', 'M18 13l3 3l-3 3'],
   },
   {
+    link: '/docs/sql-extensions/concatenate/',
+    title: 'Concatenate values',
+    text: 'Join the rows of a detail query into one value, such as a label that lists the members of a team.',
+    paths: ['M12 4l-8 4l8 4l8 -4l-8 -4', 'M4 12l8 4l8 -4', 'M4 16l8 4l8 -4'],
+  },
+  {
     link: '/docs/sql-extensions/tree-query/',
     title: 'Walk a tree',
     text: 'Follow a hierarchy stored as rows, such as an org chart or a route map, down from a starting row, or up from it.',

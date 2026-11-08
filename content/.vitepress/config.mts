@@ -217,6 +217,7 @@ export default defineConfig({
                 { text: 'Split long labels', link: '/docs/sql-extensions/split-labels/' },
                 { text: 'Enumerate values', link: '/docs/sql-extensions/enumerate/' },
                 { text: 'Iterate query results', link: '/docs/sql-extensions/iterate/' },
+                { text: 'Concatenate values', link: '/docs/sql-extensions/concatenate/' },
                 { text: 'Walk a tree', link: '/docs/sql-extensions/tree-query/' },
               ],
             },

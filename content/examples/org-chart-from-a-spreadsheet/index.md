@@ -29,7 +29,7 @@ spreadsheet could be the center. The people in the file are made up.
 
 - **Tree queries.** A tree query starts from one employee and follows the supervisor column, to a depth that is set: one query goes down the reporting lines and one goes up. See [Walk a tree](/docs/sql-extensions/tree-query/).
 - **Placeholders choose whose chart it is.** The employee, and how many levels to go up and down, are three values at the top of the SQL tab. Change them and run the SQL again, and the chart is another person's. See [Placeholders](/docs/placeholders/).
-- **A team is one node.** Each manager's team is a single box whose label lists the people, which is how the diagram draws it. In the Knowledge Graph it is one node with a long label, so a program asking who reports to a manager finds one text and not a node for each person.
+- **A team is one node.** Each manager's team is a single box whose label lists the people, which is how the diagram draws it. See [Concatenate values](/docs/sql-extensions/concatenate/). In the Knowledge Graph it is one node with a long label, so a program asking who reports to a manager finds one text and not a node for each person.
 
 ```sql
 SELECT

@@ -51,7 +51,7 @@ A plain query would put every shell in one line, because `CREATE RANK` gathers t
 - **The counters carry on.** `{rsc}`, the row's place in the results, goes on counting from one run to the next, so `sortv={rsc}` in a value orders the rows of the whole script and not of each run.
 - **Each run is a query of its own.** The columns of `SQL FOR DATA` are the usual ones, so its rows can have labels, styles and attributes.
 - **A mistake shows.** If one of the queries fails, the line fails, and its message says why.
-- **The same columns, with `CONCATENATE`,** join the rows of each run into one value instead of making rows. The [SQL tab](/docs/sql/#clusters-sequences-and-trees) page says a line about it.
+- **The same columns, with `CONCATENATE`,** join the rows of each run into one value instead of making rows. See [Concatenate values](/docs/sql-extensions/concatenate/).
 
 ## Where to see it
 
