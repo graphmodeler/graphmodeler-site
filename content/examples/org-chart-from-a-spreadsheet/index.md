@@ -2,8 +2,8 @@
 # A DRAFT: it is left out of the finished site until this line says false (or is removed). Look at it with `npm run dev`.
 draft: false
 title: "Org chart from a spreadsheet"
-tagline: "Tree queries walk the reporting line."
-description: "An organization chart centered on one employee, drawn from a spreadsheet of employees and their supervisors with tree queries, with its Knowledge Graph."
+tagline: "A recursive query walks the reporting line."
+description: "An organization chart centered on one employee, drawn from a spreadsheet of employees and their supervisors with recursive WITH queries, with its Knowledge Graph."
 thumbnail: /examples/org-chart-from-a-spreadsheet/thumbnail.webp
 order: 5
 facts:
@@ -27,21 +27,23 @@ spreadsheet could be the center. The people in the file are made up.
 
 ## Key aspects
 
-- **Tree queries.** A tree query starts from one employee and follows the supervisor column, to a depth that is set: one query goes down the reporting lines and one goes up. See [Walk a tree](/docs/sql-extensions/tree-query/).
+- **Recursive queries.** A `WITH RECURSIVE` query starts from one employee and follows the supervisor column, to a depth that is set: one query goes down the reporting lines and one goes up, and each makes the edges and the nodes in one statement. The Excel tool had to use `TREE QUERY` for the same walk, which still works here. See [Walk a tree](/docs/sql-extensions/tree-query/).
 - **Placeholders choose whose chart it is.** The employee, and how many levels to go up and down, are three values at the top of the SQL tab. Change them and run the SQL again, and the chart is another person's. See [Placeholders](/docs/placeholders/).
 - **A team is one node.** Each manager's team is a single box whose label lists the people, which is how the diagram draws it. See [Concatenate values](/docs/sql-extensions/concatenate/). In the Knowledge Graph it is one node with a long label, so a program asking who reports to a manager finds one text and not a node for each person.
 
 ```sql
-SELECT
-  'SELECT [Employee ID], [Supervisor ID] AS [ITEM], [Employee ID] AS [RELATED ITEM], ''Leader to Leader'' AS [Style Name]
-   FROM [employees$]
-   WHERE [Is People Leader] = TRUE AND [Supervisor ID] = ''{WHERE VALUE}'' AND {max_down} > 0' AS [TREE QUERY],
-  '{id_number}'  AS [WHERE VALUE],
-  'Employee ID'  AS [WHERE COLUMN],
-  {max_down}     AS [MAX DEPTH]
+WITH RECURSIVE below(id, boss, depth) AS (
+  SELECT [Employee ID], [Supervisor ID], 1 FROM [employees$]
+  WHERE [Is People Leader] = TRUE AND [Supervisor ID] = '{id_number}' AND {max_down} > 0
+  UNION ALL
+  SELECT e.[Employee ID], e.[Supervisor ID], b.depth + 1
+  FROM [employees$] e JOIN below b ON e.[Supervisor ID] = b.id
+  WHERE e.[Is People Leader] = TRUE AND b.depth < {max_down}
+)
+SELECT boss AS [Item], id AS [Related Item], 'Leader to Leader' AS [Style Name] FROM below
 ```
 
-*The tree query that goes down from the chosen employee.*
+*The recursive query that goes down from the chosen employee, shortened to its edges. The one in the download also makes the nodes of the leaders below and the links to their teams.*
 
 ## Knowledge Graph
 
@@ -57,5 +59,8 @@ See [The Knowledge Graph tab](/docs/knowledge-graph/).
 <ExampleDownload file="/examples/org-chart-from-a-spreadsheet/org-chart-example.zip" size="103 KB">
 The project, the spreadsheet and the Knowledge Graph.
 </ExampleDownload>
+
+<!-- AT THE RELEASE: name the version below, in this page and in the README inside org-chart-example.zip (remake the zip), in place of "newer than 1.0.1". -->
+The project uses `WITH RECURSIVE`, which needs a version of Graph Modeler newer than 1.0.1.
 
 If you use Graph Modeler for client work, a [commercial license](/pricing/) is needed; for learning and your own projects it is free.

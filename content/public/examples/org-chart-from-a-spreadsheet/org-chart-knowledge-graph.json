@@ -4,7 +4,7 @@
   "directed": true,
   "source_workbook": "org-chart.json",
   "view": "All Styles",
-  "export_datetime": "2026-11-06T11:14:38",
+  "export_datetime": "2026-11-08T12:30:39",
   "styles": {
     "Department": {
       "type": "node"
@@ -15,14 +15,14 @@
     "Department Below": {
       "type": "node"
     },
+    "Leader to Associate": {
+      "type": "edge"
+    },
     "Department Above": {
       "type": "node"
     },
     "Associate": {
       "type": "node"
-    },
-    "Leader to Associate": {
-      "type": "edge"
     }
   },
   "nodes": [
@@ -63,27 +63,15 @@
       }
     },
     {
-      "id": "EID-0443",
-      "style": "Department Above",
+      "id": "EID-0593_team",
+      "style": "Associate",
       "label": {
-        "value": "<b>Wade Greer</b><br/><br/>VP - IT Infrastructure<br/>IT Infrastructure",
-        "type": "html"
-      }
-    },
-    {
-      "id": "EID-0280",
-      "style": "Department Above",
-      "label": {
-        "value": "<b>Julius Frey</b><br/><br/>Sr. VP - Chief Information Officer (CIO)<br/>Information Technology",
-        "type": "html"
-      }
-    },
-    {
-      "id": "EID-1028",
-      "style": "Department Above",
-      "label": {
-        "value": "<b>Laci Elliott</b><br/><br/>Exec. VP - Chief Executive Officer (CEO)<br/>Executive Leadership",
-        "type": "html"
+        "value": "Annabelle Chandler Help Desk Representative  Ciara Carney IT Service Desk Team Leader  Gina Aguilar IT Sr. Systems Analyst  Jax Crosby IT Sr. Systems Analyst  Julie Conrad Help Desk Representative  Miranda Franklin Help Desk Representative  Regina Galvan Systems Analyst  Zoey Cantrell Systems Analyst ",
+        "type": "text"
+      },
+      "tooltip": {
+        "value": "EID-0593",
+        "type": "text"
       }
     },
     {
@@ -123,15 +111,27 @@
       }
     },
     {
-      "id": "EID-0593_team",
-      "style": "Associate",
+      "id": "EID-0443",
+      "style": "Department Above",
       "label": {
-        "value": "Annabelle Chandler Help Desk Representative  Ciara Carney IT Service Desk Team Leader  Gina Aguilar IT Sr. Systems Analyst  Jax Crosby IT Sr. Systems Analyst  Julie Conrad Help Desk Representative  Miranda Franklin Help Desk Representative  Regina Galvan Systems Analyst  Zoey Cantrell Systems Analyst ",
-        "type": "text"
-      },
-      "tooltip": {
-        "value": "EID-0593",
-        "type": "text"
+        "value": "<b>Wade Greer</b><br/><br/>VP - IT Infrastructure<br/>IT Infrastructure",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-0280",
+      "style": "Department Above",
+      "label": {
+        "value": "<b>Julius Frey</b><br/><br/>Sr. VP - Chief Information Officer (CIO)<br/>Information Technology",
+        "type": "html"
+      }
+    },
+    {
+      "id": "EID-1028",
+      "style": "Department Above",
+      "label": {
+        "value": "<b>Laci Elliott</b><br/><br/>Exec. VP - Chief Executive Officer (CEO)<br/>Executive Leadership",
+        "type": "html"
       }
     }
   ],
@@ -155,30 +155,6 @@
       "style": "Leader to Leader"
     },
     {
-      "id": "EID-0443->EID-0589",
-      "source": "EID-0443",
-      "target": "EID-0589",
-      "style": "Leader to Leader"
-    },
-    {
-      "id": "EID-0280->EID-0443",
-      "source": "EID-0280",
-      "target": "EID-0443",
-      "style": "Leader to Leader"
-    },
-    {
-      "id": "EID-1028->EID-0280",
-      "source": "EID-1028",
-      "target": "EID-0280",
-      "style": "Leader to Leader"
-    },
-    {
-      "id": "EID-0589->EID-0589_team",
-      "source": "EID-0589",
-      "target": "EID-0589_team",
-      "style": "Leader to Associate"
-    },
-    {
       "id": "EID-0593->EID-0593_team",
       "source": "EID-0593",
       "target": "EID-0593_team",
@@ -195,6 +171,30 @@
       "source": "EID-0131",
       "target": "EID-0131_team",
       "style": "Leader to Associate"
+    },
+    {
+      "id": "EID-0589->EID-0589_team",
+      "source": "EID-0589",
+      "target": "EID-0589_team",
+      "style": "Leader to Associate"
+    },
+    {
+      "id": "EID-0443->EID-0589",
+      "source": "EID-0443",
+      "target": "EID-0589",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-0280->EID-0443",
+      "source": "EID-0280",
+      "target": "EID-0443",
+      "style": "Leader to Leader"
+    },
+    {
+      "id": "EID-1028->EID-0280",
+      "source": "EID-1028",
+      "target": "EID-0280",
+      "style": "Leader to Leader"
     }
   ]
 }
