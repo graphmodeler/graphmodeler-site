@@ -28,10 +28,10 @@ A row of years runs along the bottom. The data is made up, in two sheets of a sp
 
 ## Key aspects
 
-- **A node for every year.** The `ENUMERATE` command counts from the first year to the last, so a year with no event still gets a node and the row of years has no gaps. See [Clusters, sequences and trees](/docs/sql/#clusters-sequences-and-trees).
+- **A node for every year.** The `ENUMERATE` command counts from the first year to the last, so a year with no event still gets a node and the row of years has no gaps. See [Enumerate values](/docs/sql-extensions/enumerate/).
 - **Events as edges.** An event with a start and an end is an edge between its two quarters, and an event that starts and ends in the same quarter is an edge back to itself. A status picks the color of the edge. See [Styles](/docs/styles/).
 - **Dependencies from another sheet.** A query joins the dependencies to the events and draws them as dashed edges.
-- **One rank for each year.** `ITERATE` makes a group for each year, and `CREATE RANK` puts the events of a year in line, so they stand at the same distance along the timeline. See [The SQL tab](/docs/sql/).
+- **One rank for each year.** `ITERATE` makes a group for each year, and `CREATE RANK` puts the events of a year in line, so they stand at the same distance along the timeline. See [Iterate query results](/docs/sql-extensions/iterate/).
 - **A title from the data.** The title is built from the first and last years, in a style that places it at the top. See [Placeholders](/docs/placeholders/).
 
 ## Knowledge Graph

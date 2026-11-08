@@ -330,3 +330,51 @@ a.gm-gallery-card:hover {
 .dark .vp-doc a.gm-download-button {
   color: #06232b;
 }
+
+/* The cards of a topic with a page for each part (the SQL extensions): an icon, a title and a line, two across on a wide screen. */
+.gm-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 1.25rem 0 1.75rem;
+}
+
+a.gm-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+a.gm-card:hover {
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-bg-alt);
+}
+
+.gm-card-icon {
+  display: flex;
+  flex: none;
+  margin-top: 2px;
+  color: var(--vp-c-brand-1);
+}
+
+.gm-card-text strong {
+  display: block;
+  font-size: 16px;
+}
+
+.gm-card-text span {
+  display: block;
+  margin-top: 2px;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  line-height: 1.5;
+}

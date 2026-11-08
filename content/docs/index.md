@@ -45,6 +45,7 @@ The tabs are in the order they are in the app.
 ## Topics
 
 - [Placeholders](/docs/placeholders/): the words in braces, such as `{label}` and `{rsc}`, that are replaced in labels and in SQL, and how to make your own.
+- [SQL extensions](/docs/sql-extensions/): the columns that make a query count through a range, run a second query for each value of a first, or walk down a tree.
 - [Publishing](/docs/publishing/): how a file name is built from the prefix, the template, the counter and the style, and what Publish will not write over.
 - [Units and packing](/docs/units-and-packing/): inches or millimeters for the lengths you type, and how the separate parts of a graph are packed together.
 - [Fonts](/docs/fonts/): how the app finds the fonts on your computer, what to do after installing one, and what happens to it in a shared picture.

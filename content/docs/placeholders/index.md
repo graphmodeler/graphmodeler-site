@@ -106,7 +106,7 @@ SELECT TRUE AS [ENUMERATE], MIN(CLng([Year])) AS [START AT], MAX(CLng([Year])) A
 FROM [shells$]
 ```
 
-One node for each year, from the earliest in the sheet to the latest. The [SQL tab](/docs/sql/#clusters-sequences-and-trees) says more about `ENUMERATE` and `ITERATE`.
+One node for each year, from the earliest in the sheet to the latest. [Enumerate values](/docs/sql-extensions/enumerate/) says more about it, and [Iterate query results](/docs/sql-extensions/iterate/) about `ITERATE`.
 
 ### The Excel tool's spelling
 

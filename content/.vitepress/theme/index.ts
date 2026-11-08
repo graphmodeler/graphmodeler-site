@@ -6,6 +6,7 @@ import ExampleDiagram from './components/ExampleDiagram.vue';
 import ExampleFacts from './components/ExampleFacts.vue';
 import ExampleGallery from './components/ExampleGallery.vue';
 import ExampleKnowledgeViewer from './components/ExampleKnowledgeViewer.vue';
+import ExtensionCards from './components/ExtensionCards.vue';
 import './custom.css';
 
 const theme: Theme = {
@@ -18,6 +19,7 @@ const theme: Theme = {
     app.component('ExampleFacts', ExampleFacts);
     app.component('ExampleGallery', ExampleGallery);
     app.component('ExampleKnowledgeViewer', ExampleKnowledgeViewer);
+    app.component('ExtensionCards', ExtensionCards);
   },
 };
 

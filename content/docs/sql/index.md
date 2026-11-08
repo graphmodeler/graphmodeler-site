@@ -142,4 +142,5 @@ Some result columns do more than fill a cell.
   detail rows into one value.
 - **`TREE QUERY`** follows a hierarchy stored as rows, such as an org chart or a route map, down from a starting row.
 
-These come from the [Excel tool](/docs/from-excel/), and a script that uses them runs here.
+These come from the [Excel tool](/docs/from-excel/), and a script that uses them runs here. [SQL extensions](/docs/sql-extensions/) has a page for each, with its columns and examples: so far
+[Enumerate values](/docs/sql-extensions/enumerate/), [Iterate query results](/docs/sql-extensions/iterate/) and [Walk a tree](/docs/sql-extensions/tree-query/).

@@ -208,6 +208,16 @@ export default defineConfig({
           text: 'Topics',
           items: [
             { text: 'Placeholders', link: '/docs/placeholders/' },
+            {
+              text: 'SQL extensions',
+              link: '/docs/sql-extensions/',
+              collapsed: false,
+              items: [
+                { text: 'Enumerate values', link: '/docs/sql-extensions/enumerate/' },
+                { text: 'Iterate query results', link: '/docs/sql-extensions/iterate/' },
+                { text: 'Walk a tree', link: '/docs/sql-extensions/tree-query/' },
+              ],
+            },
             { text: 'Publishing', link: '/docs/publishing/' },
             { text: 'Units and packing', link: '/docs/units-and-packing/' },
             { text: 'Fonts', link: '/docs/fonts/' },
