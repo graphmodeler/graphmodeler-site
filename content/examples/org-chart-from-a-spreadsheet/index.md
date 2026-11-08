@@ -60,7 +60,6 @@ See [The Knowledge Graph tab](/docs/knowledge-graph/).
 The project, the spreadsheet and the Knowledge Graph.
 </ExampleDownload>
 
-<!-- AT THE RELEASE: name the version below, in this page and in the README inside org-chart-example.zip (remake the zip), in place of "newer than 1.0.1". -->
-The project uses `WITH RECURSIVE`, which needs a version of Graph Modeler newer than 1.0.1.
+The project uses `WITH RECURSIVE`, which needs Graph Modeler 1.1.0 or later.
 
 If you use Graph Modeler for client work, a [commercial license](/pricing/) is needed; for learning and your own projects it is free.

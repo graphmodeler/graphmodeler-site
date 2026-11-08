@@ -52,7 +52,7 @@ Added to the same query, a `PREFIX` and a `SUFFIX` make the text a label for a r
 
 The label of Antarctica is now `{Antarctica|Bouvet Island|South Georgia and the South Sandwich Islands|Heard Island and McDonald Islands|French Southern Territories}`.
 
-Spaces at the ends of a prefix, a separator and a suffix are kept, so the text can be a sentence:
+Spaces at the ends of a prefix, a separator and a suffix are kept, so the text can be a sentence. (Before version 1.1.0 they were dropped.)
 
 ```sql
   'The countries in Antarctica are ' AS [PREFIX], ', ' AS [SEPARATOR], '.' AS [SUFFIX]

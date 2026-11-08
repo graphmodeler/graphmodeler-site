@@ -12,7 +12,7 @@ A hierarchy is often stored as plain rows: each employee names a supervisor, eac
 - **`TREE QUERY`** is an extension from the [Excel tool](/docs/from-excel/), made at a time when its SQL had no recursion. It is kept so that those scripts run unchanged, and it
   needs no knowledge of recursion.
 
-<!-- AT THE RELEASE: say here which version first runs a WITH, for readers who have an older one. -->
+A `WITH` query runs in Graph Modeler 1.1.0 and later. In 1.0.1 and earlier a line of the script must begin with `SELECT`, so use `TREE QUERY` there.
 
 ## With WITH RECURSIVE
 

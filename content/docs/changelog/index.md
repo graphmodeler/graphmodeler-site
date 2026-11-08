@@ -7,10 +7,7 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
-<!--
-THE NEXT VERSION, NOT RELEASED. At the release: set the number and the date, take away this comment and its closing line, and say in Walk a tree and on the SQL page which version first runs a WITH.
-
-## Version 1.0.x (November ?, 2026)
+## Version 1.1.0 (November 8, 2026)
 
 **New**
 
@@ -21,7 +18,6 @@ THE NEXT VERSION, NOT RELEASED. At the release: set the number and the date, tak
 
 - **Concatenation keeps the spaces at the ends of `PREFIX`, `SEPARATOR` and `SUFFIX`**, so `', '` and `'The countries are '` work, and a joined label can read as a sentence. See [Concatenate values](/docs/sql-extensions/concatenate/).
 - **The closing row of a numbered cluster is named for the cluster it closes.** It could carry the style name of another cluster, so a view that switched one cluster's Begin and End styles off could leave the braces unmatched and break the diagram. A row with no cluster at a middle level of `Cluster1`, `Cluster2` and on now sits in the cluster above, and two clusters at a deeper level are side by side and not nested. See [Group rows into clusters](/docs/sql-extensions/clusters/).
--->
 
 ## Version 1.0.1 (November 6, 2026)
 

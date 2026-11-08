@@ -73,7 +73,7 @@ SELECT [From] AS [Item], [To] AS [Related Item], [Label], [Kind] AS [Style Name]
 The two lines above, run against a workbook with a `Steps` sheet and a `Flows` sheet, make the graph in the screenshot: the first line
 makes the nodes and the second makes the edges. The rows come out in the order the lines are written.
 
-A query can also begin with `WITH`, which names a result so that the rest of the query can use it, or lets a result call itself to walk a hierarchy: see [Walk a tree](/docs/sql-extensions/tree-query/). Comments in front of a query, `-- ...` or `/* ... */`, are fine. A statement returns at most 100,000 rows, and a query that would return more stops with a message that says so.
+From version 1.1.0 a query can also begin with `WITH`, which names a result so that the rest of the query can use it, or lets a result call itself to walk a hierarchy: see [Walk a tree](/docs/sql-extensions/tree-query/). Comments in front of a query, `-- ...` or `/* ... */`, are fine. A statement returns at most 100,000 rows, and a query that would return more stops with a message that says so.
 
 Queries written for the [Excel tool](/docs/from-excel/) this app grew out of mostly run unchanged. `&` joins text, double quotes can hold a string, and the Jet functions
 `Len`, `Mid`, `UCase`, `LCase`, `Nz`, `CLng`, `CInt`, `CDbl`, `CStr`, `IsNumeric`, `Left`, `Right` and `Switch` are there. Some
