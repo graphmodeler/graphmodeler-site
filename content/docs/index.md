@@ -21,6 +21,7 @@ style's description and properties, for programs and AI tools. One model gives y
 ## Start here
 
 - [Getting started](/docs/getting-started/): a first graph, from a blank project to a published file.
+- [Coming from the Excel tool](/docs/from-excel/): for people who know Relationship Visualizer, also called Excel to Graphviz.
 
 ## The left pane
 
@@ -44,12 +45,11 @@ The tabs are in the order they are in the app.
 
 ## Topics
 
-- [Placeholders](/docs/placeholders/): the words in braces, such as `{label}` and `{rsc}`, that are replaced in labels and in SQL, and how to make your own.
-- [SQL extensions](/docs/sql-extensions/): the columns that make a query count through a range, run a second query for each value of a first, or walk down a tree.
 - [Publishing](/docs/publishing/): how a file name is built from the prefix, the template, the counter and the style, and what Publish will not write over.
+- [Placeholders](/docs/placeholders/): the words in braces, such as `{label}` and `{rsc}`, that are replaced in labels and in SQL, and how to make your own.
+- [SQL extensions](/docs/sql-extensions/): the special columns a `SELECT` can return, for clusters, long labels split into lines, counters, chains of edges, trees, loops and joined values.
 - [Units and packing](/docs/units-and-packing/): inches or millimeters for the lengths you type, and how the separate parts of a graph are packed together.
 - [Fonts](/docs/fonts/): how the app finds the fonts on your computer, what to do after installing one, and what happens to it in a shared picture.
-- [Coming from the Excel tool](/docs/from-excel/): for people who know Relationship Visualizer, also called Excel to Graphviz.
 - [What's new](/docs/changelog/): what each version changed.
 
 ## What you need

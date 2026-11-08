@@ -187,6 +187,7 @@ export default defineConfig({
             { text: 'Documentation', link: '/docs/' },
             { text: 'Getting started', link: '/docs/getting-started/' },
             { text: 'The left pane', link: '/docs/left-pane/' },
+            { text: 'Coming from the Excel tool', link: '/docs/from-excel/' },
           ],
         },
         {
@@ -207,6 +208,7 @@ export default defineConfig({
         {
           text: 'Topics',
           items: [
+            { text: 'Publishing', link: '/docs/publishing/' },
             { text: 'Placeholders', link: '/docs/placeholders/' },
             {
               text: 'SQL extensions',
@@ -224,10 +226,8 @@ export default defineConfig({
                 { text: 'Concatenate values', link: '/docs/sql-extensions/concatenate/' },
               ],
             },
-            { text: 'Publishing', link: '/docs/publishing/' },
             { text: 'Units and packing', link: '/docs/units-and-packing/' },
             { text: 'Fonts', link: '/docs/fonts/' },
-            { text: 'Coming from the Excel tool', link: '/docs/from-excel/' },
             { text: "What's new", link: '/docs/changelog/' },
           ],
         },
