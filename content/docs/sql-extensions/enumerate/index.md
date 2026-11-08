@@ -43,7 +43,7 @@ WHERE IsNumeric([Year])
 
 If a year is added to the sheet, the next run has a node for it, and for the years between. `WHERE IsNumeric` leaves out a value that is not a year, such as the word `future`.
 
-With `CREATE EDGES`, the numbers are linked into a chain instead:
+With [`CREATE EDGES`](/docs/sql-extensions/chaining/), the numbers are linked into a chain instead:
 
 ```sql
 SELECT TRUE AS [CREATE EDGES], TRUE AS [ENUMERATE], 1965 AS [START AT], 1969 AS [STOP AT],

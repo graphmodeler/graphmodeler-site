@@ -43,6 +43,12 @@ const cards: Card[] = [
     paths: ['M8.5 16a5.5 5.5 0 1 0 -5.5 -5.5v.5', 'M3 16h18', 'M18 13l3 3l-3 3'],
   },
   {
+    link: '/docs/sql-extensions/chaining/',
+    title: 'Chain nodes with edges',
+    text: 'Turn an ordered list, such as steps, versions or years, into a chain of edges from each value to the next.',
+    paths: ['M15 6.5a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0', 'M4 17.5a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0', 'M8.5 15.5l7 -7'],
+  },
+  {
     link: '/docs/sql-extensions/ranks/',
     title: 'Align nodes on a rank',
     text: 'Put the nodes of a query level with each other, as a team in one row or the stages of a project in line.',
