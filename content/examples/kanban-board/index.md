@@ -29,7 +29,7 @@ The tasks are made-up data in a spreadsheet, one row for each task.
 - **The osage layout.** Graphviz's `osage` engine lays out clusters as boxes and packs what is inside them into rows and columns, without any edges to draw. The board is a box of three boxes, and each box packs its notes two across. See [Units and packing](/docs/units-and-packing/#the-osage-layout-and-clusters).
 - **Clusters from the data.** Each task has a status, and the status is the cluster it goes into, so a task that moves from Doing to Done moves to another column when the board is drawn again. See [Group rows into clusters](/docs/sql-extensions/clusters/).
 - **Colors from styles.** Every kind of work is a style with a fill and a border color, and the query puts the kind of work in the style name of each note. See [Styles](/docs/styles/).
-- **Text made from several columns.** The label of a note is made from the task's name, description, importance and ID, with bold and italic text and line breaks, and the SQL cuts long lines to fit the note.
+- **Text made from several columns.** The label of a note is made from the task's name, description, importance and ID, with bold and italic text and line breaks, and the SQL cuts long lines to fit the note. See [Split long labels](/docs/sql-extensions/split-labels/).
 
 ## Knowledge Graph
 

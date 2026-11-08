@@ -16,6 +16,17 @@ const cards: Card[] = [
     paths: ['M8 8h8v8h-8l0 -8', 'M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12'],
   },
   {
+    link: '/docs/sql-extensions/split-labels/',
+    title: 'Split long labels',
+    text: 'Break a long label into lines of a chosen length, left, centered or right, as the query makes the row.',
+    paths: [
+      'M3 19v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2',
+      'M11 17h2',
+      'M9 12h6',
+      'M10 7h4',
+    ],
+  },
+  {
     link: '/docs/sql-extensions/enumerate/',
     title: 'Enumerate values',
     text: 'Make a row for every number in a range, to fill the gaps in a sequence of years or to build a timeline.',

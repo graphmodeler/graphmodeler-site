@@ -214,6 +214,7 @@ export default defineConfig({
               collapsed: false,
               items: [
                 { text: 'Group rows into clusters', link: '/docs/sql-extensions/clusters/' },
+                { text: 'Split long labels', link: '/docs/sql-extensions/split-labels/' },
                 { text: 'Enumerate values', link: '/docs/sql-extensions/enumerate/' },
                 { text: 'Iterate query results', link: '/docs/sql-extensions/iterate/' },
                 { text: 'Walk a tree', link: '/docs/sql-extensions/tree-query/' },
