@@ -69,8 +69,8 @@ features:
 
 The rows of a graph, with the style assignments.
 
-<img class="shot shot-light" src="/shots/data-light.png" alt="The Data tab: rows of items and the style each uses">
-<img class="shot shot-dark" src="/shots/data-dark.png" alt="The Data tab in the dark theme">
+<img class="shot shot-light" src="/shots/home-data-light.png" alt="The Data tab: rows of items and the style each uses">
+<img class="shot shot-dark" src="/shots/home-data-dark.png" alt="The Data tab in the dark theme">
 
 The same rows, drawn.
 
