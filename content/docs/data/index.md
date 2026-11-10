@@ -35,9 +35,14 @@ both **Item** and **Related Item**, makes an edge for every pairing, so `a, b` t
 Open a cluster with a row whose item ends in `{`, and close it with a row whose item is `}`. Everything between the two is
 inside it, and clusters can be nested.
 
-Graphviz draws a box only round a cluster whose name starts with `cluster`. If you name one `Warehouse {` the nodes are
-grouped, but there is no box; name it `cluster_Warehouse {` to get one. Put the cluster's own label and colors in a style, and
-choose that style in the **Style Name** cell of the row that opens it.
+The simplest opening row has only `{` in **Item**. Graph Modeler names the cluster itself (`cluster_1`, `cluster_2` and so on) and Graphviz draws a box round it. Give a
+cluster a name of your own, as in `cluster_Warehouse {`, only when something else has to refer to it, such as the `lhead` and `ltail` attributes of an edge with
+`compound=true`. Graphviz draws a box only round a cluster whose name starts with `cluster`, so if you name one `Warehouse {` the nodes are grouped, but there is no box.
+
+Put the cluster's label in the **Label** cell of the row that opens it, and its colors and other formatting in a style, chosen in the **Style Name** cell of that row.
+A style holds a label only when it formats it, as in `<<b>Name: {label}</b>>`, or when every cluster that uses it has the same label.
+
+<!-- AT THE RELEASE of the version that has the Wrap rows in a cluster button, add this to the paragraphs above: "To put rows you already have in a cluster, choose them and press **Wrap rows in a cluster** (the braces on the toolbar). It adds a row with `{` above them and a row with `}` below, as one change that a single Undo takes back. If your choice cuts through a cluster, with a `{` but not its `}`, or the reverse, the button says so and does nothing." Also add the button to the row-buttons bullet below and to The toolbar. -->
 
 ## The columns
 
