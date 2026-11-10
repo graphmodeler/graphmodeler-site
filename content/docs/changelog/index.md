@@ -7,6 +7,22 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+<!--
+THE NEXT VERSION (1.2.0): to publish this entry at the release, remove this comment's first and last lines and set the date. Also at the release: uncomment the note about the Wrap rows in a cluster button in docs/data/index.md, and update the Download page (version and date).
+
+## Version 1.2.0 (November ?, 2026)
+
+**New**
+
+- **A button wraps rows in a cluster.** On the [Data](/docs/data/) tab, choose the rows and press **Wrap rows in a cluster**. It adds a row with `{` above them and a row with `}` below, as one change that a single Undo takes back, so the braces are never mismatched while you work. If your choice cuts through a cluster, with a `{` but not its `}` or the reverse, the button says so and changes nothing, because the new pair would move rows in or out of that cluster.
+
+**Changed**
+
+- **A tab keeps its place.** Going to the Diagram to look at a change and back to a long Data tab used to start again at row 1. Each tab now comes back to the row it was scrolled to, with your selection, until you open another project.
+- **The Style Name dropdown opens with one click.** The grid's small fill handle sat over the arrow of a selected cell, so a click on the arrow only selected the cell and a double click was needed. The arrow now sits clear of the handle, and the column is a little wider.
+- **The Data page** says that a `{` alone is enough to start a cluster: it is named for you, and you name it yourself only to refer to it from an edge. See [Clusters](/docs/data/#clusters).
+-->
+
 ## Version 1.1.0 (November 8, 2026)
 
 **New**
