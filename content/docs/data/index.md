@@ -42,7 +42,7 @@ cluster a name of your own, as in `cluster_Warehouse {`, only when something els
 Put the cluster's label in the **Label** cell of the row that opens it, and its colors and other formatting in a style, chosen in the **Style Name** cell of that row.
 A style holds a label only when it formats it, as in `<<b>Name: {label}</b>>`, or when every cluster that uses it has the same label.
 
-<!-- AT THE RELEASE of the version that has the Wrap rows in a cluster button, add this to the paragraphs above: "To put rows you already have in a cluster, choose them and press **Wrap rows in a cluster** (the braces on the toolbar). It adds a row with `{` above them and a row with `}` below, as one change that a single Undo takes back. If your choice cuts through a cluster, with a `{` but not its `}`, or the reverse, the button says so and does nothing." Also add the button to the row-buttons bullet below and to The toolbar. -->
+To put rows you already have in a cluster, choose them and press **Wrap rows in a cluster** (the braces on the toolbar). It adds a row with `{` above them and a row with `}` below, as one change that a single Undo takes back. If your choice cuts through a cluster, with a `{` but not its `}`, or the reverse, the button says so and does nothing.
 
 ## The columns
 
@@ -67,7 +67,7 @@ A style's label can use `{label}`, `{xlabel}`, `{taillabel}` and `{headlabel}`, 
 - Type in a cell, or paste rows copied from Excel or another grid. Several cells paste at once.
 - Drag the small handle at the corner of the chosen cell to fill down.
 - **Undo** and **Redo** in the left pane step through your changes, including a paste or a fill.
-- The row buttons add a row above or below, remove the chosen rows, and comment them out or back in. Choose several rows and **Add row above** or **Add row below** adds as many
+- The row buttons add a row above or below, remove the chosen rows, comment them out or back in, and wrap them in a cluster. Choose several rows and **Add row above** or **Add row below** adds as many
   rows as you chose, the way **Delete rows** removes as many.
 - Drag the edge of a column's heading to change the width of the column. The widths are saved with the project, and each of the Data, Styles and SQL tabs keeps its own.
   **Reset widths**, in the menu of the columns button, puts the columns of that tab back to their usual widths.
