@@ -11,6 +11,9 @@ Data tab with what they produce, as one step that **Undo** puts back.
 <img class="shot shot-light" src="/shots/sql-light.png" alt="The SQL tab after a run, with a mark beside each line">
 <img class="shot shot-dark" src="/shots/sql-dark.png" alt="The SQL tab in the dark theme">
 
+**Ctrl+F** finds text in the lines of the script, and **Ctrl+H** replaces it, which is the quick way to change a table name that several lines use. See
+[Find and replace](/docs/find-and-replace/).
+
 ## Where the data comes from
 
 - **Excel and LibreOffice workbooks** (`.xlsx` and `.ods`). Each worksheet is a table named after it, and its first row gives the column

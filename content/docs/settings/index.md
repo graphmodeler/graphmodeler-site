@@ -12,6 +12,11 @@ with the project. The ones you flip between often, such as the layout engine, ar
 
 Where a setting has a picture, such as the layout engine, the picture of the one in use is shown beside it.
 
+## Language
+
+The first group is the language of the program itself: a list of the languages it has, and two buttons, one that opens the folder for your own language files and one that
+reads the files again. The choice is saved on this computer and not with the project. See [Languages](/docs/languages/).
+
 ## Layout
 
 | Setting | What it does |

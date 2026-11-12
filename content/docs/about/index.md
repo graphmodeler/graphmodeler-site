@@ -73,6 +73,11 @@ project file that is open. **Copy** puts all of it on the clipboard, ready to pa
 
 The **Graphviz** line is the quickest way to see whether the app found Graphviz and which version it is. It says `not found` when it did not.
 
+## Translations
+
+When a language that came with Graph Modeler has been translated by someone, this section thanks them, with a line for each language, named in its own words, and the people who
+translated it. It is not shown while no language has translators. A language file you added yourself is never listed here. See [Languages](/docs/languages/).
+
 ## Built with
 
 Graph Modeler relies on the work of others, and this section lists each piece with what the app uses it for, its license and a link:

@@ -26,6 +26,8 @@ to the node, the edge or the cluster the row makes. Change a style once and ever
 A format can mention `{label}`, `{xlabel}`, `{taillabel}` and `{headlabel}`. The values from the row are put in their places, so a
 style can wrap a row's label in a shape of its own. See [Placeholders](/docs/placeholders/).
 
+**Ctrl+F** finds text in the cells of the styles, and **Ctrl+H** replaces it, for example a color that several formats use. See [Find and replace](/docs/find-and-replace/).
+
 ## Editing a format in the Designer
 
 You can type a format by hand, or build it with the controls of the [Designer](/docs/designer/) tab and see it drawn as you go.

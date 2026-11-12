@@ -66,6 +66,7 @@ A style's label can use `{label}`, `{xlabel}`, `{taillabel}` and `{headlabel}`, 
 
 - Type in a cell, or paste rows copied from Excel or another grid. Several cells paste at once.
 - Drag the small handle at the corner of the chosen cell to fill down.
+- **Ctrl+F** finds text in the cells, and **Ctrl+H** replaces it, as one change that a single Undo takes back. See [Find and replace](/docs/find-and-replace/).
 - **Undo** and **Redo** in the left pane step through your changes, including a paste or a fill.
 - The row buttons add a row above or below, remove the chosen rows, comment them out or back in, and wrap them in a cluster. Choose several rows and **Add row above** or **Add row below** adds as many
   rows as you chose, the way **Delete rows** removes as many.

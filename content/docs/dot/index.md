@@ -18,6 +18,8 @@ each have a color. A very large graph, of more than half a million characters, i
 - **Copy** puts the whole text on the clipboard.
 - **Save** writes it to a `.gv` file of your choosing.
 - **Indent** sets how many spaces each level is indented by, from none to eight. It changes the text and not the graph.
+- **Ctrl+F** searches the text and paints every match over the colors, with the current one stronger and scrolled into view. See [Find and replace](/docs/find-and-replace/).
+  The DOT is for reading, so it has no Replace.
 
 The DOT file can also be written with **Publish**. Turn on the third **Write** button, the one with the angle brackets, in the left pane.
 

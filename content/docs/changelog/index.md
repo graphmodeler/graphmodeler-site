@@ -7,6 +7,27 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+<!--
+THE NEXT VERSION (number and date not chosen): to publish this entry at the release, remove this comment's first and last lines, and set the number and the date.
+
+## Version ?.?.? (? ?, 2026)
+
+**New**
+
+- **Find and replace.** **Ctrl+F** opens one search bar that finds text on the [Data](/docs/data/), [Styles](/docs/styles/), [SQL](/docs/sql/), [DOT](/docs/dot/) and [Knowledge Graph](/docs/knowledge-graph/) tabs, with the matches marked and the place among them shown, such as 3 of 17. **Ctrl+H** adds a Replace row on the tabs where you type, and **Replace all** changes every cell of the tab at once, as a single step that one Undo takes back. See [Find and replace](/docs/find-and-replace/).
+- **Languages.** The **Settings** tab has a **Language** group. The program's tabs, buttons and messages can be shown in another language, and a language is a file that can be added without a new installer, including the files that Poedit writes. Nothing in your project changes with the language. The website and the license stay in English. See [Languages](/docs/languages/).
+- **Translators are credited** on the About tab, by language, as soon as a language that came with the program has translators.
+
+**Changed**
+
+- **The Knowledge Graph viewer is in the app's own look,** light or dark, and its search is the same bar as the other tabs. The **Help** button is at the right edge of the row of buttons, as on the other tabs.
+- **The Knowledge Graph tree can be searched,** by its keys and values, and a branch that holds a match is opened for you.
+
+**Fixed**
+
+- **The Knowledge Graph viewer lost its colors on a line that held the search term.** The term is now marked inside the colored text.
+-->
+
 ## Version 1.2.0 (November 10, 2026)
 
 **New**

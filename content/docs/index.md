@@ -50,6 +50,8 @@ The tabs are in the order they are in the app.
 - [SQL extensions](/docs/sql-extensions/): the special columns a `SELECT` can return, for clusters, long labels split into lines, counters, chains of edges, trees, loops and joined values.
 - [Units and packing](/docs/units-and-packing/): inches or millimeters for the lengths you type, and how the separate parts of a graph are packed together.
 - [Fonts](/docs/fonts/): how the app finds the fonts on your computer, what to do after installing one, and what happens to it in a shared picture.
+- [Find and replace](/docs/find-and-replace/): one search bar for the Data, Styles, SQL, DOT and Knowledge Graph tabs, and Replace in the tabs where you type.
+- [Languages](/docs/languages/): choosing the language of the program, and using a language file of your own.
 - [What's new](/docs/changelog/): what each version changed.
 
 ## What you need

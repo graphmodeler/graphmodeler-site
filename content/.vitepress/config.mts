@@ -228,6 +228,8 @@ export default defineConfig({
             },
             { text: 'Units and packing', link: '/docs/units-and-packing/' },
             { text: 'Fonts', link: '/docs/fonts/' },
+            { text: 'Find and replace', link: '/docs/find-and-replace/' },
+            { text: 'Languages', link: '/docs/languages/' },
             { text: "What's new", link: '/docs/changelog/' },
           ],
         },
