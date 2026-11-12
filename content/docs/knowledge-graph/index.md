@@ -15,14 +15,15 @@ It is made by the app itself and needs no Graphviz.
 
 ## The viewer
 
-The tab shows the Knowledge Graph for the view chosen in the left pane.
+The tab shows the Knowledge Graph for the view chosen in the left pane, in the same look as the rest of the app, light or dark.
 
-- **Search** finds text, with **Prev** and **Next** to step through the matches and **Clear** to start again.
-- **Raw** shows the JSON as text with line numbers. **Tree** shows it as a tree you can open and close.
-- **Copy Raw** and **Copy Pretty** put the text on the clipboard, compact or indented. **Save Raw As File** and **Save Pretty As File** write it
-  to a file.
-- A line of counts shows the characters, an estimate of how many tokens an AI tool will count, the lines, and the numbers of nodes and edges.
-  The estimate is about four characters to a token, with eight percent on top. It is a guide to whether the file will fit in a request.
+- **Ctrl+F** opens the search bar, the same one as on the other tabs. It finds text in the raw view by line, and in the tree by its keys and values, opening the branches
+  to show the match. **Enter** and **F3** go to the next match, and **Esc** closes the bar. See [Find and replace](/docs/find-and-replace/). The tab is for reading, so it has no Replace.
+- The two buttons with pictures choose the view. **Raw (line numbers)** shows the JSON as text, and **Tree (collapsible)** shows it as a tree you can open and close.
+- The **Copy** menu has **Copy Raw** and **Copy Pretty**, which put the text on the clipboard, compact or indented. The **Save as a file** menu has **Save Raw As File** and
+  **Save Pretty As File**, which write it to a file.
+- A line of counts at the bottom shows the characters, an estimate of how many tokens an AI tool will count, the lines, and the numbers of nodes and edges. Point at one to
+  see its name. The estimate is about four characters to a token, with eight percent on top. It is a guide to whether the file will fit in a request.
 
 Anything that was left out, such as a row whose style is not used in the chosen view, is listed in the left pane under **Knowledge Graph
 messages**, with its row number.

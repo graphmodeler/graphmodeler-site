@@ -2,46 +2,142 @@
 <html class="dark">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>JSON Knowledge Graph Viewer</title>
+<title></title>
 <style>
-/* Kept deliberately simple / old-IE safe: no CSS grid, no CSS vars */
+/* The colors are the app's own, under the app's names. The app marks the page dark; a page that is not marked is light. */
+:root {
+    color-scheme: light;
+    --rv-bg: #ffffff; --rv-surface: #ffffff; --rv-text: #000000; --rv-text-2: #6b7280;
+    --rv-border: #d1d5db; --rv-control-border: #9ca3af; --rv-control-bg: #f3f4f6; --rv-control-hover: #e5e7eb;
+    --rv-icon: #374151; --rv-accent: #1d4ed8; --rv-accent-bg: #dbeafe; --rv-banner: #f3f4f6; --rv-shadow: rgb(0 0 0 / 15%);
+    --rv-error-text: #991b1b; --rv-error-bg: #fee2e2;
+    --rv-syn-attribute: #a1260d; --rv-syn-string: #0a7c2f; --rv-syn-number: #1a56db; --rv-syn-keyword: #9b1bb3; --rv-syn-punctuation: #555555;
+    --v-match: #fff6b0; --v-current: #ffcf40;
+}
+html.dark {
+    color-scheme: dark;
+    --rv-bg: #1b1f24; --rv-surface: #22272e; --rv-text: #e6e8eb; --rv-text-2: #9aa3af;
+    --rv-border: #3a414b; --rv-control-border: #5b6470; --rv-control-bg: #2b313a; --rv-control-hover: #373e48;
+    --rv-icon: #cbd5e1; --rv-accent: #6ea8fe; --rv-accent-bg: #1e3a5f; --rv-banner: #2b313a; --rv-shadow: rgb(0 0 0 / 50%);
+    --rv-error-text: #f0625f; --rv-error-bg: #3a1f22;
+    --rv-syn-attribute: #f0846f; --rv-syn-string: #5fd18a; --rv-syn-number: #6ea8fe; --rv-syn-keyword: #d79bef; --rv-syn-punctuation: #9aa3af;
+    --v-match: #4a4320; --v-current: #7a6212;
+}
 html, body { height: 100%; margin: 0; }
 body {
-    font-family: Consolas, "Courier New", monospace;
-    font-size: 13px;
-    background: #f5f5f5;
-    color: #222;
+    font: 13px/1.4 system-ui, sans-serif;
+    background: var(--rv-bg);
+    color: var(--rv-text);
     display: flex;
     flex-direction: column;
 }
+svg { fill: currentColor; }
+
+/* ---- The row of controls: groups of icon buttons with a thin line between them, as in the app ---- */
 #toolbar {
-    padding: 8px 10px;
-    background: #e8e8e8;
-    border-bottom: 1px solid #ccc;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.3rem;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--rv-border);
     flex: 0 0 auto;
 }
-#toolbar input[type=text] { width: 220px; }
-#toolbar button, #toolbar select { margin-left: 4px; }
-#matchCount { margin-left: 6px; color: #555; }
+.group { display: flex; align-items: center; gap: 0.25rem; }
+.sep { flex: none; align-self: stretch; width: 1px; min-height: 1.4rem; margin: 0 0.4rem; background: var(--rv-border); }
+#searchInput {
+    box-sizing: border-box;
+    height: 1.9rem;
+    width: 12rem;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--rv-control-border);
+    border-radius: 4px;
+    background: var(--rv-bg);
+    color: var(--rv-text);
+    font: inherit;
+}
+.ib {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-width: 1.9rem;
+    height: 1.9rem;
+    padding: 0;
+    border: 1px solid var(--rv-control-border);
+    border-radius: 4px;
+    background: var(--rv-control-bg);
+    color: var(--rv-icon);
+    cursor: pointer;
+}
+.ib:hover { background: var(--rv-control-hover); }
+.ib.on { border-color: var(--rv-accent); background: var(--rv-accent-bg); color: var(--rv-accent); }
+.ib svg { width: 1.3rem; height: 1.3rem; }
+.ib.menuBtn { padding: 0 0.15rem 0 0.35rem; }
+.ib.menuBtn svg + svg { width: 1rem; height: 1rem; }
+.ib:focus-visible, #searchInput:focus-visible, .menu button:focus-visible { outline: 2px solid var(--rv-accent); outline-offset: 1px; }
+#matchCount { min-width: 3.2rem; padding: 0 0.3rem; color: var(--rv-text-2); font-variant-numeric: tabular-nums; }
+/* Help is for a page that the app shows: the app marks the page (data-help), and a page on a website has no help button. */
+.helpOnly { display: none; }
+html[data-help] .helpOnly { display: inline-flex; }
+html[data-help] .sep.helpOnly { display: block; }
+/* The app searches the page with its own search bar (data-app-search), so the page's own box and buttons are not shown there. */
+html[data-app-search] .searchOwn { display: none; }
+
+/* ---- The menus of Copy and Save ---- */
+.menuWrap { position: relative; }
+.menu {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+    flex-direction: column;
+    min-width: max-content;
+    margin-top: 0.2rem;
+    padding: 0.25rem;
+    border: 1px solid var(--rv-control-border);
+    border-radius: 4px;
+    background: var(--rv-surface);
+    box-shadow: 0 4px 10px var(--rv-shadow);
+}
+.menu.open { display: flex; }
+.menu button {
+    padding: 0.35rem 0.7rem;
+    border: 0;
+    border-radius: 3px;
+    background: none;
+    color: var(--rv-text);
+    font: inherit;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.menu button:hover { background: var(--rv-control-hover); }
+
+#errorBanner {
+    display: none;
+    padding: 0.4rem 0.6rem;
+    background: var(--rv-error-bg);
+    color: var(--rv-error-text);
+    border-bottom: 1px solid var(--rv-border);
+    flex: 0 0 auto;
+}
+
+/* ---- The counts, along the bottom: an icon and a number, the name in the tooltip ---- */
 #statsBar {
-    padding: 4px 10px;
-    background: #fafafa;
-    border-bottom: 1px solid #ddd;
-    color: #555;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.2rem 1.1rem;
+    padding: 0.3rem 0.6rem;
+    border-top: 1px solid var(--rv-border);
+    color: var(--rv-text-2);
     font-size: 12px;
     flex: 0 0 auto;
 }
-#errorBanner {
-    display: none;
-    padding: 6px 10px;
-    background: #ffe1e1;
-    color: #900;
-    border-bottom: 1px solid #e0a0a0;
-    flex: 0 0 auto;
-}
-#viewToggle { padding: 6px 10px; background: #eee; border-bottom: 1px solid #ccc; flex: 0 0 auto; }
-#viewToggle button.active { background: #444; color: #fff; }
+.stat { display: inline-flex; align-items: center; gap: 0.3rem; font-variant-numeric: tabular-nums; }
+.stat svg { width: 1.05rem; height: 1.05rem; }
 
 /* ---- Raw (virtualized) view ---- */
 #scrollArea {
@@ -49,37 +145,31 @@ body {
     overflow: auto;
     flex: 1 1 auto;
     min-height: 0;
-    background: #fff;
+    background: var(--rv-surface);
+    font: 13px ui-monospace, Consolas, "Courier New", monospace;
 }
 #sizer { position: relative; }
-.row {
-    position: absolute;
-    left: 0;
-    top: 0;
-    white-space: pre;
-    height: 18px;
-    line-height: 18px;
-}
+.row { position: absolute; left: 0; top: 0; white-space: pre; height: 18px; line-height: 18px; }
 .rowNum {
     display: inline-block;
     width: 50px;
     text-align: right;
     padding-right: 8px;
-    color: #999;
-    background: #eee;
+    color: var(--rv-text-2);
+    background: var(--rv-banner);
     user-select: none;
 }
 .rowText { padding-left: 6px; }
-.row.matchRow .rowText { background: #fff6b0; }
-.row.currentMatchRow .rowText { background: #ffcf40; }
-mark { background: #ffcf40; padding: 0; }
+.row.matchRow .rowText { background: var(--v-match); }
+.row.currentMatchRow .rowText { background: var(--v-current); }
+mark { background: var(--v-current); color: inherit; padding: 0; }
 
 /* Syntax highlight colors */
-.jkey { color: #a1260d; font-weight: bold; }
-.jstr { color: #0a7c2f; }
-.jnum { color: #1a56db; }
-.jbool { color: #9b1bb3; }
-.jpunc { color: #555; }
+.jkey { color: var(--rv-syn-attribute); font-weight: bold; }
+.jstr { color: var(--rv-syn-string); }
+.jnum { color: var(--rv-syn-number); }
+.jbool { color: var(--rv-syn-keyword); }
+.jpunc { color: var(--rv-syn-punctuation); }
 
 /* ---- Tree view ---- */
 #treeView {
@@ -87,75 +177,86 @@ mark { background: #ffcf40; padding: 0; }
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
-    background: #fff;
+    background: var(--rv-surface);
     padding: 8px 10px;
+    font: 13px ui-monospace, Consolas, "Courier New", monospace;
 }
 .treeNode { margin-left: 16px; }
-.toggle {
-    cursor: pointer;
-    display: inline-block;
-    width: 14px;
-    color: #666;
-    user-select: none;
+.treeLine { border-radius: 2px; }
+.treeLine.treeCurrent { background: var(--v-match); }
+.toggle { cursor: pointer; display: inline-block; width: 14px; height: 14px; vertical-align: middle; user-select: none; position: relative; }
+.toggle::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 2px;
+    width: 5px;
+    height: 5px;
+    border: solid var(--rv-text-2);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
-.treeKey { color: #a1260d; }
-.treeVal.jstr { color: #0a7c2f; }
-.treeVal.jnum { color: #1a56db; }
-.treeVal.jbool { color: #9b1bb3; }
-.moreLink { color: #1a56db; cursor: pointer; text-decoration: underline; }
-
-/* ---- Dark theme: only colors. The app asks for it by marking the page; a page that is not marked is light. ---- */
-html.dark { color-scheme: dark; }
-.dark body { background: #1b1f24; color: #e6e8eb; }
-.dark #toolbar { background: #2b313a; border-bottom-color: #3a414b; }
-.dark #toolbar input[type=text], .dark #toolbar button, .dark #toolbar select, .dark #viewToggle button { background: #2b313a; color: #e6e8eb; border: 1px solid #5b6470; }
-.dark #toolbar input[type=text] { background: #22272e; }
-.dark #matchCount { color: #9aa3af; }
-.dark #statsBar { background: #22272e; border-bottom-color: #3a414b; color: #9aa3af; }
-.dark #errorBanner { background: #3a1f22; color: #f0625f; border-bottom-color: #6b2f33; }
-.dark #viewToggle { background: #2b313a; border-bottom-color: #3a414b; }
-.dark #viewToggle button.active { background: #e6e8eb; color: #1b1f24; }
-.dark #scrollArea, .dark #treeView { background: #22272e; }
-.dark .rowNum { color: #8b949e; background: #2b313a; }
-.dark .row.matchRow .rowText { background: #4a4320; }
-.dark .row.currentMatchRow .rowText { background: #7a6212; }
-.dark mark { background: #7a6212; color: #fff; }
-.dark .jkey, .dark .treeKey { color: #f0846f; }
-.dark .jstr, .dark .treeVal.jstr { color: #5fd18a; }
-.dark .jnum, .dark .treeVal.jnum { color: #6ea8fe; }
-.dark .jbool, .dark .treeVal.jbool { color: #d79bef; }
-.dark .jpunc, .dark .toggle { color: #9aa3af; }
-.dark .moreLink { color: #6ea8fe; }
+.toggle.collapsed::before { left: 1px; top: 4px; transform: rotate(-45deg); }
+.treeKey { color: var(--rv-syn-attribute); }
+.treeVal.jstr { color: var(--rv-syn-string); }
+.treeVal.jnum { color: var(--rv-syn-number); }
+.treeVal.jbool { color: var(--rv-syn-keyword); }
+.moreLink { color: var(--rv-syn-number); cursor: pointer; text-decoration: underline; }
+.treeError { color: var(--rv-error-text); }
 </style>
 </head>
 <body>
 
-<div id="toolbar">
-    <input type="text" id="searchInput" placeholder="Search...">
-    <button id="btnSearch">Search</button>
-    <button id="btnPrev">&#8593; Prev</button>
-    <button id="btnNext">&#8595; Next</button>
-    <button id="btnClear">Clear</button>
-    <span id="matchCount"></span>
-    <button id="btnCopyRaw" style="margin-left:16px;">Copy Raw</button>
-    <button id="btnCopyPretty">Copy Pretty</button>
-    <button id="btnSaveRaw" style="margin-left:16px;">Save Raw As File</button>
-    <button id="btnSavePretty">Save Pretty As File</button>
+<div id="toolbar" role="toolbar">
+    <div class="group searchOwn">
+        <input type="text" id="searchInput" data-l="JsonViewerSearchInput" data-a="placeholder,aria-label">
+        <button type="button" class="ib" id="btnSearch" data-l="JsonViewerSearchButton" data-a="title,aria-label"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M796-121 533-384q-30 26-70 40.5T378-329q-108 0-183-75t-75-181q0-106 75-181t182-75q106 0 180.5 75T632-585q0 43-14 83t-42 75l264 262-44 44ZM377-389q81 0 138-57.5T572-585q0-81-57-138.5T377-781q-82 0-139.5 57.5T180-585q0 81 57.5 138.5T377-389Z"/></svg></button>
+        <button type="button" class="ib" id="btnPrev" data-l="JsonViewerPrevButton" data-a="title,aria-label"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M450-160v-526L202-438l-42-42 320-320 320 320-42 42-248-248v526h-60Z"/></svg></button>
+        <button type="button" class="ib" id="btnNext" data-l="JsonViewerNextButton" data-a="title,aria-label"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M450-800v526L202-522l-42 42 320 320 320-320-42-42-248 248v-526h-60Z"/></svg></button>
+        <button type="button" class="ib" id="btnClear" data-l="JsonViewerClearButton" data-a="title,aria-label"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg></button>
+        <span id="matchCount" role="status" data-l="JsonViewerMatches" data-a="title"></span>
+    </div>
+    <span class="sep searchOwn"></span>
+    <div class="group">
+        <div class="menuWrap">
+            <button type="button" class="ib menuBtn" id="btnCopy" aria-haspopup="true" aria-expanded="false" data-l="JsonViewerCopyMenu" data-a="title,aria-label"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M300-200q-24 0-42-18t-18-42v-560q0-24 18-42t42-18h440q24 0 42 18t18 42v560q0 24-18 42t-42 18H300Zm0-60h440v-560H300v560ZM180-80q-24 0-42-18t-18-42v-620h60v620h500v60H180Zm120-180v-560 560Z"/></svg><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z"/></svg></button>
+            <div class="menu" id="menuCopy" role="menu">
+                <button type="button" role="menuitem" id="btnCopyRaw" data-l="JsonViewerCopyRawButton" data-a="text"></button>
+                <button type="button" role="menuitem" id="btnCopyPretty" data-l="JsonViewerCopyPrettyButton" data-a="text"></button>
+            </div>
+        </div>
+        <div class="menuWrap">
+            <button type="button" class="ib menuBtn" id="btnSave" aria-haspopup="true" aria-expanded="false" data-l="JsonViewerSaveMenu" data-a="title,aria-label"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="m730-124 146-146-42-42-74 74v-181h-60v181l-74-74-42 42 146 146ZM580 0v-60h300V0H580ZM220-160q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h306l234 234v167h-60v-141H500v-200H220v600h300v60H220Zm0-60v-600 600Z"/></svg><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z"/></svg></button>
+            <div class="menu" id="menuSave" role="menu">
+                <button type="button" role="menuitem" id="btnSaveRaw" data-l="JsonViewerSaveRawButton" data-a="text"></button>
+                <button type="button" role="menuitem" id="btnSavePretty" data-l="JsonViewerSavePrettyButton" data-a="text"></button>
+            </div>
+        </div>
+    </div>
+    <span class="sep"></span>
+    <div class="group" role="group">
+        <button type="button" class="ib on" id="btnRawView" aria-pressed="true" data-l="JsonViewerRawButton" data-a="title,aria-label"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M120-80v-60h100v-30h-60v-60h60v-30H120v-60h120q17 0 28.5 11.5T280-280v40q0 17-11.5 28.5T240-200q17 0 28.5 11.5T280-160v40q0 17-11.5 28.5T240-80H120Zm0-280v-110q0-17 11.5-28.5T160-510h60v-30H120v-60h120q17 0 28.5 11.5T280-560v70q0 17-11.5 28.5T240-450h-60v30h100v60H120Zm60-280v-180h-60v-60h120v240h-60Zm189 431v-60h471v60H369Zm0-243v-60h471v60H369Zm0-243v-60h471v60H369Z"/></svg></button>
+        <button type="button" class="ib" id="btnTreeView" aria-pressed="false" data-l="JsonViewerTreeButton" data-a="title,aria-label"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M604-120v-125H450v-410h-93v130H80v-315h277v125h247v-125h276v315H604v-130h-94v350h94v-130h276v315H604ZM140-780v195-195Zm524 405v195-195Zm0-405v195-195Zm0 195h156v-195H664v195Zm0 405h156v-195H664v195ZM140-585h157v-195H140v195Z"/></svg></button>
+    </div>
+    <span class="sep helpOnly"></span>
+    <button type="button" class="ib helpOnly" id="btnHelp" data-l="JsonViewerHelp" data-a="title,aria-label"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M511-258q11-11 11-27t-11-27q-11-11-27-11t-27 11q-11 11-11 27t11 27q11 11 27 11t27-11Zm-62-135h59q0-26 6.5-47.5T555-490q31-26 44-51t13-55q0-53-34.5-85T486-713q-49 0-86.5 24.5T345-621l53 20q11-28 33-43.5t52-15.5q34 0 55 18.5t21 47.5q0 22-13 41.5T508-512q-30 26-44.5 51.5T449-393Zm31 313q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Zm0-340Z"/></svg></button>
 </div>
 
-<div id="viewToggle">
-    View:
-    <button id="btnRawView" class="active">Raw (line numbers)</button>
-    <button id="btnTreeView">Tree (collapsible)</button>
-</div>
-
-<div id="errorBanner"></div>
-<div id="statsBar"></div>
+<div id="errorBanner" role="alert"></div>
 
 <div id="scrollArea"><div id="sizer"></div></div>
 <div id="treeView"></div>
 
-<!-- The graph, as JSON text that is data and not script. The app writes it here with "<" escaped. -->
+<div id="statsBar">
+    <span class="stat" data-l="JsonViewerCharactersLabel" data-a="title"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M290-160v-540H80v-100h520v100H390v540H290Zm360 0v-340H520v-100h360v100H750v340H650Z"/></svg><span id="statChars"></span></span>
+    <span class="stat" data-l="JsonViewerTokensLabel" data-a="title"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M480-80 120-286v-399l360-195 360 195v399L480-80ZM366-578q23-23 52.5-37.5T480-630q32 0 61.5 14.5T594-578l153-90-267-142-267 142 153 90Zm84 412v-167q-52-14-86-54t-34-93q0-11 1.5-22.5T337-525l-157-93v297l270 155Zm94-250q26-26 26-64t-26-64q-26-26-64-26t-64 26q-26 26-26 64t26 64q26 26 64 26t64-26Zm-34 250 270-155v-297l-157 93q4 11 5.5 22.5T630-480q0 53-34 93t-86 54v167Z"/></svg><span id="statTokens"></span></span>
+    <span class="stat" data-l="JsonViewerLinesLabel" data-a="title"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M120-80v-60h100v-30h-60v-60h60v-30H120v-60h120q17 0 28.5 11.5T280-280v40q0 17-11.5 28.5T240-200q17 0 28.5 11.5T280-160v40q0 17-11.5 28.5T240-80H120Zm0-280v-110q0-17 11.5-28.5T160-510h60v-30H120v-60h120q17 0 28.5 11.5T280-560v70q0 17-11.5 28.5T240-450h-60v30h100v60H120Zm60-280v-180h-60v-60h120v240h-60Zm189 431v-60h471v60H369Zm0-243v-60h471v60H369Zm0-243v-60h471v60H369Z"/></svg><span id="statLines"></span></span>
+    <span class="stat" id="statNodesBox" data-l="JsonViewerNodesLabel" data-a="title"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Zm0-340Z"/></svg><span id="statNodes"></span></span>
+    <span class="stat" id="statEdgesBox" data-l="JsonViewerEdgesLabel" data-a="title"><svg viewBox="0 -960 960 960" aria-hidden="true"><path d="m560-242-43-42 168-168H160v-60h525L516-681l43-42 241 241-240 240Z"/></svg><span id="statEdges"></span></span>
+</div>
+
+<!-- The text of the page and the graph, as JSON that is data and not script. The app writes them here with "<", ">" and "&" escaped. -->
+<script type="application/json" id="labels">{"JsonViewerTitle":"JSON Knowledge Graph Viewer","JsonViewerSearchInput":"Search...","JsonViewerSearchButton":"Search","JsonViewerPrevButton":"Prev","JsonViewerNextButton":"Next","JsonViewerClearButton":"Clear","JsonViewerCopyRawButton":"Copy Raw","JsonViewerCopyPrettyButton":"Copy Pretty","JsonViewerSaveRawButton":"Save Raw As File","JsonViewerSavePrettyButton":"Save Pretty As File","JsonViewerRawButton":"Raw (line numbers)","JsonViewerTreeButton":"Tree (collapsible)","JsonViewerCouldParseJson":"Could not parse this as valid JSON","JsonViewerShowingRawText":"Showing raw text below.","JsonViewerCharactersLabel":"Characters:","JsonViewerTokensLabel":"Est. Tokens:","JsonViewerLinesLabel":"Lines:","JsonViewerNodesLabel":"Nodes:","JsonViewerEdgesLabel":"Edges:","JsonViewerTreeNotAvailable":"Tree view is unavailable because the input is not valid JSON.","JsonViewerCopyMenu":"Copy","JsonViewerSaveMenu":"Save as a file","JsonViewerMatches":"Matching lines","JsonViewerTreeMore":"... {count} more items (click to expand)","JsonViewerHelp":"Display the help page"}</script>
 <script type="application/json" id="graphData">{
   "format": "RV-KGF",
   "version": "1.1",
@@ -339,7 +440,7 @@ html.dark { color-scheme: dark; }
         "type": "text"
       },
       "tooltip": {
-        "value": "Dollis Hill Station Harlesden & Kensal Green Brent North West London NW10 5NB  Latitude: 51.551850202274302 Longitude: -0.238797758364757",
+        "value": "Dollis Hill Station Harlesden \u0026 Kensal Green Brent North West London NW10 5NB  Latitude: 51.551850202274302 Longitude: -0.238797758364757",
         "type": "text"
       }
     },
@@ -404,7 +505,7 @@ html.dark { color-scheme: dark; }
         "type": "text"
       },
       "tooltip": {
-        "value": "Kilburn Station Cricklewood & Mapesbury Brent North West London NW6 7QL  Latitude: 51.546944102865901 Longitude: -0.20463271669925501",
+        "value": "Kilburn Station Cricklewood \u0026 Mapesbury Brent North West London NW6 7QL  Latitude: 51.546944102865901 Longitude: -0.20463271669925501",
         "type": "text"
       }
     },
@@ -456,7 +557,7 @@ html.dark { color-scheme: dark; }
         "type": "text"
       },
       "tooltip": {
-        "value": "London Bridge Station London Bridge & West Bermondsey Southwark South East London SE1 2SW  Latitude: 51.504674209304298 Longitude: -0.086005597748139595",
+        "value": "London Bridge Station London Bridge \u0026 West Bermondsey Southwark South East London SE1 2SW  Latitude: 51.504674209304298 Longitude: -0.086005597748139595",
         "type": "text"
       }
     },
@@ -482,7 +583,7 @@ html.dark { color-scheme: dark; }
         "type": "text"
       },
       "tooltip": {
-        "value": "Southwark Station Borough & Bankside Southwark South East London SE1 8NW  Latitude: 51.503853449721603 Longitude: -0.10579493892509199",
+        "value": "Southwark Station Borough \u0026 Bankside Southwark South East London SE1 8NW  Latitude: 51.503853449721603 Longitude: -0.10579493892509199",
         "type": "text"
       }
     },
@@ -521,7 +622,7 @@ html.dark { color-scheme: dark; }
         "type": "text"
       },
       "tooltip": {
-        "value": "Waterloo Station Waterloo & South Bank Southwark South East London SE1 7NY  Latitude: 51.503146456783398 Longitude: -0.113259251258195",
+        "value": "Waterloo Station Waterloo \u0026 South Bank Southwark South East London SE1 7NY  Latitude: 51.503146456783398 Longitude: -0.113259251258195",
         "type": "text"
       }
     },
@@ -933,8 +1034,7 @@ html.dark { color-scheme: dark; }
 
 <script>
 /* =====================================================================
-   JSON Knowledge Graph Viewer
-   - Written in ES5, as in the Excel tool's viewer, so the two behave alike.
+   Knowledge Graph viewer
    ===================================================================== */
 
 var ROW_HEIGHT = 18;
@@ -946,23 +1046,50 @@ var lines = [];
 var parsedOk = false;
 var parsedObj = null;
 
+var matchCase = false;   // set by the app's search bar; the page's own box never matches the case
+// The page is shown by the app, which has a search bar of its own: it sends the term and the page says how many matches there are.
+var APP_SEARCH = document.documentElement.hasAttribute("data-app-search");
+
 var matchLines = [];   // indices into lines that contain the search term
 var currentMatch = -1;
 var currentTerm = "";
 
-// ---------- sample data (kept as a JS object -> no backticks needed) ----------
-var SAMPLE_JSON_OBJ = {
-    "error": "Invalid JSON",
-    "message": "The JSON provided could not be parsed and is not valid JSON syntax.",
-    "common_causes": [
-        "Missing or extra comma",
-        "Unmatched { } or [ ]",
-        "Unquoted or single-quoted keys/strings",
-        "Trailing comma before a closing bracket",
-        "Comments (// or /*) — not allowed in JSON"
-    ],
-    "tip": "Check your JSON against a JSON syntax reference and try again."
-};
+// The same search, in the tree view: the matches are the rows of the tree whose key or value has the term, found in the data
+// and kept as paths (the position of the row among its brothers, from the top), so that a row that is folded away, or past the
+// first rows of a long list, can still be found and shown.
+var rawView = true;
+var treeMatches = [];
+var treeCurrent = -1;
+var treeTerm = "";
+
+var LABELS = {};
+
+// ---------- text ----------
+function L(key) {
+    return Object.prototype.hasOwnProperty.call(LABELS, key) ? String(LABELS[key]) : key;
+}
+
+// Puts {name} values into a piece of text in one pass, so that nothing in a value is read as a pattern.
+function fill(text, values) {
+    return text.replace(/\{(\w+)\}/g, function (whole, name) {
+        return Object.prototype.hasOwnProperty.call(values, name) ? String(values[name]) : whole;
+    });
+}
+
+// Gives every element that names its text (data-l) that text: as its own text, or as the attributes data-a lists.
+// A name that ends in a colon in the labels ("Characters:") is a tooltip here, without the colon.
+function applyLabels() {
+    document.title = L("JsonViewerTitle");
+    var els = document.querySelectorAll("[data-l]");
+    for (var i = 0; i < els.length; i++) {
+        var text = L(els[i].getAttribute("data-l"));
+        var targets = (els[i].getAttribute("data-a") || "text").split(",");
+        for (var j = 0; j < targets.length; j++) {
+            if (targets[j] === "text") { els[i].textContent = text; }
+            else { els[i].setAttribute(targets[j], text.replace(/\s*:\s*$/, "")); }
+        }
+    }
+}
 
 function escHtml(s) {
     return String(s)
@@ -986,14 +1113,17 @@ function loadJson(jsonText) {
         prettyJson = jsonText;
         parsedOk = false;
         banner.style.display = "block";
-        banner.innerHTML = "Could not parse this as valid JSON (" + escHtml(e.message) + "). Showing raw text below.";
+        banner.textContent = L("JsonViewerCouldParseJson") + " (" + e.message + "). " + L("JsonViewerShowingRawText");
     }
 
     lines = prettyJson.split("\n");
     matchLines = [];
     currentMatch = -1;
     currentTerm = "";
-    document.getElementById("matchCount").innerHTML = "";
+    treeMatches = [];
+    treeCurrent = -1;
+    treeTerm = "";
+    document.getElementById("matchCount").textContent = "";
 
     renderStats();
     setupSizer();
@@ -1001,12 +1131,7 @@ function loadJson(jsonText) {
     renderTree();
 }
 
-// Mirrors the VBA GetTokenEstimate() function so the displayed estimate
-// always matches what the workbook itself computes:
-//   charCount = Len(jsonText)
-//   estimatedTokens = -Int(-charCount / 4)         ' ceiling division, ~4 chars/token
-//   safetyBuffer = CLng(estimatedTokens * 0.08)    ' ~8% buffer for BPE edge cases
-//   GetTokenEstimate = estimatedTokens + safetyBuffer
+// Mirrors the estimate the app gives for a Knowledge Graph file, about four characters a token with 8% added.
 function getTokenEstimate(charCount) {
     var estimatedTokens = Math.ceil(charCount / 4);
     var safetyBuffer = Math.round(estimatedTokens * 0.08);
@@ -1014,17 +1139,15 @@ function getTokenEstimate(charCount) {
 }
 
 function renderStats() {
-    var tokenEstimate = getTokenEstimate(originalJson.length);
-    var stats = "Characters: " + originalJson.length + " &nbsp;|&nbsp; Est. Tokens: " + tokenEstimate + " &nbsp;|&nbsp; Lines: " + lines.length;
-    if (parsedOk && parsedObj && typeof parsedObj === "object") {
-        if (parsedObj.nodes && parsedObj.nodes.length !== undefined) {
-            stats += " &nbsp;|&nbsp; Nodes: " + parsedObj.nodes.length;
-        }
-        if (parsedObj.edges && parsedObj.edges.length !== undefined) {
-            stats += " &nbsp;|&nbsp; Edges: " + parsedObj.edges.length;
-        }
-    }
-    document.getElementById("statsBar").innerHTML = stats;
+    document.getElementById("statChars").textContent = String(originalJson.length);
+    document.getElementById("statTokens").textContent = String(getTokenEstimate(originalJson.length));
+    document.getElementById("statLines").textContent = String(lines.length);
+    var hasNodes = parsedOk && parsedObj && typeof parsedObj === "object" && parsedObj.nodes && parsedObj.nodes.length !== undefined;
+    var hasEdges = parsedOk && parsedObj && typeof parsedObj === "object" && parsedObj.edges && parsedObj.edges.length !== undefined;
+    document.getElementById("statNodesBox").style.display = hasNodes ? "" : "none";
+    document.getElementById("statEdgesBox").style.display = hasEdges ? "" : "none";
+    if (hasNodes) { document.getElementById("statNodes").textContent = String(parsedObj.nodes.length); }
+    if (hasEdges) { document.getElementById("statEdges").textContent = String(parsedObj.edges.length); }
 }
 
 // ---------- raw view: virtualized rendering ----------
@@ -1037,48 +1160,74 @@ function setupSizer() {
     sizer.style.height = (lines.length * ROW_HEIGHT) + "px";
 }
 
+// The text put in the form a search compares: in lower case, unless the case matters.
+function fold(text) { return matchCase ? text : text.toLowerCase(); }
+
+// Where the term is in a line of text, as [start, end) pairs, not overlapping.
+function searchRanges(text, term) {
+    var ranges = [];
+    if (!term) { return ranges; }
+    var lower = fold(text);
+    var wanted = fold(term);
+    var pos = 0;
+    var idx;
+    while ((idx = lower.indexOf(wanted, pos)) !== -1) {
+        ranges.push([idx, idx + term.length]);
+        pos = idx + term.length;
+    }
+    return ranges;
+}
+
+// A piece of a line as HTML: the text that starts at position start in the line, with the parts the search found marked, and the whole piece in a
+// span of the given class (the color of its kind of token) when there is one. The marks sit inside the span, so the colors stay.
+function piece(text, start, ranges, cls) {
+    var out = "";
+    var pos = 0;
+    var end = start + text.length;
+    for (var r = 0; r < ranges.length; r++) {
+        var a = Math.max(ranges[r][0], start);
+        var b = Math.min(ranges[r][1], end);
+        if (a >= b) { continue; }
+        out += escHtml(text.substring(pos, a - start)) + "<mark>" + escHtml(text.substring(a - start, b - start)) + "</mark>";
+        pos = b - start;
+    }
+    out += escHtml(text.substring(pos));
+    return cls ? "<span class=\"" + cls + "\">" + out + "</span>" : out;
+}
+
 function syntaxHighlight(lineText) {
     // Very lightweight line-based tokenizer: good enough for pretty-printed
     // JSON.stringify output (one token group per line), not a full parser.
+    var ranges = currentTerm ? searchRanges(lineText, currentTerm) : [];
     var html = "";
     var re = /("(?:\\.|[^"\\])*")(\s*:)?|(\btrue\b|\bfalse\b|\bnull\b)|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)|([{}\[\],])/g;
     var lastIndex = 0;
     var m;
     while ((m = re.exec(lineText)) !== null) {
         if (m.index > lastIndex) {
-            html += escHtml(lineText.substring(lastIndex, m.index));
+            html += piece(lineText.substring(lastIndex, m.index), lastIndex, ranges, "");
         }
         if (m[1]) {
             var cls = m[2] ? "jkey" : "jstr";
-            html += "<span class=\"" + cls + "\">" + escHtml(m[1]) + "</span>" + (m[2] ? escHtml(m[2]) : "");
+            html += piece(m[1], m.index, ranges, cls) + (m[2] ? piece(m[2], m.index + m[1].length, ranges, "") : "");
         } else if (m[3]) {
-            html += "<span class=\"jbool\">" + escHtml(m[3]) + "</span>";
+            html += piece(m[3], m.index, ranges, "jbool");
         } else if (m[4]) {
-            html += "<span class=\"jnum\">" + escHtml(m[4]) + "</span>";
+            html += piece(m[4], m.index, ranges, "jnum");
         } else if (m[5]) {
-            html += "<span class=\"jpunc\">" + escHtml(m[5]) + "</span>";
+            html += piece(m[5], m.index, ranges, "jpunc");
         }
         lastIndex = re.lastIndex;
     }
     if (lastIndex < lineText.length) {
-        html += escHtml(lineText.substring(lastIndex));
+        html += piece(lineText.substring(lastIndex), lastIndex, ranges, "");
     }
     return html;
 }
 
+// A piece of text of the tree with the term marked (the color of the piece is its element's own).
 function highlightSearchTerm(lineText, term) {
-    var lower = lineText.toLowerCase();
-    var termLower = term.toLowerCase();
-    var out = "";
-    var pos = 0;
-    var idx;
-    while ((idx = lower.indexOf(termLower, pos)) !== -1) {
-        out += escHtml(lineText.substring(pos, idx));
-        out += "<mark>" + escHtml(lineText.substring(idx, idx + term.length)) + "</mark>";
-        pos = idx + term.length;
-    }
-    out += escHtml(lineText.substring(pos));
-    return out;
+    return piece(lineText, 0, searchRanges(lineText, term), "");
 }
 
 function renderVisibleRows() {
@@ -1091,7 +1240,7 @@ function renderVisibleRows() {
     var visibleCount = Math.ceil(viewportH / ROW_HEIGHT) + BUFFER_ROWS * 2;
     var last = Math.min(lines.length - 1, first + visibleCount);
 
-    sizer.innerHTML = "";
+    sizer.textContent = "";
     var matchSet = {};
     var i;
     for (i = 0; i < matchLines.length; i++) { matchSet[matchLines[i]] = true; }
@@ -1110,11 +1259,8 @@ function renderVisibleRows() {
         var textSpan = document.createElement("span");
         textSpan.className = "rowText";
         var lineText = lines[i] || "";
-        if (currentTerm) {
-            textSpan.innerHTML = highlightSearchTerm(lineText, currentTerm);
-        } else {
-            textSpan.innerHTML = syntaxHighlight(lineText);
-        }
+        // The colors of the line stay while it is searched: the term is marked inside the colored pieces.
+        textSpan.innerHTML = syntaxHighlight(lineText);
 
         row.appendChild(numSpan);
         row.appendChild(textSpan);
@@ -1123,32 +1269,55 @@ function renderVisibleRows() {
 }
 
 // ---------- search ----------
-function runSearch() {
+// One search box for both views. In the raw view the matches are lines; in the tree they are rows of the tree whose key or value has
+// the term (not a position in a list, and not the size shown after a key). The count and the place are numbers, so the two views
+// may count differently, and a change of view searches again in the new view, keeping the place when the counts are the same.
+function runSearch(keep) {
     var term = document.getElementById("searchInput").value;
-    currentTerm = term;
-    matchLines = [];
-    currentMatch = -1;
+    if (rawView) {
+        currentTerm = term;
+        matchLines = [];
+        currentMatch = -1;
 
-    if (term) {
-        var termLower = term.toLowerCase();
-        for (var i = 0; i < lines.length; i++) {
-            if (lines[i].toLowerCase().indexOf(termLower) !== -1) {
-                matchLines.push(i);
+        if (term) {
+            var termFolded = fold(term);
+            for (var i = 0; i < lines.length; i++) {
+                if (fold(lines[i]).indexOf(termFolded) !== -1) {
+                    matchLines.push(i);
+                }
             }
+            if (matchLines.length > 0) { currentMatch = (keep > 0 && keep < matchLines.length) ? keep : 0; }
         }
-        if (matchLines.length > 0) { currentMatch = 0; }
-    }
 
-    updateMatchCount();
-    scrollToCurrentMatch();
-    renderVisibleRows();
+        updateMatchCount();
+        scrollToCurrentMatch();
+        renderVisibleRows();
+    } else {
+        treeTerm = term;
+        treeMatches = term && parsedOk ? collectTreeMatches(term) : [];
+        treeCurrent = treeMatches.length > 0 ? ((keep > 0 && keep < treeMatches.length) ? keep : 0) : -1;
+        paintTreeText();
+        updateMatchCount();
+        revealTreeMatch();
+    }
 }
 
+// The place among the matches and how many there are, as numbers: "3 / 12", or "0" when nothing matches.
 function updateMatchCount() {
     var el = document.getElementById("matchCount");
-    if (!currentTerm) { el.innerHTML = ""; return; }
-    if (matchLines.length === 0) { el.innerHTML = "0 matches"; return; }
-    el.innerHTML = (currentMatch + 1) + " / " + matchLines.length + " lines";
+    var term = rawView ? currentTerm : treeTerm;
+    var count = rawView ? matchLines.length : treeMatches.length;
+    var at = rawView ? currentMatch : treeCurrent;
+    reportSearch(term, count, at);
+    if (!term) { el.textContent = ""; return; }
+    if (count === 0) { el.textContent = "0"; return; }
+    el.textContent = (at + 1) + " / " + count;
+}
+
+// The app's search bar shows the count: the page tells it how many matches there are and which one it is at (-1 for none).
+function reportSearch(term, count, at) {
+    if (!APP_SEARCH) { return; }
+    window.parent.postMessage({ type: "graph-modeler-viewer", action: "found", count: term ? count : 0, current: term && count > 0 ? at : -1 }, "*");
 }
 
 function scrollToCurrentMatch() {
@@ -1160,29 +1329,85 @@ function scrollToCurrentMatch() {
     scrollArea.scrollTop = targetTop;
 }
 
+// Go to match number i (counting from 0) in the view that is showing.
+function gotoMatch(i) {
+    if (rawView) {
+        if (matchLines.length === 0) { return; }
+        currentMatch = i;
+        updateMatchCount();
+        scrollToCurrentMatch();
+        renderVisibleRows();
+    } else {
+        if (treeMatches.length === 0) { return; }
+        treeCurrent = i;
+        updateMatchCount();
+        revealTreeMatch();
+    }
+}
+
 function nextMatch() {
-    if (matchLines.length === 0) { return; }
-    currentMatch = (currentMatch + 1) % matchLines.length;
-    updateMatchCount();
-    scrollToCurrentMatch();
-    renderVisibleRows();
+    var count = rawView ? matchLines.length : treeMatches.length;
+    if (count === 0) { return; }
+    gotoMatch(((rawView ? currentMatch : treeCurrent) + 1) % count);
 }
 
 function prevMatch() {
-    if (matchLines.length === 0) { return; }
-    currentMatch = (currentMatch - 1 + matchLines.length) % matchLines.length;
-    updateMatchCount();
-    scrollToCurrentMatch();
-    renderVisibleRows();
+    var count = rawView ? matchLines.length : treeMatches.length;
+    if (count === 0) { return; }
+    gotoMatch(((rawView ? currentMatch : treeCurrent) - 1 + count) % count);
 }
 
 function clearSearch() {
     document.getElementById("searchInput").value = "";
-    currentTerm = "";
-    matchLines = [];
-    currentMatch = -1;
-    updateMatchCount();
-    renderVisibleRows();
+    runSearch(-1);
+}
+
+// The rows of the tree that match, in the order of the file, each as the path to it: the position of the row among its brothers at
+// every step down from the top.
+function collectTreeMatches(term) {
+    var out = [];
+    var t = fold(term);
+    function has(s) { return fold(String(s)).indexOf(t) !== -1; }
+    function walk(value, path) {
+        var isArr = Array.isArray(value);
+        var keys = isArr ? null : Object.keys(value);
+        var n = isArr ? value.length : keys.length;
+        for (var i = 0; i < n; i++) {
+            var child = isArr ? value[i] : value[keys[i]];
+            var here = path.concat([i]);
+            var container = child !== null && typeof child === "object";
+            if ((!isArr && has(keys[i])) || (!container && has(child))) { out.push(here); }
+            if (container) { walk(child, here); }
+        }
+    }
+    if (parsedObj !== null && typeof parsedObj === "object") { walk(parsedObj, []); }
+    return out;
+}
+
+// Show the current match of the tree: open every branch above it (and the rest of a long list, if it is past the first rows),
+// mark its row, and scroll it into view.
+function revealTreeMatch() {
+    var before = document.querySelector(".treeLine.treeCurrent");
+    if (before) { before.className = "treeLine"; }
+    if (treeCurrent === -1) { return; }
+    var path = treeMatches[treeCurrent];
+    var node = document.getElementById("treeView").firstChild;
+    for (var s = 0; s < path.length; s++) {
+        if (!node || !node.treeHolder) { return; }
+        node.treeHolder.style.display = "block";
+        node.treeToggle.className = "toggle";
+        var holder = node.treeHolder;
+        var child = holder.children[path[s]];
+        if (!child || child.className.indexOf("moreLink") !== -1) {
+            var more = holder.lastChild;
+            if (more && more.onclick) { more.onclick(); }
+            child = holder.children[path[s]];
+        }
+        node = child;
+    }
+    if (!node || !node.treeLine) { return; }
+    node.treeLine.className = "treeLine treeCurrent";
+    if (node.treeLine.scrollIntoView) { node.treeLine.scrollIntoView({ block: "center" }); }
 }
 
 // ---------- copy ----------
@@ -1200,45 +1425,79 @@ var TREE_ARRAY_LIMIT = 200; // cap initial render of large arrays so huge graphs
 
 function renderTree() {
     var container = document.getElementById("treeView");
-    container.innerHTML = "";
+    container.textContent = "";
     if (!parsedOk) {
-        container.innerHTML = "<div style=\"color:#900;\">Tree view is unavailable because the input is not valid JSON.</div>";
+        var notice = document.createElement("div");
+        notice.className = "treeError";
+        notice.textContent = L("JsonViewerTreeNotAvailable");
+        container.appendChild(notice);
         return;
     }
-    container.appendChild(buildTreeNode("root", parsedObj, true));
+    container.appendChild(buildTreeNode("root", parsedObj, true, false));
 }
 
-function typeLabel(v) {
-    if (v === null) { return "null"; }
-    if (Array.isArray(v)) { return "array(" + v.length + ")"; }
-    return typeof v;
+// What a branch holds, in the notation of JSON itself: [7] for a list of seven, {3} for an object with three keys.
+function sizeLabel(v) {
+    if (Array.isArray(v)) { return "[" + v.length + "]"; }
+    return "{" + Object.keys(v).length + "}";
 }
 
-function buildTreeNode(key, value, isRoot) {
+// A piece of text of the tree that a search can mark: a key, or a value. The text is kept, and drawn with the term marked when
+// the tree is being searched.
+function markableText(text) {
+    var el = document.createElement("span");
+    el.setAttribute("data-m", "1");
+    el.treeText = text;
+    paintMarkable(el);
+    return el;
+}
+
+function paintMarkable(el) {
+    if (treeTerm && !rawView) { el.innerHTML = highlightSearchTerm(el.treeText, treeTerm); }
+    else { el.textContent = el.treeText; }
+}
+
+// Draw again every piece of text that was made so far, for a new search term (or for none).
+function paintTreeText() {
+    var els = document.querySelectorAll("#treeView [data-m]");
+    for (var i = 0; i < els.length; i++) { paintMarkable(els[i]); }
+}
+
+// A row of the tree and what is under it. named is true for the key of an object, which a search can match, and false for the
+// place in a list, which it cannot. The row remembers its parts (treeLine, treeHolder, treeToggle) so that a search can open it.
+function buildTreeNode(key, value, isRoot, named) {
     var wrap = document.createElement("div");
     wrap.className = "treeNode";
 
     var isContainer = value !== null && typeof value === "object";
 
     var line = document.createElement("div");
+    line.className = "treeLine";
+    wrap.treeLine = line;
     if (isContainer) {
         var toggle = document.createElement("span");
         toggle.className = "toggle";
-        toggle.textContent = "-";
         var childHolder = document.createElement("div");
+        wrap.treeHolder = childHolder;
+        wrap.treeToggle = toggle;
 
         toggle.onclick = (function (t, holder) {
             return function () {
                 var collapsed = holder.style.display === "none";
                 holder.style.display = collapsed ? "block" : "none";
-                t.textContent = collapsed ? "-" : "+";
+                t.className = collapsed ? "toggle" : "toggle collapsed";
             };
         })(toggle, childHolder);
 
         line.appendChild(toggle);
         var keySpan = document.createElement("span");
         keySpan.className = "treeKey";
-        keySpan.textContent = (isRoot ? "" : key + ": ") + typeLabel(value);
+        if (!isRoot) {
+            if (named) { keySpan.appendChild(markableText(key)); }
+            else { keySpan.appendChild(document.createTextNode(key)); }
+            keySpan.appendChild(document.createTextNode(": "));
+        }
+        keySpan.appendChild(document.createTextNode(sizeLabel(value)));
         line.appendChild(keySpan);
         wrap.appendChild(line);
         wrap.appendChild(childHolder);
@@ -1250,16 +1509,16 @@ function buildTreeNode(key, value, isRoot) {
         var i;
         if (Array.isArray(value)) {
             for (i = 0; i < limit; i++) {
-                childHolder.appendChild(buildTreeNode("[" + i + "]", value[i], false));
+                childHolder.appendChild(buildTreeNode("[" + i + "]", value[i], false, false));
             }
             if (count > limit) {
                 var more = document.createElement("div");
                 more.className = "treeNode moreLink";
-                more.textContent = "... " + (count - limit) + " more items (click to expand)";
+                more.textContent = fill(L("JsonViewerTreeMore"), { count: count - limit });
                 more.onclick = (function (arr, holder, startAt) {
                     return function () {
                         for (var j = startAt; j < arr.length; j++) {
-                            holder.insertBefore(buildTreeNode("[" + j + "]", arr[j], false), more);
+                            holder.insertBefore(buildTreeNode("[" + j + "]", arr[j], false, false), more);
                         }
                         more.parentNode.removeChild(more);
                     };
@@ -1268,20 +1527,28 @@ function buildTreeNode(key, value, isRoot) {
             }
         } else {
             for (i = 0; i < keys.length; i++) {
-                childHolder.appendChild(buildTreeNode(keys[i], value[keys[i]], false));
+                childHolder.appendChild(buildTreeNode(keys[i], value[keys[i]], false, true));
             }
         }
     } else {
         var leafKey = document.createElement("span");
         leafKey.className = "treeKey";
-        leafKey.textContent = key + ": ";
+        if (named) { leafKey.appendChild(markableText(key)); }
+        else { leafKey.appendChild(document.createTextNode(key)); }
+        leafKey.appendChild(document.createTextNode(": "));
         var leafVal = document.createElement("span");
         var cls = "treeVal ";
         if (typeof value === "string") { cls += "jstr"; }
         else if (typeof value === "number") { cls += "jnum"; }
         else if (typeof value === "boolean" || value === null) { cls += "jbool"; }
         leafVal.className = cls;
-        leafVal.textContent = typeof value === "string" ? "\"" + value + "\"" : String(value);
+        if (typeof value === "string") {
+            leafVal.appendChild(document.createTextNode("\""));
+            leafVal.appendChild(markableText(value));
+            leafVal.appendChild(document.createTextNode("\""));
+        } else {
+            leafVal.appendChild(markableText(String(value)));
+        }
         line.appendChild(leafKey);
         line.appendChild(leafVal);
         wrap.appendChild(line);
@@ -1313,50 +1580,138 @@ function saveTextAsFile(text, filename) {
 }
 
 // ---------- view toggle ----------
-function showRawView() {
-    document.getElementById("scrollArea").style.display = "block";
-    document.getElementById("treeView").style.display = "none";
-    document.getElementById("btnRawView").className = "active";
-    document.getElementById("btnTreeView").className = "";
-    renderVisibleRows();
+function showView(raw) {
+    var oldCount = rawView ? matchLines.length : treeMatches.length;
+    var oldAt = rawView ? currentMatch : treeCurrent;
+    rawView = raw;
+    document.getElementById("scrollArea").style.display = raw ? "block" : "none";
+    document.getElementById("treeView").style.display = raw ? "none" : "block";
+    var rawBtn = document.getElementById("btnRawView");
+    var treeBtn = document.getElementById("btnTreeView");
+    rawBtn.className = raw ? "ib on" : "ib";
+    treeBtn.className = raw ? "ib" : "ib on";
+    rawBtn.setAttribute("aria-pressed", raw ? "true" : "false");
+    treeBtn.setAttribute("aria-pressed", raw ? "false" : "true");
+    if (raw) { paintTreeText(); }
+    runSearch(-1);
+    var newCount = raw ? matchLines.length : treeMatches.length;
+    if (newCount > 0 && newCount === oldCount && oldAt > 0) { gotoMatch(oldAt); }
 }
-function showTreeView() {
-    document.getElementById("scrollArea").style.display = "none";
-    document.getElementById("treeView").style.display = "block";
-    document.getElementById("btnRawView").className = "";
-    document.getElementById("btnTreeView").className = "active";
+
+// ---------- the menus of Copy and Save ----------
+function closeMenus() {
+    var menus = document.querySelectorAll(".menu");
+    var buttons = document.querySelectorAll(".menuBtn");
+    var i;
+    for (i = 0; i < menus.length; i++) { menus[i].className = "menu"; }
+    for (i = 0; i < buttons.length; i++) { buttons[i].setAttribute("aria-expanded", "false"); }
+}
+
+function toggleMenu(buttonId, menuId) {
+    var menu = document.getElementById(menuId);
+    var wasOpen = menu.className.indexOf("open") !== -1;
+    closeMenus();
+    if (!wasOpen) {
+        menu.className = "menu open";
+        document.getElementById(buttonId).setAttribute("aria-expanded", "true");
+        var first = menu.querySelector("button");
+        if (first) { first.focus(); }
+    }
+}
+
+// ---------- what the app asks: its theme, and the search of its search bar ----------
+// Only the window that holds this page may say so. A theme is one of two words. A search is a term and whether the case matters, or the
+// number of a match to go to, or to stop; the page takes the term as text and never as HTML.
+window.addEventListener("message", function (e) {
+    if (e.source !== window.parent) { return; }
+    var m = e.data;
+    if (!m || m.type !== "graph-modeler-viewer") { return; }
+    if (m.theme === "dark" || m.theme === "light") {
+        document.documentElement.className = m.theme === "dark" ? "dark" : "";
+    } else if (APP_SEARCH && m.action === "find" && typeof m.term === "string") {
+        matchCase = m.matchCase === true;
+        document.getElementById("searchInput").value = m.term;
+        runSearch(-1);
+    } else if (APP_SEARCH && m.action === "goto" && typeof m.index === "number") {
+        gotoMatch(Math.floor(m.index));
+    } else if (APP_SEARCH && m.action === "clear") {
+        document.getElementById("searchInput").value = "";
+        runSearch(-1);
+    }
+});
+
+// The cursor goes to the search box with its text selected, so that typing replaces the term (as Ctrl+F does in the window around the page).
+function focusSearch() {
+    var box = document.getElementById("searchInput");
+    box.focus();
+    box.select();
 }
 
 // ---------- wire up events (no inline handlers, so this also works if a host sets a strict CSP) ----------
 window.onload = function () {
-    document.getElementById("btnSearch").onclick = runSearch;
+    try { LABELS = JSON.parse(document.getElementById("labels").textContent) || {}; } catch (e) { LABELS = {}; }
+    applyLabels();
+
+    document.getElementById("btnSearch").onclick = function () { runSearch(-1); };
     document.getElementById("btnNext").onclick = nextMatch;
     document.getElementById("btnPrev").onclick = prevMatch;
     document.getElementById("btnClear").onclick = clearSearch;
-    document.getElementById("btnCopyRaw").onclick = function () { copyText(originalJson); };
-    document.getElementById("btnCopyPretty").onclick = function () { copyText(prettyJson); };
-    document.getElementById("btnSaveRaw").onclick = function () { saveTextAsFile(originalJson, buildFilename("json")); };
-    document.getElementById("btnSavePretty").onclick = function () { saveTextAsFile(prettyJson, buildFilename("json")); };
-    document.getElementById("btnRawView").onclick = showRawView;
-    document.getElementById("btnTreeView").onclick = showTreeView;
+    document.getElementById("btnCopy").onclick = function () { toggleMenu("btnCopy", "menuCopy"); };
+    document.getElementById("btnSave").onclick = function () { toggleMenu("btnSave", "menuSave"); };
+    document.getElementById("btnCopyRaw").onclick = function () { copyText(originalJson); closeMenus(); };
+    document.getElementById("btnCopyPretty").onclick = function () { copyText(prettyJson); closeMenus(); };
+    document.getElementById("btnSaveRaw").onclick = function () { saveTextAsFile(originalJson, buildFilename("json")); closeMenus(); };
+    document.getElementById("btnSavePretty").onclick = function () { saveTextAsFile(prettyJson, buildFilename("json")); closeMenus(); };
+    document.getElementById("btnHelp").onclick = function () {
+        // The app opens the page; the page says only that it was asked for.
+        window.parent.postMessage({ type: "graph-modeler-viewer", action: "help" }, "*");
+    };
+    document.getElementById("btnRawView").onclick = function () { showView(true); };
+    document.getElementById("btnTreeView").onclick = function () { showView(false); };
     document.getElementById("searchInput").onkeydown = function (e) {
         e = e || window.event;
-        if (e.keyCode === 13) { runSearch(); }
+        if (e.keyCode === 13) {
+            // Enter on a term that was already searched goes on to the next match (Shift+Enter, the one before); on a new term it searches.
+            var searched = rawView ? currentTerm : treeTerm;
+            var count = rawView ? matchLines.length : treeMatches.length;
+            if (searched && searched === this.value && count > 0) { if (e.shiftKey) { prevMatch(); } else { nextMatch(); } }
+            else { runSearch(-1); }
+        }
     };
+    document.addEventListener("click", function (e) {
+        var t = e.target;
+        if (!t || !t.closest || !t.closest(".menuWrap")) { closeMenus(); }
+    });
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") { closeMenus(); }
+        // Ctrl+F searches, F3 goes to the next match and Esc leaves the search, as in the other tabs. Key presses in this page do not reach
+        // the app, so in the app the page asks it to do these (its search bar); on a website the page has a search box of its own.
+        var find = (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && e.key && e.key.toLowerCase() === "f";
+        var step = e.key === "F3" && !e.ctrlKey && !e.metaKey && !e.altKey;
+        if (APP_SEARCH) {
+            var asked = find ? "find" : step ? (e.shiftKey ? "previous" : "next") : e.key === "Escape" ? "close" : "";
+            if (asked) { window.parent.postMessage({ type: "graph-modeler-viewer", action: "key", key: asked }, "*"); }
+            if (find || step) { e.preventDefault(); }
+        } else if (find) {
+            focusSearch();
+            e.preventDefault();
+        } else if (step) {
+            if (e.shiftKey) { prevMatch(); } else { nextMatch(); }
+            e.preventDefault();
+        }
+    });
     document.getElementById("scrollArea").onscroll = renderVisibleRows;
     window.onresize = function () { renderVisibleRows(); };
 
-    // The graph is in the page. If it is missing, fall back to the bundled sample.
+    // The graph is in the page, as JSON text.
     var dataBlock = document.getElementById("graphData");
     var graphText = dataBlock ? dataBlock.textContent : "";
     var graph = null;
     try { graph = JSON.parse(graphText); } catch (e) { graph = null; }
     if (graph !== null) {
         loadJson(JSON.stringify(graph));
-    } else if (graphText) {
-        loadJson(graphText);
     } else {
-        loadJson(JSON.stringify(SAMPLE_JSON_OBJ));
+        loadJson(graphText);
     }
 };
 </script>

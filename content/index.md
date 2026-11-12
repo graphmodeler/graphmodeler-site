@@ -79,5 +79,5 @@ The same rows, drawn.
 
 And the same rows again, published as a Knowledge Graph: structured JSON containing the same nodes, edges, styles, descriptions, and properties in the open [RV-KGF format](https://github.com/jjlong150/rv-kgf), available in both text and tree representations.
 
-<img class="shot shot-light" src="/shots/knowledge-graph-home-light.png" alt="The Knowledge Graph tab: the graph as JSON, with a search box and a count of nodes, edges and tokens">
+<img class="shot shot-light" src="/shots/knowledge-graph-home-light.png" alt="The Knowledge Graph tab: the graph as JSON, with buttons to copy and save it and a count of characters, tokens, lines, nodes and edges">
 <img class="shot shot-dark" src="/shots/knowledge-graph-home-dark.png" alt="The Knowledge Graph tab in the dark theme">
