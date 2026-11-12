@@ -14,7 +14,7 @@ Where a setting has a picture, such as the layout engine, the picture of the one
 
 ## Language
 
-The first group is the language of the program itself: a list of the languages it has, and two buttons, one that opens the folder for your own language files and one that
+The first group is the language of the program itself: a list of the languages it has (English, in this version, and any file you add), and two buttons, one that opens the folder for your own language files and one that
 reads the files again. The choice is saved on this computer and not with the project. See [Languages](/docs/languages/).
 
 ## Layout

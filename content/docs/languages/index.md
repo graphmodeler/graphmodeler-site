@@ -7,6 +7,8 @@ description: "Choose the language of Graph Modeler's tabs, buttons and messages 
 Graph Modeler can show its tabs, buttons, tooltips and messages in other languages. English is built in. Another language comes as a language file, and the program finds it
 without a new installer.
 
+This version comes with English only. The setting and the files are there, and the translations that will come with the program are to follow in a later version.
+
 ## Choosing a language
 
 On the [Settings](/docs/settings/) tab, the **Language** group at the top has a list.
@@ -44,7 +46,7 @@ texts you changed, and takes the rest from that language and then from English.
 A text a file leaves empty, or does not have, is shown in English. A file that cannot be used is listed under the language list with the reason, in English, so you can correct it.
 A line of a file that is wrong is left out and the rest of the file is still used.
 
-## Helping with a language
+## Languages that come with the program
 
-Translations are credited, by name, on the **About** tab of the program and on this website. If you would like to translate Graph Modeler into your language, or to review a
-machine translation, write to [support@graphmodeler.com](mailto:support@graphmodeler.com).
+None yet. When a translation comes with the program, it is in the list under its own name, and the people who made it are named on the **About** tab. See
+[About](/docs/about/).
