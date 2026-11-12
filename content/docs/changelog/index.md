@@ -7,10 +7,7 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
-<!--
-THE NEXT VERSION (1.3.0, date not chosen): to publish this entry at the release, remove this comment's first and last lines and set the date.
-
-## Version 1.3.0 (? ?, 2026)
+## Version 1.3.0 (November 12, 2026)
 
 **New**
 
@@ -25,7 +22,6 @@ THE NEXT VERSION (1.3.0, date not chosen): to publish this entry at the release,
 **Fixed**
 
 - **The Knowledge Graph viewer lost its colors on a line that held the search term.** The term is now marked inside the colored text.
--->
 
 ## Version 1.2.0 (November 10, 2026)
 
