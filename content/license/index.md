@@ -62,7 +62,7 @@ permission from the copyright holder.
 
 <div class="license-text">
 
-**Graph Modeler Personal Use License v1.0**
+**Graph Modeler License v1.0**
 
 Copyright (c) 2026 Jeffrey J. Long
 
