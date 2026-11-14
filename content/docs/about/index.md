@@ -76,7 +76,7 @@ The **Graphviz** line is the quickest way to see whether the app found Graphviz 
 ## Translations
 
 When a language that came with Graph Modeler has been translated by someone, this section thanks them, with a line for each language, named in its own words, and the people who
-translated it. It is not shown while no language has translators. A language file you added yourself is never listed here. See [Languages](/docs/languages/).
+translated it, such as **Polski: Arek Czak**. A language that has only a machine translation has no line, and the section is not shown while no language has translators. A language file you added yourself is never listed here. See [Languages](/docs/languages/).
 
 ## Built with
 

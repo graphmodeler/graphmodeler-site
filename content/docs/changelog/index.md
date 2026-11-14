@@ -7,6 +7,23 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+<!-- Release day: remove this comment line and the closing one below, and set the date.
+
+## Version 1.4.0 (November XX, 2026)
+
+**New**
+
+- **Graph Modeler speaks other languages.** It comes with Polish, translated and reviewed by Arek Czak, and with German, French, Spanish, Russian, Chinese (simplified), Italian, Japanese, Portuguese (Brazil) and Korean, which are machine translations that no person has reviewed yet. English with British spelling is chosen for the English of Canada, the United Kingdom, Australia and other countries that do not spell as the United States does. The program starts in the language of your computer, and you can choose another on the **Settings** tab. See [Languages](/docs/languages/).
+- **The menu bar is translated,** with the first-start license question, the license section of the **About** tab, the hover texts of the **Knowledge Graph** tab and the names that a new project starts with (Untitled, All Styles, Filter 1, Graph, Label). The text of the license itself stays in English.
+
+**Changed**
+
+- **The license is headed "Graph Modeler License v1.0."** The heading used to say "Personal Use License", which did not describe a license that has a commercial part. Only the heading changed.
+- **The first-start license question is not closed by Esc,** so that it is always answered.
+- **The unit word,** millimeters or millimetres, follows the region of your computer, not the language you chose.
+
+-->
+
 ## Version 1.3.0 (November 12, 2026)
 
 **New**
