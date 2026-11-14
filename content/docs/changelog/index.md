@@ -7,9 +7,7 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
-<!-- Release day: remove this comment line and the closing one below, and set the date.
-
-## Version 1.4.0 (November XX, 2026)
+## Version 1.4.0 (November 14, 2026)
 
 **New**
 
@@ -21,8 +19,6 @@ What each version of Graph Modeler changed, newest first. The versions before 1.
 - **The license is headed "Graph Modeler License v1.0."** The heading used to say "Personal Use License", which did not describe a license that has a commercial part. Only the heading changed.
 - **The first-start license question is not closed by Esc,** so that it is always answered.
 - **The unit word,** millimeters or millimetres, follows the region of your computer, not the language you chose.
-
--->
 
 ## Version 1.3.0 (November 12, 2026)
 
