@@ -10,6 +10,9 @@ and Graph Modeler writes the SQL for you. You do not need to know SQL to use it,
 The tab does one thing: it makes **mappings**. A mapping is a line of the script on the [SQL](/docs/sql/) tab that was written by a form instead of by hand. The
 Mappings tab keeps a list of them, as the [Styles](/docs/styles/) tab keeps a list of styles, and the SQL tab is where the script is run, so a graph appears on the [Data](/docs/data/) tab only after a run there.
 
+<img class="shot shot-light" src="/shots/mappings-light.png" alt="The Mappings tab: a list of three mappings on the left, and the editor for the edge mapping Reports to on the right, with the SQL it writes under the list">
+<img class="shot shot-dark" src="/shots/mappings-dark.png" alt="The Mappings tab in the dark theme">
+
 ## The short version
 
 1. Open the **Mappings** tab and press **+**. Choose the file, and the sheet or table if it has several.
@@ -66,7 +69,7 @@ if a column is not chosen, **Save** says which one is missing.
 | **Label** | The text drawn on the node or edge. A node's label follows the Item column until you change it. An edge has no label unless you give one. |
 | **Style name** | The column, or the fixed text, that names the style. |
 
-Beside the form, **Name** is the name of the mapping in the list, and a made-up one is offered. The arrows beside the row number step through the sample rows of the file.
+Above the fields, **Name of the mapping** is the name it has in the list, and a made-up one is offered. The arrows beside **Sample row** step through the first rows of the file.
 
 Under each field, an **Example** line shows what the field makes for the sample row, so you can see the result before you save. A node's **Use each Item only once** is ticked
 from the start, so a node that appears on many rows is made once. Rows with no Item are skipped.
