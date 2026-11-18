@@ -2,12 +2,12 @@
 layout: home
 title: Graph Modeler™ – model graphs in a grid, draw them with Graphviz
 titleTemplate: false
-description: Graph Modeler turns rows of data into Graphviz diagrams and Knowledge Graphs. A desktop app for Windows, macOS and Linux; free for personal use.
+description: Graph Modeler turns a spreadsheet, CSV file or database into Graphviz diagrams and Knowledge Graphs. A desktop app for Windows, macOS and Linux; free for personal use.
 
 hero:
   name: Graph Modeler™
-  text: See the connections
-  tagline: A desktop application for creating graph models, generating Graphviz diagrams, and publishing standards-based knowledge graphs.
+  text: Rows in. Graphs out.
+  tagline: Turn a spreadsheet, CSV file or database into a Graphviz diagram and an open Knowledge Graph. Choose the columns, style what you see, publish.
   image:
     light: /hero-light.svg
     dark: /hero-dark.svg
@@ -52,10 +52,10 @@ features:
   - icon:
       dark: /database-search-dark.svg
       light: /database-search-light.svg
-    title: Data from queries
-    details: Use SQL to turn data in Excel and LibreOffice workbooks, CSV extracts and Access databases into graph models.<br/><br/>Chain queries into a pipeline that generates and publishes every view in a single run.
-    link: /docs/sql/
-    linkText: SQL
+    title: From your own data
+    details: Choose the columns of an Excel or LibreOffice workbook, a CSV file, or an Access or SQLite database, and Graph Modeler writes the SQL for you.<br/><br/>Prefer to write it yourself? Chain queries into a pipeline that generates and publishes every view in a single run.
+    link: /docs/mappings/
+    linkText: Mappings
   - icon:
       dark: /file-dark.svg
       light: /file-light.svg
