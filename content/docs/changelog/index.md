@@ -7,9 +7,7 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
-<!-- Uncomment on release day, and set the date:
-
-## Version 1.5.0 (November XX, 2026)
+## Version 1.5.0 (November 18, 2026)
 
 **New**
 
@@ -25,8 +23,6 @@ What each version of Graph Modeler changed, newest first. The versions before 1.
 - **A data file named without a folder** is looked for in the data folder first, then beside the project file, as before, so a folder of files can be changed each month in one step.
 - **A comment above a SQL command** is allowed. It is where a placeholder keeps its question.
 - **The documentation is reorganized** around the window: the title bar, the left pane and the tabs.
-
--->
 
 ## Version 1.4.0 (November 14, 2026)
 
