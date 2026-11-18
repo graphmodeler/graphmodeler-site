@@ -21,16 +21,16 @@ style's description and properties, for programs and AI tools. One model gives y
 ## Start here
 
 - [Getting started](/docs/getting-started/): a first graph, from a blank project to a published file.
-- [Coming from the Excel tool](/docs/from-excel/): for people who know Relationship Visualizer, also called Excel to Graphviz.
 
-## The left pane
+## Navigating the app
 
-[The left pane](/docs/left-pane/) is on every tab. It has the project buttons, undo and redo, the choice of view, Publish, and the
-messages about what the app found.
+The window has three parts, and each has its own pages.
 
-## The tabs
+**[The title bar](/docs/title-bar/)** is the strip across the top. Its switches turn on the dark theme and [Simple mode](/docs/simple-mode/), a smaller window for people who only run a finished model.
 
-The tabs are in the order they are in the app.
+**[The left pane](/docs/left-pane/)** is on every tab. It has the project buttons, the values a script asks for, undo and redo, the choice of view, Publish, and the messages about what the app found. [Save a copy for sharing](/docs/sharing/) makes a copy of a project for someone else.
+
+**The tabs** are in the order they are in the app.
 
 - [Data](/docs/data/): the rows, what each kind of row means, and how to edit them.
 - [Diagram](/docs/diagram/): drawing the graph, and the buttons that change the layout.
@@ -46,6 +46,7 @@ The tabs are in the order they are in the app.
 
 ## Topics
 
+- [Coming from the Excel tool](/docs/from-excel/): for people who know Relationship Visualizer, also called Excel to Graphviz.
 - [Publishing](/docs/publishing/): how a file name is built from the prefix, the template, the counter and the style, and what Publish will not write over.
 - [Placeholders](/docs/placeholders/): the words in braces, such as `{label}` and `{rsc}`, that are replaced in labels and in SQL, and how to make your own.
 - [SQL extensions](/docs/sql-extensions/): the special columns a `SELECT` can return, for clusters, long labels split into lines, counters, chains of edges, trees, loops and joined values.

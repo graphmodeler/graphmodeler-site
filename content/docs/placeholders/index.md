@@ -136,3 +136,5 @@ plain text, so write the value as the query needs it: `'West'` with its quotes f
 values the queries return.
 
 The [Mappings](/docs/mappings/#placeholders) tab can write a `SET PLACEHOLDER` line from a form, with a prompt in a comment above it, and a filter there can use a placeholder as its value.
+
+The [left pane](/docs/left-pane/#parameters) shows a box for each of your own placeholders, so you can try a value and run the script without leaving the tab you are on. In [Simple mode](/docs/simple-mode/) the same boxes are how a person who only runs the model gives its values.

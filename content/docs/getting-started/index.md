@@ -79,7 +79,8 @@ which you can read, keep under version control, or generate from another program
 
 ## Next
 
-- Build the rows from a spreadsheet instead of typing them: [the SQL tab](/docs/sql/).
+- Build the rows from a spreadsheet instead of typing them: choose its columns on [the Mappings tab](/docs/mappings/), or write the queries on [the SQL tab](/docs/sql/).
 - Turn on colors for kinds of things by giving each kind its own style, and use [views](/docs/styles/#views) for an overview and a
   detailed picture from the same rows.
 - Hand your graph to an AI tool with [the Knowledge Graph](/docs/knowledge-graph/).
+- Give a finished model to someone who only needs to run it: [Simple mode](/docs/simple-mode/) and [Save a copy for sharing](/docs/sharing/).
