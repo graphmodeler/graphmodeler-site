@@ -1,10 +1,10 @@
 ---
-description: "What the About tab shows: the version you run, your license, how to check for updates, who made Graph Modeler, and the software it is built on."
+description: "What the About tab shows: the version you run, your license, how to check for updates, who made Graph Modeler and who helped, and the software it is built on."
 ---
 
 # The About tab
 
-The About tab says what you are running, whether it has a commercial license, who made it, and what it is built on.
+The About tab says what you are running, whether it has a commercial license, who made it, who has helped, and what it is built on.
 
 <img class="shot shot-light" src="/shots/about-light.png" alt="The top of the About tab, with the name of the program and the start of the license section">
 <img class="shot shot-dark" src="/shots/about-dark.png" alt="The top of the About tab in the dark theme">
@@ -77,6 +77,12 @@ The **Graphviz** line is the quickest way to see whether the app found Graphviz 
 
 When a language that came with Graph Modeler has been translated by someone, this section thanks them, with a line for each language, named in its own words, and the people who
 translated it, such as **Polski: Arek Czak**. A language that has only a machine translation has no line, and the section is not shown while no language has translators. A language file you added yourself is never listed here. See [Languages](/docs/languages/).
+
+## Special thanks
+
+This section names people whose ideas shaped Graph Modeler, and says what each gave.
+
+- **Arek Czak**: the Polish translation, and the suggestion of a simpler way in for people new to the program, which led to the [Mappings tab](/docs/mappings/).
 
 ## Built with
 
