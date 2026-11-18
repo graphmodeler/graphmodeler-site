@@ -134,3 +134,5 @@ This keeps a value that changes, such as the year or the month to look at, in on
 plain text, so write the value as the query needs it: `'West'` with its quotes for a text value, and without quotes for a number. A later
 `SET PLACEHOLDER` with the same name replaces the value for the lines that follow it. Placeholders you define work in queries, not in the
 values the queries return.
+
+The [Mappings](/docs/mappings/#placeholders) tab can write a `SET PLACEHOLDER` line from a form, with a prompt in a comment above it, and a filter there can use a placeholder as its value.

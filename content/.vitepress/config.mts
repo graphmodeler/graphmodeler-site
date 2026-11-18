@@ -199,6 +199,7 @@ export default defineConfig({
             { text: 'DOT', link: '/docs/dot/' },
             { text: 'Designer', link: '/docs/designer/' },
             { text: 'Styles', link: '/docs/styles/' },
+            { text: 'Mappings', link: '/docs/mappings/' },
             { text: 'SQL', link: '/docs/sql/' },
             { text: 'SVG', link: '/docs/svg/' },
             { text: 'Settings', link: '/docs/settings/' },

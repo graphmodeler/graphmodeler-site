@@ -45,6 +45,11 @@ This group is named after the layout in use, such as "Options for the dot layout
 
 See [Units and packing](/docs/units-and-packing/#units) for what changes when a unit changes, and what happens when a file is in other units than yours.
 
+## On this computer
+
+**Show the invitation on an empty project** is ticked until you close the card that says "Starting from a spreadsheet?" on the Data tab of an empty project, or save a first mapping. Tick it again to bring the card back.
+It is kept on this computer and not with the project. See [The Mappings tab](/docs/mappings/#a-first-project).
+
 ## Cluster style names
 
 The words added to a cluster's name to make the names of its opening and closing styles: `Begin` and `End` to start with, and the format that

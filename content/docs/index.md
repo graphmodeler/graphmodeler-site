@@ -38,7 +38,8 @@ The tabs are in the order they are in the app.
 - [DOT](/docs/dot/): the text Graphviz is given.
 - [Designer](/docs/designer/): building a style from menus, and how pictures inside nodes behave.
 - [Styles](/docs/styles/): the styles, their previews, and views.
-- [SQL](/docs/sql/): building the rows from spreadsheets, CSV files and databases with queries.
+- [Mappings](/docs/mappings/): choosing the columns of a spreadsheet, CSV file or database, and letting Graph Modeler write the SQL.
+- [SQL](/docs/sql/): building the rows from spreadsheets, CSV files and databases with queries, and running the script.
 - [SVG](/docs/svg/): post-processing, and why it is a security matter.
 - [Settings](/docs/settings/): the choices that apply to the whole project.
 - [About](/docs/about/): the version, the credits and the license.

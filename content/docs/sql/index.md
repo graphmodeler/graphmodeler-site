@@ -14,6 +14,8 @@ Data tab with what they produce, as one step that **Undo** puts back.
 **Ctrl+F** finds text in the lines of the script, and **Ctrl+H** replaces it, which is the quick way to change a table name that several lines use. See
 [Find and replace](/docs/find-and-replace/).
 
+You do not have to write the lines. The [Mappings](/docs/mappings/) tab makes a line from the columns you choose, and the pencil on such a line opens it there. This tab is where the script is run.
+
 ## Where the data comes from
 
 - **Excel and LibreOffice workbooks** (`.xlsx` and `.ods`). Each worksheet is a table named after it, and its first row gives the column
