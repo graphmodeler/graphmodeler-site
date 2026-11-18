@@ -7,6 +7,27 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+<!-- Uncomment on release day, and set the date:
+
+## Version 1.5.0 (November XX, 2026)
+
+**New**
+
+- **The Mappings tab: choose columns instead of writing SQL.** Pick a spreadsheet, a CSV file or a database, say which columns hold the names, the labels and the styles, and Graph Modeler writes the SQL line for you. A filter, a sort, clusters, other text columns, attributes and properties are under **More options**. A mapping is a line of the script, so the SQL tab runs it with the rest, and you can turn it into plain SQL when you want to take over. See [the Mappings tab](/docs/mappings/).
+- **Placeholders have a place of their own.** A third button writes a `SET PLACEHOLDER` line with its question, and a filter value can use one. See [Placeholders](/docs/placeholders/).
+- **Parameters in the left pane.** Every placeholder of the script has a box in both modes, with the **Run SQL** button beside them, so you can try a value and watch the graph on any tab. See [the left pane](/docs/left-pane/#parameters).
+- **Simple mode.** A switch in the title bar turns the window into a smaller one for someone who is given a finished model: choose a file, type the values it asks for, press Run. See [Simple mode](/docs/simple-mode/) and [the title bar](/docs/title-bar/).
+- **Save a copy for sharing.** Give a project to someone else, with or without its results, or only the graph, after a check of what would not work for them. See [Save a copy for sharing](/docs/sharing/).
+- **Everything new is translated** into the ten languages that come with the program; Polish, German, French, Spanish, Russian, Chinese, Italian, Japanese, Portuguese and Korean. The new texts are drafts until a person has reviewed them. **Special thanks** on the [About tab](/docs/about/) thanks Arek Czak, whose suggestion of a simpler way in for new users led to the Mappings tab.
+
+**Changed**
+
+- **A data file named without a folder** is looked for in the data folder first, then beside the project file, as before, so a folder of files can be changed each month in one step.
+- **A comment above a SQL command** is allowed. It is where a placeholder keeps its question.
+- **The documentation is reorganized** around the window: the title bar, the left pane and the tabs.
+
+-->
+
 ## Version 1.4.0 (November 14, 2026)
 
 **New**
