@@ -43,7 +43,7 @@ Some of this is on purpose: where the Excel tool did something only because it l
   one toolbar row sits over each.
 - **Queries run on SQLite**, not on the database engine of Excel and Access. Most queries are unchanged, a few functions are different, and the
   [SQL tab](/docs/sql/) page lists what is reproduced. Data comes from files that you name: Excel and LibreOffice workbooks, CSV files, Access databases and SQLite databases. The workbook
-  that holds a project does not exist here, and MySQL and Postgres are not supported yet.
+  that holds a project does not exist here, and MySQL and Postgres are not supported yet. A query returns at most 100,000 rows, and one that never ends is stopped with a message.
 - **Publishing** has a template for the file name, with a date and time or a counter, in place of the Excel tool's switches. The files it writes are
   listed in the left pane, and nothing is opened for you.
 - **Units** are a setting of the project, inches or millimeters, in place of the Millimetres box of the node designer. The file says which it uses, and the
@@ -53,8 +53,25 @@ Some of this is on purpose: where the Excel tool did something only because it l
   read and ignored.
 - **Some things are gone**: the buttons for GVEdit and for external web viewers, the option to keep the `.gv` file, the Extensions and
   Diagnostics tabs, and the settings that described worksheet layout.
-- **A dark theme**, and a Windows, Linux and macOS version in place of Excel on Windows.
-- **The app is in English** for now.
+- **An app for Windows, macOS and Linux**, in place of a workbook that needs Excel on Windows or macOS, with a light and a dark theme.
+
+## What is new
+
+These are things the Excel tool does not have. Most of them are for the days when you would rather not write SQL, or when someone else has to use what you built.
+
+- **The Mappings tab.** Choose a spreadsheet, a CSV file or a database, say which columns hold the names, the labels and the styles, and Graph Modeler writes the SQL line for
+  you. A mapping is a line of the same script that the SQL tab runs, so it sits beside the SQL you write by hand. See [The Mappings tab](/docs/mappings/).
+- **Parameters.** A `SET PLACEHOLDER` line, which the Excel tool also has, can now carry a question in a comment above it, and the left pane shows a box for each placeholder of the
+  script. Type a value, press **Run SQL**, and watch the graph change. See [Placeholders](/docs/placeholders/) and [the left pane](/docs/left-pane/#parameters).
+- **Simple mode.** A switch in the title bar turns the window into a smaller one for someone who is given a finished model: choose a file, type the values it asks for, and press
+  Run. See [Simple mode](/docs/simple-mode/).
+- **Save a copy for sharing.** Give a project to someone else with or without its results, or only the graph, after a check of what would not work for them. See
+  [Save a copy for sharing](/docs/sharing/).
+- **Undo and redo.** They step through your changes, which a workbook cannot offer once a macro has run, because Excel clears its undo history then. See [the left pane](/docs/left-pane/).
+- **Find and replace.** **Ctrl+F** searches the Data, Styles, SQL, DOT and Knowledge Graph tabs, and **Ctrl+H** replaces. See [Find and replace](/docs/find-and-replace/).
+- **Other languages.** The Excel tool speaks English, French, German, Italian and Polish. Graph Modeler comes with those, and with Spanish, Russian, Chinese, Japanese,
+  Portuguese and Korean, and with a British-spelling English. Polish was translated and reviewed by a person; the others are machine translations, marked as such, until a person has
+  reviewed them. You can also add a language file of your own. This website and the license stay in English. See [Languages](/docs/languages/).
 
 ## If something does not match
 
