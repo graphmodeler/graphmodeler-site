@@ -148,7 +148,7 @@ The same, for the facts of the [Knowledge Graph](/docs/knowledge-graph/), such a
 
 ## Saving
 
-**Save** writes the mapping as a line of the script. **It does not run the script.** The editor says **Added mapping "name". Run it on the SQL tab.** (or **Updated**), with a button that goes there. The save is one step that **Undo** takes back.
+**Save** writes the mapping as a line of the script. **It does not run the script.** The editor says **Added mapping "name". Run it on the SQL tab.** (or **Updated**), with a **Run SQL** button that runs the script now and one that goes to the SQL tab. The save is one step that **Undo** takes back.
 
 The name is the key, as it is for a style in the Designer. A line beside the button says what will happen before you press it: **Will add a new mapping**, or **Will update** the one of that name. Names are matched
 without regard to capitals and repeated spaces. To keep the old mapping and make a copy, change the name and save.

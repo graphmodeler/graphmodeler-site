@@ -22,7 +22,7 @@ changes that are not saved. When the data has problems, or a file could not be o
 to list them. Another number says how many [parameter values](#parameters) differ from the ones in the script, so that a run never depends on a value you cannot see; pressing it opens the pane. Everything else the pane shows, such as the folder, the file name and the messages, waits for you to open it again.
 The app remembers which way you left the pane, for the next time you start it.
 
-**The strip has the Run button too,** wherever the pane has one: the **Run SQL** button under the [parameters](#parameters), after Undo and Redo, and in [Simple mode](/docs/simple-mode/) the **Run**
+**The strip has the Run button too,** wherever the pane has one, which is whenever the project has SQL: the **Run SQL** button, after Undo and Redo, and in [Simple mode](/docs/simple-mode/) the **Run**
 button, after Open. It does what the button in the pane does, so a workbook that was revised can be run again with the pane narrow, and the diagram keeps the room. Rest the pointer on it and it lists the
 values it will use, such as `year = 2026`. If the run cannot be made, because a data file is not chosen or is not found, pressing it opens the pane, which shows what is missing, and the same happens if the script cannot run
 at all. In Simple mode the red number also counts the lines of a run that failed.
@@ -56,6 +56,15 @@ One file at a time, and only a file that ends in `.json`; the exchange files of 
 If a file cannot be opened or saved, the reason is shown under the buttons. A project is a plain JSON file, and **SVG post-processing**
 starts off each time one is opened. If a file cannot be opened, the project you were working on stays as it is, and **Save** asks for a
 file name and does not write over the file that could not be read.
+
+## Run SQL
+
+Whenever the project has SQL, the pane has the **Run SQL** button, under the project buttons or under the parameters, and says how many rows the run made. It is the button the [SQL tab](/docs/sql/) has, so a mapping that was just
+saved can be run from here, without going to another tab.
+
+**When the rows are out of date,** a small dot appears on the button, here, on the strip and on the SQL tab, and a line above the Data, Diagram, Knowledge Graph and DOT tabs says why, with a **Run SQL** button: the SQL or a value typed
+for it has changed since the rows were made (adding a style name to a mapping is one), or a data file was changed after the run began (it is looked for when you come back to the window, for example from the program that saved the workbook).
+Running the script clears it. Changing how things look, such as the format of a style, does not call for a run, so it does not show. The program only knows about runs made since the project was opened.
 
 ## Parameters
 
