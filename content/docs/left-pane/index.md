@@ -62,7 +62,7 @@ file name and does not write over the file that could not be read.
 Whenever the project has SQL, the pane has the **Run SQL** button, under the project buttons or under the parameters, and says how many rows the run made. It is the button the [SQL tab](/docs/sql/) has, so a mapping that was just
 saved can be run from here, without going to another tab.
 
-**When the rows are out of date,** a small dot appears on the button, here, on the strip and on the SQL tab, and a line above the Data, Diagram, Knowledge Graph and DOT tabs says why, with a **Run SQL** button: the SQL or a value typed
+**When the rows are out of date,** a small dot appears on the button, here, on the strip and on the SQL tab, and a line above the tab says why, with a **Run SQL** button (it is on every tab but Settings, SVG and About, so it is there when a mapping is saved): the SQL or a value typed
 for it has changed since the rows were made (adding a style name to a mapping is one), or a data file was changed after the run began (it is looked for when you come back to the window, for example from the program that saved the workbook).
 Running the script clears it. Changing how things look, such as the format of a style, does not call for a run, so it does not show. The program only knows about runs made since the project was opened.
 

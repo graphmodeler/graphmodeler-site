@@ -151,6 +151,9 @@ away. A line that is neither a query nor a command fails, and its message lists 
 
 ## Filters
 
-Each line can carry a tag in a **filter column**, and a script can have several filter columns. Choose a filter column and a tag
-on the toolbar, and only the lines with that tag run. The others are skipped. A project can have a column for each task it does,
+Each line can carry a tag in a **filter column**, and a script can have several filter columns. The controls for them are folded
+away behind the **Filters** button of the toolbar, to leave it quiet for the many scripts that have no filter; press it to show them, and
+press it again to fold them. The program remembers which way you left it. When a filter is on, a small dot on the button says so, and its
+tooltip says which tag, because a filter limits what a run does. Choose a filter column and a tag, and only the lines with that tag run.
+The others are skipped. A project can have a column for each task it does,
 such as "weekly" and "audit", and one script holds them all.
