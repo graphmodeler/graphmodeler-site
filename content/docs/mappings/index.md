@@ -33,7 +33,7 @@ The tab is split in two, and the divider can be dragged. The split is remembered
 - **Move up** and **Move down** move it in the script, past the mapping next to it. The SQL tab shows the same order, because it is the same script.
 - **Delete** removes the mapping and its line of SQL. **Undo** brings it back.
 
-Double-click a name to rename it. Under the list, the **SQL** area shows the SQL of the mapping you are editing, or of the one you clicked. It is read only.
+Double-click a name to rename it. Under the list, a row named **SQL** opens an area that shows the SQL of the mapping you are editing, or of the one you clicked. It is read only. The row is closed the first time you use the tab, to leave the room to the list, and the app remembers whether you left it open.
 
 **On the right is the editor,** where a mapping is made or changed.
 

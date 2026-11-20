@@ -22,6 +22,13 @@ changes that are not saved. When the data has problems, or a file could not be o
 to list them. Another number says how many [parameter values](#parameters) differ from the ones in the script, so that a run never depends on a value you cannot see; pressing it opens the pane. Everything else the pane shows, such as the folder, the file name and the messages, waits for you to open it again.
 The app remembers which way you left the pane, for the next time you start it.
 
+**The strip has the Run button too,** wherever the pane has one: the **Run SQL** button under the [parameters](#parameters), after Undo and Redo, and in [Simple mode](/docs/simple-mode/) the **Run**
+button, after Open. It does what the button in the pane does, so a workbook that was revised can be run again with the pane narrow, and the diagram keeps the room. Rest the pointer on it and it lists the
+values it will use, such as `year = 2026`. If the run cannot be made, because a data file is not chosen or is not found, pressing it opens the pane, which shows what is missing, and the same happens if the script cannot run
+at all. In Simple mode the red number also counts the lines of a run that failed.
+
+The strip is there in Simple mode too, and so is the button that narrows the pane and brings it back.
+
 ## The project
 
 The top of the pane has the **Project name**, in a box you can type in. A new project is called Untitled. The name is kept in the project

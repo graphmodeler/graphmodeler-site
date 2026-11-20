@@ -21,6 +21,9 @@ The switch is in the [title bar](/docs/title-bar/). The window is in Full mode e
 
 Under the buttons the pane keeps the choice of **Style view** when the project has several, and the messages about the graph.
 
+**On a small screen,** narrow the pane once the model has been run, so that the diagram has the room: the button at the top of the pane, or **Ctrl+B**. The narrow strip keeps **New**, **Open**, **Run** and **Publish**,
+so a model can be run again, for example when its workbook was revised, without opening the pane. See [Narrowing the pane](/docs/left-pane/#narrowing-the-pane).
+
 ## Running a model
 
 1. If the model reads a file you choose, the pane has a **Data file** with a folder button beside it. Choose your own copy of the file. The choice is kept on this computer.
