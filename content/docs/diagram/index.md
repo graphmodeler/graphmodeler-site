@@ -29,6 +29,10 @@ Hover over a button to read what it does. The ones you use most are first, and t
 For edge routing, direction and output order, pressing the button that is on again goes back to Graphviz's own choice. The same choices
 are in **Settings**, with the picture of the one in use beside each.
 
+**In a narrow window** the row would not fit on one line, so some of the groups turn into one button each. The edge routing goes first, then the direction, then the layout engines. The button shows the
+choice that is made, with a small arrow. Press it to see every choice with its name, and press one to choose it. It does what the button did, and when the window is wide again the row of buttons comes back.
+The zoom, the graph type and the output order stay as they are.
+
 ## Drawing
 
 The two buttons beside the split-window button on the Data tab decide when the picture is drawn. The one with the arrows going round draws
