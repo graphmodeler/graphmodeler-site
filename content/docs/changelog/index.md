@@ -7,6 +7,26 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+<!-- RELEASE DAY: uncomment this entry and set its date.
+
+## Version 1.5.1 (November XX, 2026)
+
+**New**
+
+- **Run SQL is where you look for it.** The left pane and the narrow strip have a **Run SQL** button whenever the project has SQL. After you save a mapping, its message and **Save** button stay in view, with a **Run SQL** button beside **Go to the SQL tab**. See [the left pane](/docs/left-pane/) and [the Mappings tab](/docs/mappings/).
+- **Rows that say when they are out of date.** A dot on the Run buttons and a bar above the tab show that the SQL, a value or a data file has changed since the rows were made. Changing a style or a name never asks for a run. See [the left pane](/docs/left-pane/).
+- **The tabs are grouped and colored:** Data, Look, Output and More.
+- **The Diagram's row of choices fits a small window.** Edge routing, direction and layout engine collapse by width into one button each. See [the Diagram tab](/docs/diagram/).
+- **A Filters button on the SQL tab** holds the filter controls, with a dot while a filter is on. See [the SQL tab](/docs/sql/).
+
+**Changed**
+
+- **The pane can always be narrowed,** in Simple mode too, and the strip keeps the Run button. See [Simple mode](/docs/simple-mode/).
+- **The SQL under the Mappings list can be folded,** and starts closed.
+- **The new texts are translated** into the ten languages that come with the program; the new texts are drafts until a person has reviewed them.
+
+-->
+
 ## Version 1.5.0 (November 18, 2026)
 
 **New**
