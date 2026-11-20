@@ -389,3 +389,20 @@ a.gm-card:hover {
   font-weight: 600;
   letter-spacing: 0.02em;
 }
+
+/* A dot before each, in the color that the group has in the app (the tab bar of the program uses the same four). */
+.VPSidebarItem.level-2:not(.is-link) > .item > .text::before {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--gm-group-color, #888780);
+  content: '';
+  vertical-align: 1px;
+}
+
+.VPSidebarItem.level-2:not(.is-link):nth-child(1) { --gm-group-color: #1d9e75; }
+.VPSidebarItem.level-2:not(.is-link):nth-child(2) { --gm-group-color: #7f77dd; }
+.VPSidebarItem.level-2:not(.is-link):nth-child(3) { --gm-group-color: #d85a30; }
+.VPSidebarItem.level-2:not(.is-link):nth-child(4) { --gm-group-color: #888780; }
