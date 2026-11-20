@@ -7,9 +7,7 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
-<!-- RELEASE DAY: uncomment this entry and set its date.
-
-## Version 1.5.1 (November XX, 2026)
+## Version 1.5.1 (November 20, 2026)
 
 **New**
 
@@ -24,8 +22,6 @@ What each version of Graph Modeler changed, newest first. The versions before 1.
 - **The pane can always be narrowed,** in Simple mode too, and the strip keeps the Run button. See [Simple mode](/docs/simple-mode/).
 - **The SQL under the Mappings list can be folded,** and starts closed.
 - **The new texts are translated** into the ten languages that come with the program; the new texts are drafts until a person has reviewed them.
-
--->
 
 ## Version 1.5.0 (November 18, 2026)
 
