@@ -378,3 +378,14 @@ a.gm-card:hover {
   font-size: 14px;
   line-height: 1.5;
 }
+
+/*
+ * The four groups of tabs in the sidebar (Data, Look, Output, More) are headings that stay open, and no pages. They are set apart from
+ * the pages beneath them by a smaller, muted name; the pages keep the indent of a group.
+ */
+.VPSidebarItem.level-2:not(.is-link) > .item > .text {
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}

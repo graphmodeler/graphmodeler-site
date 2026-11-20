@@ -206,18 +206,40 @@ export default defineConfig({
             {
               text: 'The tabs',
               collapsed: false,
+              // The four groups of the tab bar, as headings that stay open: every page is seen without a click, and a page is found by the
+              // name of its tab, which is how a reader knows it.
               items: [
-                { text: 'Data', link: '/docs/data/' },
-                { text: 'Mappings', link: '/docs/mappings/' },
-                { text: 'SQL', link: '/docs/sql/' },
-                { text: 'Designer', link: '/docs/designer/' },
-                { text: 'Styles', link: '/docs/styles/' },
-                { text: 'Diagram', link: '/docs/diagram/' },
-                { text: 'Knowledge Graph', link: '/docs/knowledge-graph/' },
-                { text: 'DOT', link: '/docs/dot/' },
-                { text: 'Settings', link: '/docs/settings/' },
-                { text: 'SVG', link: '/docs/svg/' },
-                { text: 'About', link: '/docs/about/' },
+                {
+                  text: 'Data',
+                  items: [
+                    { text: 'Data', link: '/docs/data/' },
+                    { text: 'Mappings', link: '/docs/mappings/' },
+                    { text: 'SQL', link: '/docs/sql/' },
+                  ],
+                },
+                {
+                  text: 'Look',
+                  items: [
+                    { text: 'Designer', link: '/docs/designer/' },
+                    { text: 'Styles', link: '/docs/styles/' },
+                  ],
+                },
+                {
+                  text: 'Output',
+                  items: [
+                    { text: 'Diagram', link: '/docs/diagram/' },
+                    { text: 'Knowledge Graph', link: '/docs/knowledge-graph/' },
+                    { text: 'DOT', link: '/docs/dot/' },
+                  ],
+                },
+                {
+                  text: 'More',
+                  items: [
+                    { text: 'Settings', link: '/docs/settings/' },
+                    { text: 'SVG', link: '/docs/svg/' },
+                    { text: 'About', link: '/docs/about/' },
+                  ],
+                },
               ],
             },
           ],
