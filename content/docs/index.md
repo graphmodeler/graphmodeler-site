@@ -30,18 +30,29 @@ The window has three parts, and each has its own pages.
 
 **[The left pane](/docs/left-pane/)** is on every tab. It has the project buttons, the values a script asks for, undo and redo, the choice of view, Publish, and the messages about what the app found. [Save a copy for sharing](/docs/sharing/) makes a copy of a project for someone else.
 
-**The tabs** are in the order they are in the app.
+**The tabs** are in four groups, in the order they are in the app. Each group has its name, with a colored dot, above its tabs: **Data** is for bringing data in and writing the graph, **Look** for how it looks, **Output** for what comes out, and **More** for the rest.
+
+Data:
 
 - [Data](/docs/data/): the rows, what each kind of row means, and how to edit them.
+- [Mappings](/docs/mappings/): choosing the columns of a spreadsheet, CSV file or database, and letting Graph Modeler write the SQL.
+- [SQL](/docs/sql/): building the rows from spreadsheets, CSV files and databases with queries, and running the script.
+
+Look:
+
+- [Designer](/docs/designer/): building a style from menus, and how pictures inside nodes behave.
+- [Styles](/docs/styles/): the styles, their previews, and views.
+
+Output:
+
 - [Diagram](/docs/diagram/): drawing the graph, and the buttons that change the layout.
 - [Knowledge Graph](/docs/knowledge-graph/): the JSON file for programs and AI tools, and its viewer.
 - [DOT](/docs/dot/): the text Graphviz is given.
-- [Designer](/docs/designer/): building a style from menus, and how pictures inside nodes behave.
-- [Styles](/docs/styles/): the styles, their previews, and views.
-- [Mappings](/docs/mappings/): choosing the columns of a spreadsheet, CSV file or database, and letting Graph Modeler write the SQL.
-- [SQL](/docs/sql/): building the rows from spreadsheets, CSV files and databases with queries, and running the script.
-- [SVG](/docs/svg/): post-processing, and why it is a security matter.
+
+More:
+
 - [Settings](/docs/settings/): the choices that apply to the whole project.
+- [SVG](/docs/svg/): post-processing, and why it is a security matter.
 - [About](/docs/about/): the version, the credits and the license.
 
 ## Topics

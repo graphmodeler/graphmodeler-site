@@ -9,7 +9,7 @@ This takes a few minutes and ends with a graph on screen and a file you have wri
 
 ## 1. Start a project
 
-Open the app. It starts with a new project: a few empty rows on the **Data** tab, and the styles every project has.
+Open the app. It starts with a new project: a few empty rows on the **Data** tab, and the styles every project has. The tabs are in four groups, each with its name above it: **Data** (Data, Mappings and SQL), **Look** (Designer and Styles), **Output** (Diagram, Knowledge Graph and DOT) and **More** (Settings, SVG and About).
 
 The [left pane](/docs/left-pane/) has the project's name and the buttons for **New**, **Open**, **Save** and **Save as**, then **Undo** and **Redo**, then
 **Publish**. A project is saved as a `.json` file.
