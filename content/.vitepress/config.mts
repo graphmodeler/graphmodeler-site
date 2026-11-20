@@ -6,6 +6,23 @@ import { defineConfig, type HeadConfig } from 'vitepress';
 const PUBLIC = fileURLToPath(new URL('../public', import.meta.url));
 const EXAMPLES = fileURLToPath(new URL('../examples', import.meta.url));
 
+type SidebarNode = { text?: string; link?: string; items?: SidebarNode[] };
+
+/** The pages of a sidebar in the order it lists them, which is the order of the previous and next buttons. */
+function sidebarLinks(items: SidebarNode[] | undefined): string[] {
+  return (items ?? []).flatMap((item) => [...(item.link ? [item.link] : []), ...sidebarLinks(item.items)]);
+}
+
+/** The heading of a page: its first line that begins with "# ", without the marks of the markdown. Empty when there is none. */
+function pageHeading(srcDir: string, link: string): string {
+  try {
+    const text = readFileSync(join(srcDir, link.replace(/^\//, ''), 'index.md'), 'utf8');
+    return (/^# (.+)$/m.exec(text)?.[1] ?? '').replace(/[`*_]/g, '').trim();
+  } catch {
+    return '';
+  }
+}
+
 /**
  * The examples that say `draft: true` in their front matter. A draft is written and looked at with `npm run dev`, and is left out of
  * the finished site altogether (no page, no card in the gallery, no entry in the sitemap), so it can be committed half done.
@@ -156,6 +173,22 @@ export default defineConfig({
       ]);
     }
     return head;
+  },
+
+  // The previous and next buttons at the foot of a documentation page name the page by its heading ("The Mappings tab"), as the page itself
+  // does, and not by the short words of the sidebar ("Mappings"), which are the names of the tabs. A page that says its own `prev` or `next`
+  // in its front matter keeps what it says.
+  transformPageData(pageData, { siteConfig }) {
+    const sidebar = (siteConfig.site.themeConfig.sidebar as Record<string, SidebarNode[]> | undefined)?.['/docs/'];
+    const link = '/' + pageData.relativePath.replace(/index\.md$/, '');
+    const links = sidebarLinks(sidebar);
+    const at = links.indexOf(link);
+    if (at < 0) return;
+    for (const [key, other] of [['prev', links[at - 1]], ['next', links[at + 1]]] as const) {
+      if (!other || pageData.frontmatter[key] !== undefined) continue;
+      const text = pageHeading(siteConfig.srcDir, other);
+      if (text) pageData.frontmatter[key] = { text, link: other };
+    }
   },
 
   // At the launch the site also gets a robots.txt that points to the sitemap. (While it is not launched, no file is written.)

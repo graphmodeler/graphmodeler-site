@@ -2,7 +2,7 @@
 description: "The Designer builds Graphviz node, edge and cluster styles from menus with a live preview, and holds a style's description and properties."
 ---
 
-# The Designer
+# The Designer tab
 
 A style is a name and a format, and the format is a list of Graphviz attributes such as `shape="box"` and `fillcolor="#e0f2f7"`.
 You can type a format into the Styles tab, but you need to know the attribute names and what values they take. The Designer
