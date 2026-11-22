@@ -60,24 +60,29 @@ features:
       dark: /file-dark.svg
       light: /file-light.svg
     title: Plain Files. Any Desktop.
-    details: Projects are stored as readable JSON that you can version, compare, and generate.<br/><br/>Runs on <b>Windows</b>, <b>macOS</b>, and <b>Linux</b>, with light and dark themes.
-    link: /docs/
-    linkText: Documentation
+    details: Projects are stored as readable JSON that you can version, compare, and generate.<br/><br/>Runs on <b>Windows</b>, <b>macOS</b>, and <b>Linux</b>, with light and dark themes.<br/><br/>Explore the examples to get started.
+    link: /examples/
+    linkText: Examples
 ---
 
 ## What it looks like
 
-The rows of a graph, with the style assignments.
+This is the complete application window, showing the title bar, action pane, graph data, and diagram workspace.
+
+<img class="shot shot-light" src="/shots/full-app-light.png" alt="The full application window: Title bar, action pane, and tabs">
+<img class="shot shot-dark" src="/shots/full-app-dark.png" alt="he full application window: Title bar, action pane, and tabs in the dark theme">
+
+The [Data](/docs/data/) tab shows the rows that define the graph, and the [style](/docs/styles) applied to each item. Styles are created with the [Style Designer](/docs/designer/). Data can be entered manually, and imported from external files using file [mappings](/docs/mappings) or [SQL](/docs/sql).
 
 <img class="shot shot-light" src="/shots/home-data-light.png" alt="The Data tab: rows of items and the style each uses">
 <img class="shot shot-dark" src="/shots/home-data-dark.png" alt="The Data tab in the dark theme">
 
-The same rows, drawn.
+The [Diagram](/docs/diagram/) tab is showing those rows as a graph, laid out from left to right with configurable layout, routing, and direction options.
 
 <img class="shot shot-light" src="/shots/diagram-light.png" alt="The Diagram tab: the graph drawn, with buttons for layout, edge routing and direction">
 <img class="shot shot-dark" src="/shots/diagram-dark.png" alt="The Diagram tab in the dark theme">
 
-And the same rows again, published as a Knowledge Graph: structured JSON containing the same nodes, edges, styles, descriptions, and properties in the open [RV-KGF format](https://github.com/jjlong150/rv-kgf), available in both text and tree representations.
+The [Knowledge Graph](/docs/knowledge-graph/) tab is showing the graph published as portable JSON. The export preserves nodes, edges, styles, descriptions, and properties using the open [RV-KGF format](https://github.com/jjlong150/rv-kgf), making the graph easy to share with AI tools, other applications, and custom workflows.
 
 <img class="shot shot-light" src="/shots/knowledge-graph-home-light.png" alt="The Knowledge Graph tab: the graph as JSON, with buttons to copy and save it and a count of characters, tokens, lines, nodes and edges">
 <img class="shot shot-dark" src="/shots/knowledge-graph-home-dark.png" alt="The Knowledge Graph tab in the dark theme">
