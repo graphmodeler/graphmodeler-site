@@ -41,6 +41,7 @@ The choices are in groups, and the ones that do not apply to what you are design
   [Units and packing](/docs/units-and-packing/#units).
 - **Head port** and **Tail port** show a picture of each choice: a circle for the node and an arrow that arrives at, or leaves from, one of its compass points. They are listed clockwise
   from north, then the center, and the default, `_`, leaves the choice to Graphviz.
+- **Padding**, at the end of the list, has a minus and a plus button for **Room inside**: more space between a node's text and its edge, or between a cluster's nodes and its edge, for a label that does not fit. **Standard** is Graphviz's own, and each press is one step. It is offered where Graphviz uses it (a cluster's in the dot and fdp layouts, a node's in all but patchwork), and is written as the `margin` attribute.
 - **Packing (osage layout)** is offered for a cluster when the layout is osage. See [Units and packing](/docs/units-and-packing/#the-osage-layout-and-clusters).
 - **Position** choices, such as where a label sits in a cluster, are buttons with an icon: vertical position first, then
   horizontal. A second press on the chosen button clears it.

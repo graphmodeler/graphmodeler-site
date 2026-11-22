@@ -107,4 +107,4 @@ TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR 
 ## The software it uses
 
 Graph Modeler is built on other people's work, each under its own license. They are listed, with their licenses, on the
-[About tab](/docs/about/) of the app. Graphviz is not part of Graph Modeler: it is installed separately, under its own license.
+[About tab](/docs/about/) of the app. The Graphviz that draws the pictures is not Graph Modeler: a copy of it is included, and another can be installed separately, each under its own license, which is not changed by this one.

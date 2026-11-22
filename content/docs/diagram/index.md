@@ -57,8 +57,7 @@ tooltips are written at all.
 
 ## Without Graphviz
 
-This tab needs [Graphviz](https://graphviz.org/download/). When it is not installed, the tab says so, with a link to download it and a
-button to look again. Close the message if you do not want to see it. Everything else in the app works without Graphviz, including the Data and
+This tab needs a Graphviz: the one included with the program, or [one installed](https://graphviz.org/download/). When there is none, the tab says so, with a link to download one, a button to use the included Graphviz, and a button to look again. See [The included Graphviz](/docs/builtin-graphviz/). Close the message if you do not want to see it. Everything else in the app works without Graphviz, including the Data and
 Styles tabs, the Knowledge Graph and the DOT source.
 
 ## Saving the picture

@@ -16,8 +16,8 @@ The software is licensed, not sold. What you may do with it is set out in the [l
 applies. In short, it is free for personal, educational, research and other non-commercial use, and a commercial license is needed for any
 commercial use. If these terms and the license text disagree, the license text decides.
 
-Graph Modeler is built on the work of others, each under its own license, which are listed on the [About tab](/docs/about/) of the app. Graphviz is not part
-of Graph Modeler. It is installed separately, under its own license.
+Graph Modeler is built on the work of others, each under its own license, which are listed on the [About tab](/docs/about/) of the app. The Graphviz that draws the pictures is not
+Graph Modeler: a copy of it is included, and another can be installed separately, each under its own license.
 
 ## Commercial licenses
 

@@ -14,7 +14,7 @@ follows your region). It is used wherever you choose or type a length:
 
 - the **Height** and **Width** of a node in the [Designer](/docs/designer/);
 - the **space between separate parts** of a graph, under [Settings](/docs/settings/), in the options of the layout; and
-- the **Margin** between packed clusters in a cluster style for the osage layout.
+- the **Margin** between packed nodes and clusters in a cluster style for the osage layout.
 
 There are two settings, in the **Units** group of the Settings tab:
 

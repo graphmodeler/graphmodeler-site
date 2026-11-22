@@ -18,7 +18,7 @@ Write to [support@graphmodeler.com](mailto:support@graphmodeler.com). It helps t
 
 ### It says Graphviz was not found
 
-Pictures, previews and the PNG, PDF or SVG files need Graphviz, which is installed separately. See [Install Graphviz](/download/#install-graphviz).
+Pictures, previews and the PNG, PDF or SVG files need a Graphviz. A copy is included with the app, and makes SVG pictures; PNG and PDF need the full Graphviz, which is installed separately. See [The included Graphviz](/docs/builtin-graphviz/) and [Install Graphviz](/download/#install-graphviz).
 The **About** tab shows which one the app found. After installing, press the button to look again, or restart the app.
 
 Everything that is not a picture works without it, and you can close the message with the cross on it.

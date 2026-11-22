@@ -50,6 +50,8 @@ See [Units and packing](/docs/units-and-packing/#units) for what changes when a 
 **Show the invitation on an empty project** is ticked until you close the card that says "Starting from a spreadsheet?" on the Data tab of an empty project, or save a first mapping. Tick it again to bring the card back.
 It is kept on this computer and not with the project. See [The Mappings tab](/docs/mappings/#a-first-project).
 
+**Graphviz** chooses which Graphviz draws the pictures: the one included with the program, or the one installed on your computer, each shown with its version number. With no Graphviz installed, the other choice is to draw no pictures. **Show which Graphviz drew the diagram** puts a small line under the diagram's toolbar, and takes it away. Both are kept on this computer and not with the project. See [The included Graphviz](/docs/builtin-graphviz/).
+
 ## Cluster style names
 
 The words added to a cluster's name to make the names of its opening and closing styles: `Begin` and `End` to start with, and the format that

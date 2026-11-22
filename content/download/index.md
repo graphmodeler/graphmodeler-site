@@ -41,8 +41,8 @@ Electron, which stopped publishing 32-bit versions with its release 44.
 To find out whether your Windows is 64-bit, open **Settings, System, About** and look at **System type**. It should say **64-bit
 operating system**.
 
-The app needs about 400 MB of disk space once installed. Graphviz is a separate, small program that draws the pictures; see
-[Install Graphviz](#install-graphviz). No Node, browser, Java or Excel is needed.
+The app needs about 400 MB of disk space once installed. Graphviz draws the pictures, and a copy of it is included, so nothing else is needed for
+SVG pictures. For PNG and PDF, install the full Graphviz; see [Install Graphviz](#install-graphviz). No Node, browser, Java or Excel is needed.
 
 ## What it has run on
 
@@ -124,9 +124,10 @@ Make it executable with `chmod +x Graph-Modeler-1.5.1.AppImage`, then run it. A 
 
 ## Install Graphviz
 
-Graph Modeler draws its pictures with [Graphviz](https://graphviz.org/download/), a free program that is installed on its own. The app
-does not include it and works without it for everything except pictures: the Data, Styles, SQL, Knowledge Graph and DOT tabs, the Designer's
-settings, and publishing the Knowledge Graph and the DOT file all work with no Graphviz at all.
+Graph Modeler draws its pictures with [Graphviz](https://graphviz.org/download/), a free program that is installed on its own. A copy of
+Graphviz is included with the app (see [The included Graphviz](/docs/builtin-graphviz/)), and it makes SVG pictures. Install the full Graphviz
+if you want PNG or PDF pictures, or the Graphviz of your own system. The app works without any Graphviz for everything except pictures: the Data,
+Styles, SQL, Knowledge Graph and DOT tabs, the Designer's settings, and publishing the Knowledge Graph and the DOT file.
 
 | System | How to install it |
 | --- | --- |

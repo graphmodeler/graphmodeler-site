@@ -7,6 +7,22 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+<!-- RELEASE DAY (1.6.0): uncomment this entry and set its date.
+
+## Version 1.6.0 (Month XX, 2026)
+
+**New**
+
+- **A Graphviz comes with the program,** compiled to WebAssembly, so that a computer with no Graphviz can draw diagrams. The first time a picture is needed the program asks which Graphviz should draw: the included one or the one installed on your computer, and the answer is on the **Settings** tab. The included one makes SVG pictures (and DOT and JSON), draws the same picture on every system, and does not report warnings; PNG and PDF need the installed one. See [The included Graphviz](/docs/builtin-graphviz/).
+- **Room inside, in the Designer.** A **Padding** group with a minus and a plus button for the space between a node's text and its edge, or a cluster's nodes and its edge. See [the Designer](/docs/designer/).
+
+**Changed**
+
+- **The licenses are with the program.** The About tab names Graphviz (now under the Eclipse Public License v2.0), the package that compiles it and Expat, and their texts are in a `licenses` folder beside the program.
+- **The new texts are translated** into the ten languages that come with the program; the new texts are drafts until a person has reviewed them.
+
+-->
+
 ## Version 1.5.1 (November 20, 2026)
 
 **New**

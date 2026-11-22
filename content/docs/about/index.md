@@ -88,7 +88,7 @@ This section names people whose ideas shaped Graph Modeler, and says what each g
 
 Graph Modeler relies on the work of others, and this section lists each piece with what the app uses it for, its license and a link:
 
-- **Graphviz**, which draws every diagram. It is installed separately and is not part of the app.
+- **Graphviz**, which draws every diagram, under the Eclipse Public License v2.0. A copy is included with the app, and the one installed on your computer can be used instead; see [The included Graphviz](/docs/builtin-graphviz/). **@hpcc-js/wasm-graphviz** (Apache License 2.0) compiles it to WebAssembly, with the **Expat** XML library (MIT License).
 - **Material Symbols** from Google, for the icons.
 - **dynamic-SVG-from-Graphviz** by Bart Brood, the basis of the standard SVG rules.
 - **ColorBrewer** by Cynthia Brewer and others, for the color schemes in the Designer.
