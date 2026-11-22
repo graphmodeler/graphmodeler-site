@@ -72,7 +72,7 @@ This is the complete application window, showing the title bar, action pane, gra
 <img class="shot shot-light" src="/shots/full-app-light.png" alt="The full application window: Title bar, action pane, and tabs">
 <img class="shot shot-dark" src="/shots/full-app-dark.png" alt="he full application window: Title bar, action pane, and tabs in the dark theme">
 
-The [Data](/docs/data/) tab shows the rows that define the graph, and the [style](/docs/styles) applied to each item. Styles are created with the [Style Designer](/docs/designer/). Data can be entered manually, and imported from external files using file [mappings](/docs/mappings) or [SQL](/docs/sql).
+The [Data](/docs/data/) tab shows the rows that define the graph, and the [styles](/docs/styles/) applied to each item. Styles are created with the style [designer](/docs/designer/). Data can be entered manually, and imported from external files using file [mappings](/docs/mappings/) or [SQL](/docs/sql/).
 
 <img class="shot shot-light" src="/shots/home-data-light.png" alt="The Data tab: rows of items and the style each uses">
 <img class="shot shot-dark" src="/shots/home-data-dark.png" alt="The Data tab in the dark theme">
