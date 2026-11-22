@@ -19,9 +19,15 @@ choice shows its version number and what it gives:
 - **Graphviz, installed on this computer**: every format, including PNG and PDF.
 - When nothing is installed, **Draw no pictures** is the other choice. Everything but pictures works without any Graphviz.
 
+<img class="shot shot-light" src="/shots/builtin-graphviz-question-light.png" alt="The question: Which Graphviz should draw your pictures? The included Graphviz 16.1.0 or the one installed on this computer, each with what it gives">
+<img class="shot shot-dark" src="/shots/builtin-graphviz-question-dark.png" alt="The question, in the dark theme">
+
 The answer is kept on your computer, not in the project, and is on the **Settings** tab, in the **On this computer** group, in the same words. The
 Graphviz that you installed is never changed or removed by this. When both are there, a small line under the diagram's toolbar says which one drew
 the picture. A tick box on the Settings tab hides that line.
+
+<img class="shot shot-light" src="/shots/builtin-graphviz-settings-light.png" alt="The On this computer group of the Settings tab: the invitation tick box, the tick box for the line that names the Graphviz, and the choice of Graphviz">
+<img class="shot shot-dark" src="/shots/builtin-graphviz-settings-dark.png" alt="The On this computer group, in the dark theme">
 
 ## What it makes
 
