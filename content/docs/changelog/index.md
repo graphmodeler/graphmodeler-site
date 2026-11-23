@@ -14,6 +14,7 @@ What each version of Graph Modeler changed, newest first. The versions before 1.
 **New**
 
 - **A Graphviz comes with the program,** compiled to WebAssembly, so that a computer with no Graphviz can draw diagrams. The first time a picture is needed the program asks which Graphviz should draw: the included one or the one installed on your computer, and the answer is on the **Settings** tab. The included one makes SVG pictures (and DOT and JSON), draws the same picture on every system, and does not report warnings; PNG and PDF need the installed one. See [The included Graphviz](/docs/builtin-graphviz/).
+- **Placeholders in a mapping's filter.** **Is one of** takes a placeholder that holds a list (`DLR, Bakerloo`), and an item with a comma in it goes in double quotes: `DLR, "Garvin, Fred"`. A line of the SQL script that ran but still has a `{name}` that no placeholder replaced now gets an amber mark and a message. See [Mappings](/docs/mappings/).
 - **Room inside, in the Designer.** A **Padding** group with a minus and a plus button for the space between a node's text and its edge, or a cluster's nodes and its edge. See [the Designer](/docs/designer/).
 
 **Changed**

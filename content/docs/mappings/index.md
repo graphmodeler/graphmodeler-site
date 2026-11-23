@@ -108,7 +108,7 @@ A list of conditions, each a column, a condition and a value. Choose whether a r
 The conditions are: **is**, **is not**, **contains**, **starts with**, **ends with**, **is one of**, **is greater than**, **is greater than or equal to**, **is less than**, **is less than or equal to**, **is blank** and **is not blank**.
 
 - **is not** keeps the rows where the column is blank. A comparison that drops them without saying so is not what most people expect.
-- **is one of** takes a list separated by commas, so a value that has a comma in it cannot be matched. Use **is**.
+- **is one of** takes a list separated by commas: `DLR, Bakerloo`. An item that has a comma in it goes in double quotes, as in a CSV file: `DLR, "Garvin, Fred"` is two items. A quote inside quotes is written twice. The list can be a placeholder (`{lines}`), and its value is split into items when the script runs.
 - The number conditions need a number.
 - A condition with no column or no value is ignored.
 - Under the list, the sample rows the filter drops are struck through, and a line says how many of the shown rows it keeps. The whole file is counted when the script runs.
