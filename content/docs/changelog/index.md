@@ -19,7 +19,7 @@ What each version of Graph Modeler changed, newest first. The versions before 1.
 
 **Changed**
 
-- **The licenses are with the program.** The About tab names Graphviz (now under the Eclipse Public License v2.0), the package that compiles it and Expat, and their texts are in a `licenses` folder beside the program.
+- **The licenses are with the program.** The About tab names Graphviz (now under the Eclipse Public License v2.0), the package that compiles it and Expat, and their texts are in a `licenses` folder beside the program. The notices of everything else built into Graph Modeler are in the same folder, in `THIRD-PARTY-NOTICES.txt`.
 - **The new texts are translated** into the ten languages that come with the program; the new texts are drafts until a person has reviewed them.
 
 -->
