@@ -142,9 +142,13 @@ publish again. If a file name has a counter, each publish takes the next number,
 A mark beside the **#** shows how a line ran, and fills in as the script goes:
 
 - A **green box with a check** is a line that ran.
+- An **amber box with an exclamation mark** is a line that ran but has something to say. The usual case is a `{name}` that no `SET PLACEHOLDER` line replaced: the query ran with the braces as written, and found nothing. Hover over the mark to read the message; it is also listed in the left pane, with its row number.
 - A **red box with a cross** is a line that failed. Hover over it to read why. Every failure is also listed in the left pane, with its
   row number.
 - A line that is commented out, or left out by the filter, has no mark.
+
+<img class="shot shot-light" src="/shots/sql-warning-light.png" alt="The SQL tab with an amber mark beside the third line, which still has a {kind} in it that nothing replaced">
+<img class="shot shot-dark" src="/shots/sql-warning-dark.png" alt="The same in the dark theme">
 
 A mark goes away when you edit its line, because nothing yet says whether the change put it right. The broom button takes every mark
 away. A line that is neither a query nor a command fails, and its message lists the commands.
