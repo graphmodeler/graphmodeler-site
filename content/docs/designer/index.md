@@ -99,6 +99,13 @@ Those belong to that one node or edge, and the style's belong to every one of th
 A node can show a picture with the **Image** group. Choose the file, or give a name that is found beside the project file or
 in the image path set under Settings.
 
+A picture in the project's folder, or in a folder below it, is written as a path from the project's folder (`images/alarm.png`), so
+you can give someone the project file with its `images` folder beside it and the pictures are found. A picture from somewhere else
+is written as its file name, and its folder is added to the image path, unless you tick **Use a relative path**: then its path from
+the project's folder is written, climbing out with `..` if it has to. A path can only be relative to a folder, so the box is off while
+the project has not been saved. When you save a project for the first time, or in another folder (**Save as**), the pictures its styles
+name that lie in that folder are given relative paths, and the image path loses the folders that were only there for them.
+
 When the node is bigger than its picture, the format decides how the picture fills the space, and **how it looks depends on
 the output format**. This comes from Graphviz, not from the app:
 
