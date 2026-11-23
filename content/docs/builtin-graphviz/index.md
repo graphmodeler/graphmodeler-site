@@ -68,6 +68,7 @@ is as quick or quicker. A very large graph takes as long as it takes in Graphviz
 ## Licenses
 
 The included Graphviz is Graphviz 16.1.0, under the Eclipse Public License v2.0, compiled to WebAssembly by the package
-[@hpcc-js/wasm-graphviz](https://github.com/hpcc-systems/hpcc-js-wasm) (Apache License 2.0), with the Expat XML library (MIT License). They are
-listed on the [About tab](/docs/about/), and the full texts are in a `licenses` folder that is installed beside the program, with where to get
+[@hpcc-js/wasm-graphviz](https://github.com/hpcc-systems/hpcc-js-wasm) (Apache License 2.0), with the Expat XML library (MIT License) and what the compiled code runs on: the runtime of Emscripten (MIT License),
+the musl C library (MIT License) and the C++ library of LLVM (Apache License 2.0 with LLVM Exceptions); the package unpacks it with fzstd (MIT License).
+They are listed on the [About tab](/docs/about/), and the full texts are in a `licenses` folder that is installed beside the program, with where to get
 the source.
