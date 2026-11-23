@@ -60,8 +60,10 @@ Linux. Each build of Graph Modeler is checked by drawing a test graph on each sy
 ## Speed
 
 It does not start a program for each picture, so a small graph is drawn at once. On a small old computer (an Atom processor, 2 GB of memory) a
-graph of 3,000 nodes took 7 seconds with the included Graphviz, where the Graphviz 2.42 installed there took 15 seconds. A very large graph
-takes as long as it takes in Graphviz itself, and does not stop the rest of the program.
+graph of 3,000 nodes took 7 seconds with the included Graphviz, where the Graphviz 2.42 installed there took 15 seconds. On a laptop from 2010
+(a Core 2 Duo, 8 GB) the same graph took 3 seconds against 6. On those old computers a small graph can be a fraction of a second quicker with
+the installed Graphviz, and the included one needs about half a second to load the first time; from a graph of a thousand nodes the included one
+is as quick or quicker. A very large graph takes as long as it takes in Graphviz itself, and does not stop the rest of the program.
 
 ## Licenses
 
