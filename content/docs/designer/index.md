@@ -49,8 +49,10 @@ The choices are in groups, and the ones that do not apply to what you are design
 The tick boxes under **Label text** decide whether the text typed there becomes part of the style, or is only used to draw the
 preview.
 
-**Show settings in preview** adds the format to the preview as a caption, which is useful for a picture that shows how a
-style was made.
+Under the preview, a line says what it was drawn with, in the words Graphviz uses in the DOT: `layout=dot rankdir=LR
+splines=ortho`. The preview takes its layout, direction and edge routing from the project's Settings, and a picture can look
+quite different with another layout or direction, so look there if a style does not look as you expect. A node is drawn alone,
+so for a node only the layout is shown. The line also says when the layout cannot draw clusters.
 
 For the meaning of each attribute, see [Graphviz's own pages on attributes](https://graphviz.org/doc/info/attrs.html).
 
