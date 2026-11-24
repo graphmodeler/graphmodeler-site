@@ -19,9 +19,11 @@ Node 24 is used. The pages are in `content/`.
 - **A folder for every page.** A page is `content/docs/data/index.md`, and its address is `/docs/data/`. The app links to the
   address with the closing slash, so no link is answered with a redirect. Keep it that way for a new page, and link to other
   pages with the closing slash too.
-- **The addresses the app uses** are the help buttons of its tabs: `/docs/data/`, `/docs/styles/`, `/docs/designer/`,
-  `/docs/sql/`, `/docs/settings/`, `/docs/diagram/`, `/docs/dot/`, `/docs/knowledge-graph/`, `/docs/svg/` and `/docs/about/`,
-  and the home page. Do not rename these without changing the app.
+- **The addresses the app uses** are the help buttons of its tabs: `/docs/data/`, `/docs/mappings/`, `/docs/sql/`,
+  `/docs/designer/`, `/docs/styles/`, `/docs/diagram/`, `/docs/knowledge-graph/`, `/docs/dot/`, `/docs/settings/`, `/docs/svg/`
+  and `/docs/about/`, and also the home page, `/download/`, `/license/`, `/pricing/` and `/docs/builtin-graphviz/`. Do not
+  rename these without changing the app.
+- **Every page has its own `description`** in its front matter, for search engines and shared links.
 - **Screenshots** are in `content/public/shots/`, each in a light and a dark version, shown with the classes `shot shot-light`
   and `shot shot-dark` (see `content/.vitepress/theme/custom.css`).
 - **Wording is original.** Nothing is copied from Graphviz's documentation; link to Graphviz's own page where an attribute
@@ -32,7 +34,7 @@ Node 24 is used. The pages are in `content/`.
 The **Examples** page (`content/examples/`, the menu item "Examples") is a gallery: a card for each example, with a picture, a title and one line. Each example is a short page: what was drawn, the diagram, the key aspects with links to the documentation, the Knowledge Graph in a viewer, and a zip to download. It is meant to show, not to teach: the downloaded project is the how-to.
 
 - **A new example:** copy `templates/example.md` to `content/examples/<short-name>/index.md` and fill it in. Its card appears on the gallery, in the order given by `order`.
-- **Drafts:** `draft: true` in the front matter leaves the example out of the finished site altogether (no page, no card, no sitemap entry), so a half-finished one can be committed. Look at it with `npm run dev`. Its files in `content/public/examples/` are still copied to the site, unlinked.
+- **Drafts:** `draft: true` in the front matter leaves the example out of the finished site altogether (no page, no card, no sitemap entry), so a half-finished one can be committed. Look at it with `npm run dev`. Its files in `content/public/examples/` are left out too (the build deletes them), but a committed draft can be read in this public repository.
 - **The pieces** (`content/.vitepress/theme/components/`): `<ExampleGallery />` (the cards), `<ExampleFacts />` (the small facts from `facts` in the front matter), `<ExampleDiagram image interactive alt />` (a plain SVG picture on white, with a button that opens the interactive one in a new tab), `<ExampleKnowledgeViewer light dark title />` (the app's Knowledge Graph viewer with a published Knowledge Graph in it, in a sandboxed frame; it shows the page that matches the site's theme) and `<ExampleDownload file size />` (the box with the download).
 - **Files** go in `content/public/examples/<short-name>/`: the diagram published twice, as `diagram.svg` with SVG post-processing off (the picture on the page) and as `diagram-interactive.svg` with it on (zoom, filters and hover, opened in a new tab; it is not framed in the page, because its controls need the whole window and a frame would capture the mouse wheel), the Knowledge Graph (`.json`) and its two viewer pages, the thumbnail and the `.zip`.
 - **Pictures in nodes:** a published SVG only links to its pictures (`images/person.png`), and a page cannot load the links, so the two SVGs are made with the pictures put into them (the app's own code does that for the Diagram tab; see the notes of the context diagram example).
@@ -41,10 +43,9 @@ The **Examples** page (`content/examples/`, the menu item "Examples") is a galle
 - **Zips** are made with `node tools/make-zip.mjs <folder> <output.zip>` in the app's repository, because Windows PowerShell's `Compress-Archive` writes backslashes, which Mac and Linux unpack into one flat folder. An exchange file from the Excel tool is turned into a project with `node tools/convert-exchange.mjs`.
 - **Wording:** descriptive and plain ("This is a ..."), with a few numbers that were checked in the file. The stories behind an example belong on the blog of the Excel tool, which the page can link to.
 
-## Before the launch
+## Search engines
 
-The site is `noindex` until `LAUNCHED` in `content/.vitepress/config.mts` is set to `true`. Every page needs its own `description` in its frontmatter. The
-license wording is for an attorney, and the Download page names the current beta in several places.
+The site can be found by search engines: `LAUNCHED` in `content/.vitepress/config.mts` is `true`. Only the thank-you page is `noindex`.
 
 ## Publishing
 
