@@ -380,8 +380,8 @@ a.gm-card:hover {
 }
 
 /*
- * The four groups of tabs in the sidebar (Data, Look, Output, More) are headings that stay open, and no pages. They are set apart from
- * the pages beneath them by a smaller, muted name; the pages keep the indent of a group.
+ * The three named groups of tabs in the sidebar (Data, Look, Output) are headings that stay open, and no pages. They are set apart from
+ * the pages beneath them by a smaller, muted name; the pages keep the indent of a group. Settings and SVG follow as pages with no heading.
  */
 .VPSidebarItem.level-2:not(.is-link) > .item > .text {
   color: var(--vp-c-text-2);
@@ -390,7 +390,7 @@ a.gm-card:hover {
   letter-spacing: 0.02em;
 }
 
-/* A dot before each, in the color that the group has in the app (the tab bar of the program uses the same four). */
+/* A dot before each, in the color that the group has in the app (the tab bar of the program uses the same three). */
 .VPSidebarItem.level-2:not(.is-link) > .item > .text::before {
   display: inline-block;
   width: 7px;
@@ -405,4 +405,3 @@ a.gm-card:hover {
 .VPSidebarItem.level-2:not(.is-link):nth-child(1) { --gm-group-color: #1d9e75; }
 .VPSidebarItem.level-2:not(.is-link):nth-child(2) { --gm-group-color: #7f77dd; }
 .VPSidebarItem.level-2:not(.is-link):nth-child(3) { --gm-group-color: #d85a30; }
-.VPSidebarItem.level-2:not(.is-link):nth-child(4) { --gm-group-color: #888780; }

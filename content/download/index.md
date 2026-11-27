@@ -21,7 +21,7 @@ This is version 1.6.0, released November 24, 2026. See [what is new](/docs/chang
 | **Linux**, 64-bit, anything else | [Graph-Modeler-1.6.0.AppImage](https://github.com/graphmodeler/graphmodeler-releases/releases/download/v1.6.0/Graph-Modeler-1.6.0.AppImage) | 130 MB |
 
 Check the [system requirements](#system-requirements) first: Graph Modeler needs a 64-bit computer. Then [install it](#install), and install
-[Graphviz](#install-graphviz) too, to see pictures. Once it is installed, **Check for updates** on its [About tab](/docs/about/#updates) tells you when a newer
+[Graphviz](#install-graphviz) too, to see pictures. Once it is installed, **Check for updates** on its [About page](/docs/about/#updates) tells you when a newer
 version is out.
 
 The [release page](https://github.com/graphmodeler/graphmodeler-releases/releases/tag/v1.6.0) holds the same files and a list of
@@ -141,7 +141,7 @@ Newer versions have more, so a newer one is better where you can choose.
 
 ### Checking it worked
 
-Open the **About** tab. The **Graphviz** line shows the version found, or `not found`. If you installed Graphviz while the app was open,
+Press **About** in the title bar. The **Graphviz** line shows the version found, or `not found`. If you installed Graphviz while the app was open,
 press the button to look again on the tab that says it was not found, or close the app and start it again, since a program is given its list
 of places to look only when it starts.
 
@@ -200,4 +200,4 @@ Free for personal and non-commercial use, and licensed for commercial use. See [
 ## Tell me how it went
 
 Write to [support@graphmodeler.com](mailto:support@graphmodeler.com), and say how the download and the install went as well as how the app did. In the app,
-the **About** tab has a **Copy** button for your support information: the version and your system, and nothing about your data.
+the **About** page has a **Copy** button for your support information: the version and your system, and nothing about your data.

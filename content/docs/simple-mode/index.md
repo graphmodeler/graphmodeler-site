@@ -14,9 +14,10 @@ The switch is in the [title bar](/docs/title-bar/). The window is in Full mode e
 
 ## What the window has
 
-- **Two tabs**, [Diagram](/docs/diagram/) and [Knowledge Graph](/docs/knowledge-graph/). The tabs that make a model, such as Data, Styles and SQL, are not there.
+- **The three Output tabs**, [Diagram](/docs/diagram/), [Knowledge Graph](/docs/knowledge-graph/) and [DOT](/docs/dot/), under the name **Output**. The tabs that make a model, such as Data, Styles and SQL, are not there.
 - **A left pane** with **New** and **Open**, the name of the project (which cannot be changed here), the **Data file** or **Data folder**, the **Parameters**, the **Run** button, and the
   **Publish** section, which works as it does in Full mode: see [the left pane](/docs/left-pane/#publish).
+- **The About button** in the [title bar](/docs/title-bar/), as in Full mode, so a license key can be entered here too.
 - **No Save, no Save as, no Undo and no Redo.** A session in Simple mode never changes the project, so it has nothing to save. The keys do nothing either.
 
 Under the buttons the pane keeps the choice of **Style view** when the project has several, and the messages about the graph.

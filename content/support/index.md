@@ -11,7 +11,7 @@ Write to [support@graphmodeler.com](mailto:support@graphmodeler.com). It helps t
 
 - What you were doing, and what you expected to happen.
 - What happened instead, with the message if there was one.
-- The **Support information** from the app's [About tab](/docs/about/). The **Copy** button there puts it on the clipboard.
+- The **Support information** from the app's [About page](/docs/about/). The **Copy** button there puts it on the clipboard.
 - The project file, if it is not private. Take out anything you do not want to share first.
 
 ## Questions people ask
@@ -19,7 +19,7 @@ Write to [support@graphmodeler.com](mailto:support@graphmodeler.com). It helps t
 ### It says Graphviz was not found
 
 Pictures, previews and the PNG, PDF or SVG files need a Graphviz. A copy is included with the app, and makes SVG pictures; PNG and PDF need the full Graphviz, which is installed separately. See [The included Graphviz](/docs/builtin-graphviz/) and [Install Graphviz](/download/#install-graphviz).
-The **About** tab shows which one the app found. After installing, press the button to look again, or restart the app.
+The **About** page shows which one the app found. After installing, press the button to look again, or restart the app.
 
 Everything that is not a picture works without it, and you can close the message with the cross on it.
 
@@ -60,7 +60,7 @@ name on the order. A message that the server **could not be reached** means the 
 
 ### Can I change the colors of the app?
 
-The app has a light theme and a dark one. The switch is the moon in the banner, and it starts as your system's choice. The picture of the
+The app has a light theme and a dark one. The switch is **Dark mode**, with a moon, in the title bar, and it starts as your system's choice. The picture of the
 graph keeps its own colors, which are the ones in your styles.
 
 ## Reporting a problem

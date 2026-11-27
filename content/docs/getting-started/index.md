@@ -9,7 +9,7 @@ This takes a few minutes and ends with a graph on screen and a file you have wri
 
 ## 1. Start a project
 
-Open the app. It starts with a new project: a few empty rows on the **Data** tab, and the styles every project has. The tabs are in four groups, each with its name above it: **Data** (Data, Mappings and SQL), **Look** (Designer and Styles), **Output** (Diagram, Knowledge Graph and DOT) and **More** (Settings, SVG and About).
+Open the app. It starts with a new project: a few empty rows on the **Data** tab, and the styles every project has. The tabs are in three groups, each with its name above it: **Data** (Data, Mappings and SQL), **Look** (Designer and Styles) and **Output** (Diagram, Knowledge Graph and DOT), and then **Settings** and **SVG**, set apart by a thin line. The **About** button is in the title bar.
 
 The [left pane](/docs/left-pane/) has the project's name and the buttons for **New**, **Open**, **Save** and **Save as**, then **Undo** and **Redo**, then
 **Publish**. A project is saved as a `.json` file.
@@ -17,10 +17,10 @@ The [left pane](/docs/left-pane/) has the project's name and the buttons for **N
 ## 2. Type the things
 
 On the **Data** tab, type a name in the **Item** column of the first row: `Order received`. That is a node. Move to the next row and type `Credit
-check`, and then `Ship order` on the one after. Each is a node, and each row has a blue dot.
+check`, and then `Ship order` on the one after. Each is a node, and each row has a blue ellipse.
 
 To connect two of them, put one in **Item** and the other in **Related Item**. A row with `Order received` and `Credit check` is an edge
-from the first to the second. Its dot is orange. Add `Credit check` to `Ship order` the same way.
+from the first to the second. Its mark is an orange arrow. Add `Credit check` to `Ship order` the same way.
 
 The diagram appears beside the data, so you see it change as you type. If you do not see a picture, see [Without Graphviz](/docs/diagram/#without-graphviz). The button with the split window on the
 toolbar hides it, to give the data the whole width, and the diagram is always on the **Diagram** tab.

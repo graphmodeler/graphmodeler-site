@@ -228,7 +228,10 @@ export default defineConfig({
               text: 'The title bar',
               link: '/docs/title-bar/',
               collapsed: true,
-              items: [{ text: 'Simple mode', link: '/docs/simple-mode/' }],
+              items: [
+                { text: 'Simple mode', link: '/docs/simple-mode/' },
+                { text: 'About', link: '/docs/about/' },
+              ],
             },
             {
               text: 'The left pane',
@@ -239,8 +242,8 @@ export default defineConfig({
             {
               text: 'The tabs',
               collapsed: false,
-              // The four groups of the tab bar, as headings that stay open: every page is seen without a click, and a page is found by the
-              // name of its tab, which is how a reader knows it.
+              // The three named groups of the tab bar, as headings that stay open: every page is seen without a click, and a page is found
+              // by the name of its tab, which is how a reader knows it. Settings and SVG follow with no heading, as the app shows them.
               items: [
                 {
                   text: 'Data',
@@ -265,14 +268,8 @@ export default defineConfig({
                     { text: 'DOT', link: '/docs/dot/' },
                   ],
                 },
-                {
-                  text: 'More',
-                  items: [
-                    { text: 'Settings', link: '/docs/settings/' },
-                    { text: 'SVG', link: '/docs/svg/' },
-                    { text: 'About', link: '/docs/about/' },
-                  ],
-                },
+                { text: 'Settings', link: '/docs/settings/' },
+                { text: 'SVG', link: '/docs/svg/' },
               ],
             },
           ],

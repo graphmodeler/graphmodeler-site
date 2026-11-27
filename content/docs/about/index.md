@@ -1,13 +1,13 @@
 ---
-description: "What the About tab shows: the version you run, your license, how to check for updates, who made Graph Modeler and who helped, and the software it is built on."
+description: "What the About page shows: the version you run, your license, how to check for updates, who made Graph Modeler and who helped, and the software it is built on."
 ---
 
-# The About tab
+# The About page
 
-The About tab says what you are running, whether it has a commercial license, who made it, who has helped, and what it is built on.
+The About page says what you are running, whether it has a commercial license, who made it, who has helped, and what it is built on. To open it, press **About** in the [title bar](/docs/title-bar/), in Full or Simple mode.
 
-<img class="shot shot-light" src="/shots/about-light.png" alt="The top of the About tab, with the name of the program and the start of the license section">
-<img class="shot shot-dark" src="/shots/about-dark.png" alt="The top of the About tab in the dark theme">
+<img class="shot shot-light" src="/shots/about-light.png" alt="The top of the About page, under the title bar with its About button chosen, with the name of the program and the start of the license section">
+<img class="shot shot-dark" src="/shots/about-dark.png" alt="The top of the About page in the dark theme">
 
 ## Your license
 
@@ -23,7 +23,7 @@ There are three choices:
 
 - **Enter license key** is for a commercial license you have bought. See below for how to get the key. The box takes the key and asks Polar whether it is valid.
 - **I will use it only for personal or other non-commercial purposes** goes on to one more step, which says what the license covers and asks you to tick a box that confirms it.
-  **Continue** stays off until the box is ticked. The date you confirmed is kept on your computer and shown here on the About tab. Nothing is sent anywhere.
+  **Continue** stays off until the box is ticked. The date you confirmed is kept on your computer and shown here on the About page. Nothing is sent anywhere.
 - **Buy a license** opens the [Pricing](/pricing/) page in your browser, where the price and the buy button are.
 
 <img class="shot shot-light" src="/shots/license-confirm-light.png" alt="The confirmation for personal use, with its box ticked">
@@ -32,10 +32,10 @@ There are three choices:
 <img class="shot shot-light" src="/shots/license-key-light.png" alt="The box that takes a license key">
 <img class="shot shot-dark" src="/shots/license-key-dark.png" alt="The box that takes a license key in the dark theme">
 
-If you close the question without answering, it asks again the next time the program starts. You can enter a key at any time from this tab.
+If you close the question without answering, it asks again the next time the program starts. You can enter a key at any time from this page.
 
-<img class="shot shot-light" src="/shots/about-license-light.png" alt="The license and updates sections of the About tab">
-<img class="shot shot-dark" src="/shots/about-license-dark.png" alt="The license and updates sections of the About tab in the dark theme">
+<img class="shot shot-light" src="/shots/about-license-light.png" alt="The license and updates sections of the About page">
+<img class="shot shot-dark" src="/shots/about-license-dark.png" alt="The license and updates sections of the About page in the dark theme">
 
 | It says | It means |
 | --- | --- |

@@ -28,7 +28,7 @@ A language that came with Graph Modeler and that no person has reviewed is marke
 - **Graphviz's own words,** such as the names of attributes and shapes, and the words of SQL. The names of the columns that a query returns (`Item`, `Related Item`, `Style Name`)
   are typed into scripts, so they stay English. On the [Data](/docs/data/) tab a heading in another language shows the English name in its tooltip, such as **SQL: Related Item**.
 - **The status words of a SQL run:** `SUCCESS`, `FAILURE`, `SKIPPED` and `FILTERED OUT`, which the program reads.
-- **The support information** on the [About](/docs/about/) tab, which is copied for whoever helps you.
+- **The support information** on the [About](/docs/about/) page, which is copied for whoever helps you.
 
 ## A file of your own
 
@@ -48,7 +48,7 @@ A line of a file that is wrong is left out and the rest of the file is still use
 
 ## Languages that come with the program
 
-Each is in the list under its own name, and the people who translated a language are named on the **About** tab. See [About](/docs/about/).
+Each is in the list under its own name, and the people who translated a language are named on the **About** page. See [About](/docs/about/).
 
 | Language | Made by |
 |---|---|
@@ -66,5 +66,5 @@ Each is in the list under its own name, and the people who translated a language
 
 The machine translations were made from a fixed list of terms and checked by program, but no person who speaks the language has reviewed them yet, so you may meet a clumsy
 or wrong sentence. If you speak one of these languages and would like to improve it, write to [support@graphmodeler.com](mailto:support@graphmodeler.com): you can work with
-[Poedit](https://poedit.net/) on the language file, and you are named on the About tab and on this page when your work comes with the program. A language that is not here can be
+[Poedit](https://poedit.net/) on the language file, and you are named on the About page and on this page when your work comes with the program. A language that is not here can be
 added the same way, with no change to the program.

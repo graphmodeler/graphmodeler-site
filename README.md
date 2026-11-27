@@ -19,7 +19,7 @@ Node 24 is used. The pages are in `content/`.
 - **A folder for every page.** A page is `content/docs/data/index.md`, and its address is `/docs/data/`. The app links to the
   address with the closing slash, so no link is answered with a redirect. Keep it that way for a new page, and link to other
   pages with the closing slash too.
-- **The addresses the app uses** are the help buttons of its tabs: `/docs/data/`, `/docs/mappings/`, `/docs/sql/`,
+- **The addresses the app uses** are the help buttons of its tabs and its About page: `/docs/data/`, `/docs/mappings/`, `/docs/sql/`,
   `/docs/designer/`, `/docs/styles/`, `/docs/diagram/`, `/docs/knowledge-graph/`, `/docs/dot/`, `/docs/settings/`, `/docs/svg/`
   and `/docs/about/`, and also the home page, `/download/`, `/license/`, `/pricing/` and `/docs/builtin-graphviz/`. Do not
   rename these without changing the app.

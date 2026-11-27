@@ -26,11 +26,11 @@ style's description and properties, for programs and AI tools. One model gives y
 
 The window has three parts, and each has its own pages.
 
-**[The title bar](/docs/title-bar/)** is the strip across the top. Its switches turn on the dark theme and [Simple mode](/docs/simple-mode/), a smaller window for people who only run a finished model.
+**[The title bar](/docs/title-bar/)** is the strip across the top. Its switches turn on the dark theme and [Simple mode](/docs/simple-mode/), a smaller window for people who only run a finished model. Its **About** button opens [the About page](/docs/about/): the version, the license and the credits.
 
 **[The left pane](/docs/left-pane/)** is on every tab. It has the project buttons, the values a script asks for, undo and redo, the choice of view, Publish, and the messages about what the app found. [Save a copy for sharing](/docs/sharing/) makes a copy of a project for someone else.
 
-**The tabs** are in four groups, in the order they are in the app. Each group has its name, with a colored dot, above its tabs: **Data** is for bringing data in and writing the graph, **Look** for how it looks, **Output** for what comes out, and **More** for the rest.
+**The tabs** are in three named groups, in the order they are in the app. Each group has its name, with a colored dot, above its tabs: **Data** is for bringing data in and writing the graph, **Look** for how it looks, and **Output** for what comes out. **Settings** and **SVG** come last, after a thin line, with no name.
 
 Data:
 
@@ -49,11 +49,8 @@ Output:
 - [Knowledge Graph](/docs/knowledge-graph/): the JSON file for programs and AI tools, and its viewer.
 - [DOT](/docs/dot/): the text Graphviz is given.
 
-More:
-
-- [Settings](/docs/settings/): the choices that apply to the whole project.
-- [SVG](/docs/svg/): post-processing, and why it is a security matter.
-- [About](/docs/about/): the version, the credits and the license.
+* [Settings](/docs/settings/): the choices that apply to the whole project.
+* [SVG](/docs/svg/): post-processing, and why it is a security matter.
 
 ## Topics
 

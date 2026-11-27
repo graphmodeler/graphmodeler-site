@@ -39,8 +39,8 @@ version 11 and open that.
 
 Some of this is on purpose: where the Excel tool did something only because it lived in Excel, Graph Modeler does not.
 
-- **A project is a file**, in JSON, and not a workbook. There are no worksheets to hide or show, and no ribbon. The tabs are fixed, in four
-  named groups (Data, Look, Output and More), and one toolbar row sits over each.
+- **A project is a file**, in JSON, and not a workbook. There are no worksheets to hide or show, and no ribbon. The tabs are fixed, in three
+  named groups (Data, Look and Output) and then Settings and SVG, and one toolbar row sits over each.
 - **Queries run on SQLite**, not on the database engine of Excel and Access. Most queries are unchanged, a few functions are different, and the
   [SQL tab](/docs/sql/) page lists what is reproduced. Data comes from files that you name: Excel and LibreOffice workbooks, CSV files, Access databases and SQLite databases. The workbook
   that holds a project does not exist here, and MySQL and Postgres are not supported yet. A query returns at most 100,000 rows, and one that never ends is stopped with a message.
