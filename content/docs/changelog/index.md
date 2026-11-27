@@ -7,6 +7,40 @@ description: "What changed in each version of Graph Modeler, newest first: new f
 What each version of Graph Modeler changed, newest first. The versions before 1.0.0 were betas, so their numbers are small and their changes many. The installers are on the
 [Download](/download/) page. Where a change is explained on a page of its own, there is a link.
 
+<!-- RELEASE DAY: uncomment this entry and set its date.
+
+## Version 1.7.0 (November XX, 2026)
+
+**New**
+
+- **About is in the title bar,** beside the help button, in Full and Simple mode. It opens the same page as before, so a license key can now be entered in Simple mode too. See [the title bar](/docs/title-bar/).
+- **Simple mode shows the DOT tab.** It has the three Output tabs, under their name, so DOT written from the Publish section can be read. See [Simple mode](/docs/simple-mode/).
+- **The tabs can be moved through with the arrow keys.** Home and End go to the first and the last, and Enter or Space opens one.
+
+**Changed**
+
+- **A new look.** One type scale, quieter toolbar buttons with a caption under each group, joined buttons for choices, flat sections in Settings and the Designer, one frame for every window, slim scroll bars, and blue for what is selected.
+- **Shapes for the kinds of rows.** On the Data tab a node is an ellipse, an edge an arrow, a cluster a box, a keyword a diamond and native DOT a triangle, so the kinds can be told apart without color. See [the Data tab](/docs/data/).
+- **Code in color.** The Format and Properties columns of Styles, the Attributes and Properties columns of Data, the SQL statements, the SQL window and the Designer's Format string and Properties boxes are colored as the DOT tab is.
+- **Settings and SVG stand apart,** after a thin line, with no group name.
+- **The left pane** has words beside its main buttons. Publish comes after its options and stays in view in a short window. See [the left pane](/docs/left-pane/#publish).
+- **The main button comes first,** and Cancel second, in every window.
+- **The Designer shows a color once,** on the button that opens the picker, which starts on Graphviz's own color. A list that is not set says "(default)". See [the Designer](/docs/designer/).
+- **The line that names the Graphviz** is in a strip along the bottom of the Diagram tab, and the picture lies on the canvas as Graphviz drew it.
+- **Include External Label is ticked for nodes** in a new project, so an External Label typed on the Data tab is drawn. Saved projects keep their setting.
+- **Rows of wrapped text are measured,** so their text is no longer cut off.
+- **The new texts are translated** into the ten languages that come with the program; the new texts are drafts until a person has reviewed them.
+
+**Fixed**
+
+- **A pipe in an attribute or a property cut the value short,** so a record label such as `label="{in|out}"` was spoiled.
+- **A quote written `\"` inside a quoted attribute ended it,** and Graphviz refused the diagram.
+- **After New, Open or a dropped file, the Mappings editor kept the old project's mapping,** and Save could write it into the new one.
+- **The red mark of a problem row could not be seen** in the light theme.
+- **The languages in Settings were not in alphabetical order.**
+
+-->
+
 ## Version 1.6.0 (November 24, 2026)
 
 **New**
