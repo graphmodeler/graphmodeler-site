@@ -21,6 +21,8 @@ each have a color. A very large graph, of more than half a million characters, i
 - **Ctrl+F** searches the text and paints every match over the colors, with the current one stronger and scrolled into view. See [Find and replace](/docs/find-and-replace/).
   The DOT is for reading, so it has no Replace.
 
+A strip along the bottom counts the characters and the lines.
+
 The DOT file can also be written with **Publish**. Turn on the third **Write** button, the one with the angle brackets, in the left pane.
 
 ## What is in it

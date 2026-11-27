@@ -27,8 +27,8 @@ diagram is a live page, so a tooltip appears when the pointer rests on an item. 
 A rule has a **Find** and a **Replace**. They run from the top, and each one replaces every match of its **Find** in the text of the SVG.
 A rule is plain text replacement, with no special codes to learn.
 
-- **Add**, the plus button at the top, adds a rule. The buttons at the end of a row move it up or down, add one below it, or delete it.
-- The pencil beside a cell opens a box with the whole text, for the long script a rule can hold. A cell shows a long text as its start, with the number of characters.
+- **Add**, the plus button at the top, adds a rule. The buttons at the end of a row move it up or down, add one below it, or delete it. They show on the row under the pointer, the chosen row and the row you are typing in, and on the first row while none is chosen.
+- The pencil beside a cell opens a box with the whole text, for the long script a rule can hold. A cell shows a long text as its start, with the number of characters beside it.
 - The **#** cell comments a rule out, and a commented-out rule is skipped and doubles as a note.
 - **Standard rules** replaces all the rules with the ones that come with the app.
 

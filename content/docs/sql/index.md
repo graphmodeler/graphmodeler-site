@@ -103,7 +103,7 @@ They come from the [Excel tool](/docs/from-excel/), and a script that uses them 
 
 ## Writing a long statement
 
-The grid shows each statement on one line, and cuts it short. The pencil in the **SQL Statement** cell, or a double click on the cell, opens a box with the whole statement, where it can run over several lines. **Save** keeps it and
+The grid shows each statement on one line, in color, and cuts it short. The pencil in the **SQL Statement** cell, or a double click on the cell, opens a box with the whole statement, where it can run over several lines, with line numbers and the SQL in color. **Save** keeps it and
 **Cancel** leaves it as it was, and **Wrap text** wraps long lines so they can be read without scrolling.
 
 <img class="shot shot-light" src="/shots/sql-edit-light.png" alt="The box for editing a statement, with a query written over several lines">
@@ -157,7 +157,7 @@ away. A line that is neither a query nor a command fails, and its message lists 
 
 Each line can carry a tag in a **filter column**, and a script can have several filter columns. The controls for them are folded
 away behind the **Filters** button of the toolbar, to leave it quiet for the many scripts that have no filter; press it to show them, and
-press it again to fold them. The program remembers which way you left it. When a filter is on, a small dot on the button says so, and its
+press it again to fold them. The program remembers which way you left it. The button and its two lists are one group, under the caption **Filters**, and the buttons for the filter columns are under **Filter columns**. When a filter is on, a small dot on the button says so, and its
 tooltip says which tag, because a filter limits what a run does. Choose a filter column and a tag, and only the lines with that tag run.
 The others are skipped. A project can have a column for each task it does,
 such as "weekly" and "audit", and one script holds them all.

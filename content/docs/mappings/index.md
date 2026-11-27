@@ -27,13 +27,13 @@ A graph usually needs more than one mapping: one for the edges, and one or two f
 The tab is split in two, and the divider can be dragged. The split is remembered with the project, and a double click on the divider puts it back to where it started.
 
 **On the left is the list.** It holds every mapping of the project in the order of the script, nodes and edges mixed, each with a pill that says **Node**, **Edge** or
-**Placeholder**. Keeping an edge mapping next to the two node mappings it needs makes a project easier to review. Each row has four buttons, the same as on the SQL tab:
+**Placeholder**. Keeping an edge mapping next to the two node mappings it needs makes a project easier to review. Each row has four buttons, the same as on the SQL tab. They show on the row under the pointer and on the chosen row, and on the first row while none is chosen:
 
 - **Edit** loads the mapping into the editor.
 - **Move up** and **Move down** move it in the script, past the mapping next to it. The SQL tab shows the same order, because it is the same script.
 - **Delete** removes the mapping and its line of SQL. **Undo** brings it back.
 
-Double-click a name to rename it. Under the list, a row named **SQL** opens an area that shows the SQL of the mapping you are editing, or of the one you clicked. It is read only. The row is closed the first time you use the tab, to leave the room to the list, and the app remembers whether you left it open.
+Double-click a name to rename it. Under the list, a row named **SQL** opens an area that shows the SQL of the mapping you are editing, or of the one you clicked, in color. It is read only. The row is closed the first time you use the tab, to leave the room to the list, and the app remembers whether you left it open.
 
 **On the right is the editor,** where a mapping is made or changed.
 

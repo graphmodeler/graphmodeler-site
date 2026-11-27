@@ -39,6 +39,8 @@ The two buttons beside the split-window button on the Data tab decide when the p
 after every change. Turn it off for a large graph that is slow to draw, and press the other one, which draws once, when you are ready. A
 picture that is out of date says so.
 
+The picture lies on a gray canvas as Graphviz drew it, with nothing added around it. A strip along the bottom of the tab says which Graphviz drew it, unless that is turned off in [Settings](/docs/settings/#on-this-computer).
+
 If Graphviz has something to say about the graph, such as a warning, it appears in the left pane under **Graphviz messages**.
 When Graphviz reports an error but still draws the graph, which the `ortho` edge routing can do when it loses an edge, the picture is shown with a
 red notice above it, because it may be incomplete. Choosing another edge routing or direction usually clears it. If Graphviz cannot draw the graph at all, the notice says so and

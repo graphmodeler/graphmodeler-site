@@ -33,8 +33,10 @@ The choices are in groups, and the ones that do not apply to what you are design
 
 - **Color scheme**, **Font**, **Shape**, **Size**, **Image**, **Label**, **Fill** and **Border** for nodes and clusters, with their
   edge counterparts, such as arrowheads, for edges.
-- Colors take a name or a hex value, with a swatch and a picker. A **Color scheme** makes the color names in the list read
-  from a set, such as one of the ColorBrewer palettes, so a diagram can use a palette from one choice.
+- Colors take a name or a hex value. The color shows on the button after the box, which opens the picker. The picker starts on the color Graphviz
+  would use: black, or light gray for a fill. A color that is not set shows as an empty swatch with a gray diagonal line, and a checkerboard means no color, such as `transparent`.
+  A **Color scheme** makes the color names in the list read from a set, such as one of the ColorBrewer palettes, so a diagram can use a palette from one choice.
+- A list that is not set says **(default)**, and a choice that is set has its name in semibold.
 - **Shape** and **Font** show a small picture of each choice in their lists. The fonts are the ones installed on your computer; see
   [Fonts](/docs/fonts/) for how they are found and what to do after installing one.
 - **Height** and **Width** take a length in the unit of the project, inches or millimeters, which is set under [Settings](/docs/settings/). See
@@ -65,7 +67,7 @@ how anything is drawn. Both go into every [Knowledge Graph](/docs/knowledge-grap
 - **Description** is a sentence about the kind of thing the style stands for, such as "A step in the process" or "Somewhere data is kept". It is also the **Description**
   column of the [Styles](/docs/styles/) tab.
 - **Properties** are facts that go with every node, edge or cluster of the style: who owns that kind of thing, how critical it is, which system it lives in. The box shows
-  them as `name=value` pairs. Press the **pencil** beside it to open **Properties of style "Step"**, a small grid with a line for each property.
+  them as `name=value` pairs, in color, as the format string is. Press the **pencil** beside it to open **Properties of style "Step"**, a small grid with a line for each property.
 
 <img class="shot shot-light" src="/shots/properties-light.png" alt="The Properties box of a style, with three properties and how each is read">
 <img class="shot shot-dark" src="/shots/properties-dark.png" alt="The Properties box of a style, with three properties and how each is read in the dark theme">

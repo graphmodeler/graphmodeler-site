@@ -14,7 +14,7 @@ Where a setting has a picture, such as the layout engine, the picture of the one
 
 ## Language
 
-The first group is the language of the program itself: a list of the languages it has (English, the languages that come with the program, and any file you add), and two buttons, one that opens the folder for your own language files and one that
+The first group is the language of the program itself: a list of the languages it has (English first, then the languages that come with the program in alphabetical order, and any file you add last), and two buttons, one that opens the folder for your own language files and one that
 reads the files again. The choice is saved on this computer and not with the project. See [Languages](/docs/languages/).
 
 ## Layout
@@ -50,7 +50,7 @@ See [Units and packing](/docs/units-and-packing/#units) for what changes when a 
 **Show the invitation on an empty project** is ticked until you close the card that says "Starting from a spreadsheet?" on the Data tab of an empty project, or save a first mapping. Tick it again to bring the card back.
 It is kept on this computer and not with the project. See [The Mappings tab](/docs/mappings/#a-first-project).
 
-**Graphviz** chooses which Graphviz draws the pictures: the one included with the program, or the one installed on your computer, each shown with its version number. With no Graphviz installed, the other choice is to draw no pictures. **Show which Graphviz drew the diagram** puts a small line under the diagram's toolbar, and takes it away. Both are kept on this computer and not with the project. See [The included Graphviz](/docs/builtin-graphviz/).
+**Graphviz** chooses which Graphviz draws the pictures: the one included with the program, or the one installed on your computer, each shown with its version number. With no Graphviz installed, the other choice is to draw no pictures. **Show which Graphviz drew the diagram** puts a small line in a strip under the diagram, and takes it away. Both are kept on this computer and not with the project. See [The included Graphviz](/docs/builtin-graphviz/).
 
 ## Cluster style names
 
@@ -74,7 +74,8 @@ Three groups, with the same shape. Each says which of the parts of a node, an ed
 
 - **Include** choices for the label, the external label and the tooltip. Edges also have the head label, the tail label and ports, and can leave
   out edges that name an item with no row of its own. A tooltip is written to the DOT and to every published SVG, and a browser shows it when
-  the pointer rests on the node. The picture on the Diagram tab cannot show tooltips; see [Tooltips](/docs/diagram/#tooltips).
+  the pointer rests on the node. The picture on the Diagram tab cannot show tooltips; see [Tooltips](/docs/diagram/#tooltips). A new project
+  includes the external label of nodes; a saved project keeps its own choice.
 - **When Label is blank** and **When Tooltip is blank** choose between using the default (the item's name or the edge's name) and leaving it empty.
 - **Include stand-alone nodes** keeps nodes that no edge touches.
 - **Apply "strict" rules** removes duplicate edges, **Concentrate edges** merges edges that share a path, and **Force xlabel placement** makes sure

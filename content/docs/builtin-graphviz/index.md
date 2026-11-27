@@ -23,7 +23,7 @@ choice shows its version number and what it gives:
 <img class="shot shot-dark" src="/shots/builtin-graphviz-question-dark.png" alt="The question, in the dark theme">
 
 The answer is kept on your computer, not in the project, and is on the **Settings** tab, in the **On this computer** group, in the same words. The
-Graphviz that you installed is never changed or removed by this. When both are there, a small line under the diagram's toolbar says which one drew
+Graphviz that you installed is never changed or removed by this. When both are there, a small line in a strip under the diagram says which one drew
 the picture. A tick box on the Settings tab hides that line.
 
 <img class="shot shot-light" src="/shots/builtin-graphviz-settings-light.png" alt="The On this computer group of the Settings tab: the invitation tick box, the tick box for the line that names the Graphviz, and the choice of Graphviz">
@@ -70,5 +70,5 @@ is as quick or quicker. A very large graph takes as long as it takes in Graphviz
 The included Graphviz is Graphviz 16.1.0, under the Eclipse Public License v2.0, compiled to WebAssembly by the package
 [@hpcc-js/wasm-graphviz](https://github.com/hpcc-systems/hpcc-js-wasm) (Apache License 2.0), with the Expat XML library (MIT License) and what the compiled code runs on: the runtime of Emscripten (MIT License),
 the musl C library (MIT License) and the C++ library of LLVM (Apache License 2.0 with LLVM Exceptions); the package unpacks it with fzstd (MIT License).
-They are listed on the [About tab](/docs/about/), and the full texts are in a `licenses` folder that is installed beside the program, with where to get
+They are listed on the [About page](/docs/about/), and the full texts are in a `licenses` folder that is installed beside the program, with where to get
 the source.

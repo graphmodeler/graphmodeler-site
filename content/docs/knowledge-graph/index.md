@@ -22,8 +22,8 @@ The tab shows the Knowledge Graph for the view chosen in the left pane, in the s
 - The two buttons with pictures choose the view. **Raw (line numbers)** shows the JSON as text, and **Tree (collapsible)** shows it as a tree you can open and close.
 - The **Copy** menu has **Copy Raw** and **Copy Pretty**, which put the text on the clipboard, compact or indented. The **Save as a file** menu has **Save Raw As File** and
   **Save Pretty As File**, which write it to a file.
-- A line of counts at the bottom shows the characters, an estimate of how many tokens an AI tool will count, the lines, and the numbers of nodes and edges. Point at one to
-  see its name. The estimate is about four characters to a token, with eight percent on top. It is a guide to whether the file will fit in a request.
+- A line of counts at the bottom shows the characters, an estimate of how many tokens an AI tool will count, the lines, and the numbers of nodes and edges. Each has its name
+  beside its icon where the viewer is 760 pixels wide or more; otherwise point at one to see its name. The numbers are grouped as your language groups them, such as 36,861. The estimate is about four characters to a token, with eight percent on top. It is a guide to whether the file will fit in a request.
 
 Anything that was left out, such as a row whose style is not used in the chosen view, is listed in the left pane under **Knowledge Graph
 messages**, with its row number.

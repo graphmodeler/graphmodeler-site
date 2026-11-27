@@ -5,7 +5,7 @@ description: "The Data tab holds the rows of your graph: items, relationships an
 # The Data tab
 
 The Data tab holds the rows of your graph. A row says that something exists, or that two things are connected, or that a
-cluster begins or ends. What a row means depends on which cells you fill in, and the dot at the start of the row shows how
+cluster begins or ends. What a row means depends on which cells you fill in, and the mark at the start of the row shows how
 the app has read it.
 
 <img class="shot shot-light" src="/shots/data-light.png" alt="The Data tab with rows of items, relationships and clusters">
@@ -13,17 +13,17 @@ the app has read it.
 
 ## The kinds of row
 
-| You fill in | The row is | The dot is |
+| You fill in | The row is | The mark is |
 | --- | --- | --- |
-| **Item** only | A node | Blue |
-| **Item** and **Related Item** | An edge from the item to the related item | Orange |
-| An item that ends in `{`, such as `cluster_Warehouse {` | The start of a cluster | Teal |
-| An item that is `}` | The end of the innermost open cluster | Teal |
-| An item that is `node`, `edge` or `graph` | Default attributes for everything after it, in the same scope | Gray |
-| An item that is `>` | Raw DOT, written into the output exactly as you typed it in **Label** | Purple |
+| **Item** only | A node | A blue ellipse |
+| **Item** and **Related Item** | An edge from the item to the related item | An orange arrow |
+| An item that ends in `{`, such as `cluster_Warehouse {` | The start of a cluster | A teal box with two dots |
+| An item that is `}` | The end of the innermost open cluster | A teal box with two dots |
+| An item that is `node`, `edge` or `graph` | Default attributes for everything after it, in the same scope | A gray diamond |
+| An item that is `>` | Raw DOT, written into the output exactly as you typed it in **Label** | A purple triangle |
 
-A dot that is a hollow red ring means the row names a style that does not exist. A row that is commented out shows its
-dot as a hollow ring too, and is left out of the graph.
+A hollow red mark, in the shape of its kind, means the row names a style that does not exist. A row that is commented out shows its
+mark hollow too, and is left out of the graph.
 
 ### Several at once
 
@@ -49,13 +49,13 @@ To put rows you already have in a cluster, choose them and press **Wrap rows in 
 | Column | What goes in it |
 | --- | --- |
 | **#** | Click to comment the row out or back in. |
-| (the dot) | Shows the kind of row. You cannot type in it. |
+| (the mark) | Shows the kind of row. You cannot type in it. |
 | **Item** | The node, or the start of an edge. |
 | **Label** | The text drawn on the node or the edge. Leave it empty to use the item's name. |
 | **Related Item** | The end of an edge. |
 | **Style Name** | The style the row uses. The list holds the styles that suit the row: the node styles for a node, the edge styles for an edge, and so on. A row whose **Item** is `node` or `edge` sets the defaults for every node or every edge after it, so its list holds the node styles or the edge styles. A `graph` row is offered the keyword styles. |
-| **Attributes** | Graphviz attributes for this row alone, such as `color=red penwidth=2`. They win over the style's. |
-| **Properties** | Facts about the item that do not change the drawing but go into the Knowledge Graph, such as `owner="Finance" tier=1`. The pencil opens a small grid to edit them. |
+| **Attributes** | Graphviz attributes for this row alone, such as `color=red penwidth=2`. They win over the style's. Shown in the code font, in color, on one line. |
+| **Properties** | Facts about the item that do not change the drawing but go into the Knowledge Graph, such as `owner="Finance" tier=1`. The pencil opens a small grid to edit them. In the code font and in color, as **Attributes** is. |
 
 **Tail Label**, **External Label**, **Head Label** and **Tooltip** are also there, and a new project hides them. The columns
 button on the toolbar shows or hides any column, and the choice is saved with the project.
@@ -78,7 +78,7 @@ A style's label can use `{label}`, `{xlabel}`, `{taillabel}` and `{headlabel}`, 
 ## Seeing the graph
 
 The button with the split window on the toolbar shows the diagram beside the data, so that you see it change as you type, and hides it again when you want the whole width for the data.
-The diagram is always on the [Diagram](/docs/diagram/) tab as well. The button beside it, with the arrows going round, draws after every change, and the button after that draws once.
+There it is as tall as the rows, and a large diagram scrolls in its own pane. The diagram is always on the [Diagram](/docs/diagram/) tab as well. The button beside it, with the arrows going round, draws after every change, and the button after that draws once.
 
 <img class="shot shot-light" src="/shots/data-graph-light.png" alt="The Data tab with the diagram beside the rows">
 <img class="shot shot-dark" src="/shots/data-graph-dark.png" alt="The Data tab with the diagram beside the rows, in the dark theme">
@@ -88,6 +88,6 @@ arrow keys move it, **Home** and **End** take it to its limits, and **Enter** pu
 
 ## The toolbar
 
-From left to right: the row buttons; the diagram buttons (show it beside the data, draw after every change, draw now); the columns button, which shows or hides columns and resets their widths, and the wrap button
+From left to right, under the captions **Rows**, **Diagram**, **Columns** and **Tools**: the row buttons; the diagram buttons (show it beside the data, draw after every change, draw now); the columns button, which shows or hides columns and resets their widths, and the wrap button
 where a column can wrap; then the buttons that are used least, **Clear data** and the bug. The bug button adds each row's number to its label, which is a quick way to find the row behind
 something odd in the picture. **Clear data** removes every row and keeps your styles, and it is at the far end so that it is not pressed by mistake.

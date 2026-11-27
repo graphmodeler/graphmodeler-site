@@ -18,8 +18,8 @@ to the node, the edge or the cluster the row makes. Change a style once and ever
 | **Style Name** | What a row types in its **Style Name** cell. Names are not case sensitive. If two styles have the same name, the first one wins and both are shown in red. |
 | **Preview** | A picture of the style, drawn by Graphviz. It needs Graphviz, and says so when there is none. |
 | **Description** | Your own note. It also goes into the Knowledge Graph. |
-| **Format** | The Graphviz attributes, such as `shape="box" style="rounded,filled"`. Click the cell and a pencil button appears in it; the pencil opens the [Designer](/docs/designer/) with this style loaded. See [Editing a format in the Designer](#editing-a-format-in-the-designer). |
-| **Properties** | Facts that do not change the drawing but go into the Knowledge Graph, such as `kind="app"`. The pencil opens a small grid. |
+| **Format** | The Graphviz attributes, such as `shape="box" style="rounded,filled"`. Click the cell and a pencil button appears in it; the pencil opens the [Designer](/docs/designer/) with this style loaded. See [Editing a format in the Designer](#editing-a-format-in-the-designer). Shown in the code font, with the names and values in color. |
+| **Properties** | Facts that do not change the drawing but go into the Knowledge Graph, such as `kind="app"`. The pencil opens a small grid. Shown as **Format** is. |
 | **Style Type** | What the style is for: **Node**, **Edge**, **Cluster start**, **Cluster end**, **Keyword** or **Native DOT**. |
 | One column for each **view** | Whether the style is used in that view. |
 
@@ -55,9 +55,9 @@ view is drawn, and a row that names it is left out.
 Views are how one set of data makes several diagrams. A view that leaves out the styles for the details gives the overview, and
 one that turns them all on gives the whole picture. Publishing can write one view or every view.
 
-The view buttons on the toolbar act on the view whose column you last clicked:
+The view buttons on the toolbar, under the caption **Views**, act on the view whose column you last clicked:
 
-- The box holds its name. Type a new name to rename it.
+- The box, marked **Name**, holds its name. Type a new name to rename it.
 - The two column buttons add a view before or after it, with the same styles in use.
 - The thumbs up turns every style on in the view, and the thumbs down turns every style off.
 - The trash can removes the view. The last one cannot be removed.

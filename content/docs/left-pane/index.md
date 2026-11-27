@@ -19,7 +19,7 @@ The same button, now showing a panel opening, is at the top of the strip.
 
 The strip keeps the buttons: New, Open, Save, Save as, Save a copy for sharing, Undo, Redo, Publish and Publish all views. A red dot on **Save** means that the project has
 changes that are not saved. When the data has problems, or a file could not be opened, a red number under the buttons says how many, and pressing it opens the whole pane
-to list them. Another number says how many [parameter values](#parameters) differ from the ones in the script, so that a run never depends on a value you cannot see; pressing it opens the pane. Everything else the pane shows, such as the folder, the file name and the messages, waits for you to open it again.
+to list them. Another number, in a gray badge with the reset icon above it, says how many [parameter values](#parameters) differ from the ones in the script, so that a run never depends on a value you cannot see; pressing it opens the pane. Everything else the pane shows, such as the folder, the file name and the messages, waits for you to open it again.
 The app remembers which way you left the pane, for the next time you start it.
 
 **The strip has the Run button too,** wherever the pane has one, which is whenever the project has SQL: the **Run SQL** button, after Undo and Redo, and in [Simple mode](/docs/simple-mode/) the **Run**
@@ -36,7 +36,7 @@ file, and it is the name of the graph on the first line of the [DOT](/docs/dot/)
 the file: you can rename one without the other. Press Enter or click away to keep a new name, or press Esc to put the old one back. A blank
 name is not accepted. A change of name can be undone like any other change.
 
-A dot after the words **Project name** means there are changes that are not saved. Under the box are the file the project was saved in, or
+A dot beside the words **Project name**, and the red dot on **Save**, mean there are changes that are not saved. Under the box are the file the project was saved in, or
 **Not saved yet**, the number of rows that have something in them, and the number of styles.
 
 | Button | What it does | Keys |
@@ -62,7 +62,7 @@ file name and does not write over the file that could not be read.
 Whenever the project has SQL, the pane has the **Run SQL** button, under the project buttons or under the parameters, and says how many rows the run made. It is the button the [SQL tab](/docs/sql/) has, so a mapping that was just
 saved can be run from here, without going to another tab.
 
-**When the rows are out of date,** a small dot appears on the button, here, on the strip and on the SQL tab, and a line above the tab says why, with a **Run SQL** button (it is on every tab but Settings, SVG and About, so it is there when a mapping is saved): the SQL or a value typed
+**When the rows are out of date,** a small dot appears on the button, here, on the strip and on the SQL tab, and a line above the tab says why, with a **Run SQL** button (it is on every tab but Settings and SVG, and not on the About page, so it is there when a mapping is saved): the SQL or a value typed
 for it has changed since the rows were made (adding a style name to a mapping is one), or a data file was changed after the run began (it is looked for when you come back to the window, for example from the program that saved the workbook).
 Running the script clears it. Changing how things look, such as the format of a style, does not call for a run, so it does not show. The program only knows about runs made since the project was opened.
 
@@ -97,7 +97,7 @@ of files from different views is told apart.
 **Publish** writes the graph to files. It never opens them, and it never changes the project. A first publish is described in
 [Getting started](/docs/getting-started/#publish).
 
-The two buttons at the top:
+In the pane, the two buttons come after **Folder**, **File name**, **Write** and **Add to the name**, which are described below. In a window less than 800 pixels high, they and the list of the files written stay in view at the bottom of the pane.
 
 - **Publish** writes the files for the view that is chosen.
 - **Publish all views** writes a set of files for every view.
@@ -108,7 +108,7 @@ diagram and Graphviz is not found.
 ### Where the files go
 
 - **Folder** is where the files are written. Until you choose one, it is the folder of the project file you have open, and when there is
-  none yet, your Documents folder. The folder button chooses another. The choice is kept until you close the app, and it is not saved in the
+  none yet, your Documents folder. The folder is shown on one line, shortened in the middle; point at it to read the whole path. The folder button chooses another. The choice is kept until you close the app, and it is not saved in the
   project.
 - **File name** is the start of each file name. A line under the box shows the name the **next** publish will use and the kinds of file it
   will write, such as `Graph All Styles 002.svg .json .gv`. The rest of the name, such as where the view and the number go, comes from the
@@ -141,12 +141,12 @@ The list is replaced by the next publish, and it is not kept when you close the 
 
 ### SVG post-processing
 
-The last line of the section says whether [SVG post-processing](/docs/svg/) is **enabled** or **disabled**. It is turned on in the SVG tab,
+A line just above the buttons says whether [SVG post-processing](/docs/svg/) is **enabled** or **disabled**. It is turned on in the SVG tab,
 and it is off each time a project is opened. It only changes SVG files.
 
 ## Messages
 
-Under **Publish**, the pane lists what the app found. A heading is there only when it has something to say, and some belong to one tab.
+Under **Publish**, the pane lists what the app found. A heading is there only when it has something to say, and some belong to one tab. A heading with a count has a mark: a green check when there is nothing, red for **Problems**, and amber for **Knowledge Graph messages** and **Graphviz messages**.
 
 | Heading | Shown | What it holds |
 | --- | --- | --- |
