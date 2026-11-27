@@ -31,8 +31,8 @@ the installers.
 
 **Does the license end?** No. You pay once, and the key has no end date.
 
-**How do I use my key?** Paste it into the **About** tab of the program. After you buy, Polar emails you an **Access purchase** link, and it sends you a 6-digit
-code and then shows the key. See [The About tab](/docs/about/#your-license).
+**How do I use my key?** Paste it into the **About** page of the program. After you buy, Polar emails you an **Access purchase** link, and it sends you a 6-digit
+code and then shows the key. See [The About page](/docs/about/#your-license).
 
 **Does the key lock the program?** No. Nothing is switched off with or without a key, and if the program cannot reach the license server it carries on.
 

@@ -43,7 +43,7 @@ personal use.
   your receipt. On your statement the charge appears as `POLAR*graph-modeler`.
 - **Your key.** When you pay, Polar emails you a link, **Access purchase**. It sends a 6-digit code to your email address and then shows your license
   key, ready to copy. The confirmation page explains it too. You can use the key on your own computers. In Graph Modeler, choose **Enter license key** on the
-  [About tab](/docs/about/#your-license) and paste it. The program checks it with Polar, and nothing is switched off whether or not you enter it.
+  [About page](/docs/about/#your-license) and paste it. The program checks it with Polar, and nothing is switched off whether or not you enter it.
 - **Buying for a company.** Tick **I'm purchasing as a business** at checkout to add the business name and a tax ID to the invoice.
 - **More than one person.** A license is for one person. If several people at your organization need one, write to
   [sales@graphmodeler.com](mailto:sales@graphmodeler.com) for a discounted price. See [Volume licensing](/pricing/#volume-licensing).
@@ -107,4 +107,4 @@ TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR 
 ## The software it uses
 
 Graph Modeler is built on other people's work, each under its own license. They are listed, with their licenses, on the
-[About tab](/docs/about/) of the app. The Graphviz that draws the pictures is not Graph Modeler: a copy of it is included, and another can be installed separately, each under its own license, which is not changed by this one.
+[About page](/docs/about/) of the app. The Graphviz that draws the pictures is not Graph Modeler: a copy of it is included, and another can be installed separately, each under its own license, which is not changed by this one.

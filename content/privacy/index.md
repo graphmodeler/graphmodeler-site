@@ -21,18 +21,18 @@ The app starts other programs only on your computer, such as Graphviz to draw a 
 
 - **A license key you entered.** If you enter a commercial license key, the app sends that key to Polar, the seller, to check that it is valid, and nothing else: the
   request carries the key and the identifier of my Polar organization, with no computer name, no project and no data. It does this when you enter the key, again
-  about every 30 days when the app starts, and when you press **Check now** on the [About tab](/docs/about/#your-license). Polar's answer includes the name, email
+  about every 30 days when the app starts, and when you press **Check now** on the [About page](/docs/about/#your-license). Polar's answer includes the name, email
   address and billing address on the order. The app keeps only what it shows, which is the name (or your email address with most of it hidden), the key with most of it hidden, whether it
   is valid, and the date of the last check. They are kept, with the key itself, in a plain file named `license.json` in the app's data folder on your computer, which
   you can read, and delete. Polar sees your IP address, as any server does, and its [privacy policy](https://polar.sh/legal/privacy) applies to what it holds. If Polar
   cannot be reached, the app carries on and keeps its last result. If you chose free personal use, or entered no key, this connection is never made.
-- **The update button.** Only when you press **Check for updates** on the About tab, the app asks GitHub for the list of releases of Graph Modeler, to see whether a
+- **The update button.** Only when you press **Check for updates** on the About page, the app asks GitHub for the list of releases of Graph Modeler, to see whether a
   newer version exists. It never does this by itself, and sends nothing about you or your computer beyond what every web request carries, such as your IP address.
 
 Apart from these, the app makes no connection of its own. When you press a help or home link, it opens the page in your web browser, and your browser then
 connects to this website like any other link.
 
-The **Copy** button on the [About tab](/docs/about/) puts your support information (the version, your operating system and a few facts about your
+The **Copy** button on the [About page](/docs/about/) puts your support information (the version, your operating system and a few facts about your
 computer, and nothing about your data) on your clipboard. It goes nowhere unless you paste it into a message and send it to me.
 
 ## This website
