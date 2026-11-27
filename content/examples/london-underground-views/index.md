@@ -60,7 +60,7 @@ This is a model of the **London Underground** subway network: its stations, the 
   - **Line** tooltips display the `from station` and `to station`
   - **Cluster** tooltips show the geographic region used for grouping.
 
-  Tooltips appear only when the graph is published as **SVG**. Set the file extension to `svg` before pressing the **Publish** button on the Graphviz ribbon tab to view the interactive tooltips.
+  Tooltips appear only when the graph is published as **SVG**. Choose `svg` as the **Format** under [Settings](/docs/settings/#publishing) before pressing **Publish** in the left pane to see the tooltips.
 
   > [!NOTE] Why tooltips matter
   > Large network diagrams can be visually dense, especially when many lines and stations overlap. Tooltips provide a lightweight way to surface key details without cluttering the map. They let you explore stations, interchanges, lines, and postal regions directly in the SVG, giving you context on demand while keeping the diagram clean and readable.

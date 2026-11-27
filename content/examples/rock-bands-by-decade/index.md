@@ -35,7 +35,7 @@ genres come and go. The data was compiled by hand from publicly available inform
 
 ## Knowledge Graph
 
-The map as a Knowledge Graph: 185 nodes and no edges, 131 bands and 54 boxes, with each band saying which decade and genre box it is in. It is about 78 KB, so the counts under the viewer's toolbar are worth a look before it is pasted anywhere. A program can count what the picture only shows: the 1960s hold 39 bands, the 1970s 32 and the 1980s 33, and the 2010s only 2.
+The map as a Knowledge Graph: 185 nodes and no edges, 131 bands and 54 boxes, with each band saying which decade and genre box it is in. It is about 78 KB, so the counts along the bottom of the viewer are worth a look before it is pasted anywhere. A program can count what the picture only shows: the 1960s hold 39 bands, the 1970s 32 and the 1980s 33, and the 2010s only 2.
 
 <ExampleKnowledgeViewer light="/examples/rock-bands-by-decade/rock-bands-by-decade-knowledge-graph-viewer-light.html" dark="/examples/rock-bands-by-decade/rock-bands-by-decade-knowledge-graph-viewer-dark.html" title="The Knowledge Graph of the bands by decade, in the viewer of Graph Modeler" :height="560" />
 

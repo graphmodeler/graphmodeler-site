@@ -70,7 +70,7 @@ features:
 This is the complete application window, showing the title bar, action pane, graph data, and diagram workspace.
 
 <img class="shot shot-light" src="/shots/full-app-light.png" alt="The full application window: Title bar, action pane, and tabs">
-<img class="shot shot-dark" src="/shots/full-app-dark.png" alt="he full application window: Title bar, action pane, and tabs in the dark theme">
+<img class="shot shot-dark" src="/shots/full-app-dark.png" alt="The full application window: Title bar, action pane, and tabs in the dark theme">
 
 The [Data](/docs/data/) tab shows the rows that define the graph, and the [styles](/docs/styles/) applied to each item. Styles are created with the style [designer](/docs/designer/). Data can be entered manually, and imported from external files using file [mappings](/docs/mappings/) or [SQL](/docs/sql/).
 

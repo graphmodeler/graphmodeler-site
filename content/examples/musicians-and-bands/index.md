@@ -34,7 +34,7 @@ from publicly available information on [bandtoband.com](https://bandtoband.com) 
 
 ## Knowledge Graph
 
-The graph as a Knowledge Graph: 575 nodes and 627 edges, about 288,000 characters written compactly, or an estimated 78,000 tokens. It is a large file, and the counts under the viewer's toolbar show what a file will cost before it is pasted anywhere. Tooltips and labels repeat what the properties
+The graph as a Knowledge Graph: 575 nodes and 627 edges, about 288,000 characters written compactly, or an estimated 78,000 tokens. It is a large file, and the counts along the bottom of the viewer show what a file will cost before it is pasted anywhere. Tooltips and labels repeat what the properties
 already say, about a quarter of the file; the include settings can trim them. The graph can answer questions such as which musician is in the most bands: Eric Clapton and Peter Brockbanks, with six each.
 Two AIs were given this graph and asked to find a story in it, which is told in [I Let an AI Read My Knowledge Graph](https://exceltographviz.com/blog/posts/ai-reads-my-knowledge-graph.html).
 
